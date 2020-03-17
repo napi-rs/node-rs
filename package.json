@@ -1,0 +1,70 @@
+{
+  "name": "node-rs",
+  "version": "0.0.0",
+  "description": "Node & Rust bindings monorepo",
+  "main": "index.js",
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "napi-rs": "../napi-rs"
+  },
+  "devDependencies": {
+    "@types/sharp": "^0.24.0",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
+    "ava": "^3.5.0",
+    "benchmark": "^2.1.4",
+    "codecov": "^3.6.5",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "eslint-plugin-sonarjs": "^0.5.0",
+    "husky": "^4.2.3",
+    "lerna": "^3.20.2",
+    "nyc": "^15.0.0",
+    "prettier": "^1.19.1",
+    "sharp": "^0.25.1",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.3"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "files": [
+      "packages/**/*.spec.ts"
+    ]
+  },
+  "lint-staged": {
+    "*.@(js|ts|tsx)": [
+      "prettier --write",
+      "eslint -c .eslintrc.yml --fix"
+    ],
+    "*.rs": [
+      "cargo fmt"
+    ]
+  },
+  "prettier": {
+    "printWidth": 120,
+    "semi": false,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "arrowParens": "always",
+    "parser": "typescript"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
