@@ -1,0 +1,33 @@
+{
+  "name": "@node-rs/simd-json",
+  "version": "0.0.0",
+  "description": "Fastest JSON parse",
+  "keywords": [
+    "JSON",
+    "SIMD",
+    "NAPI",
+    "node-rs"
+  ],
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "homepage": "https://github.com/Brooooooklyn/node-rs",
+  "license": "MIT",
+  "main": "lib/simd-json.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brooooooklyn/node-rs.git"
+  },
+  "scripts": {
+    "build": "cargo build --release && napi --release ./index.node",
+    "build:debug": "cargo build && napi ./index.node"
+  },
+  "bugs": {
+    "url": "https://github.com/Brooooooklyn/node-rs/issues"
+  }
+}
