@@ -3,9 +3,10 @@ members = [
   "./packages/bcrypt",
   "./packages/crc32",
   "./packages/deno-lint",
-  "./packages/jieba"
+  "./packages/jieba",
+  "./packages/skia",
 ]
 
 [profile.release]
-opt-level = 3
 lto = true
+opt-level = 3

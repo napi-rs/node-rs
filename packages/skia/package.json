@@ -1,0 +1,30 @@
+{
+  "name": "@node-rs/skia",
+  "version": "0.0.0",
+  "description": "Skia bindings for NodeJS",
+  "keywords": [
+    "Canvas",
+    "Skia"
+  ],
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "homepage": "https://github.com/Brooooooklyn/node-rs",
+  "license": "MIT",
+  "main": "lib/skia.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brooooooklyn/node-rs.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/Brooooooklyn/node-rs/issues"
+  }
+}
