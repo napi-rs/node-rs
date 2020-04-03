@@ -24,10 +24,13 @@
     "url": "git+https://github.com/Brooooooklyn/node-rs.git"
   },
   "scripts": {
-    "build": "cargo build --release && napi --release ./index.node",
+    "build": "cargo build --release && napi --release ./index.release.node",
     "build:debug": "cargo build && napi ./index.node"
   },
   "bugs": {
     "url": "https://github.com/Brooooooklyn/node-rs/issues"
+  },
+  "dependencies": {
+    "simdjson": "^0.2.9"
   }
 }

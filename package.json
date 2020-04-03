@@ -13,6 +13,8 @@
     "napi-rs": "../napi-rs"
   },
   "devDependencies": {
+    "@types/benchmark": "^1.0.31",
+    "@types/lodash": "^4.14.149",
     "@types/sharp": "^0.24.0",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
@@ -29,6 +31,8 @@
     "husky": "^4.2.3",
     "lerna": "^3.20.2",
     "lint-staged": "^10.0.8",
+    "lodash": "^4.17.15",
+    "microtime": "^3.0.0",
     "nyc": "^15.0.0",
     "prettier": "^1.19.1",
     "sharp": "^0.25.1",
