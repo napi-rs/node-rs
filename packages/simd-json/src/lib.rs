@@ -4,12 +4,13 @@ extern crate napi_rs as napi;
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
+use std::convert::TryInto;
 use std::ops::DerefMut;
 
 use serde_json::Value as SerdeValue;
 use simd_json;
 
-use napi::{Any, ArrayBuffer, Env, Error, Object, Result, Status, String as JsString, Value};
+use napi::{Any, Buffer, Env, Error, Object, Result, Status, String as JsString, Value};
 
 register_module!(SIMD_JSON, init);
 
@@ -47,17 +48,19 @@ fn parse<'a>(
   _this: Value<'a, Any>,
   args: &[Value<'a, Any>],
 ) -> Result<Option<Value<'a, Any>>> {
-  let d: Result<Value<'a, ArrayBuffer>> = args
+  let mut input_buf = args
     .get(0)
-    .map(|v| v.try_into::<ArrayBuffer>())
+    .map(|v| Value::<Buffer>::from_raw(env, v.into_raw()))
     .ok_or(Error::new(Status::InvalidArg))?;
-  let mut input_buf = d?;
   let input_buf_slice = input_buf.deref_mut();
-  println!("{:?}", String::from_utf8(input_buf_slice.to_vec()));
-  let v: simd_json::BorrowedValue =
-    simd_json::to_borrowed_value(input_buf_slice).map_err(|e| {
-      dbg!("{:?}", e);
+  let v: SerdeValue = simd_json::to_borrowed_value(input_buf_slice)
+    .map(|v| v.try_into().unwrap())
+    .map_err(|e| {
+      dbg!(e);
       Error::new(Status::InvalidArg)
     })?;
-  env.get_undefined().map(|v| Some(v.into_any()))
+  // env.get_undefined().map(|v| Some(v.into_any()))
+  env
+    .from_serde_value(Box::leak(Box::new(v)))
+    .map(|v| Some(v))
 }

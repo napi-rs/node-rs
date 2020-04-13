@@ -5,15 +5,29 @@ const { Suite } = require('benchmark')
 const { parse } = require('../lib')
 
 const filepath = path.join(__dirname, 'json-examples', 'apache-builds.json')
-const apacheJSONString = fs.readFileSync(filepath, 'utf8')
-const ab = Buffer.from('"{}"').buffer
+const apacheJSONString = `
+{
+  "assignedLabels" : [
+    {
+      
+    }
+  ],
+  "mode" : "EXCLUSIVE",
+  "nodeDescription" : "the master Jenkins node",
+  "nodeName" : "",
+  "numExecutors" : 0
+}
+`
+const jsonBuffer = Buffer.from(
+  apacheJSONString
+)
 
 const suite = new Suite()
 
 suite.add('SIMD + NAPI', () => {
-  parse(ab)
+  parse(jsonBuffer)
 }).add('Native JSON parse', () => {
-  JSON.parse("{}")
+  JSON.parse(apacheJSONString)
 })
 .on('cycle', function(event) {
   console.log(String(event.target));
