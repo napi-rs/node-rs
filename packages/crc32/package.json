@@ -1,0 +1,32 @@
+{
+  "name": "@node-rs/crc32",
+  "version": "0.0.0",
+  "description": "SIMD crc32",
+  "keywords": [
+    "SIMD",
+    "NAPI",
+    "node-rs",
+    "crc32"
+  ],
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "homepage": "https://github.com/Brooooooklyn/node-rs",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brooooooklyn/node-rs.git"
+  },
+  "scripts": {
+    "build": "cargo build --release && napi --release ./index.node",
+    "build:debug": "cargo build && napi ./index.node"
+  },
+  "bugs": {
+    "url": "https://github.com/Brooooooklyn/node-rs/issues"
+  },
+  "devDependencies": {
+    "sse4_crc32": "^6.0.1"
+  }
+}

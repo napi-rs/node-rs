@@ -1,5 +1,5 @@
 [package]
-name = "png"
+name = "node-rs-crc32"
 version = "0.1.0"
 authors = ["LongYinan <lynweklm@gmail.com>"]
 edition = "2018"
@@ -8,10 +8,8 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-futures = { version = "0.3", features = ["default", "thread-pool"] }
-image = "0.23"
 napi-rs = { version = "0.2", path = "../../../napi-rs/napi" }
-once_cell = "1.3"
+crc32c = "0.4"
 
 [build-dependencies]
 napi-build = { version = "0.1", path = "../../../napi-rs/build" }
