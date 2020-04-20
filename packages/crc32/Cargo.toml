@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 napi-rs = { version = "0.2", path = "../../../napi-rs/napi" }
-crc32c = "0.4"
+crc32fast = "1.2"
 
 [build-dependencies]
 napi-build = { version = "0.1", path = "../../../napi-rs/build" }

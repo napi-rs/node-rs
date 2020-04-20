@@ -50,9 +50,6 @@
     "*.@(js|ts|tsx)": [
       "prettier --write",
       "eslint -c .eslintrc.yml --fix"
-    ],
-    "*.rs": [
-      "cargo fmt"
     ]
   },
   "prettier": {
@@ -65,7 +62,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && cargo fmt --all"
     }
   }
 }
