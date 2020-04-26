@@ -1,0 +1,1 @@
+export { locateBinding } from './loader'

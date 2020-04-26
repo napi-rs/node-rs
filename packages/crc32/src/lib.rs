@@ -1,8 +1,12 @@
 #[macro_use]
 extern crate napi_rs as napi;
+#[macro_use]
+extern crate napi_rs_derive;
 
+use crc32c::{crc32c as native_crc32c, crc32c_append};
 use crc32fast::Hasher;
-use napi::{Any, Buffer, Env, Error, Number, Object, Result, Status, Value};
+use napi::{Buffer, CallContext, Env, Number, Object, Result, Value};
+use std::convert::TryInto;
 
 register_module!(test_module, init);
 
@@ -10,24 +14,32 @@ fn init<'env>(
   env: &'env Env,
   exports: &'env mut Value<'env, Object>,
 ) -> Result<Option<Value<'env, Object>>> {
-  exports.set_named_property(
-    "calculate",
-    env.create_function("calculate", callback!(calculate))?,
-  )?;
+  exports.set_named_property("crc32c", env.create_function("crc32c", crc32c)?)?;
+  exports.set_named_property("crc32", env.create_function("crc32", crc32)?)?;
   Ok(None)
 }
 
-fn calculate<'a>(
-  env: &'a Env,
-  _this: Value<'a, Any>,
-  args: &[Value<'a, Any>],
-) -> Result<Option<Value<'a, Number>>> {
-  let input_data = args
-    .get(0)
-    .map(|v| Value::<Buffer>::from_raw(env, v.into_raw()))
-    .ok_or(Error::new(Status::InvalidArg))??;
-  let mut hasher = Hasher::new();
+#[js_function(2)]
+fn crc32c<'a>(ctx: CallContext<'a>) -> Result<Value<'a, Number>> {
+  let input_data = ctx.get::<Buffer>(0)?;
+  let init_state = ctx.get::<Number>(1);
+  let result = if init_state.is_ok() {
+    crc32c_append(init_state?.try_into()?, &input_data)
+  } else {
+    native_crc32c(&input_data)
+  };
+  ctx.env.create_uint32(result)
+}
+
+#[js_function(2)]
+fn crc32<'a>(ctx: CallContext<'a>) -> Result<Value<'a, Number>> {
+  let input_data = ctx.get::<Buffer>(0)?;
+  let init_state = ctx.get::<Number>(1);
+  let mut hasher = if init_state.is_ok() {
+    Hasher::new_with_initial(init_state?.try_into()?)
+  } else {
+    Hasher::new()
+  };
   hasher.update(&input_data);
-  let output = env.create_uint32(hasher.finalize())?;
-  Ok(Some(output))
+  ctx.env.create_uint32(hasher.finalize())
 }

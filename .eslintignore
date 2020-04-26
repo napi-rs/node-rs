@@ -1,0 +1,9 @@
+node_modules
+dist
+lib
+esm
+next
+coverage
+.nyc_output
+*.d.ts
+target

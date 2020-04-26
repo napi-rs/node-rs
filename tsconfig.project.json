@@ -1,0 +1,8 @@
+{
+  "references": [
+    { "path": "./packages/helper" }
+  ],
+  "compilerOptions": {
+    "noEmit": true
+  }
+}

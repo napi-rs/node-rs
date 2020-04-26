@@ -9,7 +9,6 @@
     "importHelpers": true,
     "module": "CommonJS",
     "moduleResolution": "node",
-    "noEmit": true,
     "newLine": "LF",
     "noEmitHelpers": true,
     "noUnusedLocals": true,
@@ -25,6 +24,12 @@
     "esModuleInterop": true,
     "stripInternal": true,
     "importsNotUsedAsValues": "remove",
+    "baseUrl": "./packages",
+    "paths": {
+      "@node-rs/*": [
+        "./*/src"
+      ]
+    },
     "lib": [
       "dom",
       "ES5",
