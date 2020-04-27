@@ -18,7 +18,9 @@
   "files": [
     "index.js",
     "index.d.ts",
-    "index.*.node"
+    "index.*.node",
+    "LICENSE",
+    "COPYING"
   ],
   "repository": {
     "type": "git",

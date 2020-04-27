@@ -10,7 +10,6 @@ crate-type = ["cdylib"]
 [dependencies]
 napi-rs = { version = "0.2" }
 napi-rs-derive = { version = "0.1" }
-crc32c = "0.4"
 crc32fast = "1.2"
 
 [build-dependencies]

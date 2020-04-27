@@ -55,6 +55,9 @@
     ],
     "*.@(yml|yaml)": [
       "prettier --parser yaml --write"
+    ],
+    "*.md": [
+      "prettier --parser markdown --write"
     ]
   },
   "prettier": {
