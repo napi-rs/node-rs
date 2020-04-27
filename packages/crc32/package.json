@@ -2,26 +2,13 @@
   "name": "@node-rs/crc32",
   "version": "0.0.0",
   "description": "SIMD crc32",
-  "keywords": [
-    "SIMD",
-    "NAPI",
-    "napi-rs",
-    "node-rs",
-    "crc32",
-    "crc32c"
-  ],
+  "keywords": ["SIMD", "NAPI", "napi-rs", "node-rs", "crc32", "crc32c"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/Brooooooklyn/node-rs",
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
-  "files": [
-    "index.js",
-    "index.d.ts",
-    "index.*.node",
-    "LICENSE",
-    "COPYING"
-  ],
+  "files": ["index.js", "index.d.ts", "index.*.node", "LICENSE", "COPYING"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Brooooooklyn/node-rs.git"

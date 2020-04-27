@@ -26,23 +26,9 @@
     "importsNotUsedAsValues": "remove",
     "baseUrl": "./packages",
     "paths": {
-      "@node-rs/*": [
-        "./*/src"
-      ]
+      "@node-rs/*": ["./*/src"]
     },
-    "lib": [
-      "dom",
-      "ES5",
-      "ES2015",
-      "ES2016",
-      "ES2017",
-      "ES2018",
-      "ES2019",
-      "ES2020",
-      "esnext"
-    ]
+    "lib": ["dom", "ES5", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020", "esnext"]
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

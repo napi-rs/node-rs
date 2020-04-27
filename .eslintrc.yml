@@ -17,7 +17,7 @@ globals:
 plugins:
   - import
   - sonarjs
-  
+
 extends:
   - eslint:recommended
   - plugin:sonarjs/recommended
@@ -28,10 +28,10 @@ settings:
     pragma: React
     version: 16.12.0
 
-rules: 
+rules:
   # 0 = off, 1 = warn, 2 = error
   'no-undef': 2
-  'no-console': [2, { allow: ['error', 'warn', 'info', 'assert']}]
+  'no-console': [2, { allow: ['error', 'warn', 'info', 'assert'] }]
   'comma-dangle': ['error', 'only-multiline']
   'no-unused-vars': 0
   'no-var': 2
@@ -42,10 +42,14 @@ rules:
   'no-use-before-define': [2, { 'functions': false, 'classes': false }]
   'eqeqeq': [2, 'always', { 'null': 'ignore' }]
   'no-case-declarations': 0
-  'no-restricted-syntax': [2, {
-    'selector': 'BinaryExpression[operator=/(==|===|!=|!==)/][left.raw=true], BinaryExpression[operator=/(==|===|!=|!==)/][right.raw=true]',
-    'message': Don't compare for equality against boolean literals
-  }]
+  'no-restricted-syntax':
+    [
+      2,
+      {
+        'selector': 'BinaryExpression[operator=/(==|===|!=|!==)/][left.raw=true], BinaryExpression[operator=/(==|===|!=|!==)/][right.raw=true]',
+        'message': Don't compare for equality against boolean literals,
+      },
+    ]
 
   'import/first': 2
   'import/newline-after-import': 2
@@ -57,14 +61,12 @@ rules:
   'sonarjs/no-small-switch': 0
 
 overrides:
-  -
-    files:
+  - files:
       - packages/**/*.ts
     rules:
       'no-unused-vars': [2, { varsIgnorePattern: '^_', argsIgnorePattern: '^_', ignoreRestSiblings: true }]
-  
-  -
-    files:
+
+  - files:
       - packages/**/*.ts
     plugins:
       - '@typescript-eslint'
@@ -84,23 +86,29 @@ overrides:
 
       '@typescript-eslint/no-empty-function': 2
 
-      '@typescript-eslint/no-unused-vars': [2, { varsIgnorePattern: '^_', argsIgnorePattern: '^_', ignoreRestSiblings: true }]
-      '@typescript-eslint/member-ordering': [2, {
-        default: [
-          'public-static-field',
-          'protected-static-field',
-          'private-static-field',
-          'public-static-method',
-          'protected-static-method',
-          'private-static-method',
-          'public-instance-field',
-          'protected-instance-field',
-          'private-instance-field',
-          'public-constructor',
-          'protected-constructor',
-          'private-constructor',
-          'public-instance-method',
-          'protected-instance-method',
-          'private-instance-method'
+      '@typescript-eslint/no-unused-vars':
+        [2, { varsIgnorePattern: '^_', argsIgnorePattern: '^_', ignoreRestSiblings: true }]
+      '@typescript-eslint/member-ordering':
+        [
+          2,
+          {
+            default:
+              [
+                'public-static-field',
+                'protected-static-field',
+                'private-static-field',
+                'public-static-method',
+                'protected-static-method',
+                'private-static-method',
+                'public-instance-field',
+                'protected-instance-field',
+                'private-instance-field',
+                'public-constructor',
+                'protected-constructor',
+                'private-constructor',
+                'public-instance-method',
+                'protected-instance-method',
+                'private-instance-method',
+              ],
+          },
         ]
-      }]

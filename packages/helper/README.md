@@ -5,6 +5,7 @@
 ## Usage
 
 ### locateBinding
+
 Load native binding file from `dirname`
 
 ```ts
