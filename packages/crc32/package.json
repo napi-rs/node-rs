@@ -25,7 +25,7 @@
     "url": "git+https://github.com/Brooooooklyn/node-rs.git"
   },
   "scripts": {
-    "build": "cargo build --release && napi --release ./index",
+    "build": "cargo build --release && napi --release ./crc32",
     "build:debug": "cargo build && napi ./index"
   },
   "bugs": {
@@ -35,6 +35,8 @@
     "@node-rs/helper": "0.0.0"
   },
   "devDependencies": {
+    "@types/crc": "^3.4.0",
+    "crc": "^3.8.0",
     "sse4_crc32": "^6.0.1"
   }
 }

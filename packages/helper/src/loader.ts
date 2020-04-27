@@ -4,7 +4,7 @@ import { existsSync } from 'fs'
 
 const SupportedPlatforms = new Set<NodeJS.Platform>(['darwin', 'win32', 'linux'])
 
-export function locateBinding(dirname: string) {
+export function locateBinding(dirname: string, filename = 'index') {
   const platformName = platform()
   if (!SupportedPlatforms.has(platformName)) {
     throw new TypeError(
@@ -12,7 +12,7 @@ export function locateBinding(dirname: string) {
     )
   }
 
-  const bindingFilePath = join(dirname, `index.${platformName}.node`)
+  const bindingFilePath = join(dirname, `${filename}.${platformName}.node`)
 
   if (!existsSync(bindingFilePath)) {
     throw new TypeError(`Could not find binding file on path ${bindingFilePath}`)
