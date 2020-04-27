@@ -100,12 +100,13 @@ jobs:
           cargo-cache
 
   test_binding:
-    name: Test bindings
+    name: Test bindings on ${{ matrix.os }} - node@${{ matrix.node }}
     needs: lint_and_build
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ['10', '12', '14']
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -114,7 +115,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: ${{ matrix.node }}
 
       - name: Set platform name
         run: |
