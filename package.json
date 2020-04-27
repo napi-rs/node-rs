@@ -52,6 +52,9 @@
     "*.@(js|ts|tsx)": [
       "prettier --write",
       "eslint -c .eslintrc.yml --fix"
+    ],
+    "*.@(yml|yaml)": [
+      "prettier --parser yaml --write"
     ]
   },
   "prettier": {

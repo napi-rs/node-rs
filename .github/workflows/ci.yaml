@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Setup node
         uses: actions/setup-node@v1
         with:
@@ -29,7 +29,7 @@ jobs:
       - name: Install llvm
         if: matrix.os == 'windows-latest'
         run: choco install -y llvm
-    
+
       - name: Set llvm path
         if: matrix.os == 'windows-latest'
         uses: allenevans/set-env@v1.0.0
@@ -110,12 +110,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: 12
-      
+
       - name: Set platform name
         run: |
           export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
