@@ -70,7 +70,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: node_modules
-          key: npm-cache-${{ hashFiles('yarn.lock') }}
+          key: npm-cache-${{ matrix.os }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             npm-cache-
 
@@ -127,7 +127,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: node_modules
-          key: npm-cache-${{ hashFiles('yarn.lock') }}
+          key: npm-cache-${{ matrix.os }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             npm-cache-
 
