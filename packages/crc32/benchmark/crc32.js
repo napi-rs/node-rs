@@ -3,7 +3,7 @@ const Sse4Crc32 = require('sse4_crc32')
 const { crc32: crc32Node } = require('crc')
 const chalk = require('chalk')
 
-const { crc32c, crc32 } = require('../crc32.node')
+const { crc32c, crc32 } = require('../index')
 
 const TEST_BUFFER = Buffer.from(`Lorem ipsum dolor sit amet, consectetur
 adipiscing elit. Morbi mollis cursus metus vel tristique. Proin congue massa
