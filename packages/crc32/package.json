@@ -14,6 +14,7 @@
     "url": "git+https://github.com/Brooooooklyn/node-rs.git"
   },
   "scripts": {
+    "bench": "cross-env NODE_ENV=production node benchmark/crc32.js",
     "build": "cargo build --release && napi --release ./crc32",
     "build:debug": "cargo build && napi ./index"
   },
