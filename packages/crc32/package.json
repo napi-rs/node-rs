@@ -9,6 +9,10 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "files": ["index.js", "index.d.ts", "index.*.node", "LICENSE", "COPYING"],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Brooooooklyn/node-rs.git"
