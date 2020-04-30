@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "SIMD crc32",
   "keywords": ["SIMD", "NAPI", "napi-rs", "node-rs", "crc32", "crc32c"],
   "author": "LongYinan <lynweklm@gmail.com>",
