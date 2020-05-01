@@ -90,7 +90,9 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
 
       - name: Run build
-        run: npx lerna run build --stream -- --platform
+        run: |
+          cargo build --release
+          npx lerna run build --stream -- --platform
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -196,6 +198,7 @@ jobs:
         shell: bash
       - name: Lerna publish
         run: |
+          find ./packages/ -type d -maxdepth 1 -exec cp LICENSE {} \;
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
           npx lerna publish from-package --no-verify-access --yes
         env:
