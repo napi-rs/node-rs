@@ -1,5 +1,5 @@
 [package]
-name = "node-rs-crc32"
+name = "node-rs-jieba"
 version = "0.1.0"
 authors = ["LongYinan <lynweklm@gmail.com>"]
 edition = "2018"
@@ -8,9 +8,10 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
+jieba-rs = { version = "0.4", features = ["default-dict", "tfidf", "textrank"] }
 napi-rs = { version = "0.2" }
 napi-rs-derive = { version = "0.1" }
-crc32fast = "1.2"
+once_cell = "1.3"
 
 [target.'cfg(unix)'.dependencies]
 jemallocator = { version = "0.3", features = ["disable_initial_exec_tls"] }

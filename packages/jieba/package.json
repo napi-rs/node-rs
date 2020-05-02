@@ -1,14 +1,14 @@
 {
-  "name": "@node-rs/crc32",
-  "version": "0.1.5",
-  "description": "SIMD crc32",
-  "keywords": ["SIMD", "NAPI", "napi-rs", "node-rs", "crc32", "crc32c"],
+  "name": "@node-rs/jieba",
+  "version": "0.0.0",
+  "description": "Fastest Chinese word segmentation in NodeJS",
+  "keywords": ["Jieba", "Rust", "node-rs", "napi", "napi-rs", "N-API"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/Brooooooklyn/node-rs",
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "*.node", "LICENSE", "COPYING"],
+  "files": ["index.js", "index.d.ts", "*.node", "LICENSE"],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
@@ -18,19 +18,17 @@
     "url": "git+https://github.com/Brooooooklyn/node-rs.git"
   },
   "scripts": {
-    "bench": "cross-env NODE_ENV=production node benchmark/crc32.js",
-    "build": "napi --release ./crc32",
-    "build:debug": "napi ./index"
+    "bench": "cross-env NODE_ENV=production node benchmark/jieba.js",
+    "build": "napi --release ./jieba",
+    "build:debug": "napi ./jieba"
   },
   "bugs": {
     "url": "https://github.com/Brooooooklyn/node-rs/issues"
   },
   "dependencies": {
-    "@node-rs/helper": "^0.1.2"
+    "@node-rs/helper": "0.1.2"
   },
   "devDependencies": {
-    "@types/crc": "^3.4.0",
-    "crc": "^3.8.0",
-    "sse4_crc32": "^6.0.1"
+    "nodejieba": "^2.4.1"
   }
 }

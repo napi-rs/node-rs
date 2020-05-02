@@ -7,7 +7,7 @@ const MOVE_ALL = process.env.MOVE_TARGET === 'all'
 
 const platforms = MOVE_ALL ? ['linux', 'darwin', 'win32'] : [platform()]
 
-const packages = ['crc32']
+const packages = ['crc32', 'jieba']
 
 /**
  * @param {string[]} _platforms platforms

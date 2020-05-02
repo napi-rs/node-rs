@@ -8,6 +8,10 @@ use crc32fast::Hasher;
 use napi::{Buffer, CallContext, Env, Number, Object, Result, Value};
 use std::convert::TryInto;
 
+#[cfg(unix)]
+#[global_allocator]
+static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
+
 mod bytes;
 mod crc32;
 mod crc32_table;
@@ -24,7 +28,7 @@ fn init<'env>(
 }
 
 #[js_function(2)]
-fn crc32c<'a>(ctx: CallContext<'a>) -> Result<Value<'a, Number>> {
+fn crc32c(ctx: CallContext) -> Result<Value<Number>> {
   let input_data = ctx.get::<Buffer>(0)?;
   let init_state = ctx.get::<Number>(1);
   let result = if init_state.is_ok() {
@@ -36,7 +40,7 @@ fn crc32c<'a>(ctx: CallContext<'a>) -> Result<Value<'a, Number>> {
 }
 
 #[js_function(2)]
-fn crc32<'a>(ctx: CallContext<'a>) -> Result<Value<'a, Number>> {
+fn crc32(ctx: CallContext) -> Result<Value<Number>> {
   let input_data = ctx.get::<Buffer>(0)?;
   let init_state = ctx.get::<Number>(1);
   let mut hasher = if init_state.is_ok() {

@@ -11,11 +11,11 @@ The 4 tested implementations are:
 - **js_crc32c** Javascript implemented CRC-32C
 - **js_crc32** Javascript implemented CRC-32 from [buffer-crc32](https://github.com/brianloveswords/buffer-crc32)
 
-# Performance
+## Performance
 
 ```bash
-sse4_crc32c_node_rs for inputs 1024B x 5,108,123 ops/sec ±1.86% (89 runs sampled)
-sse4_crc32c_node_rs for inputs 16931844B, avg 2066B x 271 ops/sec ±1.15% (85 runs sampled)
+@node-rs/crc32 for inputs 1024B x 5,108,123 ops/sec ±1.86% (89 runs sampled)
+@node-rs/crc32 for inputs 16931844B, avg 2066B x 271 ops/sec ±1.15% (85 runs sampled)
 sse4_crc32c_hw for inputs 1024B x 3,543,443 ops/sec ±1.39% (93 runs sampled)
 sse4_crc32c_hw for inputs 16931844B, avg 2066B x 209 ops/sec ±0.78% (76 runs sampled)
 sse4_crc32c_sw for inputs 1024B x 1,460,284 ops/sec ±2.35% (90 runs sampled)
@@ -27,7 +27,7 @@ js_crc32 for inputs 16931844B, avg 2066B x 22.12 ops/sec ±5.20% (40 runs sample
 +---------------------+-------------------+----------------------+
 |                     │ 1024B             │ 16931844B, avg 2066B |
 +---------------------+-------------------+----------------------+
-| sse4_crc32c_node_rs │ 5,108,123 ops/sec │ 271 ops/sec          |
+| @node-rs/crc32      │ 5,108,123 ops/sec │ 271 ops/sec          |
 +---------------------+-------------------+----------------------+
 | sse4_crc32c_hw      │ 3,543,443 ops/sec │ 209 ops/sec          |
 +---------------------+-------------------+----------------------+
@@ -39,13 +39,13 @@ js_crc32 for inputs 16931844B, avg 2066B x 22.12 ops/sec ±5.20% (40 runs sample
 +---------------------+-------------------+----------------------+
 ```
 
-# Support matrix
+## Support matrix
 
 |                   | node 10 | node12 | node13 | node14 |
 | ----------------- | ------- | ------ | ------ | ------ |
-| Windows 64 latest | ✅      | ✅     | ✅     | ✅     |
-| macOS latest      | ✅      | ✅     | ✅     | ✅     |
-| Linux             | ✅      | ✅     | ✅     | ✅     |
+| Windows 64 latest | ✓       | ✓      | ✓      | ✓      |
+| macOS latest      | ✓       | ✓      | ✓      | ✓      |
+| Linux             | ✓       | ✓      | ✓      | ✓      |
 
 ## API
 

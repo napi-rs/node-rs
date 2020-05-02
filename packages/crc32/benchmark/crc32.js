@@ -23,13 +23,13 @@ egestas tempus leo. Duis condimentum turpis duis.`)
 const initialCrc32 = crc32Node(TEST_BUFFER)
 const initialCrc32c = Sse4Crc32.calculate(TEST_BUFFER)
 
-console.assert(crc32(TEST_BUFFER), initialCrc32)
-console.assert(crc32c(TEST_BUFFER), initialCrc32c)
+console.assert(crc32(TEST_BUFFER) === initialCrc32)
+console.assert(crc32c(TEST_BUFFER) === initialCrc32c)
 
 const suite = new Suite('crc32c without initial crc')
 
 suite
-  .add('SIMD + NAPI', () => {
+  .add('@node/rs crc32c', () => {
     crc32c(TEST_BUFFER)
   })
   .add('sse4_crc32', () => {
@@ -46,7 +46,7 @@ suite
 const suite2 = new Suite('crc32c with initial crc')
 
 suite2
-  .add('SIMD + NAPI', () => {
+  .add('@node/rs crc32c', () => {
     crc32c(TEST_BUFFER, initialCrc32c)
   })
   .add('sse4_crc32', () => {
@@ -63,7 +63,7 @@ suite2
 const suite3 = new Suite('crc32 without initial crc')
 
 suite3
-  .add('SIMD + NAPI', () => {
+  .add('@node/rs crc32', () => {
     crc32(TEST_BUFFER)
   })
   .add('Node crc', () => {
@@ -80,7 +80,7 @@ suite3
 const suite4 = new Suite('crc32 with initial crc')
 
 suite4
-  .add('SIMD + NAPI', () => {
+  .add('@node/rs crc32', () => {
     crc32(TEST_BUFFER, initialCrc32)
   })
   .add('Node crc32', () => {

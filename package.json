@@ -8,7 +8,7 @@
   "private": true,
   "workspaces": ["packages/*"],
   "scripts": {
-    "bench": "lerna run bench --stream --no-prefix",
+    "bench": "lerna run bench --concurrency 1 --stream --no-prefix",
     "build:ts": "tsc -b tsconfig.project.json -verbose",
     "lint": "eslint . -c ./.eslintrc.yml 'packages/**/*.{ts,js}'",
     "test": "ava",

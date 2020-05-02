@@ -12,7 +12,7 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "files": ["lib"],
+  "files": ["lib", "LICENSE"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Brooooooklyn/node-rs.git"
