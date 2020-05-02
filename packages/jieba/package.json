@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Fastest Chinese word segmentation in NodeJS",
   "keywords": ["Jieba", "Rust", "node-rs", "napi", "napi-rs", "N-API"],
   "author": "LongYinan <lynweklm@gmail.com>",
@@ -26,7 +26,7 @@
     "url": "https://github.com/Brooooooklyn/node-rs/issues"
   },
   "dependencies": {
-    "@node-rs/helper": "0.1.2"
+    "@node-rs/helper": "^0.1.3"
   },
   "devDependencies": {
     "nodejieba": "^2.4.1"
