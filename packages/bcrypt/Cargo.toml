@@ -1,0 +1,26 @@
+[package]
+name = "nodr-rs-bcrypt"
+version = "0.1.0"
+authors = ["LongYinan <lynweklm@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+radix64 = "0.6"
+blowfish = { version = "0.4", features = ["bcrypt"] }
+byteorder = "1"
+napi-rs = { version = "0.3" }
+napi-rs-derive = { version = "0.2" }
+rand = "0.7"
+phf = { version = "0.8", features = ["macros"] }
+
+[target.'cfg(unix)'.dependencies]
+jemallocator = { version = "0.3", features = ["disable_initial_exec_tls"] }
+
+[dev-dependencies]
+quickcheck = "0.9"
+
+[build-dependencies]
+napi-build = { version = "0.1" }

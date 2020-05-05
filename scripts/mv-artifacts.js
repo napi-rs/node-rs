@@ -8,8 +8,7 @@ const supporttedPlatforms = require('./platforms')
 const MOVE_ALL = process.env.MOVE_TARGET === 'all'
 
 const platforms = MOVE_ALL ? supporttedPlatforms : [platform()]
-
-const packages = ['crc32', 'jieba']
+const packages = require('./packages')
 
 /**
  * @param {string[]} _platforms platforms
