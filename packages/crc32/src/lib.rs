@@ -18,13 +18,10 @@ mod crc32_table;
 
 register_module!(test_module, init);
 
-fn init<'env>(
-  env: &'env Env,
-  exports: &'env mut Value<'env, Object>,
-) -> Result<Option<Value<'env, Object>>> {
+fn init(env: &Env, exports: &mut Value<Object>) -> Result<()> {
   exports.set_named_property("crc32c", env.create_function("crc32c", crc32c)?)?;
   exports.set_named_property("crc32", env.create_function("crc32", crc32)?)?;
-  Ok(None)
+  Ok(())
 }
 
 #[js_function(2)]

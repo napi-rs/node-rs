@@ -20,10 +20,7 @@ register_module!(test_module, init);
 
 static JIEBA: OnceCell<Jieba> = OnceCell::new();
 
-fn init<'env>(
-  env: &'env Env,
-  exports: &'env mut Value<'env, Object>,
-) -> Result<Option<Value<'env, Object>>> {
+fn init(env: &Env, exports: &mut Value<Object>) -> Result<()> {
   exports.set_property(
     env.create_string("load")?,
     env.create_function("load", load)?,
@@ -53,19 +50,19 @@ fn init<'env>(
     env.create_function("extract", extract)?,
   )?;
 
-  Ok(None)
+  Ok(())
 }
 
 #[js_function]
 fn load(ctx: CallContext) -> Result<Value<Undefined>> {
-  assert_not_init(ctx.env)?;
+  assert_not_init(&ctx.env)?;
   let _ = JIEBA.get_or_init(|| Jieba::new());
   ctx.env.get_undefined()
 }
 
 #[js_function(1)]
 fn load_dict(ctx: CallContext) -> Result<Value<Undefined>> {
-  assert_not_init(ctx.env)?;
+  assert_not_init(&ctx.env)?;
   let dict = ctx.get::<Buffer>(0)?;
   let mut readable_dict: &[u8] = &dict;
   JIEBA.get_or_init(|| {
@@ -98,7 +95,7 @@ fn cut(ctx: CallContext) -> Result<Value<JsString>> {
     .or_else(|_| ctx.env.get_boolean(false))?;
   let jieba = JIEBA.get_or_init(|| Jieba::new());
   let cutted = jieba.cut(
-    str::from_utf8(&sentence).map_err(|_| Error::new(Status::InvalidArg))?,
+    str::from_utf8(&sentence).map_err(|_| Error::from_status(Status::InvalidArg))?,
     hmm.get_value(),
   );
 
@@ -112,7 +109,7 @@ fn cut_all(ctx: CallContext) -> Result<Value<JsString>> {
   let sentence = ctx.get::<Buffer>(0)?;
   let jieba = JIEBA.get_or_init(|| Jieba::new());
   let cutted =
-    jieba.cut_all(str::from_utf8(&sentence).map_err(|_| Error::new(Status::InvalidArg))?);
+    jieba.cut_all(str::from_utf8(&sentence).map_err(|_| Error::from_status(Status::InvalidArg))?);
 
   let output = cutted.join(",");
 
@@ -127,7 +124,7 @@ fn cut_for_search(ctx: CallContext) -> Result<Value<JsString>> {
     .or_else(|_| ctx.env.get_boolean(false))?;
   let jieba = JIEBA.get_or_init(|| Jieba::new());
   let cutted = jieba.cut_for_search(
-    str::from_utf8(&sentence).map_err(|_| Error::new(Status::InvalidArg))?,
+    str::from_utf8(&sentence).map_err(|_| Error::from_status(Status::InvalidArg))?,
     hmm.get_value(),
   );
 
@@ -144,7 +141,7 @@ fn tag(ctx: CallContext) -> Result<Value<JsString>> {
     .or_else(|_| ctx.env.get_boolean(false))?;
   let jieba = JIEBA.get_or_init(|| Jieba::new());
   let tagged = jieba.tag(
-    str::from_utf8(&sentence).map_err(|_| Error::new(Status::InvalidArg))?,
+    str::from_utf8(&sentence).map_err(|_| Error::from_status(Status::InvalidArg))?,
     hmm.get_value(),
   );
 
@@ -180,7 +177,7 @@ fn extract(ctx: CallContext) -> Result<Value<JsString>> {
   let topn: usize = topn.try_into()?;
 
   let tags = keyword_extractor.extract_tags(
-    str::from_utf8(&sentence).map_err(|_| Error::new(Status::InvalidArg))?,
+    str::from_utf8(&sentence).map_err(|_| Error::from_status(Status::InvalidArg))?,
     topn,
     allowed_pos,
   );
