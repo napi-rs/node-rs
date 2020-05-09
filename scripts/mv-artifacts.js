@@ -3,9 +3,11 @@ const { existsSync } = require('fs')
 const { platform } = require('os')
 const { join } = require('path')
 
+const supporttedPlatforms = require('./platforms')
+
 const MOVE_ALL = process.env.MOVE_TARGET === 'all'
 
-const platforms = MOVE_ALL ? ['linux', 'darwin', 'win32'] : [platform()]
+const platforms = MOVE_ALL ? supporttedPlatforms : [platform()]
 
 const packages = ['crc32', 'jieba']
 
