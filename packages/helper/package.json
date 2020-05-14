@@ -21,6 +21,6 @@
     "url": "https://github.com/Brooooooklyn/node-rs/issues"
   },
   "dependencies": {
-    "tslib": "^1.11.1"
+    "tslib": "^2.0.0"
   }
 }
