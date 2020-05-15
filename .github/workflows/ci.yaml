@@ -200,6 +200,12 @@ jobs:
       - name: Build TypeScript
         run: yarn build:ts
 
+      - name: Upload artifacts to Github release
+        run: |
+          node scripts/upload-to-release.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: List packages
         run: ls -R packages
         shell: bash
@@ -210,9 +216,3 @@ jobs:
           npx lerna publish from-package --no-verify-access --yes
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Upload artifacts to Github release
-        run: |
-          node scripts/upload-to-release.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
