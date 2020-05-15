@@ -8,7 +8,7 @@
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "*.node", "LICENSE", "COPYING"],
+  "files": ["index.js", "index.d.ts", "*.node", "LICENSE", "LICENSE.rust-bcrypt"],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
