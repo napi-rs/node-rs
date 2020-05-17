@@ -2,7 +2,6 @@ use std::str::FromStr;
 
 use cssparser::RGBA;
 use euclid::default::{Point2D, Rect, Size2D, Transform2D, Vector2D};
-use pathfinder_content::fill::FillRule as PFFillRule;
 
 #[derive(Clone, Deserialize, Serialize)]
 #[serde(tag = "type")]
@@ -132,16 +131,6 @@ pub enum Canvas2dMsg {
 pub enum FillRule {
   Nonzero,
   Evenodd,
-}
-
-impl FillRule {
-  #[inline]
-  pub fn to_pf(&self) -> PFFillRule {
-    match self {
-      FillRule::Evenodd => PFFillRule::EvenOdd,
-      FillRule::Nonzero => PFFillRule::Winding,
-    }
-  }
 }
 
 #[derive(Clone, Copy, Deserialize, PartialEq, Serialize)]
