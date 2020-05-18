@@ -9,6 +9,10 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "files": ["index.js", "index.d.ts", "*.node", "LICENSE", "COPYING"],
+  "os": ["darwin", "linux", "win32"],
+  "engines": {
+    "node": ">= 8.9"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
