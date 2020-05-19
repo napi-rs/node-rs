@@ -1,7 +1,7 @@
 const { Suite } = require('benchmark')
-const Sse4Crc32 = require('sse4_crc32')
-const { crc32: crc32Node } = require('crc')
 const chalk = require('chalk')
+const { crc32: crc32Node } = require('crc')
+const Sse4Crc32 = require('sse4_crc32')
 
 const { crc32c, crc32 } = require('../index')
 

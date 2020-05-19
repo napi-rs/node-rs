@@ -1,6 +1,6 @@
+import { existsSync } from 'fs'
 import { platform } from 'os'
 import { join } from 'path'
-import { existsSync } from 'fs'
 
 const SupportedPlatforms = new Set<NodeJS.Platform>(['darwin', 'win32', 'linux'])
 

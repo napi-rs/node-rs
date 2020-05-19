@@ -8,11 +8,6 @@ env:
   browser: true
   es6: true
   node: true
-  jest: true
-
-globals:
-  # false means readonly
-  globalThis: false
 
 plugins:
   - import
@@ -23,13 +18,10 @@ extends:
   - plugin:sonarjs/recommended
   - plugin:prettier/recommended
 
-settings:
-  react:
-    pragma: React
-    version: 16.12.0
-
 rules:
   # 0 = off, 1 = warn, 2 = error
+  'space-before-function-paren': 0
+  'no-useless-constructor': 0
   'no-undef': 2
   'no-console': [2, { allow: ['error', 'warn', 'info', 'assert'] }]
   'comma-dangle': ['error', 'only-multiline']
@@ -53,6 +45,15 @@ rules:
 
   'import/first': 2
   'import/newline-after-import': 2
+  'import/order':
+    [
+      2,
+      {
+        'newlines-between': 'always',
+        'alphabetize': { 'order': 'asc', 'caseInsensitive': true },
+        'pathGroups': [{ 'pattern': '@node-rs/**', 'group': 'internal', 'position': 'before' }],
+      },
+    ]
 
   'sonarjs/cognitive-complexity': 0
   'sonarjs/no-duplicate-string': 0
@@ -73,18 +74,104 @@ overrides:
     parserOptions:
       project: ./tsconfig.json
     rules:
-      # constructor(private readonly foo: string) {} style declaration
-      'no-useless-constructor': 0
-      '@typescript-eslint/no-useless-constructor': 2
+      # eslint will treat TS type as undefined stuff
+      'no-undef': 0
 
       # conflict function override
       'no-dupe-class-members': 0
-      '@typescript-eslint/no-dupe-class-members': 2
 
-      # constructor(private readonly foo: string) {} style declaration
-      'no-empty-function': 0
+      '@typescript-eslint/adjacent-overload-signatures': 2
 
-      '@typescript-eslint/no-empty-function': 2
+      '@typescript-eslint/await-thenable': 2
+
+      '@typescript-eslint/consistent-type-assertions': 2
+
+      '@typescript-eslint/ban-types':
+        [
+          'error',
+          {
+            'types':
+              {
+                'String': { 'message': 'Use string instead', 'fixWith': 'string' },
+                'Number': { 'message': 'Use number instead', 'fixWith': 'number' },
+                'Boolean': { 'message': 'Use boolean instead', 'fixWith': 'boolean' },
+                'Function': { 'message': 'Use explicit type instead' },
+                '{}': { 'message': 'Use object instead', 'fixWith': 'object' },
+              },
+          },
+        ]
+
+      '@typescript-eslint/explicit-member-accessibility':
+        [
+          'error',
+          {
+            accessibility: 'explicit',
+            overrides:
+              {
+                accessors: 'no-public',
+                constructors: 'no-public',
+                methods: 'no-public',
+                properties: 'no-public',
+                parameterProperties: 'explicit',
+              },
+          },
+        ]
+
+      '@typescript-eslint/method-signature-style': 2
+
+      '@typescript-eslint/no-floating-promises': 2
+
+      '@typescript-eslint/no-implied-eval': 2
+
+      '@typescript-eslint/no-for-in-array': 2
+
+      '@typescript-eslint/no-inferrable-types': 2
+
+      '@typescript-eslint/no-invalid-void-type': 2
+
+      '@typescript-eslint/no-misused-new': 2
+
+      '@typescript-eslint/no-misused-promises': 2
+
+      '@typescript-eslint/no-namespace': 2
+
+      '@typescript-eslint/no-non-null-asserted-optional-chain': 2
+
+      '@typescript-eslint/no-throw-literal': 2
+
+      '@typescript-eslint/no-unnecessary-boolean-literal-compare': 2
+
+      '@typescript-eslint/prefer-for-of': 2
+
+      '@typescript-eslint/prefer-nullish-coalescing': 2
+
+      '@typescript-eslint/switch-exhaustiveness-check': 2
+
+      '@typescript-eslint/prefer-optional-chain': 2
+
+      '@typescript-eslint/prefer-readonly': 2
+
+      '@typescript-eslint/prefer-string-starts-ends-with': 2
+
+      '@typescript-eslint/no-array-constructor': 2
+
+      '@typescript-eslint/require-await': 2
+
+      '@typescript-eslint/return-await': 2
+
+      '@typescript-eslint/ban-ts-comment':
+        [2, { 'ts-expect-error': false, 'ts-ignore': true, 'ts-nocheck': true, 'ts-check': false }]
+
+      '@typescript-eslint/naming-convention':
+        [
+          2,
+          {
+            selector: 'memberLike',
+            format: ['camelCase', 'PascalCase'],
+            modifiers: ['private', 'protected'],
+            leadingUnderscore: 'forbid',
+          },
+        ]
 
       '@typescript-eslint/no-unused-vars':
         [2, { varsIgnorePattern: '^_', argsIgnorePattern: '^_', ignoreRestSiblings: true }]

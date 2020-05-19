@@ -3,12 +3,12 @@ const { existsSync } = require('fs')
 const { platform } = require('os')
 const { join } = require('path')
 
+const packages = require('./packages')
 const supporttedPlatforms = require('./platforms')
 
 const MOVE_ALL = process.env.MOVE_TARGET === 'all'
 
 const platforms = MOVE_ALL ? supporttedPlatforms : [platform()]
-const packages = require('./packages')
 
 /**
  * @param {string[]} _platforms platforms

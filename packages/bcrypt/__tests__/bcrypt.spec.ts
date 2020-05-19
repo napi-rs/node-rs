@@ -1,4 +1,5 @@
 import test from 'ava'
+
 import { verifySync, hash } from '../index'
 
 const { hashSync } = require('bcrypt')

@@ -1,8 +1,9 @@
-const { Suite } = require('benchmark')
-const nodejieba = require('nodejieba')
-const chalk = require('chalk')
 const fs = require('fs')
 const { join } = require('path')
+
+const { Suite } = require('benchmark')
+const chalk = require('chalk')
+const nodejieba = require('nodejieba')
 
 const { load, cut, tag } = require('../index')
 

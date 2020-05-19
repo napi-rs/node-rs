@@ -1,4 +1,5 @@
 import test from 'ava'
+
 import { loadDict, cut } from '../index'
 
 test('should be able to load custom dict', (t) => {

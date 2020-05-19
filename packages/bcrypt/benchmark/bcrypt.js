@@ -1,6 +1,7 @@
-const { Suite } = require('benchmark')
-const { hashSync, hash, compare } = require('bcrypt')
 const { cpus } = require('os')
+
+const { hashSync, hash, compare } = require('bcrypt')
+const { Suite } = require('benchmark')
 const chalk = require('chalk')
 const { range } = require('lodash')
 

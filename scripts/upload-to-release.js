@@ -1,9 +1,10 @@
 const { execSync } = require('child_process')
-const { join } = require('path')
 const { existsSync } = require('fs')
+const { join } = require('path')
+
+const { Octokit } = require('@octokit/rest')
 const chalk = require('chalk')
 const putasset = require('putasset')
-const { Octokit } = require('@octokit/rest')
 
 const supporttedPlatforms = require('./platforms')
 
