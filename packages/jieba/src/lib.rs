@@ -16,7 +16,7 @@ use std::str;
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
-register_module!(test_module, init);
+register_module!(jieba, init);
 
 static JIEBA: OnceCell<Jieba> = OnceCell::new();
 

@@ -1,0 +1,45 @@
+{
+  "name": "@node-rs/argon2",
+  "version": "0.0.0",
+  "description": "Argon2 rust binding",
+  "keywords": [
+    "argon2",
+    "crypto",
+    "encryption",
+    "hashing",
+    "password",
+    "N-API",
+    "napi-rs",
+    "node-rs",
+    "rust"
+  ],
+  "author": "LongYinan <longyinan.brooklyn@bytedance.com>",
+  "homepage": "https://github.com/Brooooooklyn/node-rs",
+  "license": "MIT",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "files": ["index.js", "index.d.ts", "*.node", "LICENSE"],
+  "os": ["darwin", "linux", "win32"],
+  "engines": {
+    "node": ">= 8.9"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brooooooklyn/node-rs.git"
+  },
+  "scripts": {
+    "bench": "cross-env NODE_ENV=production node benchmark/argon2.js",
+    "build": "napi --release ./argon2",
+    "build:debug": "napi ./index"
+  },
+  "bugs": {
+    "url": "https://github.com/Brooooooklyn/node-rs/issues"
+  },
+  "dependencies": {
+    "@node-rs/helper": "^0.1.4"
+  }
+}

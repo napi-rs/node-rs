@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "./packages/argon2",
   "./packages/bcrypt",
   "./packages/crc32",
   "./packages/jieba"

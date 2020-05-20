@@ -25,7 +25,7 @@ mod errors;
 mod lib_bcrypt;
 
 #[cfg(not(test))]
-register_module!(test_module, init);
+register_module!(bcrypt, init);
 
 fn init(env: &Env, exports: &mut Value<Object>) -> Result<()> {
   exports.set_property(

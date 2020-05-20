@@ -16,7 +16,7 @@ mod bytes;
 mod crc32;
 mod crc32_table;
 
-register_module!(test_module, init);
+register_module!(crc32, init);
 
 fn init(env: &Env, exports: &mut Value<Object>) -> Result<()> {
   exports.set_named_property("crc32c", env.create_function("crc32c", crc32c)?)?;
