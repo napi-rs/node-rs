@@ -1,0 +1,62 @@
+{
+  "name": "@node-rs/swc",
+  "version": "0.0.0",
+  "description": "SWC binding with N-API",
+  "keywords": [
+    "SWC",
+    "babel",
+    "esbuild",
+    "rust",
+    "n-api",
+    "napi",
+    "node-rs",
+    "rust",
+    "uglify",
+    "terser",
+    "webpack"
+  ],
+  "author": "LongYinan <longyinan.brooklyn@bytedance.com>",
+  "homepage": "https://github.com/napi-rs/node-rs",
+  "license": "MIT",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "*.node",
+    "LICENSE",
+    "COPYING"
+  ],
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "engines": {
+    "node": ">= 8.9"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brooooooklyn/node-rs.git"
+  },
+  "scripts": {
+    "bench": "cross-env NODE_ENV=production node benchmark/swc.js",
+    "build": "napi --release ./swc",
+    "build:debug": "napi ./swc.dev"
+  },
+  "bugs": {
+    "url": "https://github.com/Brooooooklyn/node-rs/issues"
+  },
+  "dependencies": {
+    "@node-rs/helper": "^0.1.4"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.1.48",
+    "esbuild": "^0.3.9",
+    "three.js": "^0.77.1"
+  }
+}

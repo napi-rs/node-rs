@@ -2,7 +2,8 @@
 members = [
   "./packages/bcrypt",
   "./packages/crc32",
-  "./packages/jieba"
+  "./packages/jieba",
+  "./packages/swc"
 ]
 
 [profile.release]

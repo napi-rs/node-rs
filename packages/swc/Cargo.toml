@@ -1,0 +1,20 @@
+[package]
+name = "swc"
+version = "0.1.0"
+authors = ["LongYinan <longyinan.brooklyn@bytedance.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+napi-rs = { version = "0.3" }
+napi-rs-derive = { version = "0.2" }
+swc = { git = "https://github.com/swc-project/swc" }
+
+[target.'cfg(unix)'.dependencies]
+jemallocator = { version = "0.3", features = ["disable_initial_exec_tls"] }
+
+[build-dependencies]
+napi-build = { version = "0.1" }
+
