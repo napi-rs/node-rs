@@ -4,7 +4,7 @@ import { join } from 'path'
 
 const SupportedPlatforms = new Set<NodeJS.Platform>(['darwin', 'win32', 'linux'])
 
-export function locateBinding(dirname: string, filename = 'index') {
+export function loadBinding(dirname: string, filename = 'index') {
   const platformName = platform()
   if (!SupportedPlatforms.has(platformName)) {
     throw new TypeError(
@@ -14,9 +14,17 @@ export function locateBinding(dirname: string, filename = 'index') {
 
   const bindingFilePath = join(dirname, `${filename}.${platformName}.node`)
 
+  if (platformName === 'linux') {
+    try {
+      return require(bindingFilePath)
+    } catch {
+      return require(join(dirname, `${filename}.musl.node`))
+    }
+  }
+
   if (!existsSync(bindingFilePath)) {
     throw new TypeError(`Could not find binding file on path ${bindingFilePath}`)
   }
 
-  return bindingFilePath
+  return require(bindingFilePath)
 }

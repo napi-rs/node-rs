@@ -4,3 +4,7 @@ members = [
   "./packages/crc32",
   "./packages/jieba"
 ]
+
+[profile.release]
+opt-level = 3
+lto = true

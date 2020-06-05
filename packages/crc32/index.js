@@ -1,6 +1,6 @@
-const { locateBinding } = require('@node-rs/helper')
+const { loadBinding } = require('@node-rs/helper')
 
-const binding = require(locateBinding(__dirname, 'crc32'))
+const binding = loadBinding(__dirname, 'crc32')
 
 module.exports = {
   crc32: function crc32(input, crc) {

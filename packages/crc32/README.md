@@ -41,11 +41,11 @@ js_crc32 for inputs 16931844B, avg 2066B x 22.12 ops/sec ±5.20% (40 runs sample
 
 ## Support matrix
 
-|                   | node 10 | node12 | node13 | node14 |
-| ----------------- | ------- | ------ | ------ | ------ |
-| Windows 64 latest | ✓       | ✓      | ✓      | ✓      |
-| macOS latest      | ✓       | ✓      | ✓      | ✓      |
-| Linux             | ✓       | ✓      | ✓      | ✓      |
+|                   | node 10 | node12 | node14 |
+| ----------------- | ------- | ------ | ------ |
+| Windows 64 latest | ✓       | ✓      | ✓      |
+| macOS latest      | ✓       | ✓      | ✓      |
+| Linux             | ✓       | ✓      | ✓      |
 
 ## API
 

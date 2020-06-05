@@ -8,11 +8,11 @@ Make rust crates binding to NodeJS use [napi-rs](https://github.com/Brooooooklyn
 
 # Support matrix
 
-|                   | node 10 | node12 | node13 | node14 |
-| ----------------- | ------- | ------ | ------ | ------ |
-| Windows 64 latest | ✅      | ✅     | ✅     | ✅     |
-| macOS latest      | ✅      | ✅     | ✅     | ✅     |
-| Linux             | ✅      | ✅     | ✅     | ✅     |
+|                   | node 10 | node12 | node14 |
+| ----------------- | ------- | ------ | ------ |
+| Windows 64 latest | ✅      | ✅     | ✅     |
+| macOS latest      | ✅      | ✅     | ✅     |
+| Linux             | ✅      | ✅     | ✅     |
 
 # Packages
 

@@ -16,7 +16,7 @@ napi-rs-derive = { version = "0.2" }
 rand = "0.7"
 phf = { version = "0.8", features = ["macros"] }
 
-[target.'cfg(unix)'.dependencies]
+[target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
 jemallocator = { version = "0.3", features = ["disable_initial_exec_tls"] }
 
 [dev-dependencies]
