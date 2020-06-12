@@ -1,6 +1,6 @@
-const { locateBinding } = require('@node-rs/helper')
+const { loadBinding } = require('@node-rs/helper')
 
-const binding = require(locateBinding(__dirname, 'bcrypt'))
+const binding = loadBinding(__dirname, 'bcrypt')
 
 const DEFAULT_COST = 12
 

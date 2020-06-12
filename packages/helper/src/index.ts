@@ -1,1 +1,1 @@
-export { locateBinding } from './loader'
+export { loadBinding } from './loader'

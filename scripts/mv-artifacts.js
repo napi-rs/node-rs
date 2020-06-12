@@ -8,7 +8,7 @@ const supporttedPlatforms = require('./platforms')
 
 const MOVE_ALL = process.env.MOVE_TARGET === 'all'
 
-const platforms = MOVE_ALL ? supporttedPlatforms : [platform()]
+const platforms = MOVE_ALL ? supporttedPlatforms : [process.env.MOVE_TARGET || platform()]
 
 /**
  * @param {string[]} _platforms platforms
