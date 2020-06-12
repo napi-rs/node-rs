@@ -12,7 +12,7 @@ use once_cell::sync::OnceCell;
 use std::convert::TryInto;
 use std::str;
 
-#[cfg(all(unix, not(target_env = "musl")))]
+#[cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))]
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 

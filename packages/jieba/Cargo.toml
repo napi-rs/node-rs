@@ -13,7 +13,7 @@ napi-rs = { version = "0.3" }
 napi-rs-derive = { version = "0.2" }
 once_cell = "1.4"
 
-[target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
+[target.'cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))'.dependencies]
 jemallocator = { version = "0.3", features = ["disable_initial_exec_tls"] }
 
 [build-dependencies]

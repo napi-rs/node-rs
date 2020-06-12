@@ -15,7 +15,7 @@ use verify_task::VerifyTask;
 mod hash_task;
 mod verify_task;
 
-#[cfg(all(unix, not(target_env = "musl")))]
+#[cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))]
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 

@@ -8,7 +8,7 @@ use crc32fast::Hasher;
 use napi::{Buffer, CallContext, Env, Number, Object, Result, Value};
 use std::convert::TryInto;
 
-#[cfg(all(unix, not(target_env = "musl")))]
+#[cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))]
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
