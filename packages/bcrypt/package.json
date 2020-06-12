@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Rust bcrypt binding",
   "keywords": ["bcrypt", "auth", "password", "authentication", "encryption", "crypto", "N-API", "napi-rs", "node-rs"],
   "author": "LongYinan <lynweklm@gmail.com>",
@@ -30,7 +30,7 @@
     "url": "https://github.com/Brooooooklyn/node-rs/issues"
   },
   "dependencies": {
-    "@node-rs/helper": "^0.1.4"
+    "@node-rs/helper": "^0.2.0"
   },
   "devDependencies": {
     "bcrypt": "^5.0.0"
