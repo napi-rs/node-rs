@@ -232,7 +232,7 @@ jobs:
         run: yarn build:ts
 
       - name: Run simple tests
-        run: docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs node:${{ matrix.node }}-alpine sh -c "./node_modules/.bin/lerna run test:simple --stream"
+        run: docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs node:${{ matrix.node }}-alpine sh -c "node ./scripts/simple-tests.js"
 
   publish:
     name: Publish

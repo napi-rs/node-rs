@@ -24,8 +24,7 @@
   "scripts": {
     "bench": "cross-env NODE_ENV=production node benchmark/crc32.js",
     "build": "napi --release ./crc32",
-    "build:debug": "napi ./index",
-    "test:simple": "node ./simple-test.js"
+    "build:debug": "napi ./index"
   },
   "bugs": {
     "url": "https://github.com/Brooooooklyn/node-rs/issues"

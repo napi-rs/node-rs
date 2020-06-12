@@ -24,8 +24,7 @@
   "scripts": {
     "bench": "cross-env NODE_ENV=production node benchmark/jieba.js",
     "build": "napi --release ./jieba",
-    "build:debug": "napi ./jieba",
-    "test:simple": "node ./simple-test.js"
+    "build:debug": "napi ./jieba"
   },
   "bugs": {
     "url": "https://github.com/Brooooooklyn/node-rs/issues"
