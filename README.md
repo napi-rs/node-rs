@@ -13,6 +13,7 @@ Make rust crates binding to NodeJS use [napi-rs](https://github.com/Brooooooklyn
 | Windows 64 latest | ✅      | ✅     | ✅     |
 | macOS latest      | ✅      | ✅     | ✅     |
 | Linux             | ✅      | ✅     | ✅     |
+| Linux musl        | ❌      | ✅     | ✅     |
 
 # Packages
 
