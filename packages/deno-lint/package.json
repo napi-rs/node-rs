@@ -1,15 +1,16 @@
 {
-  "name": "@node-rs/bcrypt",
-  "version": "0.3.2",
-  "description": "Rust bcrypt binding",
-  "keywords": ["bcrypt", "auth", "password", "authentication", "encryption", "crypto", "N-API", "napi-rs", "node-rs"],
+  "name": "@node-rs/deno-lint",
+  "version": "0.0.0",
+  "description": "Deno lint binding for NodeJS",
+  "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "*.node", "LICENSE", "LICENSE.rust-bcrypt"],
+  "files": ["index.js", "index.d.ts", "LICENSE"],
   "os": ["darwin", "linux", "win32"],
+  "cpu": ["x64"],
   "engines": {
     "node": ">= 8.9"
   },
@@ -22,17 +23,16 @@
     "url": "git+https://github.com/napi-rs/node-rs.git"
   },
   "scripts": {
-    "bench": "cross-env NODE_ENV=production node benchmark/bcrypt.js",
-    "build": "napi --release ./bcrypt",
-    "build:debug": "napi ./bcrypt"
+    "bench": "cross-env NODE_ENV=production node benchmark/lint.js",
+    "build": "napi --release ./deno-lint",
+    "build:debug": "napi ./deno-lint",
+    "prepublishOnly": "node ./publish.js",
+    "version": "node ./version.js"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "dependencies": {
     "@node-rs/helper": "^0.2.1"
-  },
-  "devDependencies": {
-    "bcrypt": "^5.0.0"
   }
 }
