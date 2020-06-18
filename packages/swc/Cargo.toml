@@ -11,8 +11,9 @@ crate-type = ["cdylib"]
 napi-rs = { version = "0.3" }
 napi-rs-derive = { version = "0.2" }
 swc = { git = "https://github.com/swc-project/swc" }
+serde_json = "1"
 
-[target.'cfg(unix)'.dependencies]
+[target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
 jemallocator = { version = "0.3", features = ["disable_initial_exec_tls"] }
 
 [build-dependencies]

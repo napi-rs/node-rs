@@ -1,5 +1,11 @@
-const { locateBinding } = require('@node-rs/helper')
+const { loadBinding } = require('@node-rs/helper')
 
-const binding = require(locateBinding(__dirname, 'swc'))
+const binding = loadBinding(__dirname, 'swc')
 
-module.exports = binding
+module.exports = {
+  ...binding,
+  transformSync: function transformSync(input) {
+    const source = Buffer.isBuffer(input) ? input : Buffer.from(input)
+    return binding.transformSync(source)
+  },
+}

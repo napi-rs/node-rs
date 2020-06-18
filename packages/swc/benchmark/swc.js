@@ -6,7 +6,7 @@ const chalk = require('chalk')
 const { startService } = require('esbuild')
 const { range } = require('lodash')
 
-const { uglify } = require('../index')
+const { transform: napiTransform } = require('../index')
 
 const suite = new Suite('Uglify three.js benchmark')
 
@@ -34,7 +34,7 @@ async function run() {
     })
     .add('@node-rs/swc', {
       fn: (deferred) => {
-        Promise.all(range(0, parallel).map(() => uglify(THREE_JS_SOURCE_CODE))).then(() => {
+        Promise.all(range(0, parallel).map(() => napiTransform(THREE_JS_SOURCE_CODE))).then(() => {
           deferred.resolve()
         })
       },

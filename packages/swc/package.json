@@ -52,11 +52,11 @@
     "url": "https://github.com/Brooooooklyn/node-rs/issues"
   },
   "dependencies": {
-    "@node-rs/helper": "^0.1.4"
+    "@node-rs/helper": "^0.2.0"
   },
   "devDependencies": {
-    "@swc/core": "^1.1.48",
-    "esbuild": "^0.3.9",
+    "@swc/core": "^1.2.4",
+    "esbuild": "^0.5.3",
     "three.js": "^0.77.1"
   }
 }
