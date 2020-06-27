@@ -94,7 +94,7 @@ jobs:
         timeout-minutes: 5
         with:
           command: test
-          args: -p nodr-rs-bcrypt --lib -- --nocapture
+          args: -p node-rs-bcrypt --lib -- --nocapture
 
       - name: Run build
         run: |

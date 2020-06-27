@@ -1,37 +1,37 @@
 use std::str;
 
 use crate::lib_bcrypt::verify;
-use napi::{Boolean, Buffer, Env, Error, Result, Status, Task, Value};
+use napi::{Env, Error, JsBoolean, JsBuffer, Result, Status, Task};
 
 pub struct VerifyTask {
-  password: Value<Buffer>,
-  hash: Value<Buffer>,
+  password: JsBuffer,
+  hash: JsBuffer,
 }
 
 impl VerifyTask {
-  pub fn new(password: Value<Buffer>, hash: Value<Buffer>) -> VerifyTask {
+  pub fn new(password: JsBuffer, hash: JsBuffer) -> VerifyTask {
     Self { password, hash }
   }
 
   #[inline]
-  pub fn verify(password: Value<Buffer>, hash: Value<Buffer>) -> Result<bool> {
+  pub fn verify(password: JsBuffer, hash: JsBuffer) -> Result<bool> {
     verify(
       &password,
       str::from_utf8(&hash).map_err(|_| Error::from_status(Status::StringExpected))?,
     )
-    .map_err(|_| Error::from_status(Status::GenericFailure))
+    .map_err(|e| Error::new(Status::GenericFailure, format!("{}", e)))
   }
 }
 
 impl Task for VerifyTask {
   type Output = bool;
-  type JsValue = Boolean;
+  type JsValue = JsBoolean;
 
-  fn compute(&self) -> Result<Self::Output> {
+  fn compute(&mut self) -> Result<Self::Output> {
     VerifyTask::verify(self.password, self.hash)
   }
 
-  fn resolve(&self, env: &mut Env, output: Self::Output) -> Result<Value<Self::JsValue>> {
+  fn resolve(&self, env: &mut Env, output: Self::Output) -> Result<Self::JsValue> {
     env.get_boolean(output)
   }
 }

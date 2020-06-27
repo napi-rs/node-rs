@@ -8,12 +8,12 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-napi-rs = { version = "0.3" }
-napi-rs-derive = { version = "0.2" }
+napi = { version = "0.4"}
+napi-derive = { version = "0.4" }
 crc32fast = "1.2"
 
 [target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
 jemallocator = { version = "0.3", features = ["disable_initial_exec_tls"] }
 
 [build-dependencies]
-napi-build = { version = "0.1" }
+napi-build = { version = "0.2" }
