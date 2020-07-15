@@ -17,8 +17,8 @@ Make rust crates binding to NodeJS use [napi-rs](https://github.com/Brooooooklyn
 
 # Packages
 
-| Package                                | Status                                                              | Description                                                |
-| -------------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------- |
-| [`@node-rs/crc32`](./packages/crc32)   | ![](https://github.com/Brooooooklyn/node-rs/workflows/CI/badge.svg) | Fastest `CRC32` implementation using `SIMD`                |
-| [`@node-rs/jieba`](./packages/jieba)   | ![](https://github.com/Brooooooklyn/node-rs/workflows/CI/badge.svg) | [`jieba-rs`](https://github.com/messense/jieba-rs) binding |
-| [`@node-rs/bcrypt`](./packages/bcrypt) | ![](https://github.com/Brooooooklyn/node-rs/workflows/CI/badge.svg) | Fastest bcrypt implementation                              |
+| Package                                | Status                                                         | Description                                                |
+| -------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------- |
+| [`@node-rs/crc32`](./packages/crc32)   | ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg) | Fastest `CRC32` implementation using `SIMD`                |
+| [`@node-rs/jieba`](./packages/jieba)   | ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg) | [`jieba-rs`](https://github.com/messense/jieba-rs) binding |
+| [`@node-rs/bcrypt`](./packages/bcrypt) | ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg) | Fastest bcrypt implementation                              |

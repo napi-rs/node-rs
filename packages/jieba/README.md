@@ -1,6 +1,6 @@
 # `@node-rs/jieba`
 
-![](https://github.com/Brooooooklyn/node-rs/workflows/CI/badge.svg)
+![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
 
 [jieba-rs](https://github.com/messense/jieba-rs) binding to NodeJS
 

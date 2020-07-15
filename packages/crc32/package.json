@@ -4,7 +4,7 @@
   "description": "SIMD crc32",
   "keywords": ["SIMD", "NAPI", "napi-rs", "node-rs", "crc32", "crc32c"],
   "author": "LongYinan <lynweklm@gmail.com>",
-  "homepage": "https://github.com/Brooooooklyn/node-rs",
+  "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Brooooooklyn/node-rs.git"
+    "url": "git+https://github.com/napi-rs/node-rs.git"
   },
   "scripts": {
     "bench": "cross-env NODE_ENV=production node benchmark/crc32.js",
@@ -27,7 +27,7 @@
     "build:debug": "napi ./index"
   },
   "bugs": {
-    "url": "https://github.com/Brooooooklyn/node-rs/issues"
+    "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "dependencies": {
     "@node-rs/helper": "^0.2.0"

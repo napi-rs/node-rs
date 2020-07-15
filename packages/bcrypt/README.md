@@ -1,6 +1,6 @@
 # `@node-rs/bcrypt`
 
-![](https://github.com/Brooooooklyn/node-rs/workflows/CI/badge.svg)
+![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
 
 🚀 Fastest bcrypt in NodeJS
 
