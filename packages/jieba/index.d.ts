@@ -8,6 +8,11 @@ export interface TagResult {
   tag: string
 }
 
+export interface Keyword {
+  keyword: string
+  weight: number
+}
+
 export function tag(sentence: string | Buffer, hmm?: boolean): TagResult[]
 
-export function extract(sentence: string | Buffer, topn: number, allowedPos?: string[]): string[]
+export function extract(sentence: string | Buffer, topn: number, allowedPos?: string[]): Keyword[]

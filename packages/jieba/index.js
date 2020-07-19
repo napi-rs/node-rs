@@ -26,7 +26,6 @@ module.exports = {
 
   extract: function extract(sentence, topn, allowedPos = []) {
     const input = Buffer.isBuffer(sentence) ? sentence : Buffer.from(sentence)
-    const output = native.extract(input, topn, allowedPos.join(','))
-    return output.split(',')
+    return native.extract(input, topn, allowedPos.join(','))
   },
 }

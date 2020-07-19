@@ -18,7 +18,13 @@ test('extract should be equal to nodejieba', (t) => {
     '今天纽约的天气真好啊，京华大酒店的张尧经理吃了一只北京烤鸭。后天纽约的天气不好，昨天纽约的天气也不好，北京烤鸭真好吃'
   const topn = 3
   t.deepEqual(
-    extract(sentence, topn),
-    nodejieba.extract(sentence, topn).map((t) => t.word),
+    extract(sentence, topn).map((t) => ({
+      keyword: t.keyword,
+      weight: typeof t.weight,
+    })),
+    nodejieba.extract(sentence, topn).map((t) => ({
+      keyword: t.word,
+      weight: typeof t.weight,
+    })),
   )
 })

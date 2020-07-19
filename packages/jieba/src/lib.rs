@@ -5,8 +5,8 @@ extern crate napi_derive;
 
 use jieba_rs::{Jieba, KeywordExtract, TFIDF};
 use napi::{
-  CallContext, Env, Error, JsBoolean, JsBuffer, JsNumber, JsString, JsUndefined, Module, Result,
-  Status,
+  CallContext, Env, Error, JsBoolean, JsBuffer, JsNumber, JsObject, JsString, JsUndefined, Module,
+  Result, Status,
 };
 use once_cell::sync::OnceCell;
 use std::convert::TryInto;
@@ -133,7 +133,7 @@ fn tag(ctx: CallContext) -> Result<JsString> {
 }
 
 #[js_function(3)]
-fn extract(ctx: CallContext) -> Result<JsString> {
+fn extract(ctx: CallContext) -> Result<JsObject> {
   let sentence = ctx.get::<JsBuffer>(0)?;
   let topn = ctx.get::<JsNumber>(1)?;
   let allowed_pos = ctx
@@ -159,8 +159,16 @@ fn extract(ctx: CallContext) -> Result<JsString> {
     topn,
     allowed_pos,
   );
+  let mut js_tags = ctx.env.create_array_with_length(tags.len())?;
 
-  ctx.env.create_string(tags.join(",").as_str())
+  for (index, t) in tags.iter().enumerate() {
+    let mut tag_value = ctx.env.create_object()?;
+    tag_value.set_named_property("keyword", ctx.env.create_string(t.keyword.as_str())?)?;
+    tag_value.set_named_property("weight", ctx.env.create_double(t.weight)?)?;
+    js_tags.set_index(index, tag_value)?;
+  }
+
+  Ok(js_tags)
 }
 
 #[js_function]
