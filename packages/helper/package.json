@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/helper",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Helper library for node-rs",
   "keywords": ["N-API", "napi", "Rust", "Performance"],
   "author": "LongYinan <lynweklm@gmail.com>",
