@@ -3,17 +3,20 @@ use napi::{Env, Error, JsBuffer, JsString, Result, Status, Task};
 use crate::lib_bcrypt::hash;
 
 pub struct HashTask {
-  buf: JsBuffer,
+  buf: &'static [u8],
   cost: u32,
 }
 
 impl HashTask {
   pub fn new(buf: JsBuffer, cost: u32) -> HashTask {
-    HashTask { buf, cost }
+    HashTask {
+      buf: buf.data,
+      cost,
+    }
   }
 
   #[inline]
-  pub fn hash(buf: JsBuffer, cost: u32) -> Result<String> {
+  pub fn hash(buf: &[u8], cost: u32) -> Result<String> {
     hash(buf, cost).map_err(|_| Error::from_status(Status::GenericFailure))
   }
 }
