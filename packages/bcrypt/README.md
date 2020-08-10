@@ -1,6 +1,7 @@
 # `@node-rs/bcrypt`
 
 ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
+![](https://img.shields.io/npm/dm/@node-rs/bcrypt.svg?sanitize=true)
 
 🚀 Fastest bcrypt in NodeJS
 

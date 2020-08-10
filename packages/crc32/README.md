@@ -1,6 +1,7 @@
 # `@node-rs/crc32`
 
 ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
+![](https://img.shields.io/npm/dm/@node-rs/crc32.svg?sanitize=true)
 
 Fastest `crc32` implement in `NodeJS`
 

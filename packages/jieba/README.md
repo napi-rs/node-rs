@@ -1,6 +1,7 @@
 # `@node-rs/jieba`
 
 ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
+![](https://img.shields.io/npm/dm/@node-rs/jieba.svg?sanitize=true)
 
 [jieba-rs](https://github.com/messense/jieba-rs) binding to NodeJS
 
