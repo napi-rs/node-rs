@@ -4,17 +4,20 @@ use crate::lib_bcrypt::verify;
 use napi::{Env, Error, JsBoolean, JsBuffer, Result, Status, Task};
 
 pub struct VerifyTask {
-  password: JsBuffer,
-  hash: JsBuffer,
+  password: &'static [u8],
+  hash: &'static [u8],
 }
 
 impl VerifyTask {
   pub fn new(password: JsBuffer, hash: JsBuffer) -> VerifyTask {
-    Self { password, hash }
+    Self {
+      password: password.data,
+      hash: hash.data,
+    }
   }
 
   #[inline]
-  pub fn verify(password: JsBuffer, hash: JsBuffer) -> Result<bool> {
+  pub fn verify(password: &[u8], hash: &[u8]) -> Result<bool> {
     verify(
       &password,
       str::from_utf8(&hash).map_err(|_| Error::from_status(Status::StringExpected))?,

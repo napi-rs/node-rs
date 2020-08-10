@@ -58,7 +58,7 @@ fn js_salt(ctx: CallContext) -> Result<JsString> {
 fn js_hash(ctx: CallContext) -> Result<JsString> {
   let password = ctx.get::<JsBuffer>(0)?;
   let cost = ctx.get::<JsNumber>(1)?;
-  let result = HashTask::hash(password, cost.try_into()?)?;
+  let result = HashTask::hash(&password, cost.try_into()?)?;
   ctx.env.create_string(result.as_str())
 }
 
@@ -74,7 +74,7 @@ fn js_async_hash(ctx: CallContext) -> Result<JsObject> {
 fn js_verify(ctx: CallContext) -> Result<JsBoolean> {
   let password = ctx.get::<JsBuffer>(0)?;
   let hash = ctx.get::<JsBuffer>(1)?;
-  let result = VerifyTask::verify(password, hash)
+  let result = VerifyTask::verify(&password, &hash)
     .map_err(|e| Error::new(Status::GenericFailure, format!("{}", e)))?;
   ctx.env.get_boolean(result)
 }

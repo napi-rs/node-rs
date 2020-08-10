@@ -234,11 +234,24 @@ jobs:
       - name: Run simple tests
         run: docker run --rm -v $(pwd)/.cargo:/root/.cargo -v $(pwd):/node-rs -w /node-rs node:${{ matrix.node }}-alpine sh -c "node ./scripts/simple-tests.js"
 
+  dependabot:
+    needs:
+      - test_musl_binding
+      - test_binding
+    runs-on: ubuntu-latest
+    steps:
+      - name: auto-merge
+        uses: ridedott/dependabot-auto-merge-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   publish:
     name: Publish
     if: "startsWith(github.event.head_commit.message, 'chore(release): publish')"
     runs-on: ubuntu-latest
-    needs: test_binding
+    needs:
+      - test_binding
+      - test_musl_binding
 
     steps:
       - uses: actions/checkout@v2
