@@ -15,6 +15,7 @@ try {
 }
 
 module.exports = {
+  binding,
   lint: function lint(filename, sourcecode) {
     const source = Buffer.isBuffer(sourcecode) ? sourcecode : Buffer.from(sourcecode)
     return binding.lint(filename, source)

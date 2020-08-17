@@ -7,8 +7,11 @@
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
   "main": "index.js",
+  "bin": {
+    "denolint": "./bin.js"
+  },
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "LICENSE"],
+  "files": ["index.js", "index.d.ts", "bin.js", "LICENSE"],
   "os": ["darwin", "linux", "win32"],
   "cpu": ["x64"],
   "engines": {

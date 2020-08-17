@@ -9,6 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 deno_lint = "0.1"
+ignore = "0.4"
 napi = { version = "0.4" }
 napi-derive = { version = "0.4" }
 termcolor = "1.1"

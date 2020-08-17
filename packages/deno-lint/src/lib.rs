@@ -3,12 +3,19 @@ extern crate napi;
 #[macro_use]
 extern crate napi_derive;
 
-use deno_lint::diagnostic::LintDiagnostic;
-use deno_lint::linter::LinterBuilder;
-use napi::{CallContext, Error, JsBuffer, JsObject, JsString, Module, Result, Status};
+use napi::JsBoolean;
+use std::env;
 use std::fmt;
+use std::fs;
 use std::io::Write;
 use std::str;
+
+use deno_lint::diagnostic::LintDiagnostic;
+use deno_lint::linter::LinterBuilder;
+use ignore::overrides::OverrideBuilder;
+use ignore::types::TypesBuilder;
+use ignore::WalkBuilder;
+use napi::{CallContext, Error, JsBuffer, JsObject, JsString, Module, Result, Status};
 use termcolor::Color::{Ansi256, Red};
 use termcolor::{Ansi, ColorSpec, WriteColor};
 
@@ -102,6 +109,7 @@ pub fn format_diagnostic(diagnostic: &LintDiagnostic) -> String {
 
 fn init(js_module: &mut Module) -> Result<()> {
   js_module.create_named_method("lint", lint)?;
+  js_module.create_named_method("denolint", lint_command)?;
 
   Ok(())
 }
@@ -117,11 +125,13 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
     reason: format!("Input source is not valid utf8 string {}", e),
   })?;
 
+  let file_name_ref = file_name.as_str()?;
+
   let file_diagnostics = linter
-    .lint(file_name.as_str()?.to_owned(), source_string.to_owned())
+    .lint(file_name_ref.to_owned(), source_string.to_owned())
     .map_err(|e| Error {
       status: Status::GenericFailure,
-      reason: format!("Lint failed: {}", e),
+      reason: format!("Lint failed: {}, at: {}", e, file_name_ref),
     })?;
 
   let mut result = ctx.env.create_array_with_length(file_diagnostics.len())?;
@@ -136,4 +146,94 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
   }
 
   Ok(result)
+}
+
+#[js_function(1)]
+fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
+  let __dirname = ctx.get::<JsString>(0)?;
+  let mut has_error = false;
+  let cwd = env::current_dir().map_err(|e| {
+    Error::new(
+      Status::GenericFailure,
+      format!("Get current_dir failed {}", e),
+    )
+  })?;
+
+  let mut eslint_ignore_file = cwd.clone();
+
+  eslint_ignore_file.push(".eslintignore");
+
+  let mut type_builder = TypesBuilder::new();
+
+  type_builder
+    .add("typescript", "*.ts")
+    .map_err(|e| Error::from_reason(format!("{}", e)))?;
+  type_builder
+    .add("typescript", "*.tsx")
+    .map_err(|e| Error::from_reason(format!("{}", e)))?;
+
+  let types = type_builder
+    .add_defaults()
+    .select("typescript")
+    .select("js")
+    .build()
+    .map_err(|e| Error::from_reason(format!("{}", e)))?;
+
+  let override_ignore = match fs::File::open(&eslint_ignore_file) {
+    Ok(_) => OverrideBuilder::new(eslint_ignore_file)
+      .build()
+      .map_err(|e| {
+        Error::from_reason(format!(
+          "Create ignore rules from .eslintignore file failed {}",
+          e
+        ))
+      })?,
+    Err(_) => OverrideBuilder::new(__dirname.as_str()?)
+      .build()
+      .map_err(|e| {
+        Error::from_reason(format!(
+          "Create ignore rules from .defaultignore file failed {}",
+          e
+        ))
+      })?,
+  };
+
+  for result in WalkBuilder::new(cwd)
+    .overrides(override_ignore)
+    .types(types)
+    .follow_links(true)
+    .build()
+  {
+    match result {
+      Ok(entry) => {
+        let p = entry.path();
+        if !p.is_dir() {
+          let file_content = fs::read_to_string(&p)
+            .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
+          let mut linter = LinterBuilder::default().build();
+          let file_diagnostics = linter
+            .lint(
+              (&p.to_str())
+                .ok_or(Error::from_reason(format!(
+                  "Convert path to string failed: {:?}",
+                  &p
+                )))?
+                .to_owned(),
+              file_content,
+            )
+            .map_err(|e| Error {
+              status: Status::GenericFailure,
+              reason: format!("Lint failed: {}, at: {:?}", e, &p),
+            })?;
+          for diagnostic in file_diagnostics {
+            has_error = true;
+            println!("{:?}", diagnostic);
+          }
+        }
+      }
+      Err(_) => {}
+    };
+  }
+
+  ctx.env.get_boolean(has_error)
 }
