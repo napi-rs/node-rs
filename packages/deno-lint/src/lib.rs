@@ -3,7 +3,6 @@ extern crate napi;
 #[macro_use]
 extern crate napi_derive;
 
-use napi::JsBoolean;
 use std::env;
 use std::fmt;
 use std::fs;
@@ -12,10 +11,12 @@ use std::str;
 
 use deno_lint::diagnostic::LintDiagnostic;
 use deno_lint::linter::LinterBuilder;
+use deno_lint::rules::{get_all_rules, get_recommended_rules};
+use deno_lint::swc_util::get_default_ts_config;
 use ignore::overrides::OverrideBuilder;
 use ignore::types::TypesBuilder;
 use ignore::WalkBuilder;
-use napi::{CallContext, Error, JsBuffer, JsObject, JsString, Module, Result, Status};
+use napi::{CallContext, Error, JsBoolean, JsBuffer, JsObject, JsString, Module, Result, Status};
 use termcolor::Color::{Ansi256, Red};
 use termcolor::{Ansi, ColorSpec, WriteColor};
 
@@ -114,11 +115,19 @@ fn init(js_module: &mut Module) -> Result<()> {
   Ok(())
 }
 
-#[js_function(2)]
+#[js_function(3)]
 fn lint(ctx: CallContext) -> Result<JsObject> {
   let file_name = ctx.get::<JsString>(0)?;
   let source_code = ctx.get::<JsBuffer>(1)?;
-  let mut linter = LinterBuilder::default().build();
+  let all_rules = ctx.get::<JsBoolean>(2)?;
+  let mut linter = LinterBuilder::default()
+    .rules(if all_rules.get_value()? {
+      get_all_rules()
+    } else {
+      get_recommended_rules()
+    })
+    .syntax(get_default_ts_config())
+    .build();
 
   let source_string = str::from_utf8(&source_code).map_err(|e| Error {
     status: Status::StringExpected,
@@ -148,9 +157,10 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
   Ok(result)
 }
 
-#[js_function(1)]
+#[js_function(2)]
 fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
   let __dirname = ctx.get::<JsString>(0)?;
+  let enable_all_rules = ctx.get::<JsBoolean>(1)?.get_value()?;
   let mut has_error = false;
   let cwd = env::current_dir().map_err(|e| {
     Error::new(
@@ -210,7 +220,14 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
         if !p.is_dir() {
           let file_content = fs::read_to_string(&p)
             .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
-          let mut linter = LinterBuilder::default().build();
+          let mut linter = LinterBuilder::default()
+            .rules(if enable_all_rules {
+              get_all_rules()
+            } else {
+              get_recommended_rules()
+            })
+            .syntax(get_default_ts_config())
+            .build();
           let file_diagnostics = linter
             .lint(
               (&p.to_str())
@@ -227,7 +244,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
             })?;
           for diagnostic in file_diagnostics {
             has_error = true;
-            println!("{:?}", diagnostic);
+            println!("{}", format_diagnostic(&diagnostic));
           }
         }
       }

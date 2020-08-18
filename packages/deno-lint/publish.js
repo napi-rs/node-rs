@@ -2,9 +2,8 @@ const { execSync } = require('child_process')
 const fs = require('fs')
 const path = require('path')
 
-const platforms = require('../../scripts/platforms')
-
 const { version } = require('./package.json')
+const platforms = require('./platforms')
 const updatePackageJson = require('./update-package')
 
 updatePackageJson(path.join(__dirname, 'package.json'), {
@@ -14,7 +13,7 @@ updatePackageJson(path.join(__dirname, 'package.json'), {
   }, {}),
 })
 
-for (const name of platforms) {
+for (const name of [...platforms, 'musl']) {
   const pkgDir = path.join(__dirname, 'npm', name)
   const filename = `deno-lint.${name}.node`
   const bindingFile = fs.readFileSync(path.join(__dirname, `bindings-${name}`, filename))

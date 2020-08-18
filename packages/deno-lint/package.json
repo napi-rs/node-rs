@@ -11,7 +11,7 @@
     "denolint": "./bin.js"
   },
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "bin.js", "LICENSE"],
+  "files": ["index.js", "index.d.ts", "bin.js", "webpack-loader.js", "LICENSE"],
   "os": ["darwin", "linux", "win32"],
   "cpu": ["x64"],
   "engines": {
@@ -36,6 +36,10 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "dependencies": {
-    "@node-rs/helper": "^0.2.1"
+    "@node-rs/helper": "^0.2.1",
+    "loader-utils": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/webpack": "^4.41.21"
   }
 }
