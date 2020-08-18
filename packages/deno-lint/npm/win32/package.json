@@ -1,0 +1,24 @@
+{
+  "name": "@node-rs/deno-lint-win32",
+  "version": "0.0.0",
+  "description": "Deno lint binding for NodeJS",
+  "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "homepage": "https://github.com/napi-rs/node-rs",
+  "license": "MIT",
+  "main": "deno-lint.win32.node",
+  "files": ["deno-lint.win32.node"],
+  "os": ["win32"],
+  "cpu": ["x64"],
+  "engines": {
+    "node": ">= 8.9"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  }
+}

@@ -24,7 +24,7 @@
   "scripts": {
     "bench": "cross-env NODE_ENV=production node benchmark/bcrypt.js",
     "build": "napi --release ./bcrypt",
-    "build:debug": "napi ./bcrypt.debug"
+    "build:debug": "napi ./bcrypt"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
