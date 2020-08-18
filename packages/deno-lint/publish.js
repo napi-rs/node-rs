@@ -16,7 +16,7 @@ updatePackageJson(path.join(__dirname, 'package.json'), {
 for (const name of [...platforms, 'musl']) {
   const pkgDir = path.join(__dirname, 'npm', name)
   const filename = `deno-lint.${name}.node`
-  const bindingFile = fs.readFileSync(path.join(__dirname, `bindings-${name}`, filename))
+  const bindingFile = fs.readFileSync(path.join(__dirname, filename))
   fs.writeFileSync(path.join(pkgDir, filename), bindingFile)
   execSync('npm publish', {
     cwd: pkgDir,
