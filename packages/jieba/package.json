@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba",
-  "version": "0.4.0-alpha.1",
+  "version": "0.4.0",
   "description": "Fastest Chinese word segmentation in NodeJS",
   "keywords": ["Jieba", "Rust", "node-rs", "napi", "napi-rs", "N-API"],
   "author": "LongYinan <lynweklm@gmail.com>",
