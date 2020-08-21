@@ -23,8 +23,8 @@
   },
   "scripts": {
     "bench": "cross-env NODE_ENV=production node benchmark/jieba.js",
-    "build": "napi --release ./jieba",
-    "build:debug": "napi ./jieba"
+    "build": "napi build --platform --release ./jieba",
+    "build:debug": "napi build --platform ./jieba"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"

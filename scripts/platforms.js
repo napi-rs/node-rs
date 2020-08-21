@@ -1,1 +1,1 @@
-module.exports = ['linux', 'musl', 'darwin', 'win32']
+module.exports = ['linux', 'linux-musl', 'darwin', 'win32']

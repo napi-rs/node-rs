@@ -6,8 +6,8 @@
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
-  "main": "deno-lint.musl.node",
-  "files": ["deno-lint.musl.node"],
+  "main": "deno-lint.linux-musl.node",
+  "files": ["deno-lint.linux-musl.node"],
   "os": ["linux"],
   "cpu": ["x64"],
   "engines": {

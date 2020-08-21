@@ -136,8 +136,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: bindings-musl
-          path: packages/*/*.musl.node
+          name: bindings-linux-musl
+          path: packages/**/*.node
 
   test_binding:
     name: Test bindings on ${{ matrix.os }} - node@${{ matrix.node }}
@@ -195,7 +195,6 @@ jobs:
   test_musl_binding:
     name: Test bindings on alpine - node@${{ matrix.node }}
     needs:
-      - lint_and_build
       - build_musl
     strategy:
       fail-fast: false
@@ -209,14 +208,14 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          name: bindings-musl
+          name: bindings-linux-musl
           path: artifacts
 
       - name: Move artifacts
         run: node scripts/mv-artifacts.js
         shell: bash
         env:
-          MOVE_TARGET: musl
+          MOVE_TARGET: linux-musl
 
       - name: List packages
         run: ls -R packages
