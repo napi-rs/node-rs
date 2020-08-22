@@ -18,7 +18,7 @@ export function loadBinding(dirname: string, filename = 'index') {
     try {
       return require(bindingFilePath)
     } catch {
-      return require(join(dirname, `${filename}.musl.node`))
+      return require(join(dirname, `${filename}.linux-musl.node`))
     }
   }
 
