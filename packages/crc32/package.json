@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "SIMD crc32",
   "keywords": ["SIMD", "NAPI", "napi-rs", "node-rs", "crc32", "crc32c"],
   "author": "LongYinan <lynweklm@gmail.com>",
@@ -30,7 +30,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "dependencies": {
-    "@node-rs/helper": "^0.2.1"
+    "@node-rs/helper": "^0.3.0"
   },
   "devDependencies": {
     "@types/crc": "^3.4.0",
