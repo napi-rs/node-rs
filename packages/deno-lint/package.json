@@ -44,7 +44,7 @@
   },
   "optionalDependencies": {
     "@node-rs/deno-lint-darwin": "^0.2.0",
-    "@node-rs/deno-lint-linux": "^0.1.0",
+    "@node-rs/deno-lint-linux": "^0.2.0",
     "@node-rs/deno-lint-win32": "^0.2.0"
   }
 }
