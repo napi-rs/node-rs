@@ -971,10 +971,10 @@
   resolved "https://registry.yarnpkg.com/@node-rs/deno-lint-darwin/-/deno-lint-darwin-0.2.0.tgz#b61c32ab649f52d6f281d29a8aab469d98a9e79d"
   integrity sha512-Ja0IlDkpPcYKEF4Uj48TpY+W4bcu88eEUNZFc2exa2qEE7pJAFNpfzfqwW6kVJr3DkkonnPb/Mso7pH0Qe4pvw==
 
-"@node-rs/deno-lint-linux@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@node-rs/deno-lint-linux/-/deno-lint-linux-0.1.0.tgz#ca849a63ded6458322b06bbe397f467887c13b63"
-  integrity sha512-HiqucOLjZ5uPPqm8b13mgAWe7w31DNeTASydOUbr+bxRlcCqtZ4PIs37Ly28RHYGmU+IEZrW6EvHD0Ky0aVOhQ==
+"@node-rs/deno-lint-linux@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@node-rs/deno-lint-linux/-/deno-lint-linux-0.2.0.tgz#7aa17c000d143ceb6bfad2ec240a94e84e5ce237"
+  integrity sha512-gFUG4AZfmbMTMSdJbI+srSd9f5groznXXM1GqOejsKqdEgm+4os6GtSsmUDoFJWCLVbtX4KtlyYJoUJFyFPE6A==
 
 "@node-rs/deno-lint-win32@^0.2.0":
   version "0.2.0"
