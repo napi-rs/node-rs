@@ -966,10 +966,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@node-rs/deno-lint-darwin@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@node-rs/deno-lint-darwin/-/deno-lint-darwin-0.1.0.tgz#3660f2c5d09cb525e7ca194260a041ece6ac25fe"
-  integrity sha512-oyb+HmDSFOC8pdPgNg1viRFEmgCXduaepPxHSnCTE/OMe9y95PunV+YShveo1EZJSj5fbxjPkiVkH/R6WCRfBg==
+"@node-rs/deno-lint-darwin@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@node-rs/deno-lint-darwin/-/deno-lint-darwin-0.2.0.tgz#b61c32ab649f52d6f281d29a8aab469d98a9e79d"
+  integrity sha512-Ja0IlDkpPcYKEF4Uj48TpY+W4bcu88eEUNZFc2exa2qEE7pJAFNpfzfqwW6kVJr3DkkonnPb/Mso7pH0Qe4pvw==
 
 "@node-rs/deno-lint-linux@^0.1.0":
   version "0.1.0"
