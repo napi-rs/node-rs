@@ -169,6 +169,9 @@ jobs:
       - name: 'Install dependencies'
         run: yarn install --frozen-lockfile --registry https://registry.npmjs.org
 
+      - name: Build TypeScript
+        run: yarn build:ts
+
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
@@ -181,9 +184,6 @@ jobs:
 
       - name: Test bindings
         run: yarn test
-
-      - name: Build TypeScript
-        run: yarn build:ts
 
       - name: List packages
         run: ls -R packages
