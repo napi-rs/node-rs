@@ -94,9 +94,18 @@ jobs:
           args: -p node-rs-bcrypt --lib -- --nocapture
 
       - name: Run build
+        if: matrix.os != 'macos-latest'
         run: |
           cargo build --release
           npx lerna run build --stream -- --platform
+
+      - name: Run build
+        if: matrix.os == 'macos-latest'
+        run: |
+          cargo build --release
+          npx lerna run build --stream -- --platform
+        env:
+          MACOSX_DEPLOYMENT_TARGET: '10.13'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2

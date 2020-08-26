@@ -8,7 +8,7 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = { version = "0.4"}
+napi = { version = "0.4" }
 napi-derive = { version = "0.4.2" }
 crc32fast = "1.2"
 
