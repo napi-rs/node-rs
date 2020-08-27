@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-darwin",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Deno lint binding for NodeJS",
   "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
   "author": "LongYinan <lynweklm@gmail.com>",
