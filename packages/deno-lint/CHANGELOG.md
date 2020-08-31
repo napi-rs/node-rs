@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@0.3.0...@node-rs/deno-lint@0.4.1) (2020-08-31)
+
+### Bug Fixes
+
+- **deno-lint:** remove debug print ([9be8e9a](https://github.com/napi-rs/node-rs/commit/9be8e9aa2bc0b594e072df0141ab95791ef53553))
+
+### Features
+
+- **deno-lint:** respect .denolintignore file ([5e2f12a](https://github.com/napi-rs/node-rs/commit/5e2f12af23bdb79beefc187d025d6d57041599f1))
+
 # [0.4.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@0.3.0...@node-rs/deno-lint@0.4.0) (2020-08-31)
 
 ### Features
