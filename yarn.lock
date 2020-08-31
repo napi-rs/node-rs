@@ -1194,10 +1194,10 @@
   resolved "https://registry.npmjs.org/@swc-node/core-darwin/-/core-darwin-0.5.0.tgz#7121aefcd6b93a757cc62d2fe7428f8538e9b788"
   integrity sha512-KvU61r0V5DYdLsFc2pmR7XS55KRga40PQWDBFb+mfKkxabkwXOJOlEqp+aOwio3d4DAShI+tfii1IK4tM0yEBg==
 
-"@swc-node/core-linux-musl@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.npmjs.org/@swc-node/core-linux-musl/-/core-linux-musl-0.5.0.tgz#af9ccd68e526d53453d3b3db53be86fc726d4972"
-  integrity sha512-gPFCLTR9hlmQT+ZtOoj1oi6nz0+48WDNeRaqyEA/0T2sSVck6SKWP+uWmVDiOuiVhRS9Xx9DBxxzkSvKHRUK3Q==
+"@swc-node/core-linux-musl@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@swc-node/core-linux-musl/-/core-linux-musl-0.6.0.tgz#b657cce9fc35dddbfb84305a52546d0ece327201"
+  integrity sha512-gOB6PxKs26ZWt4JHIvU4Le8Sht9Ob7t7n2UF7uWwsJ6idDE89SybvZBGfi8B/AKrP2ZQPMi1wNOJABTu8O7ZUw==
 
 "@swc-node/core-linux@^0.5.0":
   version "0.5.0"
