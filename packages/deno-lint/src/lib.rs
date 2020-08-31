@@ -224,7 +224,6 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
         if !p.is_dir() {
           let file_content = fs::read_to_string(&p)
             .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
-          println!("{:?}", &p);
           let mut linter = LinterBuilder::default()
             .rules(if enable_all_rules {
               get_all_rules()
