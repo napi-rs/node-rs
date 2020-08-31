@@ -13,7 +13,6 @@ use deno_lint::diagnostic::LintDiagnostic;
 use deno_lint::linter::LinterBuilder;
 use deno_lint::rules::{get_all_rules, get_recommended_rules};
 use deno_lint::swc_util::get_default_ts_config;
-use ignore::overrides::OverrideBuilder;
 use ignore::types::TypesBuilder;
 use ignore::WalkBuilder;
 use napi::{CallContext, Error, JsBoolean, JsBuffer, JsObject, JsString, Module, Result, Status};
@@ -173,6 +172,10 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
 
   eslint_ignore_file.push(".eslintignore");
 
+  let mut denolint_ignore_file = cwd.clone();
+
+  denolint_ignore_file.push(".denolintignore");
+
   let mut type_builder = TypesBuilder::new();
 
   type_builder
@@ -189,27 +192,28 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
     .build()
     .map_err(|e| Error::from_reason(format!("{}", e)))?;
 
-  let override_ignore = match fs::File::open(&eslint_ignore_file) {
-    Ok(_) => OverrideBuilder::new(eslint_ignore_file)
-      .build()
-      .map_err(|e| {
-        Error::from_reason(format!(
-          "Create ignore rules from .eslintignore file failed {}",
-          e
-        ))
-      })?,
-    Err(_) => OverrideBuilder::new(__dirname.as_str()?)
-      .build()
-      .map_err(|e| {
-        Error::from_reason(format!(
-          "Create ignore rules from .defaultignore file failed {}",
-          e
-        ))
-      })?,
+  let ignore_file_path = match fs::File::open(&denolint_ignore_file) {
+    Ok(_) => denolint_ignore_file
+      .as_path()
+      .to_str()
+      .ok_or(Error::from_reason(format!(
+        "Convert path to string failed: {:?}",
+        &denolint_ignore_file
+      )))?,
+    Err(_) => match fs::File::open(&eslint_ignore_file) {
+      Ok(_) => eslint_ignore_file
+        .as_path()
+        .to_str()
+        .ok_or(Error::from_reason(format!(
+          "Convert path to string failed: {:?}",
+          &eslint_ignore_file
+        )))?,
+      Err(_) => __dirname.as_str()?,
+    },
   };
 
   for result in WalkBuilder::new(cwd)
-    .overrides(override_ignore)
+    .add_custom_ignore_filename(ignore_file_path)
     .types(types)
     .follow_links(true)
     .build()
@@ -220,6 +224,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
         if !p.is_dir() {
           let file_content = fs::read_to_string(&p)
             .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
+          println!("{:?}", &p);
           let mut linter = LinterBuilder::default()
             .rules(if enable_all_rules {
               get_all_rules()
