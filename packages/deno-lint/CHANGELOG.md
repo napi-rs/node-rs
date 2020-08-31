@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@0.4.1...@node-rs/deno-lint@0.4.2) (2020-08-31)
+
+### Bug Fixes
+
+- **deno-lint:** add tsx: true when path endsWith .tsx ([b1e5502](https://github.com/napi-rs/node-rs/commit/b1e5502851f78469d15e7ad9b0d4deb3c87e2f59))
+
 ## [0.4.1](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@0.3.0...@node-rs/deno-lint@0.4.1) (2020-08-31)
 
 ### Bug Fixes
