@@ -42,7 +42,6 @@
     "nyc": "^15.1.0",
     "prettier": "^2.1.1",
     "putasset": "^5.0.3",
-    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.0.2"
   },
   "optionalDependencies": {
@@ -50,7 +49,7 @@
   },
   "ava": {
     "extensions": ["ts"],
-    "require": ["@swc-node/register", "tsconfig-paths/register"],
+    "require": ["@swc-node/register"],
     "files": ["packages/**/*.spec.ts"]
   },
   "lint-staged": {

@@ -6,7 +6,7 @@ const { hashSync } = require('bcrypt')
 
 const fx = Buffer.from('bcrypt-test-password')
 
-const hashedPassword = hashSync(fx)
+const hashedPassword = hashSync(fx.toString('utf8'), 10)
 
 test('verifySync hashed password from bcrypt should be true', (t) => {
   t.true(verifySync(fx, hashedPassword))
