@@ -2,7 +2,9 @@
 
 const { binding } = require('@node-rs/deno-lint')
 
-const enableAllRules = process.argv.includes('--all') || process.argv.includes('-a')
+const { argv } = process
+
+const enableAllRules = argv.includes('--all') || argv.includes('-a')
 
 const hasError = binding.denolint(__dirname, enableAllRules)
 

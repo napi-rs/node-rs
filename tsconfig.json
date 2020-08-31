@@ -19,7 +19,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "suppressExcessPropertyErrors": true,
     "forceConsistentCasingInFileNames": true,
-    "target": "ES5",
+    "target": "ES2018",
     "inlineSourceMap": true,
     "esModuleInterop": true,
     "stripInternal": true,

@@ -16,6 +16,8 @@ use deno_lint::swc_util::get_default_ts_config;
 use ignore::types::TypesBuilder;
 use ignore::WalkBuilder;
 use napi::{CallContext, Error, JsBoolean, JsBuffer, JsObject, JsString, Module, Result, Status};
+use swc_ecmascript::parser::Syntax;
+use swc_ecmascript::parser::TsConfig;
 use termcolor::Color::{Ansi256, Red};
 use termcolor::{Ansi, ColorSpec, WriteColor};
 
@@ -224,6 +226,12 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
         if !p.is_dir() {
           let file_content = fs::read_to_string(&p)
             .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
+
+          let mut ts_config = TsConfig::default();
+          ts_config.dynamic_import = true;
+          ts_config.decorators = true;
+          ts_config.tsx = p.ends_with(".tsx");
+          Syntax::Typescript(ts_config);
           let mut linter = LinterBuilder::default()
             .rules(if enable_all_rules {
               get_all_rules()
