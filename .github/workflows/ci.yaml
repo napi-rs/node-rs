@@ -1,4 +1,6 @@
 name: CI
+env:
+  DEBUG: 'napi:*'
 
 on:
   push:
@@ -188,7 +190,7 @@ jobs:
           path: artifacts
 
       - name: Move artifacts
-        run: node scripts/mv-artifacts.js
+        run: yarn artifacts
         shell: bash
 
       - name: Test bindings
@@ -214,6 +216,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: 'Install dependencies'
+        run: yarn install --frozen-lockfile --ignore-scripts --registry https://registry.npmjs.org
+
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
@@ -221,17 +226,11 @@ jobs:
           path: artifacts
 
       - name: Move artifacts
-        run: node scripts/mv-artifacts.js
-        shell: bash
-        env:
-          MOVE_TARGET: linux-musl
+        run: yarn artifacts
 
       - name: List packages
         run: ls -R packages
         shell: bash
-
-      - name: 'Install dependencies'
-        run: yarn install --frozen-lockfile --ignore-scripts --registry https://registry.npmjs.org
 
       - name: Build TypeScript
         run: yarn build:ts
@@ -287,18 +286,10 @@ jobs:
         shell: bash
 
       - name: Move artifacts
-        run: node scripts/mv-artifacts.js
-        env:
-          MOVE_TARGET: all
+        run: yarn artifacts
 
       - name: Build TypeScript
         run: yarn build:ts
-
-      - name: Upload artifacts to Github release
-        run: |
-          node scripts/upload-to-release.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: List packages
         run: ls -R packages
@@ -310,3 +301,4 @@ jobs:
           npx lerna publish from-package --no-verify-access --yes
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

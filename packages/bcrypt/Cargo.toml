@@ -11,13 +11,16 @@ crate-type = ["cdylib"]
 radix64 = "0.6"
 blowfish = { version = "0.6", features = ["bcrypt"] }
 byteorder = "1"
-napi = { version = "0.4"}
-napi-derive = { version = "0.4.2" }
+napi = { version = "0.5" }
+napi-derive = { version = "0.5" }
 rand = "0.7"
 phf = { version = "0.8", features = ["macros"] }
 
 [target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
 jemallocator = { version = "0.3", features = ["disable_initial_exec_tls"] }
+
+[target.'cfg(windows)'.dependencies]
+mimalloc = { version = "0.1" }
 
 [dev-dependencies]
 quickcheck = "0.9"

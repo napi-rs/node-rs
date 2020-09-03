@@ -12,6 +12,10 @@ use std::convert::TryInto;
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
+#[cfg(windows)]
+#[global_allocator]
+static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 mod bytes;
 mod crc32;
 mod crc32_table;

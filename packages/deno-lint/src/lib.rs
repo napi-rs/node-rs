@@ -28,6 +28,10 @@ use termcolor::{BufferWriter, ColorChoice};
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
+#[cfg(windows)]
+#[global_allocator]
+static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 register_module!(denolint, init);
 
 #[allow(unused)]
@@ -214,8 +218,8 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
   let mut result = ctx.env.create_array_with_length(file_diagnostics.len())?;
 
   for (index, diagnostic) in file_diagnostics.iter().enumerate() {
-    result.set_number_indexed_property(
-      ctx.env.create_int32(index as i32)?,
+    result.set_element(
+      index as _,
       ctx
         .env
         .create_string(format_diagnostic(diagnostic, source_string).as_str())?,
