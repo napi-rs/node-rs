@@ -8,13 +8,13 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-deno_lint = "=0.1.26"
+deno_lint = "=0.1.28"
 ignore = "0.4"
 napi = { version = "0.4" }
 napi-derive = { version = "0.4" }
 serde = "1"
 serde_json = "1"
-swc_ecmascript = { version = "=0.6.3", features = ["parser", "transforms", "utils", "visit"] }
+swc_ecmascript = { version = "=0.7.0", features = ["parser", "transforms", "utils", "visit"] }
 termcolor = "1.1"
 
 [target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]

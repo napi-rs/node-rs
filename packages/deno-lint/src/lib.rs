@@ -54,6 +54,12 @@ fn cyan(s: String) -> impl fmt::Display {
   style(&s, style_spec)
 }
 
+fn bold(s: String) -> impl fmt::Display {
+  let mut style_spec = ColorSpec::new();
+  style_spec.set_bold(true);
+  style(&s, style_spec)
+}
+
 fn style(s: &str, colorspec: ColorSpec) -> impl fmt::Display {
   let mut v = Vec::new();
   let mut ansi_writer = Ansi::new(&mut v);
@@ -63,7 +69,7 @@ fn style(s: &str, colorspec: ColorSpec) -> impl fmt::Display {
   String::from_utf8_lossy(&v).into_owned()
 }
 
-pub fn format_diagnostic(diagnostic: &LintDiagnostic) -> String {
+pub fn format_diagnostic(diagnostic: &LintDiagnostic, source: &str) -> String {
   let pretty_error = format!(
     "({}) {}",
     gray(diagnostic.code.to_string()),
@@ -78,35 +84,96 @@ pub fn format_diagnostic(diagnostic: &LintDiagnostic) -> String {
       format!("./{}", file_name)
     };
 
-  let line_str_len = diagnostic.location.line.to_string().len();
+  let line_str_len = diagnostic.range.end.line.to_string().len();
   let pretty_location = cyan(format!(
     "{}--> {}:{}:{}",
     " ".repeat(line_str_len),
     location,
-    diagnostic.location.line,
-    diagnostic.location.col
+    diagnostic.range.start.line,
+    diagnostic.range.start.col
   ))
   .to_string();
 
   let dummy = format!("{} |", " ".repeat(line_str_len));
-  let pretty_line_src = format!("{} | {}", diagnostic.location.line, diagnostic.line_src);
-  let red_glyphs = format!(
-    "{} | {}{}",
-    " ".repeat(line_str_len),
-    " ".repeat(diagnostic.location.col),
-    red("^".repeat(diagnostic.snippet_length))
-  );
 
-  let lines = vec![
-    pretty_error,
-    pretty_location,
-    dummy.clone(),
-    pretty_line_src,
-    red_glyphs,
-    dummy,
-  ];
+  if diagnostic.range.start.line == diagnostic.range.end.line {
+    let snippet_length = diagnostic.range.end.col - diagnostic.range.start.col;
+    let source_lines: Vec<&str> = source.split('\n').collect();
+    let line = source_lines[diagnostic.range.start.line - 1];
+    let pretty_line_src = format!("{} | {}", diagnostic.range.start.line, line);
+    let red_glyphs = format!(
+      "{} | {}{}",
+      " ".repeat(line_str_len),
+      " ".repeat(diagnostic.range.start.col),
+      red("^".repeat(snippet_length))
+    );
 
-  lines.join("\n")
+    let lines = vec![
+      pretty_error,
+      pretty_location,
+      dummy.clone(),
+      pretty_line_src,
+      red_glyphs,
+      dummy,
+    ];
+
+    lines.join("\n")
+  } else {
+    let mut lines = vec![pretty_error, pretty_location, dummy.clone()];
+    let source_lines: Vec<&str> = source.split('\n').collect();
+
+    for i in diagnostic.range.start.line..(diagnostic.range.end.line + 1) {
+      let line = source_lines[i - 1];
+      let is_first = i == diagnostic.range.start.line;
+      let is_last = i == diagnostic.range.end.line;
+
+      if is_first {
+        let (rest, snippet) = line.split_at(diagnostic.range.start.col);
+        lines.push(format!("{} |   {}{}", i, rest, bold(snippet.to_string())));
+      } else if is_last {
+        let (snippet, rest) = line.split_at(diagnostic.range.end.col);
+        lines.push(format!(
+          "{} | {} {}{}",
+          i,
+          red("|".to_string()),
+          bold(snippet.to_string()),
+          rest
+        ));
+      } else {
+        lines.push(format!(
+          "{} | {} {}",
+          i,
+          red("|".to_string()),
+          bold(line.to_string())
+        ));
+      }
+
+      // If this is the first line, render the ∨ symbols
+      if is_first {
+        lines.push(format!(
+          "{} |  {}{}",
+          " ".repeat(line_str_len),
+          red("_".repeat(diagnostic.range.start.col + 1)),
+          red("^".to_string())
+        ));
+      }
+
+      // If this is the last line, render the ∨ symbols
+      if is_last {
+        lines.push(format!(
+          "{} | {}{}{}",
+          " ".repeat(line_str_len),
+          red("|".to_string()),
+          red("_".repeat(diagnostic.range.end.col)),
+          red("^".to_string())
+        ));
+      }
+    }
+
+    lines.push(dummy);
+
+    lines.join("\n")
+  }
 }
 
 fn init(js_module: &mut Module) -> Result<()> {
@@ -151,7 +218,7 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
       ctx.env.create_int32(index as i32)?,
       ctx
         .env
-        .create_string(format_diagnostic(diagnostic).as_str())?,
+        .create_string(format_diagnostic(diagnostic, source_string).as_str())?,
     )?;
   }
 
@@ -248,7 +315,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
                   &p
                 )))?
                 .to_owned(),
-              file_content,
+              file_content.clone(),
             )
             .map_err(|e| Error {
               status: Status::GenericFailure,
@@ -256,7 +323,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
             })?;
           for diagnostic in file_diagnostics {
             has_error = true;
-            println!("{}", format_diagnostic(&diagnostic));
+            println!("{}", format_diagnostic(&diagnostic, file_content.as_str()));
           }
         }
       }
