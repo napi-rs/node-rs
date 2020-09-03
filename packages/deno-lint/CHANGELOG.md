@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@0.4.2...@node-rs/deno-lint@0.5.0) (2020-09-03)
+
+### Features
+
+- **deno-lint:** upgrade deno_lint swc ([5aff9ab](https://github.com/napi-rs/node-rs/commit/5aff9ab0986e5274f60d73148f6bc194112d036a))
+
 ## [0.4.2](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@0.4.1...@node-rs/deno-lint@0.4.2) (2020-08-31)
 
 ### Bug Fixes
