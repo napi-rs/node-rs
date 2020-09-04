@@ -8,8 +8,12 @@
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "*.node", "LICENSE", "LICENSE.rust-bcrypt"],
+  "files": ["index.js", "index.d.ts", "LICENSE", "LICENSE.rust-bcrypt"],
   "os": ["darwin", "linux", "win32"],
+  "napi": {
+    "name": "bcrypt",
+    "musl": ["linux"]
+  },
   "engines": {
     "node": ">= 8.9"
   },
@@ -23,8 +27,10 @@
   },
   "scripts": {
     "bench": "cross-env NODE_ENV=production node benchmark/bcrypt.js",
-    "build": "napi build --platform --release ./bcrypt",
-    "build:debug": "napi build --platform ./bcrypt"
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform",
+    "prepublishOnly": "napi prepublish",
+    "version": "napi version"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"

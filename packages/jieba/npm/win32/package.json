@@ -1,0 +1,37 @@
+{
+  "name": "@node-rs/jieba-win32",
+  "version": "0.5.1",
+  "os": [
+    "win32"
+  ],
+  "main": "jieba.win32.node",
+  "files": [
+    "jieba.win32.node"
+  ],
+  "description": "Fastest Chinese word segmentation in NodeJS",
+  "keywords": [
+    "Jieba",
+    "Rust",
+    "node-rs",
+    "napi",
+    "napi-rs",
+    "N-API"
+  ],
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "homepage": "https://github.com/napi-rs/node-rs",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 8.9"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/napi-rs/node-rs/issues"
+  }
+}

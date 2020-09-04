@@ -16,6 +16,10 @@ use std::str;
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
+#[cfg(windows)]
+#[global_allocator]
+static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 register_module!(test_module, init);
 
 static JIEBA: OnceCell<Jieba> = OnceCell::new();
@@ -165,7 +169,7 @@ fn extract(ctx: CallContext) -> Result<JsObject> {
     let mut tag_value = ctx.env.create_object()?;
     tag_value.set_named_property("keyword", ctx.env.create_string(t.keyword.as_str())?)?;
     tag_value.set_named_property("weight", ctx.env.create_double(t.weight)?)?;
-    js_tags.set_index(index, tag_value)?;
+    js_tags.set_element(index as _, tag_value)?;
   }
 
   Ok(js_tags)

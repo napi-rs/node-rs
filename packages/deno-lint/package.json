@@ -2,7 +2,16 @@
   "name": "@node-rs/deno-lint",
   "version": "0.5.0",
   "description": "Deno lint binding for NodeJS",
-  "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
+  "keywords": [
+    "Deno",
+    "Lint",
+    "ESLint",
+    "node-rs",
+    "napi",
+    "N-API",
+    "Rust",
+    "napi-rs"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
@@ -11,9 +20,27 @@
     "denolint": "./bin.js"
   },
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "bin.js", "webpack-loader.js", "LICENSE"],
-  "os": ["darwin", "linux", "win32"],
-  "cpu": ["x64"],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "bin.js",
+    "webpack-loader.js",
+    "LICENSE"
+  ],
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "napi": {
+    "name": "deno-lint",
+    "musl": [
+      "linux"
+    ]
+  },
   "engines": {
     "node": ">= 8.9"
   },
@@ -27,10 +54,10 @@
   },
   "scripts": {
     "bench": "cross-env NODE_ENV=production node benchmark/lint.js",
-    "build": "napi build --platform --release ./deno-lint",
-    "build:debug": "napi build --platform ./deno-lint",
-    "prepublishOnly": "node ./publish.js",
-    "version": "node ./version.js"
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform",
+    "prepublishOnly": "napi prepublish",
+    "version": "napi version"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
