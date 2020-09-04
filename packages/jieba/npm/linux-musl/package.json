@@ -1,22 +1,11 @@
 {
   "name": "@node-rs/jieba-linux-musl",
-  "version": "0.5.1",
-  "os": [
-    "linux-musl"
-  ],
+  "version": "0.6.0",
+  "os": ["linux-musl"],
   "main": "jieba.linux-musl.node",
-  "files": [
-    "jieba.linux-musl.node"
-  ],
+  "files": ["jieba.linux-musl.node"],
   "description": "Fastest Chinese word segmentation in NodeJS",
-  "keywords": [
-    "Jieba",
-    "Rust",
-    "node-rs",
-    "napi",
-    "napi-rs",
-    "N-API"
-  ],
+  "keywords": ["Jieba", "Rust", "node-rs", "napi", "napi-rs", "N-API"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

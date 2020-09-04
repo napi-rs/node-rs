@@ -1,25 +1,11 @@
 {
   "name": "@node-rs/bcrypt-linux-musl",
-  "version": "0.4.1",
-  "os": [
-    "linux-musl"
-  ],
+  "version": "0.5.0",
+  "os": ["linux-musl"],
   "main": "bcrypt.linux-musl.node",
-  "files": [
-    "bcrypt.linux-musl.node"
-  ],
+  "files": ["bcrypt.linux-musl.node"],
   "description": "Rust bcrypt binding",
-  "keywords": [
-    "bcrypt",
-    "auth",
-    "password",
-    "authentication",
-    "encryption",
-    "crypto",
-    "N-API",
-    "napi-rs",
-    "node-rs"
-  ],
+  "keywords": ["bcrypt", "auth", "password", "authentication", "encryption", "crypto", "N-API", "napi-rs", "node-rs"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

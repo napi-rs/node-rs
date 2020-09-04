@@ -1,22 +1,11 @@
 {
   "name": "@node-rs/jieba-darwin",
-  "version": "0.5.1",
-  "os": [
-    "darwin"
-  ],
+  "version": "0.6.0",
+  "os": ["darwin"],
   "main": "jieba.darwin.node",
-  "files": [
-    "jieba.darwin.node"
-  ],
+  "files": ["jieba.darwin.node"],
   "description": "Fastest Chinese word segmentation in NodeJS",
-  "keywords": [
-    "Jieba",
-    "Rust",
-    "node-rs",
-    "napi",
-    "napi-rs",
-    "N-API"
-  ],
+  "keywords": ["Jieba", "Rust", "node-rs", "napi", "napi-rs", "N-API"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

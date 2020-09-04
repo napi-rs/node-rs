@@ -1,22 +1,11 @@
 {
   "name": "@node-rs/crc32-linux",
-  "version": "0.4.1",
-  "os": [
-    "linux"
-  ],
+  "version": "0.5.0",
+  "os": ["linux"],
   "main": "crc32.linux.node",
-  "files": [
-    "crc32.linux.node"
-  ],
+  "files": ["crc32.linux.node"],
   "description": "SIMD crc32",
-  "keywords": [
-    "SIMD",
-    "NAPI",
-    "napi-rs",
-    "node-rs",
-    "crc32",
-    "crc32c"
-  ],
+  "keywords": ["SIMD", "NAPI", "napi-rs", "node-rs", "crc32", "crc32c"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

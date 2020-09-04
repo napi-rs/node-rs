@@ -1,17 +1,8 @@
 {
   "name": "@node-rs/deno-lint",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Deno lint binding for NodeJS",
-  "keywords": [
-    "Deno",
-    "Lint",
-    "ESLint",
-    "node-rs",
-    "napi",
-    "N-API",
-    "Rust",
-    "napi-rs"
-  ],
+  "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
@@ -20,26 +11,12 @@
     "denolint": "./bin.js"
   },
   "typings": "index.d.ts",
-  "files": [
-    "index.js",
-    "index.d.ts",
-    "bin.js",
-    "webpack-loader.js",
-    "LICENSE"
-  ],
-  "os": [
-    "darwin",
-    "linux",
-    "win32"
-  ],
-  "cpu": [
-    "x64"
-  ],
+  "files": ["index.js", "index.d.ts", "bin.js", "webpack-loader.js", "LICENSE"],
+  "os": ["darwin", "linux", "win32"],
+  "cpu": ["x64"],
   "napi": {
     "name": "deno-lint",
-    "musl": [
-      "linux"
-    ]
+    "musl": ["linux"]
   },
   "engines": {
     "node": ">= 8.9"
@@ -63,7 +40,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "dependencies": {
-    "@node-rs/helper": "^0.3.1",
+    "@node-rs/helper": "^0.4.0",
     "loader-utils": "^2.0.0"
   },
   "devDependencies": {

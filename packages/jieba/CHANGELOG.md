@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/napi-rs/node-rs/compare/@node-rs/jieba@0.5.1...@node-rs/jieba@0.6.0) (2020-09-04)
+
+**Note:** Version bump only for package @node-rs/jieba
+
 # [0.4.0](https://github.com/napi-rs/node-rs/compare/@node-rs/jieba@0.4.0-alpha.1...@node-rs/jieba@0.4.0) (2020-08-18)
 
 ### Features
