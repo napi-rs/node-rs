@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 napi = { version = "0.4" }
-napi-derive = { version = "0.4.2" }
+napi-derive = { version = "0.5.0" }
 crc32fast = "1.2"
 
 [target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
