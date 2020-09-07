@@ -982,6 +982,13 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@node-rs/helper@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@node-rs/helper/-/helper-0.3.1.tgz#605d3fafb344a4b7b664236c9219ac3e1d72361b"
+  integrity sha512-3X6SJOcyFRYv1mjrjtSHiziJuzAsqaz2pFD3uuLxu4qJo4TH6H0gaUb1Bdxl/VtiDy2yR+eMyBOQFCvr/G2oLA==
+  dependencies:
+    tslib "^2.0.1"
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"
@@ -5396,9 +5403,9 @@ nanomatch@^1.2.9:
     to-regex "^3.0.1"
 
 napi-rs@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.npmjs.org/napi-rs/-/napi-rs-0.3.0.tgz#94304cf3004d33ec56809bc34cb5ae4ef72161dd"
-  integrity sha512-Vu0z5L17g62FS0Y/KtJ2pxKX9kms46dd1PMBjt5wxLqNlR66M/z3SiHlDXpuchPe6Ubs215ewc2xUc3eIoFRYw==
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/napi-rs/-/napi-rs-0.3.4.tgz#908a91f53cbb5318940df37ecc5b5b422949cedf"
+  integrity sha512-l6G9Fbn71IXca+LjepdJoWTJZ3MsM16RHkRQWrRBhbh3NLjY1zy5J2++4i1xmUawAglJWoizzhjB5zmyXmFtSQ==
   dependencies:
     "@octokit/rest" "^18.0.4"
     chalk "^4.1.0"
