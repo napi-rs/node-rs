@@ -3,7 +3,7 @@ extern crate napi;
 #[macro_use]
 extern crate napi_derive;
 
-use crate::crc32::{crc32c as native_crc32c, crc32c_append};
+use crate::crc32::crc32c_append;
 use crc32fast::Hasher;
 use napi::{CallContext, JsBuffer, JsNumber, Module, Result};
 use std::convert::TryInto;
@@ -31,24 +31,16 @@ fn init(module: &mut Module) -> Result<()> {
 #[js_function(2)]
 fn crc32c(ctx: CallContext) -> Result<JsNumber> {
   let input_data = ctx.get::<JsBuffer>(0)?;
-  let init_state = ctx.get::<JsNumber>(1);
-  let result = if init_state.is_ok() {
-    crc32c_append(&input_data, init_state?.try_into()?)
-  } else {
-    native_crc32c(&input_data)
-  };
+  let init_state = ctx.get::<JsNumber>(1)?;
+  let result = crc32c_append(&input_data, init_state.try_into()?);
   ctx.env.create_uint32(result)
 }
 
 #[js_function(2)]
 fn crc32(ctx: CallContext) -> Result<JsNumber> {
   let input_data = ctx.get::<JsBuffer>(0)?;
-  let init_state = ctx.get::<JsNumber>(1);
-  let mut hasher = if init_state.is_ok() {
-    Hasher::new_with_initial(init_state?.try_into()?)
-  } else {
-    Hasher::new()
-  };
+  let init_state = ctx.get::<JsNumber>(1)?;
+  let mut hasher = Hasher::new_with_initial(init_state.try_into()?);
   hasher.update(&input_data);
   ctx.env.create_uint32(hasher.finalize())
 }
