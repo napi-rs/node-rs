@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32-linux",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "os": ["linux"],
   "main": "crc32.linux.node",
   "files": ["crc32.linux.node"],
