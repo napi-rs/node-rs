@@ -1215,6 +1215,11 @@
   resolved "https://registry.npmjs.org/@swc-node/core-linux-musl/-/core-linux-musl-0.6.1.tgz#45e2e0b695f594df944f892e9f82a2ce77266bf1"
   integrity sha512-VcQ1kdeRw1D8/uMk90wHSMJmT41Tex8iytuGKBl/bVOZ5wPD9wA3Sz5ieMgt4CNiUtVITTlpyTJuQgO526W7Ug==
 
+"@swc-node/core-linux-musl@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@swc-node/core-linux-musl/-/core-linux-musl-0.7.2.tgz#10f8fcf03d56fc0a9f44c55a316709a2ca5924d3"
+  integrity sha512-8UIzwBDuVms3cAkWJgGbyFONEcICPL0t9lSw8LJkOAYtOtIodecPDF2CTWZQE9i/JgSJqt6zxfBrBMo9vY/A9Q==
+
 "@swc-node/core-linux@^0.7.2":
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/@swc-node/core-linux/-/core-linux-0.7.2.tgz#ac05546b4154269c4884595798dce78fdd839185"
