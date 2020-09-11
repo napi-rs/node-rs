@@ -50,6 +50,8 @@ js_crc32 for inputs 16931844B, avg 2066B x 22.12 ops/sec ±5.20% (40 runs sample
 
 ## API
 
+> The type of **input initial crc** and **output crc number** is `u32`
+
 ```ts
 export function crc32(input: Buffer, crc?: number): number
 export function crc32c(input: Buffer, crc?: number): number
