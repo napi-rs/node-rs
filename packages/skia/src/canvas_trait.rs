@@ -1,21 +1,24 @@
 use std::str::FromStr;
 
 use cssparser::RGBA;
-use euclid::default::{Point2D, Rect, Size2D, Transform2D, Vector2D};
+use euclid::default::{Point2D, Rect, Size2D, Transform2D};
 
 #[derive(Clone, Deserialize, Serialize)]
 #[serde(tag = "type")]
 pub enum Canvas2dMsg {
   Arc {
-    center: Point2D<f32>,
+    center_x: f32,
+    center_y: f32,
     radius: f32,
     start_angle: f32,
     end_angle: f32,
     from_end: bool,
   },
   ArcTo {
-    ctrl: Point2D<f32>,
-    to: Point2D<f32>,
+    ctrl_x: f32,
+    ctrl_y: f32,
+    to_x: f32,
+    to_y: f32,
     radius: f32,
   },
   BeginPath,
@@ -25,14 +28,18 @@ pub enum Canvas2dMsg {
     to: Point2D<f32>,
   },
   ClearRect {
-    rect: Rect<f32>,
+    x: f32,
+    y: f32,
+    w: f32,
+    h: f32,
   },
   Clip {
     fillrule: FillRule,
   },
   ClosePath,
   Ellipse {
-    center: Point2D<f32>,
+    center_x: f32,
+    center_y: f32,
     radius_x: f32,
     radius_y: f32,
     rotation: f32,

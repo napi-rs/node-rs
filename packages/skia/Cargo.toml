@@ -1,8 +1,8 @@
 [package]
-name = "skia"
-version = "0.1.0"
 authors = ["LongYinan <lynweklm@gmail.com>"]
 edition = "2018"
+name = "skia"
+version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -10,16 +10,16 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-cssparser = { version = "0.27", features = ["serde"] }
-euclid = { version = "0.20", features = ["serde"] }
-futures = { version = "0.3", features = ["default", "thread-pool"] }
-serde = "1.0"
-serde_json = "1.0"
-serde_derive = "1.0"
-skia-safe = { version = "0.27" }
-napi-rs = { version = "0.3" }
-napi-rs-derive = { version = "0.2" }
+cssparser = {version = "0.27", features = ["serde"]}
+euclid = {version = "0.22", features = ["serde"]}
+futures = {version = "0.3", features = ["default", "thread-pool"]}
+napi = {version = "0.5"}
+napi-derive = {version = "0.5"}
 once_cell = "1.4"
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
+skia-safe = {version = "0.33"}
 
 [build-dependencies]
-napi-build = { version = "0.1" }
+napi-build = {version = "0.2"}
