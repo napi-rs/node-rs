@@ -200,9 +200,6 @@ jobs:
         run: ls -R packages
         shell: bash
 
-      - name: Run benchmark
-        run: yarn bench
-
   test_musl_binding:
     name: Test bindings on alpine - node@${{ matrix.node }}
     needs:
