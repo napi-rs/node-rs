@@ -39,6 +39,7 @@
     "@node-rs/helper": "^0.4.0"
   },
   "devDependencies": {
-    "bcrypt": "^5.0.0"
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3"
   }
 }

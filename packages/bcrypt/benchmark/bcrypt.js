@@ -1,6 +1,7 @@
 const { cpus } = require('os')
 
 const { hashSync, hash, compare } = require('bcrypt')
+const { hashSync: hashSyncJs, hash: hashJs, compare: compareJs } = require('bcryptjs')
 const { Suite } = require('benchmark')
 const chalk = require('chalk')
 const { range } = require('lodash')
@@ -28,6 +29,14 @@ function runAsync(round) {
         defer: true,
         fn: (deferred) => {
           Promise.all(range(parallel).map(() => hash(password, round))).then(() => {
+            deferred.resolve()
+          })
+        },
+      })
+      .add('bcryptjs', {
+        defer: true,
+        fn: (deferred) => {
+          Promise.all(range(parallel).map(() => hashJs(password, round))).then(() => {
             deferred.resolve()
           })
         },
@@ -73,6 +82,15 @@ hashRounds
               })
             },
           })
+          .add({
+            name: 'bcryptjs',
+            defer: true,
+            fn: (deferred) => {
+              Promise.all(range(parallel).map(() => compareJs(password, hash))).then(() => {
+                deferred.resolve()
+              })
+            },
+          })
           .on('cycle', function (event) {
             event.target.hz = event.target.hz * parallel
             console.info(String(event.target))
@@ -93,6 +111,9 @@ hashRounds
         })
         .add('node bcrypt', () => {
           hashSync(password, round)
+        })
+        .add('bcryptjs', () => {
+          hashSyncJs(password, round)
         })
         .on('cycle', function (event) {
           console.info(String(event.target))
