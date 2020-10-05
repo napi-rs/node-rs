@@ -1169,9 +1169,9 @@
     "@octokit/plugin-request-log" "^1.0.0"
     "@octokit/plugin-rest-endpoint-methods" "3.17.0"
 
-"@octokit/rest@^18.0.5":
+"@octokit/rest@^18.0.6":
   version "18.0.6"
-  resolved "https://registry.npmjs.org/@octokit/rest/-/rest-18.0.6.tgz#76c274f1a68f40741a131768ef483f041e7b98b6"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-18.0.6.tgz#76c274f1a68f40741a131768ef483f041e7b98b6"
   integrity sha512-ES4lZBKPJMX/yUoQjAZiyFjei9pJ4lTTfb9k7OtYoUzKPDLl/M8jiHqt6qeSauyU4eZGLw0sgP1WiQl9FYeM5w==
   dependencies:
     "@octokit/core" "^3.0.0"
@@ -1205,7 +1205,7 @@
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@swc-node/core-linux-musl@^0.7.5", "@swc-node/core-linux-musl@^0.7.6":
+"@swc-node/core-linux-musl@^0.7.6":
   version "0.7.6"
   resolved "https://registry.npmjs.org/@swc-node/core-linux-musl/-/core-linux-musl-0.7.6.tgz#5237835c3b9a51970ca44943ec4eee65004329cd"
   integrity sha512-pF1Ngr0v2Xc4fsNdU10v1X2ypR1vjIm9eQtcHqahN7eN5udCrWeHEluA0ohgQxHpQkXA8MokNT8EF1fpSUnCuw==
@@ -2313,10 +2313,10 @@ cli-width@^3.0.0:
   resolved "https://registry.npmjs.org/cli-width/-/cli-width-3.0.0.tgz#a2f48437a2caa9a22436e794bf071ec9e61cedf6"
   integrity sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==
 
-clipanion@^2.5.0:
-  version "2.6.1"
-  resolved "https://registry.npmjs.org/clipanion/-/clipanion-2.6.1.tgz#2152b9745aa35cfb0353605c262f68a02257bde7"
-  integrity sha512-G03gaywe142VKNptEvr583Ju69p/O9QiwAKMYXKRAoU/ibN38KI1D/y0qwRxez3FWwO1GCxcXUWwHl4iG7GRXw==
+clipanion@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/clipanion/-/clipanion-2.6.2.tgz#820e7440812052442455b248f927b187ed732f71"
+  integrity sha512-0tOHJNMF9+4R3qcbBL+4IxLErpaYSYvzs10aXuECDbZdJOuJHdagJMAqvLdeaUQTI/o2uSCDRpet6ywDiKOAYw==
 
 cliui@^5.0.0:
   version "5.0.0"
@@ -5457,22 +5457,20 @@ nanomatch@^1.2.9:
     to-regex "^3.0.1"
 
 napi-rs@^0.3.8:
-  version "0.3.8"
-  resolved "https://registry.npmjs.org/napi-rs/-/napi-rs-0.3.8.tgz#f832fc7fdd261331fa3cfc2d6fb49a4d00cce79e"
-  integrity sha512-+6gE9HYhyAGERLdPW1SNMDM84o2CpPCb6QedX0eQGBP820e4EB1CXbTHbVn1f3QKh6yZ6AQMrOr0v0edu0i72Q==
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/napi-rs/-/napi-rs-0.3.9.tgz#65a2c69ceb569363780d59ff125ba1950b9a2999"
+  integrity sha512-wdJ0W+ciOLEcAzSE8y0BeBiKmHPcyexYorXzk1tn7zxTozncRUSNAmCRmNbUCM1F+GQaYdm5R+MaDx3qUn8sLw==
   dependencies:
-    "@octokit/rest" "^18.0.5"
+    "@octokit/rest" "^18.0.6"
     chalk "^4.1.0"
-    clipanion "^2.5.0"
-    debug "^4.1.1"
+    clipanion "^2.6.2"
+    debug "^4.2.0"
     fdir "^4.1.0"
     inquirer "^7.3.3"
     lodash "^4.17.20"
     putasset "^5.0.3"
     toml "^3.0.0"
     tslib "^2.0.1"
-  optionalDependencies:
-    "@swc-node/core-linux-musl" "^0.7.5"
 
 natural-compare@^1.4.0:
   version "1.4.0"
