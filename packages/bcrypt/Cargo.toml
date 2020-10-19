@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 radix64 = "0.6"
-blowfish = { version = "0.6", features = ["bcrypt"] }
+blowfish = { version = "0.7", features = ["bcrypt"] }
 byteorder = "1"
 napi = { version = "0.5" }
 napi-derive = { version = "0.5" }
