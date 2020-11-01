@@ -14,6 +14,7 @@ register_module!(canvas, init);
 
 mod canvas;
 mod canvas_trait;
+mod paint_state;
 
 const SEND_MSG_FN_NAME: &'static str = "sendMsg";
 const TO_PNG_METHOD: &'static str = "toPNG";

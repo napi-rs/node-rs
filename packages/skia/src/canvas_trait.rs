@@ -2,6 +2,7 @@ use std::str::FromStr;
 
 use cssparser::RGBA;
 use euclid::default::{Point2D, Rect, Size2D, Transform2D};
+use skia_safe::path::FillType;
 
 #[derive(Clone, Deserialize, Serialize)]
 #[serde(tag = "type")]
@@ -48,7 +49,7 @@ pub enum Canvas2dMsg {
     anticlockwise: bool,
   },
   Fill {
-    fillrule: FillRule,
+    fill_type: FillType,
   },
   FillText {
     text: String,

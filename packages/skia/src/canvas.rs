@@ -1,6 +1,6 @@
 use skia_safe::{
-  BlendMode, Color, Data, EncodedImageFormat, Matrix, Paint, PaintStyle, Path, PathDirection,
-  Point, Rect, Surface,
+  path::FillType, BlendMode, Color, Data, EncodedImageFormat, Matrix, Paint, PaintStyle, Path,
+  PathDirection, Point, Rect, Surface,
 };
 use std::f32::consts::PI;
 use std::mem;
@@ -134,7 +134,7 @@ impl Canvas {
   }
 
   #[inline]
-  pub fn fill(&mut self) {
+  pub fn fill(&mut self, fill_type: FillType, path: Option<Path>) {
     self.paint.set_style(PaintStyle::Fill);
     self.surface.canvas().draw_path(&self.path, &self.paint);
   }
