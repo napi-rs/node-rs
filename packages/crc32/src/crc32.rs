@@ -2,21 +2,23 @@ use crate::bytes;
 use crate::crc32_table::{TABLE, TABLE16};
 
 #[inline]
+#[allow(dead_code)]
 #[cfg(not(target_arch = "x86_64"))]
 pub fn crc32c(buf: &[u8]) -> u32 {
-  crc32c_slice16(buf)
+  append_crc32c_slice16(buf, 0)
 }
 
 /// Returns the CRC32 checksum of `buf` using the Castagnoli polynomial.
-#[inline]
+#[allow(dead_code)]
+#[inline(always)]
 #[cfg(target_arch = "x86_64")]
 pub fn crc32c(buf: &[u8]) -> u32 {
   if is_x86_feature_detected!("sse4.2") {
     // SAFETY: When sse42 is true, we are guaranteed to be running on
     // a CPU that supports SSE 4.2.
-    unsafe { crc32c_sse(buf) }
+    unsafe { append_crc32c_sse(buf, 0) }
   } else {
-    crc32c_slice16(buf)
+    append_crc32c_slice16(buf, 0)
   }
 }
 
@@ -37,12 +39,6 @@ pub fn crc32c_append(buf: &[u8], crc: u32) -> u32 {
   } else {
     append_crc32c_slice16(buf, crc)
   }
-}
-
-#[cfg(target_arch = "x86_64")]
-#[target_feature(enable = "sse4.2")]
-unsafe fn crc32c_sse(buf: &[u8]) -> u32 {
-  append_crc32c_sse(buf, 0)
 }
 
 #[cfg(target_arch = "x86_64")]
@@ -69,13 +65,7 @@ unsafe fn append_crc32c_sse(buf: &[u8], initial_crc: u32) -> u32 {
   !crc
 }
 
-/// Returns the CRC32 checksum of `buf` using the Castagnoli polynomial.
-#[inline]
-fn crc32c_slice16(buf: &[u8]) -> u32 {
-  append_crc32c_slice16(buf, 0)
-}
-
-#[inline]
+#[inline(always)]
 fn append_crc32c_slice16(mut buf: &[u8], initial_crc: u32) -> u32 {
   let mut crc = !initial_crc;
   while buf.len() >= 16 {

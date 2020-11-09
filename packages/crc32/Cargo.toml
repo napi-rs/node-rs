@@ -1,22 +1,22 @@
 [package]
-name = "node-rs-crc32"
-version = "0.1.0"
 authors = ["LongYinan <lynweklm@gmail.com>"]
 edition = "2018"
+name = "node-rs-crc32"
+version = "0.1.0"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = { version = "0.5" }
-napi-derive = { version = "0.5" }
 crc32fast = "1.2"
+napi = "1.0.0-alpha.0"
+napi-derive = "1.0.0-alpha.0"
 
-[target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
-jemallocator = { version = "0.3", features = ["disable_initial_exec_tls"] }
+[target.'cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))'.dependencies]
+jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
 
 [target.'cfg(windows)'.dependencies]
-mimalloc = { version = "0.1" }
+mimalloc = {version = "0.1"}
 
 [build-dependencies]
-napi-build = { version = "0.2" }
+napi-build = "1.0.0-alpha.0"

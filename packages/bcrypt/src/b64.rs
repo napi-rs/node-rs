@@ -173,7 +173,7 @@ pub fn decode(hash: &str) -> BcryptResult<Vec<u8>> {
   if hash.len() % 4 > 0 {
     let padding = 4 - hash.len() % 4;
     for _ in 0..padding {
-      res.push_str("=");
+      res.push('=');
     }
   }
 
@@ -197,7 +197,7 @@ mod tests {
   #[test]
   fn can_encode_to_bcrypt_base64() {
     let expected = "YETqZE6eb07wZEO";
-    assert_eq!(encode("hello world".as_bytes()), expected);
+    assert_eq!(encode(b"hello world"), expected);
   }
 
   #[test]

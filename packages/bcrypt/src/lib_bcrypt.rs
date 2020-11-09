@@ -11,6 +11,7 @@ pub use crate::errors::{BcryptError, BcryptResult};
 // Cost constants
 pub const MIN_COST: u32 = 4;
 pub const MAX_COST: u32 = 31;
+#[allow(dead_code)]
 const DEFAULT_COST: u32 = 12;
 
 #[derive(Debug, PartialEq)]
@@ -57,11 +58,13 @@ impl HashParts {
   }
 
   /// Get the bcrypt hash cost
+  #[allow(dead_code)]
   pub fn get_cost(&self) -> u32 {
     self.cost
   }
 
   /// Get the bcrypt hash salt
+  #[allow(dead_code)]
   pub fn get_salt(&self) -> String {
     self.salt.clone()
   }
@@ -197,6 +200,7 @@ pub fn hash_with_result<P: AsRef<[u8]>>(password: P, cost: u32) -> BcryptResult<
 
 /// Generates a password given a hash and a cost.
 /// The function returns a result structure and allows to format the hash in different versions.
+#[allow(dead_code)]
 pub fn hash_with_salt<P: AsRef<[u8]>>(
   password: P,
   cost: u32,
@@ -326,7 +330,7 @@ mod tests {
 
   #[test]
   fn generate_versions() {
-    let password = "hunter2".as_bytes();
+    let password = b"hunter2";
     let salt = vec![0; 16];
     let result = _hash_password(password, DEFAULT_COST, salt.as_slice()).unwrap();
     assert_eq!(
@@ -364,11 +368,11 @@ mod tests {
         )),
       }
     }
-    assert_invalid_password("\0".as_bytes());
-    assert_invalid_password("\0\0\0\0\0\0\0\0".as_bytes());
-    assert_invalid_password("passw0rd\0".as_bytes());
-    assert_invalid_password("passw0rd\0with tail".as_bytes());
-    assert_invalid_password("\0passw0rd".as_bytes());
+    assert_invalid_password(b"\0");
+    assert_invalid_password(b"\0\0\0\0\0\0\0\0");
+    assert_invalid_password(b"passw0rd\0");
+    assert_invalid_password(b"passw0rd\0with tail");
+    assert_invalid_password(b"\0passw0rd");
   }
 
   #[test]

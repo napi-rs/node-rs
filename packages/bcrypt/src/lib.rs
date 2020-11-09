@@ -1,21 +1,25 @@
-#[macro_use]
-extern crate napi;
+#![deny(clippy::all)]
+
 #[macro_use]
 extern crate napi_derive;
 
-use crate::lib_bcrypt::{format_salt, gen_salt, Version};
-use hash_task::HashTask;
-use napi::{
-  CallContext, Error, JsBoolean, JsBuffer, JsNumber, JsObject, JsString, Module, Result, Status,
-};
 use std::convert::TryInto;
 use std::str::FromStr;
-use verify_task::VerifyTask;
 
+use napi::{CallContext, Error, JsBoolean, JsBuffer, JsNumber, JsObject, JsString, Result, Status};
+
+use crate::hash_task::HashTask;
+use crate::lib_bcrypt::{format_salt, gen_salt, Version};
+use crate::verify_task::VerifyTask;
+
+mod b64;
+mod bcrypt;
+mod errors;
 mod hash_task;
+mod lib_bcrypt;
 mod verify_task;
 
-#[cfg(all(unix, not(target_env = "musl")))]
+#[cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))]
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
@@ -23,24 +27,13 @@ static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 #[global_allocator]
 static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
-mod b64;
-mod bcrypt;
-mod errors;
-mod lib_bcrypt;
-
-#[cfg(not(test))]
-register_module!(bcrypt, init);
-
-fn init(module: &mut Module) -> Result<()> {
-  module.create_named_method("hash", js_async_hash)?;
-
-  module.create_named_method("hashSync", js_hash)?;
-
-  module.create_named_method("genSalt", js_salt)?;
-
-  module.create_named_method("verifySync", js_verify)?;
-
-  module.create_named_method("verify", js_async_verify)?;
+#[module_exports]
+fn init(mut exports: JsObject) -> Result<()> {
+  exports.create_named_method("hash", js_async_hash)?;
+  exports.create_named_method("hashSync", js_hash)?;
+  exports.create_named_method("genSalt", js_salt)?;
+  exports.create_named_method("verifySync", js_verify)?;
+  exports.create_named_method("verify", js_async_verify)?;
 
   Ok(())
 }
@@ -48,7 +41,7 @@ fn init(module: &mut Module) -> Result<()> {
 #[js_function(2)]
 fn js_salt(ctx: CallContext) -> Result<JsString> {
   let round = ctx.get::<JsNumber>(0)?;
-  let version = ctx.get::<JsString>(1)?;
+  let version = ctx.get::<JsString>(1)?.into_utf8()?;
   let salt = gen_salt();
   let salt_string = format_salt(
     round.try_into()?,
@@ -60,7 +53,7 @@ fn js_salt(ctx: CallContext) -> Result<JsString> {
 
 #[js_function(2)]
 fn js_hash(ctx: CallContext) -> Result<JsString> {
-  let password = ctx.get::<JsBuffer>(0)?;
+  let password = ctx.get::<JsBuffer>(0)?.into_value()?;
   let cost = ctx.get::<JsNumber>(1)?;
   let result = HashTask::hash(&password, cost.try_into()?)?;
   ctx.env.create_string(result.as_str())
@@ -68,16 +61,16 @@ fn js_hash(ctx: CallContext) -> Result<JsString> {
 
 #[js_function(2)]
 fn js_async_hash(ctx: CallContext) -> Result<JsObject> {
-  let password = ctx.get::<JsBuffer>(0)?;
+  let password = ctx.get::<JsBuffer>(0)?.into_ref()?;
   let cost = ctx.get::<JsNumber>(1)?;
   let task = HashTask::new(password, cost.try_into()?);
-  ctx.env.spawn(task)
+  ctx.env.spawn(task).map(|t| t.promise_object())
 }
 
 #[js_function(2)]
 fn js_verify(ctx: CallContext) -> Result<JsBoolean> {
-  let password = ctx.get::<JsBuffer>(0)?;
-  let hash = ctx.get::<JsBuffer>(1)?;
+  let password = ctx.get::<JsBuffer>(0)?.into_value()?;
+  let hash = ctx.get::<JsBuffer>(1)?.into_value()?;
   let result = VerifyTask::verify(&password, &hash)
     .map_err(|e| Error::new(Status::GenericFailure, format!("{}", e)))?;
   ctx.env.get_boolean(result)
@@ -85,8 +78,8 @@ fn js_verify(ctx: CallContext) -> Result<JsBoolean> {
 
 #[js_function(2)]
 fn js_async_verify(ctx: CallContext) -> Result<JsObject> {
-  let password = ctx.get::<JsBuffer>(0)?;
-  let hash = ctx.get::<JsBuffer>(1)?;
+  let password = ctx.get::<JsBuffer>(0)?.into_ref()?;
+  let hash = ctx.get::<JsBuffer>(1)?.into_ref()?;
   let task = VerifyTask::new(password, hash);
-  ctx.env.spawn(task)
+  ctx.env.spawn(task).map(|t| t.promise_object())
 }

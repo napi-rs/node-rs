@@ -1,4 +1,3 @@
-use rand;
 use std::error;
 use std::fmt;
 use std::io;

@@ -1,5 +1,5 @@
-#[macro_use]
-extern crate napi;
+#![deny(clippy::all)]
+
 #[macro_use]
 extern crate napi_derive;
 
@@ -15,7 +15,7 @@ use deno_lint::linter::LinterBuilder;
 use deno_lint::rules::{get_all_rules, get_recommended_rules};
 use ignore::types::TypesBuilder;
 use ignore::WalkBuilder;
-use napi::{CallContext, Error, JsBoolean, JsBuffer, JsObject, JsString, Module, Result, Status};
+use napi::{CallContext, Error, JsBoolean, JsBuffer, JsObject, JsString, Result, Status};
 use swc_ecmascript::parser::Syntax;
 use swc_ecmascript::parser::TsConfig;
 use termcolor::Color::{Ansi256, Red};
@@ -24,15 +24,13 @@ use termcolor::{Ansi, ColorSpec, WriteColor};
 #[cfg(windows)]
 use termcolor::{BufferWriter, ColorChoice};
 
-#[cfg(all(unix, not(target_env = "musl")))]
+#[cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))]
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
 #[cfg(windows)]
 #[global_allocator]
 static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
-
-register_module!(denolint, init);
 
 #[allow(unused)]
 #[cfg(windows)]
@@ -180,17 +178,18 @@ pub fn format_diagnostic(diagnostic: &LintDiagnostic, source: &str) -> String {
   }
 }
 
-fn init(js_module: &mut Module) -> Result<()> {
-  js_module.create_named_method("lint", lint)?;
-  js_module.create_named_method("denolint", lint_command)?;
+#[module_exports]
+fn init(mut exports: JsObject) -> Result<()> {
+  exports.create_named_method("lint", lint)?;
+  exports.create_named_method("denolint", lint_command)?;
 
   Ok(())
 }
 
 #[js_function(3)]
 fn lint(ctx: CallContext) -> Result<JsObject> {
-  let file_name = ctx.get::<JsString>(0)?;
-  let source_code = ctx.get::<JsBuffer>(1)?;
+  let file_name = ctx.get::<JsString>(0)?.into_utf8()?;
+  let source_code = ctx.get::<JsBuffer>(1)?.into_value()?;
   let all_rules = ctx.get::<JsBoolean>(2)?;
   let mut linter = LinterBuilder::default()
     .rules(if all_rules.get_value()? {
@@ -231,7 +230,7 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
 
 #[js_function(2)]
 fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
-  let __dirname = ctx.get::<JsString>(0)?;
+  let __dirname = ctx.get::<JsString>(0)?.into_utf8()?;
   let enable_all_rules = ctx.get::<JsBoolean>(1)?.get_value()?;
   let mut has_error = false;
   let cwd = env::current_dir().map_err(|e| {
@@ -266,21 +265,19 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
     .map_err(|e| Error::from_reason(format!("{}", e)))?;
 
   let ignore_file_path = match fs::File::open(&denolint_ignore_file) {
-    Ok(_) => denolint_ignore_file
-      .as_path()
-      .to_str()
-      .ok_or(Error::from_reason(format!(
+    Ok(_) => denolint_ignore_file.as_path().to_str().ok_or_else(|| {
+      Error::from_reason(format!(
         "Convert path to string failed: {:?}",
         &denolint_ignore_file
-      )))?,
+      ))
+    })?,
     Err(_) => match fs::File::open(&eslint_ignore_file) {
-      Ok(_) => eslint_ignore_file
-        .as_path()
-        .to_str()
-        .ok_or(Error::from_reason(format!(
+      Ok(_) => eslint_ignore_file.as_path().to_str().ok_or_else(|| {
+        Error::from_reason(format!(
           "Convert path to string failed: {:?}",
           &eslint_ignore_file
-        )))?,
+        ))
+      })?,
       Err(_) => __dirname.as_str()?,
     },
   };
@@ -291,47 +288,44 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
     .follow_links(true)
     .build()
   {
-    match result {
-      Ok(entry) => {
-        let p = entry.path();
-        if !p.is_dir() {
-          let file_content = fs::read_to_string(&p)
-            .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
+    if let Ok(entry) = result {
+      let p = entry.path();
+      if !p.is_dir() {
+        let file_content = fs::read_to_string(&p)
+          .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
 
-          let mut ts_config = TsConfig::default();
-          ts_config.dynamic_import = true;
-          ts_config.decorators = true;
-          ts_config.tsx = p.ends_with(".tsx");
-          Syntax::Typescript(ts_config);
-          let mut linter = LinterBuilder::default()
-            .rules(if enable_all_rules {
-              get_all_rules()
-            } else {
-              get_recommended_rules()
-            })
-            .syntax(get_default_ts_config())
-            .build();
-          let (_, file_diagnostics) = linter
-            .lint(
-              (&p.to_str())
-                .ok_or(Error::from_reason(format!(
-                  "Convert path to string failed: {:?}",
-                  &p
-                )))?
-                .to_owned(),
-              file_content.clone(),
-            )
-            .map_err(|e| Error {
-              status: Status::GenericFailure,
-              reason: format!("Lint failed: {}, at: {:?}", e, &p),
-            })?;
-          for diagnostic in file_diagnostics {
-            has_error = true;
-            println!("{}", format_diagnostic(&diagnostic, file_content.as_str()));
-          }
+        let mut ts_config = TsConfig::default();
+        ts_config.dynamic_import = true;
+        ts_config.decorators = true;
+        ts_config.tsx = p.ends_with(".tsx");
+        let syntax = Syntax::Typescript(ts_config);
+        let mut linter = LinterBuilder::default()
+          .rules(if enable_all_rules {
+            get_all_rules()
+          } else {
+            get_recommended_rules()
+          })
+          .syntax(syntax)
+          .build();
+        let (_, file_diagnostics) = linter
+          .lint(
+            (&p.to_str())
+              .ok_or(Error::from_reason(format!(
+                "Convert path to string failed: {:?}",
+                &p
+              )))?
+              .to_owned(),
+            file_content.clone(),
+          )
+          .map_err(|e| Error {
+            status: Status::GenericFailure,
+            reason: format!("Lint failed: {}, at: {:?}", e, &p),
+          })?;
+        for diagnostic in file_diagnostics {
+          has_error = true;
+          println!("{}", format_diagnostic(&diagnostic, file_content.as_str()));
         }
       }
-      Err(_) => {}
     };
   }
 

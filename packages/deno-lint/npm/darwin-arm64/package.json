@@ -1,0 +1,27 @@
+{
+  "name": "@node-rs/deno-lint-darwin-arm64",
+  "version": "0.6.0",
+  "os": ["darwin"],
+  "cpu": ["arm64"],
+  "main": "deno-lint.darwin-arm64.node",
+  "files": ["deno-lint.darwin-arm64.node"],
+  "description": "Deno lint binding for NodeJS",
+  "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "homepage": "https://github.com/napi-rs/node-rs",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/napi-rs/node-rs/issues"
+  }
+}
