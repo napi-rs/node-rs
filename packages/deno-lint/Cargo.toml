@@ -8,7 +8,7 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-deno_lint = "=0.2.5"
+deno_lint = "=0.2.10"
 ignore = "0.4"
 napi = { version = "0.5" }
 napi-derive = { version = "0.5" }
