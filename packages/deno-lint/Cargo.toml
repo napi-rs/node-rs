@@ -14,7 +14,7 @@ napi = { version = "0.5" }
 napi-derive = { version = "0.5" }
 serde = "1"
 serde_json = "1"
-swc_ecmascript = { version = "=0.14.1", features = ["parser", "transforms", "utils", "visit"] }
+swc_ecmascript = { version = "=0.14.3", features = ["parser", "transforms", "utils", "visit"] }
 termcolor = "1.1"
 
 [target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
