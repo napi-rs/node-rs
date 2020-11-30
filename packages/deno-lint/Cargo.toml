@@ -1,27 +1,27 @@
 [package]
-name = "deno-lint"
-version = "0.1.0"
 authors = ["LongYinan <lynweklm@gmail.com>"]
 edition = "2018"
+name = "deno-lint"
+version = "0.1.0"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-deno_lint = "=0.2.5"
+deno_lint = "=0.2.12"
 ignore = "0.4"
-napi = { version = "0.5" }
-napi-derive = { version = "0.5" }
+napi = {version = "0.5"}
+napi-derive = {version = "0.5"}
 serde = "1"
 serde_json = "1"
-swc_ecmascript = { version = "=0.14.4", features = ["parser", "transforms", "utils", "visit"] }
+swc_ecmascript = {version = "=0.14.4", features = ["parser", "transforms", "utils", "visit"]}
 termcolor = "1.1"
 
 [target.'cfg(all(unix, not(target_env = "musl")))'.dependencies]
-jemallocator = { version = "0.3", features = ["disable_initial_exec_tls"] }
+jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
 
 [target.'cfg(windows)'.dependencies]
-mimalloc = { version = "0.1" }
+mimalloc = {version = "0.1"}
 
 [build-dependencies]
-napi-build = { version = "0.2" }
+napi-build = {version = "0.2"}

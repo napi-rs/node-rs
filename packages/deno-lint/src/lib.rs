@@ -9,10 +9,10 @@ use std::fs;
 use std::io::Write;
 use std::str;
 
+use deno_lint::ast_parser::get_default_ts_config;
 use deno_lint::diagnostic::LintDiagnostic;
 use deno_lint::linter::LinterBuilder;
 use deno_lint::rules::{get_all_rules, get_recommended_rules};
-use deno_lint::swc_util::get_default_ts_config;
 use ignore::types::TypesBuilder;
 use ignore::WalkBuilder;
 use napi::{CallContext, Error, JsBoolean, JsBuffer, JsObject, JsString, Module, Result, Status};
@@ -208,7 +208,7 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
 
   let file_name_ref = file_name.as_str()?;
 
-  let file_diagnostics = linter
+  let (_, file_diagnostics) = linter
     .lint(file_name_ref.to_owned(), source_string.to_owned())
     .map_err(|e| Error {
       status: Status::GenericFailure,
@@ -311,7 +311,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
             })
             .syntax(get_default_ts_config())
             .build();
-          let file_diagnostics = linter
+          let (_, file_diagnostics) = linter
             .lint(
               (&p.to_str())
                 .ok_or(Error::from_reason(format!(
