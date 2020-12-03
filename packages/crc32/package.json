@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32",
-  "version": "0.5.1",
+  "version": "1.0.0-alpha.0",
   "description": "SIMD crc32",
   "keywords": ["SIMD", "NAPI", "napi-rs", "node-rs", "crc32", "crc32c"],
   "author": "LongYinan <lynweklm@gmail.com>",
@@ -9,13 +9,15 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "files": ["index.js", "index.d.ts", "LICENSE", "COPYING"],
-  "os": ["darwin", "linux", "win32"],
   "napi": {
     "name": "crc32",
-    "musl": ["linux"]
+    "triples": {
+      "defaults": true,
+      "additional": ["x86_64-unknown-linux-musl", "aarch64-unknown-linux-gnu", "aarch64-apple-darwin"]
+    }
   },
   "engines": {
-    "node": ">= 8.9"
+    "node": ">= 10"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -26,6 +28,7 @@
     "url": "git+https://github.com/napi-rs/node-rs.git"
   },
   "scripts": {
+    "artifacts": "napi artifacts -d ../../artifacts",
     "bench": "cross-env NODE_ENV=production node benchmark/crc32.js",
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
@@ -36,11 +39,15 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "dependencies": {
-    "@node-rs/helper": "^0.4.0"
+    "@node-rs/helper": "^1.0.0-alpha.1"
   },
   "devDependencies": {
     "@types/crc": "^3.4.0",
     "crc": "^3.8.0",
     "sse4_crc32": "^6.0.1"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/Brooooooklyn"
   }
 }

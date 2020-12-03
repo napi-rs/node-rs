@@ -1,18 +1,15 @@
-use napi::{Env, Error, JsBuffer, JsString, Result, Status, Task};
+use napi::{Env, Error, JsBufferValue, JsString, Ref, Result, Status, Task};
 
 use crate::lib_bcrypt::hash;
 
 pub struct HashTask {
-  buf: &'static [u8],
+  buf: Ref<JsBufferValue>,
   cost: u32,
 }
 
 impl HashTask {
-  pub fn new(buf: JsBuffer, cost: u32) -> HashTask {
-    HashTask {
-      buf: buf.data,
-      cost,
-    }
+  pub fn new(buf: Ref<JsBufferValue>, cost: u32) -> HashTask {
+    HashTask { buf, cost }
   }
 
   #[inline]
@@ -26,10 +23,11 @@ impl Task for HashTask {
   type JsValue = JsString;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    Self::hash(self.buf, self.cost)
+    Self::hash(&self.buf, self.cost)
   }
 
-  fn resolve(&self, env: &mut Env, output: Self::Output) -> Result<Self::JsValue> {
+  fn resolve(self, env: Env, output: Self::Output) -> Result<Self::JsValue> {
+    self.buf.unref(env)?;
     env.create_string(output.as_str())
   }
 }

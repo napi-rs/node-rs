@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/helper",
-  "version": "0.4.0",
+  "version": "1.0.0-alpha.1",
   "description": "Helper library for node-rs",
   "keywords": ["N-API", "napi", "Rust", "Performance"],
   "author": "LongYinan <lynweklm@gmail.com>",
@@ -21,6 +21,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "dependencies": {
-    "tslib": "^2.0.1"
+    "@napi-rs/triples": "^1.0.1",
+    "tslib": "^2.0.3"
   }
 }
