@@ -2,7 +2,7 @@ const { platform } = require('os')
 
 const { loadBinding } = require('@node-rs/helper')
 
-const binding = loadBinding(__dirname, 'deno-lint', '@node-rs/deno-lint')
+const binding = loadBinding(require, __dirname, 'deno-lint', '@node-rs/deno-lint')
 
 module.exports = {
   binding,
