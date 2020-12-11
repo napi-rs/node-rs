@@ -1,6 +1,6 @@
 const { loadBinding } = require('@node-rs/helper')
 
-const binding = loadBinding(require, __dirname, 'crc32', '@node-rs/crc32')
+const binding = loadBinding(__dirname, 'crc32', '@node-rs/crc32')
 
 module.exports = {
   crc32: function crc32(input, crc = 0) {

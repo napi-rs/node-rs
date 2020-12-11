@@ -1,6 +1,6 @@
 const { loadBinding } = require('@node-rs/helper')
 
-const native = loadBinding(require, __dirname, 'jieba', '@node-rs/jieba')
+const native = loadBinding(__dirname, 'jieba', '@node-rs/jieba')
 
 module.exports = {
   ...native,
