@@ -13,7 +13,7 @@ export function loadBinding(dirname: string, filename = 'index', packageName?: s
     // resolve in node_modules
     if (packageName) {
       try {
-        return require(`${packageName}-${triple.platformArchABI}`)
+        return require(require.resolve(`${packageName}-${triple.platformArchABI}`, { paths: [dirname] }))
         // eslint-disable-next-line no-empty
       } catch (e) {}
     }
