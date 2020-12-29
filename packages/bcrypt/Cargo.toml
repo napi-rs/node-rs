@@ -10,7 +10,7 @@ crate-type = ["cdylib"]
 [dependencies]
 blowfish = {version = "0.7", features = ["bcrypt"]}
 byteorder = "1"
-napi = "1.0.0-alpha.0"
+napi = "1.0.0-alpha.10"
 napi-derive = "1.0.0-alpha.0"
 phf = {version = "0.8", features = ["macros"]}
 radix64 = "0.6"

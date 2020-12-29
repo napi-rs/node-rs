@@ -1,15 +1,18 @@
 {
-  "name": "@node-rs/helper-win32-x64-msvc",
-  "version": "1.0.0-alpha.1",
-  "os": ["win32"],
-  "cpu": ["x64"],
-  "main": "index.win32-x64-msvc.node",
-  "files": ["index.win32-x64-msvc.node"],
-  "description": "Helper library for node-rs",
-  "keywords": ["N-API", "napi", "Rust", "Performance"],
+  "name": "@node-rs/deno-lint-android-arm64",
+  "version": "0.6.0",
+  "os": ["android"],
+  "cpu": ["arm64"],
+  "main": "deno-lint.android-arm64.node",
+  "files": ["deno-lint.android-arm64.node"],
+  "description": "Deno lint binding for NodeJS",
+  "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

@@ -191,6 +191,69 @@ jobs:
           name: bindings-linux-aarch64
           path: packages/*/*.node
 
+  build-linux-arm7:
+    name: stable - arm7-unknown-linux-gnu - node@14
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Install
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - name: Generate Cargo.lock
+        uses: actions-rs/cargo@v1
+        with:
+          command: generate-lockfile
+
+      - name: Cache cargo registry
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/registry
+          key: stable-linux-arm7-gnu-node@14-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache cargo index
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/git
+          key: stable-linux-arm7-gnu-node@14-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: npm-cache-linux-arm7-gnu-node@14-${{ hashFiles('yarn.lock') }}
+
+      - name: Install aarch64 toolchain
+        run: rustup target add armv7-unknown-linux-gnueabihf
+
+      - name: Install cross compile toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install gcc-arm-linux-gnueabihf -y
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+
+      - name: Cross build arm7
+        run: yarn build -- -- --target armv7-unknown-linux-gnueabihf
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings-linux-arm7
+          path: packages/*/*.node
+
   build-apple-silicon:
     name: nightly - aarch64-apple-darwin - node@14
     runs-on: macos-latest
@@ -247,6 +310,58 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: bindings-apple-aarch64
+          path: packages/*/*.node
+
+  build-android-aarch64:
+    name: Build - Android - aarch64
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Install aarch64 toolchain
+        run: rustup target add aarch64-linux-android
+
+      - name: Generate Cargo.lock
+        uses: actions-rs/cargo@v1
+        with:
+          command: generate-lockfile
+
+      - name: Cache cargo registry
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/registry
+          key: nightly-apple-aarch64-node@14-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache cargo index
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/git
+          key: nightly-apple-aarch64-node@14-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: npm-cache-apple-aarch64-node@14-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+
+      - name: Build
+        shell: bash
+        run: |
+          export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android24-clang"
+          yarn build -- -- --target aarch64-linux-android
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings-android-aarch64
           path: packages/*/*.node
 
   test-binding:
@@ -391,6 +506,8 @@ jobs:
       - test-musl-binding
       - test-binding
       - test-linux-aarch64
+      - build-android-aarch64
+      - build-linux-arm7
       - build-apple-silicon
     runs-on: ubuntu-latest
     steps:
@@ -401,12 +518,13 @@ jobs:
 
   publish:
     name: Publish
-    if: "startsWith(github.event.head_commit.message, 'chore(release): publish')"
     runs-on: ubuntu-latest
     needs:
       - test-binding
       - test-musl-binding
       - test-linux-aarch64
+      - build-android-aarch64
+      - build-linux-arm7
       - build-apple-silicon
     steps:
       - uses: actions/checkout@v2
@@ -444,7 +562,9 @@ jobs:
       - name: List packages
         run: ls -R packages
         shell: bash
+
       - name: Lerna publish
+        if: "startsWith(github.event.head_commit.message, 'chore(release): publish')"
         run: |
           find ./packages/ -type d -maxdepth 1 -exec cp LICENSE {} \;
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc

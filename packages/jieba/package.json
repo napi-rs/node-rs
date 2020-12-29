@@ -13,7 +13,13 @@
     "name": "jieba",
     "triples": {
       "defaults": true,
-      "additional": ["x86_64-unknown-linux-musl", "aarch64-unknown-linux-gnu", "aarch64-apple-darwin"]
+      "additional": [
+        "x86_64-unknown-linux-musl",
+        "aarch64-unknown-linux-gnu",
+        "armv7-unknown-linux-gnueabihf",
+        "aarch64-apple-darwin",
+        "aarch64-linux-android"
+      ]
     }
   },
   "engines": {
