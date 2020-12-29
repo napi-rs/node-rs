@@ -10,8 +10,8 @@ crate-type = ["cdylib"]
 [dependencies]
 deno_lint = "=0.2.14"
 ignore = "0.4"
-napi = "1.0.0-alpha.10"
-napi-derive = "1.0.0-alpha.0"
+napi = "1.0.0"
+napi-derive = "1"
 serde = "1"
 serde_json = "1"
 swc_ecmascript = {version = "=0.16.1", features = ["parser", "transforms", "utils", "visit"]}
@@ -24,4 +24,4 @@ jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
 mimalloc = {version = "0.1"}
 
 [build-dependencies]
-napi-build = "1.0.0-alpha.0"
+napi-build = "1"

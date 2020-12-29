@@ -157,11 +157,11 @@ fn extract(ctx: CallContext) -> Result<JsObject> {
 
   let keyword_extractor = TFIDF::new_with_jieba(&jieba);
 
-  let topn: usize = topn.try_into()?;
+  let topn: u32 = topn.try_into()?;
 
   let tags = keyword_extractor.extract_tags(
     str::from_utf8(&sentence).map_err(|_| Error::from_status(Status::InvalidArg))?,
-    topn,
+    topn as usize,
     allowed_pos,
   );
   let mut js_tags = ctx.env.create_array_with_length(tags.len())?;

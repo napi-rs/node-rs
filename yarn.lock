@@ -982,10 +982,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@napi-rs/cli@^1.0.0-alpha.13":
-  version "1.0.0-alpha.14"
-  resolved "https://registry.yarnpkg.com/@napi-rs/cli/-/cli-1.0.0-alpha.14.tgz#c5174e58bff4bb7fbaa117b796a9b0ee3d9e1c5d"
-  integrity sha512-rxFj1JEx/dQ1iU5nHOabkvoA2ajWTj95KRLGINOZkuaY+kgmsFpTFUkohZmZCPFI1dGxRFOgZrQqW8iSmGDveA==
+"@napi-rs/cli@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@napi-rs/cli/-/cli-1.0.0.tgz#b9139570016ec4c2087a9079b72c1cdc04b46581"
+  integrity sha512-hWOkP1swphh+tll7s8sY87gyyJSdYpLkkhBEUuzKlTQkGXHm0nUSPqzhnrxR5dMPLQ9T1dUQVP5Zxq0IVofDhQ==
   dependencies:
     "@octokit/rest" "^18.0.12"
     chalk "^4.1.0"

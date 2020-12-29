@@ -22,7 +22,7 @@
     "typecheck": "tsc -b tsconfig.project.json -verbose"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^1.0.0-alpha.13",
+    "@napi-rs/cli": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
     "ava": "^3.14.0",

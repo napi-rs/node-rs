@@ -10,8 +10,8 @@ crate-type = ["cdylib"]
 [dependencies]
 blowfish = {version = "0.7", features = ["bcrypt"]}
 byteorder = "1"
-napi = "1.0.0-alpha.10"
-napi-derive = "1.0.0-alpha.0"
+napi = "1.0.0"
+napi-derive = "1"
 phf = {version = "0.8", features = ["macros"]}
 radix64 = "0.6"
 rand = "0.8"
@@ -26,4 +26,4 @@ mimalloc = {version = "0.1"}
 quickcheck = "0.9"
 
 [build-dependencies]
-napi-build = "1.0.0-alpha.0"
+napi-build = "1"
