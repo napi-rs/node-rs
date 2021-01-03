@@ -294,10 +294,12 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
         let file_content = fs::read_to_string(&p)
           .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
 
-        let mut ts_config = TsConfig::default();
-        ts_config.dynamic_import = true;
-        ts_config.decorators = true;
-        ts_config.tsx = p.ends_with(".tsx");
+        let ts_config = TsConfig {
+          dynamic_import: true,
+          decorators: true,
+          tsx: p.ends_with(".tsx"),
+          ..Default::default()
+        };
         let syntax = Syntax::Typescript(ts_config);
         let mut linter = LinterBuilder::default()
           .rules(if enable_all_rules {
