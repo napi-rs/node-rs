@@ -5,6 +5,18 @@
 
 > deno_lint nodejs binding
 
+## Support matrix
+
+|                 | node10 | node12 | node14 | node15 |
+| --------------- | ------ | ------ | ------ | ------ |
+| Windows x64     | ✓      | ✓      | ✓      | ✓      |
+| macOS x64/arm64 | ✓      | ✓      | ✓      | ✓      |
+| Linux x64 gnu   | ✓      | ✓      | ✓      | ✓      |
+| Linux x64 musl  | ✓      | ✓      | ✓      | ✓      |
+| Linux arm gnu   | ✓      | ✓      | ✓      | ✓      |
+| Linux arm64 gnu | ✓      | ✓      | ✓      | ✓      |
+| Android arm64   | ✓      | ✓      | ✓      | ✓      |
+
 ## Performance
 
 ### Hardware info

@@ -4,16 +4,19 @@ When `NodeJS` meet `Rust` = 🚀
 
 # napi-rs
 
-Make rust crates binding to NodeJS use [napi-rs](https://github.com/Brooooooklyn/napi-rs)
+Make rust crates binding to NodeJS use [napi-rs](https://github.com/napi-rs/napi-rs)
 
 # Support matrix
 
-|                   | node 10 | node12 | node14 |
-| ----------------- | ------- | ------ | ------ |
-| Windows 64 latest | ✅      | ✅     | ✅     |
-| macOS latest      | ✅      | ✅     | ✅     |
-| Linux             | ✅      | ✅     | ✅     |
-| Linux musl        | ❌      | ✅     | ✅     |
+|                 | node10 | node12 | node14 | node15 |
+| --------------- | ------ | ------ | ------ | ------ |
+| Windows x64     | ✓      | ✓      | ✓      | ✓      |
+| macOS x64/arm64 | ✓      | ✓      | ✓      | ✓      |
+| Linux x64 gnu   | ✓      | ✓      | ✓      | ✓      |
+| Linux x64 musl  | ✓      | ✓      | ✓      | ✓      |
+| Linux arm gnu   | ✓      | ✓      | ✓      | ✓      |
+| Linux arm64 gnu | ✓      | ✓      | ✓      | ✓      |
+| Android arm64   | ✓      | ✓      | ✓      | ✓      |
 
 # Packages
 
