@@ -52,7 +52,7 @@
     "loader-utils": "^2.0.0"
   },
   "devDependencies": {
-    "@types/webpack": "^4.41.25"
+    "@types/webpack": "^4.41.26"
   },
   "funding": {
     "type": "github",

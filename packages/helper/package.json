@@ -22,6 +22,6 @@
   },
   "dependencies": {
     "@napi-rs/triples": "^1.0.2",
-    "tslib": "^2.0.3"
+    "tslib": "^2.1.0"
   }
 }
