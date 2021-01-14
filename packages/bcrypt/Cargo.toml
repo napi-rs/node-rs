@@ -23,7 +23,7 @@ jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
 mimalloc = {version = "0.1"}
 
 [dev-dependencies]
-quickcheck = "0.9"
+quickcheck = "1.0"
 
 [build-dependencies]
 napi-build = "1"
