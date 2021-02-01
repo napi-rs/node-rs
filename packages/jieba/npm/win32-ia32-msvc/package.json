@@ -1,30 +1,27 @@
 {
-  "name": "@node-rs/helper",
+  "name": "@node-rs/jieba-win32-ia32-msvc",
   "version": "1.0.0",
-  "description": "Helper library for node-rs",
-  "keywords": ["N-API", "napi", "Rust", "Performance"],
+  "os": ["win32"],
+  "cpu": ["ia32"],
+  "main": "jieba.win32-ia32-msvc.node",
+  "files": ["jieba.win32-ia32-msvc.node"],
+  "description": "Fastest Chinese word segmentation in NodeJS",
+  "keywords": ["Jieba", "Rust", "node-rs", "napi", "napi-rs", "N-API"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "engines": {
+    "node": ">= 10"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "files": ["lib", "LICENSE"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/napi-rs/node-rs.git"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  },
-  "scripts": {
-    "build": "exit 0;"
-  },
-  "dependencies": {
-    "@napi-rs/triples": "^1.0.2",
-    "tslib": "^2.1.0"
   }
 }

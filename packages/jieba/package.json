@@ -14,6 +14,7 @@
     "triples": {
       "defaults": true,
       "additional": [
+        "i686-pc-windows-msvc",
         "x86_64-unknown-linux-musl",
         "aarch64-unknown-linux-gnu",
         "armv7-unknown-linux-gnueabihf",

@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 14
           check-latest: true
@@ -74,6 +74,86 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: bindings-${{ matrix.os }}
+          path: packages/*/*.node
+
+  build-windows-i686:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    name: stable - windows-i686 - node@14
+    runs-on: windows-latest
+    env:
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 32
+      CARGO_PROFILE_RELEASE_LTO: 'false'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install node x86
+        run: |
+          choco install nodejs-lts --x86 -y --force
+          refreshenv
+      - name: Set 32bit NodeJS path
+        run: |
+          echo "C:\\Program Files (x86)\\nodejs" >> $GITHUB_PATH
+        shell: bash
+
+      - name: NodeJS arch
+        run: node -e "console.log(process.arch)"
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: npm-cache-windows-i686-node@lts-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+
+      - name: Build TypeScript
+        run: yarn build:ts
+
+      - name: Install
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - name: Install i686 toolchain
+        run: rustup target add i686-pc-windows-msvc
+
+      - name: Generate Cargo.lock
+        uses: actions-rs/cargo@v1
+        with:
+          command: generate-lockfile
+
+      - name: Cache cargo registry
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/registry
+          key: stable-windows-i686-node@lts-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache cargo index
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/git
+          key: stable-windows-i686-node@lts-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cargo test
+        uses: actions-rs/cargo@v1
+        timeout-minutes: 5
+        with:
+          command: test
+          args: -p node-rs-bcrypt --lib -- --nocapture
+
+      - name: Run build
+        run: npx lerna exec "yarn build --target i686-pc-windows-msvc" --concurrency 1 --stream --no-prefix
+
+      - name: Test bindings
+        run: yarn test
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings-win32-i686
           path: packages/*/*.node
 
   build-musl:
@@ -201,7 +281,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 14
 
@@ -255,7 +335,7 @@ jobs:
           path: packages/*/*.node
 
   build-apple-silicon:
-    name: nightly - aarch64-apple-darwin - node@14
+    name: stable - aarch64-apple-darwin - node@14
     runs-on: macos-latest
 
     steps:
@@ -270,7 +350,7 @@ jobs:
       - name: Install
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly
+          toolchain: stable
           profile: minimal
           override: true
 
@@ -286,13 +366,13 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.cargo/registry
-          key: nightly-apple-aarch64-node@14-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
+          key: stable-apple-aarch64-node@14-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Cache cargo index
         uses: actions/cache@v1
         with:
           path: ~/.cargo/git
-          key: nightly-apple-aarch64-node@14-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
+          key: stable-apple-aarch64-node@14-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Cache NPM dependencies
         uses: actions/cache@v1
@@ -319,7 +399,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 14
 
@@ -335,13 +415,13 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.cargo/registry
-          key: nightly-apple-aarch64-node@14-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
+          key: stable-apple-aarch64-node@14-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Cache cargo index
         uses: actions/cache@v1
         with:
           path: ~/.cargo/git
-          key: nightly-apple-aarch64-node@14-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
+          key: stable-apple-aarch64-node@14-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Cache NPM dependencies
         uses: actions/cache@v1
@@ -509,6 +589,7 @@ jobs:
       - build-android-aarch64
       - build-linux-arm7
       - build-apple-silicon
+      - build-windows-i686
     runs-on: ubuntu-latest
     steps:
       - name: auto-merge
@@ -526,6 +607,7 @@ jobs:
       - build-android-aarch64
       - build-linux-arm7
       - build-apple-silicon
+      - build-windows-i686
     steps:
       - uses: actions/checkout@v2
 

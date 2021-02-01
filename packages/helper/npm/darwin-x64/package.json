@@ -1,30 +1,24 @@
 {
-  "name": "@node-rs/helper",
+  "name": "@node-rs/helper-darwin-x64",
   "version": "1.0.0",
+  "os": ["darwin"],
+  "cpu": ["x64"],
+  "main": "index.darwin-x64.node",
+  "files": ["index.darwin-x64.node"],
   "description": "Helper library for node-rs",
   "keywords": ["N-API", "napi", "Rust", "Performance"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "files": ["lib", "LICENSE"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/napi-rs/node-rs.git"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  },
-  "scripts": {
-    "build": "exit 0;"
-  },
-  "dependencies": {
-    "@napi-rs/triples": "^1.0.2",
-    "tslib": "^2.1.0"
   }
 }
