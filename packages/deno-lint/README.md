@@ -10,6 +10,7 @@
 |                 | node10 | node12 | node14 | node15 |
 | --------------- | ------ | ------ | ------ | ------ |
 | Windows x64     | ✓      | ✓      | ✓      | ✓      |
+| Windows x32     | ✓      | ✓      | ✓      | ✓      |
 | macOS x64/arm64 | ✓      | ✓      | ✓      | ✓      |
 | Linux x64 gnu   | ✓      | ✓      | ✓      | ✓      |
 | Linux x64 musl  | ✓      | ✓      | ✓      | ✓      |
