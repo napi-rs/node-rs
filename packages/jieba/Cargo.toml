@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 jieba-rs = {version = "0.6", features = ["default-dict", "tfidf", "textrank"]}
-napi = "1.0.0"
+napi = "1"
 napi-derive = "1"
 once_cell = "1.5"
 
