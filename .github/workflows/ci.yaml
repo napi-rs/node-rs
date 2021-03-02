@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-18.04, macos-latest, windows-latest]
 
     name: stable - ${{ matrix.os }} - node@14
     runs-on: ${{ matrix.os }}
@@ -451,7 +451,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-18.04, macos-latest, windows-latest]
         node: ['10', '12', '14', '15']
     runs-on: ${{ matrix.os }}
 

@@ -5,3 +5,7 @@ members = [
   "./packages/deno-lint",
   "./packages/jieba",
 ]
+
+[profile.release]
+codegen-units = 2
+lto = true
