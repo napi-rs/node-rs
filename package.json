@@ -6,7 +6,9 @@
   "author": "LongYinan <lynweklm@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "artifacts": "lerna run artifacts",
     "bench": "lerna run bench --concurrency 1 --stream --no-prefix",
@@ -25,13 +27,13 @@
   "devDependencies": {
     "@napi-rs/cli": "^1.0.3",
     "@swc-node/register": "^1.0.5",
-    "@typescript-eslint/eslint-plugin": "^4.16.1",
-    "@typescript-eslint/parser": "^4.16.1",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
     "ava": "^3.15.0",
     "benchmark": "^2.1.4",
     "codecov": "^3.8.1",
     "cross-env": "^7.0.3",
-    "eslint": "^7.21.0",
+    "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
@@ -45,18 +47,33 @@
     "typescript": "^4.2.3"
   },
   "ava": {
-    "extensions": ["ts"],
-    "require": ["@swc-node/register"],
-    "files": ["packages/**/*.spec.ts"],
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "@swc-node/register"
+    ],
+    "files": [
+      "packages/**/*.spec.ts"
+    ],
     "environmentVariables": {
       "TS_NODE_PROJECT": "./tsconfig.test.json"
     }
   },
   "lint-staged": {
-    "*.@(js|ts|tsx)": ["prettier --write", "eslint -c .eslintrc.yml --fix"],
-    "*.@(yml|yaml)": ["prettier --parser yaml --write"],
-    "*.json": ["prettier --parser json --write"],
-    "*.md": ["prettier --parser markdown --write"]
+    "*.@(js|ts|tsx)": [
+      "prettier --write",
+      "eslint -c .eslintrc.yml --fix"
+    ],
+    "*.@(yml|yaml)": [
+      "prettier --parser yaml --write"
+    ],
+    "*.json": [
+      "prettier --parser json --write"
+    ],
+    "*.md": [
+      "prettier --parser markdown --write"
+    ]
   },
   "prettier": {
     "printWidth": 120,
