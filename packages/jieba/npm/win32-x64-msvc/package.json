@@ -5,7 +5,7 @@
   "cpu": ["x64"],
   "main": "jieba.win32-x64-msvc.node",
   "files": ["jieba.win32-x64-msvc.node"],
-  "description": "Fastest Chinese word segmentation in NodeJS",
+  "description": "Fastest Chinese word segmentation in Node.js",
   "keywords": ["Jieba", "Rust", "node-rs", "napi", "napi-rs", "N-API"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",

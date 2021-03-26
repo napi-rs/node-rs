@@ -3,11 +3,11 @@
 ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
 ![](https://img.shields.io/npm/dm/@node-rs/jieba.svg?sanitize=true)
 
-[jieba-rs](https://github.com/messense/jieba-rs) binding to NodeJS
+[jieba-rs](https://github.com/messense/jieba-rs) binding to Node.js
 
 ## Without node-gyp
 
-`node-rs/jieba` was prebuilt into binary already, so you don't need fighting with `node-gyp` and c++ toolchains.
+`node-rs/jieba` was prebuilt into binary already, so you don't need fighting with `node-gyp` and c++ toolchain.
 
 ## Performance
 
@@ -37,7 +37,8 @@ Tag 246568 words bench suite: Fastest is @node-rs/jieba
 | --------------- | ------ | ------ | ------ | ------ |
 | Windows x64     | ✓      | ✓      | ✓      | ✓      |
 | Windows x32     | ✓      | ✓      | ✓      | ✓      |
-| macOS x64/arm64 | ✓      | ✓      | ✓      | ✓      |
+| macOS x64       | ✓      | ✓      | ✓      | ✓      |
+| macOS arm64     | ✓      | ✓      | ✓      | ✓      |
 | Linux x64 gnu   | ✓      | ✓      | ✓      | ✓      |
 | Linux x64 musl  | ✓      | ✓      | ✓      | ✓      |
 | Linux arm gnu   | ✓      | ✓      | ✓      | ✓      |

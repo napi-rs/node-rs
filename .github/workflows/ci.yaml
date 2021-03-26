@@ -95,7 +95,7 @@ jobs:
           echo "C:\\Program Files (x86)\\nodejs" >> $GITHUB_PATH
         shell: bash
 
-      - name: NodeJS arch
+      - name: Node.js arch
         run: node -e "console.log(process.arch)"
 
       - name: Cache NPM dependencies

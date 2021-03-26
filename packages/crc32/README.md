@@ -3,7 +3,7 @@
 ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
 ![](https://img.shields.io/npm/dm/@node-rs/crc32.svg?sanitize=true)
 
-Fastest `crc32` implement in `NodeJS`
+Fastest `crc32` implement in `Node.js`
 
 The 4 tested implementations are:
 
@@ -46,7 +46,8 @@ js_crc32 for inputs 16931844B, avg 2066B x 22.12 ops/sec ±5.20% (40 runs sample
 | --------------- | ------ | ------ | ------ | ------ |
 | Windows x64     | ✓      | ✓      | ✓      | ✓      |
 | Windows x32     | ✓      | ✓      | ✓      | ✓      |
-| macOS x64/arm64 | ✓      | ✓      | ✓      | ✓      |
+| macOS x64       | ✓      | ✓      | ✓      | ✓      |
+| macOS arm64     | ✓      | ✓      | ✓      | ✓      |
 | Linux x64 gnu   | ✓      | ✓      | ✓      | ✓      |
 | Linux x64 musl  | ✓      | ✓      | ✓      | ✓      |
 | Linux arm gnu   | ✓      | ✓      | ✓      | ✓      |

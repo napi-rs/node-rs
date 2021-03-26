@@ -3,7 +3,7 @@
 ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
 ![](https://img.shields.io/npm/dm/@node-rs/deno-lint.svg?sanitize=true)
 
-> deno_lint nodejs binding
+> deno_lint Node.js binding
 
 ## Support matrix
 
@@ -11,7 +11,8 @@
 | --------------- | ------ | ------ | ------ | ------ |
 | Windows x64     | ✓      | ✓      | ✓      | ✓      |
 | Windows x32     | ✓      | ✓      | ✓      | ✓      |
-| macOS x64/arm64 | ✓      | ✓      | ✓      | ✓      |
+| macOS x64       | ✓      | ✓      | ✓      | ✓      |
+| macOS arm64     | ✓      | ✓      | ✓      | ✓      |
 | Linux x64 gnu   | ✓      | ✓      | ✓      | ✓      |
 | Linux x64 musl  | ✓      | ✓      | ✓      | ✓      |
 | Linux arm gnu   | ✓      | ✓      | ✓      | ✓      |

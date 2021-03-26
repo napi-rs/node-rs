@@ -3,7 +3,7 @@
 ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
 ![](https://img.shields.io/npm/dm/@node-rs/bcrypt.svg?sanitize=true)
 
-🚀 Fastest bcrypt in NodeJS
+🚀 Fastest bcrypt in Node.js
 
 ## Support matrix
 
@@ -11,7 +11,8 @@
 | --------------- | ------ | ------ | ------ | ------ |
 | Windows x64     | ✓      | ✓      | ✓      | ✓      |
 | Windows x32     | ✓      | ✓      | ✓      | ✓      |
-| macOS x64/arm64 | ✓      | ✓      | ✓      | ✓      |
+| macOS x64       | ✓      | ✓      | ✓      | ✓      |
+| macOS arm64     | ✓      | ✓      | ✓      | ✓      |
 | Linux x64 gnu   | ✓      | ✓      | ✓      | ✓      |
 | Linux x64 musl  | ✓      | ✓      | ✓      | ✓      |
 | Linux arm gnu   | ✓      | ✓      | ✓      | ✓      |
@@ -21,12 +22,32 @@
 ## Usage
 
 ```typescript
-export const DEFAULT_ROUND = 12
+export const DEFAULT_COST: 12
 
-function hashSync(password: string | Buffer, round?: number): string
-function hash(password: string | Buffer, round?: number): Promise<string>
-function verifySync(password: string | Buffer, hash: string | Buffer): boolean
-function verify(password: string | Buffer, hash: string | Buffer): Promise<boolean>
+export function hashSync(password: string | Buffer, round?: number): string
+export function hash(password: string | Buffer, round?: number): Promise<string>
+export function verifySync(password: string | Buffer, hash: string | Buffer): boolean
+export function verify(password: string | Buffer, hash: string | Buffer): Promise<boolean>
+/**
+ * The same with `verifySync`
+ */
+export function compareSync(password: string | Buffer, hash: string | Buffer): boolean
+/**
+ * The same with `verify`
+ */
+export function compare(password: string | Buffer, hash: string | Buffer): Promise<boolean>
+
+export type Version = '2a' | '2x' | '2y' | '2b'
+/**
+ * @param round default 10
+ * @param version default '2b'
+ */
+export function genSaltSync(round?: number, version?: Version): string
+/**
+ * @param round default 10
+ * @param version default '2b'
+ */
+export function genSalt(round?: number, version?: Version): Promise<string>
 ```
 
 ## Bench

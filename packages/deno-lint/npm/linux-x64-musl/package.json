@@ -5,7 +5,7 @@
   "cpu": ["x64"],
   "main": "deno-lint.linux-x64-musl.node",
   "files": ["deno-lint.linux-x64-musl.node"],
-  "description": "Deno lint binding for NodeJS",
+  "description": "Deno lint binding for Node.js",
   "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
