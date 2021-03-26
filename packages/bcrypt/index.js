@@ -4,8 +4,24 @@ const binding = loadBinding(__dirname, 'bcrypt', '@node-rs/bcrypt')
 
 const DEFAULT_COST = 12
 
+function verify(password, hash) {
+  password = Buffer.isBuffer(password) ? password : Buffer.from(password)
+  hash = Buffer.isBuffer(hash) ? hash : Buffer.from(hash)
+  return binding.verify(password, hash)
+}
+
+function verifySync(password, hash) {
+  password = Buffer.isBuffer(password) ? password : Buffer.from(password)
+  hash = Buffer.isBuffer(hash) ? hash : Buffer.from(hash)
+  return binding.verifySync(password, hash)
+}
+
 module.exports = {
   DEFAULT_COST: DEFAULT_COST,
+
+  genSaltSync: function genSaltSync(round = 10, version = '2b') {
+    return binding.genSaltSync(round, version)
+  },
 
   genSalt: function genSalt(round = 10, version = '2b') {
     return binding.genSalt(round, version)
@@ -21,15 +37,8 @@ module.exports = {
     return binding.hash(input, round)
   },
 
-  verifySync: function verifySync(password, hash) {
-    password = Buffer.isBuffer(password) ? password : Buffer.from(password)
-    hash = Buffer.isBuffer(hash) ? hash : Buffer.from(hash)
-    return binding.verifySync(password, hash)
-  },
-
-  verify: function verify(password, hash) {
-    password = Buffer.isBuffer(password) ? password : Buffer.from(password)
-    hash = Buffer.isBuffer(hash) ? hash : Buffer.from(hash)
-    return binding.verify(password, hash)
-  },
+  verifySync,
+  verify,
+  compareSync: verifySync,
+  compare: verify,
 }

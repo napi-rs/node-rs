@@ -24,6 +24,7 @@ pub struct HashParts {
 
 /// BCrypt hash version
 /// https://en.wikipedia.org/wiki/Bcrypt#Versioning_history
+#[derive(Debug, Clone, Copy)]
 pub enum Version {
   TwoA,
   TwoX,

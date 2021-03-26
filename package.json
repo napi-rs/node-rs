@@ -2,13 +2,10 @@
   "name": "node-rs",
   "version": "0.0.0",
   "description": "Node & Rust bindings monorepo",
-  "main": "index.js",
   "author": "LongYinan <lynweklm@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
     "artifacts": "lerna run artifacts",
     "bench": "lerna run bench --concurrency 1 --stream --no-prefix",
@@ -47,33 +44,18 @@
     "typescript": "^4.2.3"
   },
   "ava": {
-    "extensions": [
-      "ts"
-    ],
-    "require": [
-      "@swc-node/register"
-    ],
-    "files": [
-      "packages/**/*.spec.ts"
-    ],
+    "extensions": ["ts"],
+    "require": ["@swc-node/register"],
+    "files": ["packages/**/*.spec.ts"],
     "environmentVariables": {
       "TS_NODE_PROJECT": "./tsconfig.test.json"
     }
   },
   "lint-staged": {
-    "*.@(js|ts|tsx)": [
-      "prettier --write",
-      "eslint -c .eslintrc.yml --fix"
-    ],
-    "*.@(yml|yaml)": [
-      "prettier --parser yaml --write"
-    ],
-    "*.json": [
-      "prettier --parser json --write"
-    ],
-    "*.md": [
-      "prettier --parser markdown --write"
-    ]
+    "*.@(js|ts|tsx)": ["prettier --write", "eslint -c .eslintrc.yml --fix"],
+    "*.@(yml|yaml)": ["prettier --parser yaml --write"],
+    "*.json": ["prettier --parser json --write"],
+    "*.md": ["prettier --parser markdown --write"]
   },
   "prettier": {
     "printWidth": 120,

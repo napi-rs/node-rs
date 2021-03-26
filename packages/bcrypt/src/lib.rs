@@ -17,6 +17,7 @@ mod bcrypt;
 mod errors;
 mod hash_task;
 mod lib_bcrypt;
+mod salt_task;
 mod verify_task;
 
 #[cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))]
@@ -29,9 +30,10 @@ static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 #[module_exports]
 fn init(mut exports: JsObject) -> Result<()> {
+  exports.create_named_method("genSaltSync", js_salt)?;
+  exports.create_named_method("genSalt", js_async_salt)?;
   exports.create_named_method("hash", js_async_hash)?;
   exports.create_named_method("hashSync", js_hash)?;
-  exports.create_named_method("genSalt", js_salt)?;
   exports.create_named_method("verifySync", js_verify)?;
   exports.create_named_method("verify", js_async_verify)?;
 
@@ -49,6 +51,18 @@ fn js_salt(ctx: CallContext) -> Result<JsString> {
     &salt,
   );
   ctx.env.create_string(&salt_string)
+}
+
+#[js_function(2)]
+fn js_async_salt(ctx: CallContext) -> Result<JsObject> {
+  let round = ctx.get::<JsNumber>(0)?;
+  let version = ctx.get::<JsString>(1)?.into_utf8()?;
+  let task = salt_task::SaltTask {
+    round: round.try_into()?,
+    version: Version::from_str(version.as_str()?)
+      .map_err(|_| Error::from_status(Status::InvalidArg))?,
+  };
+  ctx.env.spawn(task).map(|t| t.promise_object())
 }
 
 #[js_function(2)]
