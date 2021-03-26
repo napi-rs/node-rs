@@ -1,19 +1,18 @@
 const { cpus } = require('os')
 
-const { hashSync, hash, compare } = require('bcrypt')
-const { hashSync: hashSyncJs, hash: hashJs, compare: compareJs } = require('bcryptjs')
+const { hashSync, hash, compare, genSaltSync } = require('bcrypt')
+const { hashSync: hashSyncJs, hash: hashJs, compare: compareJs, genSaltSync: genSaltSyncJs } = require('bcryptjs')
 const { Suite } = require('benchmark')
 const chalk = require('chalk')
 const { range } = require('lodash')
 
-const { hash: napiHash, hashSync: napiHashSync, verify } = require('../index')
+const { hash: napiHash, hashSync: napiHashSync, verify, genSaltSync: napiGenSaltSync } = require('../index')
 
-const hashRounds = [10, 12, 14]
 const parallel = cpus().length
 
 const password = 'node-rust-password'
 
-function runAsync(round) {
+function runAsync(round = 12) {
   const asyncHashSuite = new Suite(`Async hash round ${round}`)
   return new Promise((resolve) => {
     asyncHashSuite
@@ -53,11 +52,7 @@ function runAsync(round) {
   })
 }
 
-hashRounds
-  .reduce(async (acc, cur) => {
-    await acc
-    return runAsync(cur)
-  }, Promise.resolve())
+runAsync()
   .then(
     () =>
       new Promise((resolve) => {
@@ -103,24 +98,47 @@ hashRounds
       }),
   )
   .then(() => {
-    for (const round of hashRounds) {
-      const syncHashSuite = new Suite(`Hash round ${round}`)
+    return new Promise((resolve) => {
+      const syncHashSuite = new Suite(`Hash round 12`)
       syncHashSuite
         .add('@node-rs/bcrypt', () => {
-          napiHashSync(password, round)
+          napiHashSync(password, 12)
         })
         .add('node bcrypt', () => {
-          hashSync(password, round)
+          hashSync(password, 12)
         })
         .add('bcryptjs', () => {
-          hashSyncJs(password, round)
+          hashSyncJs(password, 12)
         })
         .on('cycle', function (event) {
           console.info(String(event.target))
         })
         .on('complete', function () {
           console.info(`${this.name} bench suite: Fastest is ${chalk.green(this.filter('fastest').map('name'))}`)
+          resolve()
         })
         .run()
-    }
+    })
+  })
+  .then(() => {
+    return new Promise((resolve) => {
+      new Suite('genSaltSync')
+        .add('@node-rs/bcrypt', () => {
+          napiGenSaltSync(10, '2b')
+        })
+        .add('node bcrypt', () => {
+          genSaltSync(10, 'b')
+        })
+        .add('bcryptjs', () => {
+          genSaltSyncJs(10)
+        })
+        .on('cycle', function (event) {
+          console.info(String(event.target))
+        })
+        .on('complete', function () {
+          console.info(`${this.name} bench suite: Fastest is ${chalk.green(this.filter('fastest').map('name'))}`)
+          resolve()
+        })
+        .run()
+    })
   })
