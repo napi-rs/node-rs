@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.1.0...@node-rs/bcrypt@1.2.0) (2021-03-26)
+
+### Features
+
+- **bcrypt:** genSalt and genSaltSync ([b1c9402](https://github.com/napi-rs/node-rs/commit/b1c9402260d5ae609d77d4addce42e881f80e80f))
+
 # [1.1.0](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.0.0...@node-rs/bcrypt@1.1.0) (2021-02-01)
 
 ### Features
