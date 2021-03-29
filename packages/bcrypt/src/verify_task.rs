@@ -15,11 +15,13 @@ impl VerifyTask {
 
   #[inline]
   pub fn verify(password: &[u8], hash: &[u8]) -> Result<bool> {
-    verify(
-      &password,
-      str::from_utf8(&hash).map_err(|_| Error::from_status(Status::StringExpected))?,
+    Ok(
+      verify(
+        &password,
+        str::from_utf8(&hash).map_err(|_| Error::from_status(Status::StringExpected))?,
+      )
+      .unwrap_or(false),
     )
-    .map_err(|e| Error::new(Status::GenericFailure, format!("{}", e)))
   }
 }
 

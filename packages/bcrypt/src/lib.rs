@@ -85,8 +85,7 @@ fn js_async_hash(ctx: CallContext) -> Result<JsObject> {
 fn js_verify(ctx: CallContext) -> Result<JsBoolean> {
   let password = ctx.get::<JsBuffer>(0)?.into_value()?;
   let hash = ctx.get::<JsBuffer>(1)?.into_value()?;
-  let result = VerifyTask::verify(&password, &hash)
-    .map_err(|e| Error::new(Status::GenericFailure, format!("{}", e)))?;
+  let result = VerifyTask::verify(&password, &hash)?;
   ctx.env.get_boolean(result)
 }
 
