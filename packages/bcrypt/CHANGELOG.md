@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.2.0...@node-rs/bcrypt@1.2.1) (2021-03-29)
+
+### Bug Fixes
+
+- **bcrypt:** verify should always return boolean value ([959b25a](https://github.com/napi-rs/node-rs/commit/959b25af28832eb1a56065ab3a5415dbf6848cfa))
+
 # [1.2.0](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.1.0...@node-rs/bcrypt@1.2.0) (2021-03-26)
 
 ### Features
