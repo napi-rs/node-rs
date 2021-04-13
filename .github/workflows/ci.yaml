@@ -581,22 +581,6 @@ jobs:
               node ./scripts/simple-tests.js
             "
 
-  dependabot:
-    needs:
-      - test-musl-binding
-      - test-binding
-      - test-linux-aarch64
-      - build-android-aarch64
-      - build-linux-arm7
-      - build-apple-silicon
-      - build-windows-i686
-    runs-on: ubuntu-latest
-    steps:
-      - name: auto-merge
-        uses: ridedott/dependabot-auto-merge-action@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   publish:
     name: Publish
     runs-on: ubuntu-latest
