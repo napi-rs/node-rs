@@ -49,7 +49,7 @@
     "@node-rs/helper": "^1.1.0"
   },
   "devDependencies": {
-    "nodejieba": "^2.5.1"
+    "nodejieba": "^2.5.2"
   },
   "funding": {
     "type": "github",
