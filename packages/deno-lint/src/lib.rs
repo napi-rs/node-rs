@@ -282,53 +282,52 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
     },
   };
 
-  for result in WalkBuilder::new(cwd)
+  for entry in WalkBuilder::new(cwd)
     .add_custom_ignore_filename(ignore_file_path)
     .types(types)
     .follow_links(true)
     .build()
+    .filter_map(|v| v.ok())
   {
-    if let Ok(entry) = result {
-      let p = entry.path();
-      if !p.is_dir() {
-        let file_content = fs::read_to_string(&p)
-          .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
+    let p = entry.path();
+    if !p.is_dir() {
+      let file_content = fs::read_to_string(&p)
+        .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
 
-        let ts_config = TsConfig {
-          dynamic_import: true,
-          decorators: true,
-          tsx: p.ends_with(".tsx"),
-          ..Default::default()
-        };
-        let syntax = Syntax::Typescript(ts_config);
-        let mut linter = LinterBuilder::default()
-          .rules(if enable_all_rules {
-            get_all_rules()
-          } else {
-            get_recommended_rules()
-          })
-          .syntax(syntax)
-          .build();
-        let (_, file_diagnostics) = linter
-          .lint(
-            (&p.to_str())
-              .ok_or(Error::from_reason(format!(
-                "Convert path to string failed: {:?}",
-                &p
-              )))?
-              .to_owned(),
-            file_content.clone(),
-          )
-          .map_err(|e| Error {
-            status: Status::GenericFailure,
-            reason: format!("Lint failed: {}, at: {:?}", e, &p),
-          })?;
-        for diagnostic in file_diagnostics {
-          has_error = true;
-          println!("{}", format_diagnostic(&diagnostic, file_content.as_str()));
-        }
+      let ts_config = TsConfig {
+        dynamic_import: true,
+        decorators: true,
+        tsx: p.ends_with(".tsx"),
+        ..Default::default()
+      };
+      let syntax = Syntax::Typescript(ts_config);
+      let mut linter = LinterBuilder::default()
+        .rules(if enable_all_rules {
+          get_all_rules()
+        } else {
+          get_recommended_rules()
+        })
+        .syntax(syntax)
+        .build();
+      let (_, file_diagnostics) = linter
+        .lint(
+          (&p.to_str())
+            .ok_or(Error::from_reason(format!(
+              "Convert path to string failed: {:?}",
+              &p
+            )))?
+            .to_owned(),
+          file_content.clone(),
+        )
+        .map_err(|e| Error {
+          status: Status::GenericFailure,
+          reason: format!("Lint failed: {}, at: {:?}", e, &p),
+        })?;
+      for diagnostic in file_diagnostics {
+        has_error = true;
+        println!("{}", format_diagnostic(&diagnostic, file_content.as_str()));
       }
-    };
+    }
   }
 
   ctx.env.get_boolean(has_error)
