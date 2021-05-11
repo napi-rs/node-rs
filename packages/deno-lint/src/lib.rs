@@ -191,7 +191,7 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
   let file_name = ctx.get::<JsString>(0)?.into_utf8()?;
   let source_code = ctx.get::<JsBuffer>(1)?.into_value()?;
   let all_rules = ctx.get::<JsBoolean>(2)?;
-  let mut linter = LinterBuilder::default()
+  let linter = LinterBuilder::default()
     .rules(if all_rules.get_value()? {
       get_all_rules()
     } else {
@@ -301,7 +301,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
         ..Default::default()
       };
       let syntax = Syntax::Typescript(ts_config);
-      let mut linter = LinterBuilder::default()
+      let linter = LinterBuilder::default()
         .rules(if enable_all_rules {
           get_all_rules()
         } else {
