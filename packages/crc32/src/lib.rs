@@ -8,7 +8,13 @@ use crc32fast::Hasher;
 use napi::{CallContext, JsBuffer, JsNumber, JsObject, Result};
 use std::convert::TryInto;
 
-#[cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))]
+#[cfg(all(
+  unix,
+  not(target_env = "musl"),
+  not(target_os = "freebsd"),
+  not(target_arch = "arm"),
+  not(target_arch = "aarch64")
+))]
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 

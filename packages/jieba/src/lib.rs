@@ -13,7 +13,13 @@ use napi::{
 };
 use once_cell::sync::OnceCell;
 
-#[cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))]
+#[cfg(all(
+  unix,
+  not(target_env = "musl"),
+  not(target_os = "freebsd"),
+  not(target_arch = "arm"),
+  not(target_arch = "aarch64")
+))]
 #[global_allocator]
 static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 

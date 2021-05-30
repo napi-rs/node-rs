@@ -1,15 +1,18 @@
 {
-  "name": "@node-rs/helper-linux-x64-gnu",
+  "name": "@node-rs/jieba-linux-arm64-musl",
   "version": "1.1.0",
   "os": ["linux"],
-  "cpu": ["x64"],
-  "main": "index.linux-x64-gnu.node",
-  "files": ["index.linux-x64-gnu.node"],
-  "description": "Helper library for node-rs",
-  "keywords": ["N-API", "napi", "Rust", "Performance"],
+  "cpu": ["arm64"],
+  "main": "jieba.linux-arm64-musl.node",
+  "files": ["jieba.linux-arm64-musl.node"],
+  "description": "Fastest Chinese word segmentation in Node.js",
+  "keywords": ["Jieba", "Rust", "node-rs", "napi", "napi-rs", "N-API"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

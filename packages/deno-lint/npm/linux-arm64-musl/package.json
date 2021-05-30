@@ -1,15 +1,18 @@
 {
-  "name": "@node-rs/helper-linux-x64-gnu",
+  "name": "@node-rs/deno-lint-linux-arm64-musl",
   "version": "1.1.0",
   "os": ["linux"],
-  "cpu": ["x64"],
-  "main": "index.linux-x64-gnu.node",
-  "files": ["index.linux-x64-gnu.node"],
-  "description": "Helper library for node-rs",
-  "keywords": ["N-API", "napi", "Rust", "Performance"],
+  "cpu": ["arm64"],
+  "main": "deno-lint.linux-arm64-musl.node",
+  "files": ["deno-lint.linux-arm64-musl.node"],
+  "description": "Deno lint binding for Node.js",
+  "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
