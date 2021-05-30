@@ -158,7 +158,7 @@ jobs:
 
   build-musl:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
-    name: stable - linux-musl - node@10
+    name: stable - linux-musl - node@lts
     runs-on: ubuntu-latest
 
     steps:
@@ -168,7 +168,7 @@ jobs:
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
         env:
-          DOCKER_REGISTRY_URL: docker.pkg.github.com
+          DOCKER_REGISTRY_URL: ghcr.io
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
@@ -181,18 +181,18 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.cargo/registry
-          key: stable-node-alpine-@10-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
+          key: stable-node-alpine-@lts-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Cache cargo index
         uses: actions/cache@v1
         with:
           path: ~/.cargo/git
-          key: stable-node-alpine-@10-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
+          key: stable-node-alpine-@lts-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Pull docker image
         run: |
-          docker pull docker.pkg.github.com/napi-rs/napi-rs/nodejs-rust:10-alpine
-          docker tag docker.pkg.github.com/napi-rs/napi-rs/nodejs-rust:10-alpine builder
+          docker pull ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+          docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
 
       - name: 'Install dependencies'
         run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
@@ -269,6 +269,82 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: bindings-linux-aarch64
+          path: packages/*/*.node
+
+  build-linux-aarch64-musl:
+    name: stable - aarch64-unknown-linux-musl - node@14
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 14
+          check-latest: true
+
+      - name: Install
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - name: Install aarch64 toolchain
+        run: rustup target add aarch64-unknown-linux-musl
+
+      - name: Generate Cargo.lock
+        uses: actions-rs/cargo@v1
+        with:
+          command: generate-lockfile
+
+      - name: Cache cargo registry
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/registry
+          key: stable-linux-aarch64-musl-node@14-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache cargo index
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/git
+          key: stable-linux-aarch64-musl-node@14-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: npm-cache-linux-aarch64-musl-node@14-${{ hashFiles('yarn.lock') }}
+
+      - name: Install cross compile toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install gcc-aarch64-linux-gnu -y
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+
+      - name: Cross build aarch64
+        run: yarn build -- -- --target aarch64-unknown-linux-musl
+
+      - name: Run tests
+        uses: docker://multiarch/alpine:aarch64-latest-stable
+        with:
+          args: >
+            sh -c "sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
+              apk add nodejs yarn && \
+              yarn install --frozen-lockfile --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000 && \
+              yarn build:ts && \
+              node ./scripts/simple-tests.js
+            "
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings-linux-aarch64-musl
           path: packages/*/*.node
 
   build-linux-arm7:
@@ -444,6 +520,52 @@ jobs:
           name: bindings-android-aarch64
           path: packages/*/*.node
 
+  build-freebsd:
+    runs-on: macos-latest
+    name: Build FreeBSD
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        id: build
+        uses: vmactions/freebsd-vm@v0.1.4
+        env:
+          DEBUG: 'napi:*'
+          RUSTUP_HOME: /usr/local/rustup
+          CARGO_HOME: /usr/local/cargo
+          RUSTUP_IO_THREADS: 1
+        with:
+          envs: 'DEBUG RUSTUP_HOME CARGO_HOME RUSTUP_IO_THREADS'
+          usesh: true
+          mem: 3000
+          prepare: |
+            pkg install -y curl node yarn npm python2
+            curl https://sh.rustup.rs -sSf --output rustup.sh
+            sh rustup.sh -y --profile minimal --default-toolchain stable
+            export PATH="/usr/local/cargo/bin:$PATH"
+            echo "~~~~ rustc --version ~~~~"
+            rustc --version
+            echo "~~~~ node -v ~~~~"
+            node -v
+            echo "~~~~ yarn --version ~~~~"
+            yarn --version
+          run: |
+            export PATH="/usr/local/cargo/bin:$PATH"
+            pwd
+            ls -lah
+            whoami
+            env
+            freebsd-version
+            yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+            yarn build:ts
+            yarn build
+            yarn test
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings-freebsd-amd64
+          path: packages/*/*.node
+
   test-binding:
     name: Test bindings on ${{ matrix.os }} - node@${{ matrix.node }}
     needs:
@@ -452,7 +574,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-18.04, macos-latest, windows-latest]
-        node: ['10', '12', '14', '15']
+        node: ['12', '14', '16']
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -495,7 +617,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['10', '12', '14', '15']
+        node: ['12', '14', '16']
     runs-on: ubuntu-latest
 
     steps:
@@ -532,7 +654,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['10', '12', '14', '15']
+        node: ['12', '14', '16']
 
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -592,6 +714,8 @@ jobs:
       - build-linux-arm7
       - build-apple-silicon
       - build-windows-i686
+      - build-linux-aarch64-musl
+      - build-freebsd
     steps:
       - uses: actions/checkout@v2
 
