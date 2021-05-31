@@ -56,7 +56,7 @@ jobs:
           key: stable-${{ matrix.os }}-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
 
       - name: 'Install dependencies'
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Cargo test
         uses: actions-rs/cargo@v1
@@ -105,7 +105,7 @@ jobs:
           key: npm-cache-windows-i686-node@lts-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Build TypeScript
         run: yarn build:ts
@@ -195,7 +195,7 @@ jobs:
           docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
 
       - name: 'Install dependencies'
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: 'Build'
         run: |
@@ -260,7 +260,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu -y
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Cross build aarch64
         run: yarn build -- -- --target aarch64-unknown-linux-gnu
@@ -325,7 +325,7 @@ jobs:
           sudo apt-get install gcc-aarch64-linux-gnu -y
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Cross build aarch64
         run: yarn build -- -- --target aarch64-unknown-linux-musl
@@ -399,7 +399,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install gcc-arm-linux-gnueabihf -y
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Cross build arm7
         run: yarn build -- -- --target armv7-unknown-linux-gnueabihf
@@ -457,7 +457,7 @@ jobs:
           key: npm-cache-apple-aarch64-node@14-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Cross build aarch64
         run: yarn build -- -- --target aarch64-apple-darwin
@@ -506,7 +506,7 @@ jobs:
           key: npm-cache-apple-aarch64-node@14-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Build
         shell: bash
@@ -555,10 +555,12 @@ jobs:
             whoami
             env
             freebsd-version
-            yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+            yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
             yarn build:ts
             yarn build
             yarn test
+            rm -rf node_modules
+            rm -rf target
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -588,7 +590,7 @@ jobs:
 
       # Do not cache node_modules, or yarn workspace links broken
       - name: 'Install dependencies'
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Build TypeScript
         run: yarn build:ts
@@ -674,7 +676,7 @@ jobs:
           key: npm-cache-test-aarch64-linux-node@${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
 
       - name: 'Install dependencies'
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Build TypeScript
         run: yarn build:ts
@@ -732,7 +734,7 @@ jobs:
           key: npm-cache-ubuntu-latest-publish-${{ hashFiles('yarn.lock') }}
 
       - name: 'Install dependencies'
-        run: yarn install --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Download all artifacts
         uses: actions/download-artifact@v2

@@ -2,7 +2,7 @@ import test from 'ava'
 
 import { verifySync, hash } from '../index'
 
-const { hashSync } = require('bcrypt')
+const { hashSync } = require('bcryptjs')
 
 const fx = Buffer.from('bcrypt-test-password')
 
