@@ -27,11 +27,10 @@ mod verify_task;
   not(target_arch = "arm"),
   not(target_arch = "aarch64")
 ))]
-#[cfg(all(windows, not(target_arch = "aarch64")))]
 #[global_allocator]
-static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
+static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 
-#[cfg(windows)]
+#[cfg(all(windows, not(target_arch = "aarch64")))]
 #[global_allocator]
 static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 

@@ -33,17 +33,20 @@ Tag 246568 words bench suite: Fastest is @node-rs/jieba
 
 ## Support matrix
 
-|                 | node10 | node12 | node14 | node15 |
-| --------------- | ------ | ------ | ------ | ------ |
-| Windows x64     | ✓      | ✓      | ✓      | ✓      |
-| Windows x32     | ✓      | ✓      | ✓      | ✓      |
-| macOS x64       | ✓      | ✓      | ✓      | ✓      |
-| macOS arm64     | ✓      | ✓      | ✓      | ✓      |
-| Linux x64 gnu   | ✓      | ✓      | ✓      | ✓      |
-| Linux x64 musl  | ✓      | ✓      | ✓      | ✓      |
-| Linux arm gnu   | ✓      | ✓      | ✓      | ✓      |
-| Linux arm64 gnu | ✓      | ✓      | ✓      | ✓      |
-| Android arm64   | ✓      | ✓      | ✓      | ✓      |
+|                  | node12 | node14 | node16 |
+| ---------------- | ------ | ------ | ------ |
+| Windows x64      | ✓      | ✓      | ✓      |
+| Windows x32      | ✓      | ✓      | ✓      |
+| Windows arm64    | ✓      | ✓      | ✓      |
+| macOS x64        | ✓      | ✓      | ✓      |
+| macOS arm64      | ✓      | ✓      | ✓      |
+| Linux x64 gnu    | ✓      | ✓      | ✓      |
+| Linux x64 musl   | ✓      | ✓      | ✓      |
+| Linux arm gnu    | ✓      | ✓      | ✓      |
+| Linux arm64 gnu  | ✓      | ✓      | ✓      |
+| Linux arm64 musl | ✓      | ✓      | ✓      |
+| Android arm64    | ✓      | ✓      | ✓      |
+| FreeBSD x64      | ✓      | ✓      | ✓      |
 
 ## Usage
 
