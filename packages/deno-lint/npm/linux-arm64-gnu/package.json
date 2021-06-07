@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-linux-arm64-gnu",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "os": ["linux"],
   "cpu": ["arm64"],
   "main": "deno-lint.linux-arm64-gnu.node",
