@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.1.1...@node-rs/helper@1.2.0) (2021-06-08)
+
+### Features
+
+- **helper:** display addtional info while loading bindings failed ([cfaaf27](https://github.com/napi-rs/node-rs/commit/cfaaf27f17be0f8a8e008892e222b26f2f10fd26))
+
 ## [1.1.1](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.1.0...@node-rs/helper@1.1.1) (2021-06-01)
 
 **Note:** Version bump only for package @node-rs/helper

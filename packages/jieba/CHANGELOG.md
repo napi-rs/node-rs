@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/napi-rs/node-rs/compare/@node-rs/jieba@1.1.1...@node-rs/jieba@1.2.0) (2021-06-08)
+
+### Features
+
+- **jieba:** implement loadTFIDFDict ([c434bff](https://github.com/napi-rs/node-rs/commit/c434bfffc904d3707b8fbc93befe67a6fc828cd7))
+
 ## [1.1.1](https://github.com/napi-rs/node-rs/compare/@node-rs/jieba@1.1.0...@node-rs/jieba@1.1.1) (2021-06-01)
 
 **Note:** Version bump only for package @node-rs/jieba

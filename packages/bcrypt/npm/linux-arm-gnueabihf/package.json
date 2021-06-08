@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt-linux-arm-gnueabihf",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "os": ["linux"],
   "cpu": ["arm"],
   "main": "bcrypt.linux-arm-gnueabihf.node",

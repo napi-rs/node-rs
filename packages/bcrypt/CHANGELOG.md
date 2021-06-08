@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.2.2...@node-rs/bcrypt@1.3.0) (2021-06-08)
+
+### Features
+
+- **helper:** display addtional info while loading bindings failed ([cfaaf27](https://github.com/napi-rs/node-rs/commit/cfaaf27f17be0f8a8e008892e222b26f2f10fd26))
+
 ## [1.2.2](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.2.1...@node-rs/bcrypt@1.2.2) (2021-06-01)
 
 **Note:** Version bump only for package @node-rs/bcrypt
