@@ -1,4 +1,4 @@
-import { existsSync } from 'fs'
+import { existsSync, readdirSync } from 'fs'
 import { platform, arch } from 'os'
 import { join } from 'path'
 
@@ -9,13 +9,21 @@ const PlatformName = platform()
 
 export function loadBinding(dirname: string, filename = 'index', packageName?: string) {
   const triples = platformArchTriples[PlatformName][ArchName]
+  let additionalErrorMsg = ''
   for (const triple of triples) {
     // resolve in node_modules
     if (packageName) {
       try {
         return require(require.resolve(`${packageName}-${triple.platformArchABI}`, { paths: [dirname] }))
-        // eslint-disable-next-line no-empty
-      } catch (e) {}
+      } catch (e) {
+        if (e?.code !== 'MODULE_NOT_FOUND') {
+          try {
+            const pkgPath = require.resolve(`${packageName}-${triple.platformArchABI}`, { paths: [dirname] })
+            additionalErrorMsg += `file: ${pkgPath} existed but error occurred while require it: ${e.message ?? e} \n`
+            // eslint-disable-next-line no-empty
+          } catch {}
+        }
+      }
     }
     const localFilePath = join(dirname, `${filename}.${triple.platformArchABI}.node`)
     if (existsSync(localFilePath)) {
@@ -23,11 +31,23 @@ export function loadBinding(dirname: string, filename = 'index', packageName?: s
     }
   }
 
-  const errorMsg = `Can not find node binding files from ${
-    packageName ? triples.map((triple) => `${packageName}-${triple.platformArchABI}`).join(', ') : ''
-  } ${packageName ? 'and ' : ''}${triples
-    .map((triple) => join(dirname, `${filename}.${triple.platformArchABI}.node`))
-    .join(', ')}`
+  let packageList = ''
 
-  throw new TypeError(errorMsg)
+  if (packageName) {
+    try {
+      // @swc/core => core
+      // awesome-package => awesome-package
+      const packageNameWithoutNamespace = packageName.split('/').pop()!
+      packageList = readdirSync(join(require.resolve(packageName, { paths: [dirname] }), '..', '..'))
+        .filter((d) => d !== packageNameWithoutNamespace && d.startsWith(packageNameWithoutNamespace))
+        .join(', ')
+      // eslint-disable-next-line no-empty
+    } catch {}
+  }
+
+  const errorMsg = `Can not load bindings${additionalErrorMsg ? ', ' + additionalErrorMsg : '\n'}${
+    packageList ? 'Installed packages: [' + packageList + ']' : ''
+  }`
+
+  throw new Error(errorMsg)
 }
