@@ -54,6 +54,8 @@ Tag 246568 words bench suite: Fastest is @node-rs/jieba
 const { load, cut } = require('@node-rs/jieba')
 
 load()
+// loadDict(fs.readFileSync(...))
+// loadTFIDFDict(fs.readFileSync(...))
 
 cut('我们中出了一个叛徒', false)
 

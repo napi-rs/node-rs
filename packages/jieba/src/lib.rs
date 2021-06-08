@@ -28,11 +28,13 @@ static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
 static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 static JIEBA: OnceCell<Jieba> = OnceCell::new();
+static TFIDF_INSTANCE: OnceCell<TFIDF> = OnceCell::new();
 
 #[module_exports]
 fn init(mut exports: JsObject) -> Result<()> {
   exports.create_named_method("load", load)?;
   exports.create_named_method("loadDict", load_dict)?;
+  exports.create_named_method("loadTFIDFDict", load_tfidf_dict)?;
   exports.create_named_method("cut", cut)?;
   exports.create_named_method("cutAll", cut_all)?;
   exports.create_named_method("cutForSearch", cut_for_search)?;
@@ -159,9 +161,10 @@ fn extract(ctx: CallContext) -> Result<JsObject> {
     allowed_pos_str.split(',').map(|s| s.to_owned()).collect()
   };
 
-  let jieba = JIEBA.get_or_init(Jieba::new);
-
-  let keyword_extractor = TFIDF::new_with_jieba(&jieba);
+  let keyword_extractor = TFIDF_INSTANCE.get_or_init(|| {
+    let jieba = JIEBA.get_or_init(Jieba::new);
+    TFIDF::new_with_jieba(&jieba)
+  });
 
   let topn: u32 = topn.try_into()?;
 
@@ -184,5 +187,27 @@ fn extract(ctx: CallContext) -> Result<JsObject> {
 
 #[js_function]
 fn insert_word(ctx: CallContext) -> Result<JsUndefined> {
+  ctx.env.get_undefined()
+}
+
+#[js_function(1)]
+fn load_tfidf_dict(ctx: CallContext) -> Result<JsUndefined> {
+  let dict = ctx.get::<JsBuffer>(0)?.into_value()?;
+  let mut readable_dict: &[u8] = &dict;
+  if TFIDF_INSTANCE.get().is_some() {
+    return Err(Error::new(
+      Status::GenericFailure,
+      "TFIDF has loaded, can not load dict again".to_owned(),
+    ));
+  }
+  TFIDF_INSTANCE.get_or_try_init(|| {
+    let jieba = JIEBA.get_or_init(Jieba::new);
+    let mut tfidf = TFIDF::new_with_jieba(&jieba);
+    tfidf
+      .load_dict(&mut readable_dict)
+      .map(|_| tfidf)
+      .map_err(|e| Error::new(Status::GenericFailure, format!("{}", e)))
+  })?;
+
   ctx.env.get_undefined()
 }
