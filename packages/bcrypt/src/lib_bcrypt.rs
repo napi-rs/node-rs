@@ -358,15 +358,15 @@ mod tests {
   fn forbid_null_bytes() {
     fn assert_invalid_password(password: &[u8]) {
       match hash(password, DEFAULT_COST) {
-        Ok(_) => panic!(format!(
+        Ok(_) => panic!(
           "NULL bytes must be forbidden, but {:?} is allowed.",
           password
-        )),
+        ),
         Err(BcryptError::InvalidPassword) => {}
-        Err(e) => panic!(format!(
+        Err(e) => panic!(
           "NULL bytes are forbidden but error differs: {} for {:?}.",
           e, password
-        )),
+        ),
       }
     }
     assert_invalid_password(b"\0");
