@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-linux-x64-musl",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "os": ["linux"],
   "cpu": ["x64"],
   "main": "deno-lint.linux-x64-musl.node",

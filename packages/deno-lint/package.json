@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Deno lint binding for Node.js",
   "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
   "author": "LongYinan <lynweklm@gmail.com>",
