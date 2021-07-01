@@ -14,16 +14,10 @@ use napi::{
 use once_cell::sync::OnceCell;
 
 #[cfg(all(
-  unix,
+  target_arch = "x86_64",
   not(target_env = "musl"),
-  not(target_os = "freebsd"),
-  not(target_arch = "arm"),
-  not(target_arch = "aarch64")
+  not(debug_assertions)
 ))]
-#[global_allocator]
-static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
-
-#[cfg(all(windows, not(target_arch = "aarch64")))]
 #[global_allocator]
 static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
