@@ -13,10 +13,33 @@ updates:
       - 'npm'
       - 'dependencies'
     versioning-strategy: increase
-
-  # Enable version updates for Docker
+  
   - package-ecosystem: 'cargo'
-    directory: '/'
+    directory: '/packages/bcrypt'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'rust'
+      - 'dependencies'
+   
+  - package-ecosystem: 'cargo'
+    directory: '/packages/crc32'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'rust'
+      - 'dependencies'
+      
+  - package-ecosystem: 'cargo'
+    directory: '/packages/jieba'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'rust'
+      - 'dependencies'
+      
+  - package-ecosystem: 'cargo'
+    directory: '/packages/deno-lint'
     schedule:
       interval: 'weekly'
     labels:
