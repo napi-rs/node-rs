@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.6.0...@node-rs/deno-lint@1.7.0) (2021-07-15)
+
+### Features
+
+- **deno-lint:** upgrade to deno-lint@0.11.0 ([0901c0c](https://github.com/napi-rs/node-rs/commit/0901c0cc76ee7d2b5b92bed261621a09c0d90e06))
+
 # [1.6.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.5.0...@node-rs/deno-lint@1.6.0) (2021-07-06)
 
 ### Features
