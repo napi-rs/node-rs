@@ -18,7 +18,7 @@ impl VerifyTask {
     Ok(
       verify(
         &password,
-        str::from_utf8(&hash).map_err(|_| Error::from_status(Status::StringExpected))?,
+        str::from_utf8(hash).map_err(|_| Error::from_status(Status::StringExpected))?,
       )
       .unwrap_or(false),
     )

@@ -26,10 +26,10 @@ pub struct HashParts {
 /// https://en.wikipedia.org/wiki/Bcrypt#Versioning_history
 #[derive(Debug, Clone, Copy)]
 pub enum Version {
-  TwoA,
-  TwoX,
-  TwoY,
-  TwoB,
+  A,
+  X,
+  Y,
+  B,
 }
 
 impl FromStr for Version {
@@ -37,16 +37,16 @@ impl FromStr for Version {
 
   fn from_str(s: &str) -> Result<Version, Self::Err> {
     if s == "2a" {
-      return Ok(Version::TwoA);
+      return Ok(Version::A);
     }
     if s == "2x" {
-      return Ok(Version::TwoX);
+      return Ok(Version::X);
     }
     if s == "2y" {
-      return Ok(Version::TwoY);
+      return Ok(Version::Y);
     }
     if s == "2b" {
-      return Ok(Version::TwoB);
+      return Ok(Version::B);
     }
     Err(BcryptError::InvalidVersion(s.to_owned()))
   }
@@ -55,7 +55,7 @@ impl FromStr for Version {
 impl HashParts {
   /// Creates the bcrypt hash string from all its parts
   fn format(self) -> String {
-    self.format_for_version(Version::TwoB)
+    self.format_for_version(Version::B)
   }
 
   /// Get the bcrypt hash cost
@@ -87,17 +87,17 @@ impl FromStr for HashParts {
 
 impl ToString for HashParts {
   fn to_string(&self) -> String {
-    self.format_for_version(Version::TwoY)
+    self.format_for_version(Version::Y)
   }
 }
 
 impl fmt::Display for Version {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let str = match self {
-      Version::TwoA => "2a",
-      Version::TwoB => "2b",
-      Version::TwoX => "2x",
-      Version::TwoY => "2y",
+      Version::A => "2a",
+      Version::B => "2b",
+      Version::X => "2x",
+      Version::Y => "2y",
     };
     write!(f, "{}", str)
   }
@@ -336,19 +336,19 @@ mod tests {
     let result = _hash_password(password, DEFAULT_COST, salt.as_slice()).unwrap();
     assert_eq!(
       "$2a$12$......................21jzCB1r6pN6rp5O2Ev0ejjTAboskKm",
-      result.format_for_version(Version::TwoA)
+      result.format_for_version(Version::A)
     );
     assert_eq!(
       "$2b$12$......................21jzCB1r6pN6rp5O2Ev0ejjTAboskKm",
-      result.format_for_version(Version::TwoB)
+      result.format_for_version(Version::B)
     );
     assert_eq!(
       "$2x$12$......................21jzCB1r6pN6rp5O2Ev0ejjTAboskKm",
-      result.format_for_version(Version::TwoX)
+      result.format_for_version(Version::X)
     );
     assert_eq!(
       "$2y$12$......................21jzCB1r6pN6rp5O2Ev0ejjTAboskKm",
-      result.format_for_version(Version::TwoY)
+      result.format_for_version(Version::Y)
     );
     let hash = result.to_string();
     assert_eq!(true, verify("hunter2", &hash).unwrap());

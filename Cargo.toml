@@ -1,3 +1,5 @@
+cargo-features = ["strip"]
+
 [workspace]
 members = [
   "./packages/bcrypt",
@@ -7,5 +9,5 @@ members = [
 ]
 
 [profile.release]
-codegen-units = 2
 lto = true
+strip = 'symbols'

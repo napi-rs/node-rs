@@ -8,7 +8,7 @@
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "LICENSE", "COPYING"],
+  "files": ["index.js", "index.d.ts", "LICENSE"],
   "napi": {
     "name": "crc32",
     "triples": {

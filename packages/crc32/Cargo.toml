@@ -8,7 +8,8 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-crc32fast = "1.2"
+crc32c = {version = "0.6"}
+crc32fast = {version = "1.2", features = ["nightly"]}
 napi = "1"
 napi-derive = "1"
 
@@ -16,4 +17,4 @@ napi-derive = "1"
 mimalloc = {version = "0.1"}
 
 [build-dependencies]
-napi-build = "1.1.0"
+napi-build = "1"
