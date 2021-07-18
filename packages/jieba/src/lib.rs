@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::nonstandard_macro_braces)]
 
 #[macro_use]
 extern crate napi_derive;
@@ -39,14 +40,14 @@ fn init(mut exports: JsObject) -> Result<()> {
 
 #[js_function]
 fn load(ctx: CallContext) -> Result<JsUndefined> {
-  assert_not_init(&ctx.env)?;
+  assert_not_init(ctx.env)?;
   let _ = JIEBA.get_or_init(Jieba::new);
   ctx.env.get_undefined()
 }
 
 #[js_function(1)]
 fn load_dict(ctx: CallContext) -> Result<JsUndefined> {
-  assert_not_init(&ctx.env)?;
+  assert_not_init(ctx.env)?;
   let dict = ctx.get::<JsBuffer>(0)?.into_value()?;
   let mut readable_dict: &[u8] = &dict;
   JIEBA.get_or_init(|| {
@@ -157,7 +158,7 @@ fn extract(ctx: CallContext) -> Result<JsObject> {
 
   let keyword_extractor = TFIDF_INSTANCE.get_or_init(|| {
     let jieba = JIEBA.get_or_init(Jieba::new);
-    TFIDF::new_with_jieba(&jieba)
+    TFIDF::new_with_jieba(jieba)
   });
 
   let topn: u32 = topn.try_into()?;
@@ -196,7 +197,7 @@ fn load_tfidf_dict(ctx: CallContext) -> Result<JsUndefined> {
   }
   TFIDF_INSTANCE.get_or_try_init(|| {
     let jieba = JIEBA.get_or_init(Jieba::new);
-    let mut tfidf = TFIDF::new_with_jieba(&jieba);
+    let mut tfidf = TFIDF::new_with_jieba(jieba);
     tfidf
       .load_dict(&mut readable_dict)
       .map(|_| tfidf)
