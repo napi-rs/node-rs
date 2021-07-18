@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.1.2...@node-rs/crc32@1.2.0) (2021-07-18)
+
+### Features
+
+- **deno-lint:** upgrade to deno-lint@0.8.0 ([4ceb9bb](https://github.com/napi-rs/node-rs/commit/4ceb9bb418fd07861b11c249af52e9ef126da574))
+
 ## [1.1.2](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.1.1...@node-rs/crc32@1.1.2) (2021-06-08)
 
 **Note:** Version bump only for package @node-rs/crc32

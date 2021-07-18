@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32-linux-x64-musl",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "os": ["linux"],
   "cpu": ["x64"],
   "main": "crc32.linux-x64-musl.node",
