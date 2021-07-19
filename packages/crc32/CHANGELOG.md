@@ -7,7 +7,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- **deno-lint:** upgrade to deno-lint@0.8.0 ([4ceb9bb](https://github.com/napi-rs/node-rs/commit/4ceb9bb418fd07861b11c249af52e9ef126da574))
+- Support ARM v8 crc32c instructions ([#370](https://github.com/napi-rs/node-rs/issues/370))
+- Switch to nightly toolchain, strip symbols ([#463](https://github.com/napi-rs/node-rs/pull/463))
 
 ## [1.1.2](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.1.1...@node-rs/crc32@1.1.2) (2021-06-08)
 

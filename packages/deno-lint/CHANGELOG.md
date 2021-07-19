@@ -5,7 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.7.1](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.7.0...@node-rs/deno-lint@1.7.1) (2021-07-18)
 
-**Note:** Version bump only for package @node-rs/deno-lint
+### Features
+
+- Switch to nightly toolchain, strip symbols ([#463](https://github.com/napi-rs/node-rs/pull/463))
 
 # [1.7.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.6.0...@node-rs/deno-lint@1.7.0) (2021-07-15)
 
