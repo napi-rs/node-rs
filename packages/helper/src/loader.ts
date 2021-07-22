@@ -27,7 +27,11 @@ export function loadBinding(dirname: string, filename = 'index', packageName?: s
     }
     const localFilePath = join(dirname, `${filename}.${triple.platformArchABI}.node`)
     if (existsSync(localFilePath)) {
-      return require(localFilePath)
+      try {
+        return require(localFilePath)
+      } catch (e) {
+        additionalErrorMsg += `file: ${localFilePath} existed but error occurred while require it: ${e.message ?? e} \n`
+      }
     }
   }
 
