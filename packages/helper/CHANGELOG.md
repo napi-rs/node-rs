@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.2.0...@node-rs/helper@1.2.1) (2021-07-22)
+
+### Performance Improvements
+
+- **helper:** reduce install size ([#464](https://github.com/napi-rs/node-rs/issues/464)) ([fb740bc](https://github.com/napi-rs/node-rs/commit/fb740bcede0d110a8f29b5b978e74a9ad9b59bfe))
+
 # [1.2.0](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.1.1...@node-rs/helper@1.2.0) (2021-06-08)
 
 ### Features

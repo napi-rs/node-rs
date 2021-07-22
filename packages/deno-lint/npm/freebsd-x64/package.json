@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-freebsd-x64",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "os": ["freebsd"],
   "cpu": ["x64"],
   "main": "deno-lint.freebsd-x64.node",

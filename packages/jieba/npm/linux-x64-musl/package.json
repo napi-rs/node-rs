@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba-linux-x64-musl",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "os": ["linux"],
   "cpu": ["x64"],
   "main": "jieba.linux-x64-musl.node",

@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt-freebsd-x64",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "os": ["freebsd"],
   "cpu": ["x64"],
   "main": "bcrypt.freebsd-x64.node",
