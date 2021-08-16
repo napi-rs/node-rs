@@ -12,7 +12,7 @@ blowfish = {version = "0.8", features = ["bcrypt"]}
 byteorder = "1"
 napi = "1"
 napi-derive = "1"
-phf = {version = "0.9", features = ["macros"]}
+phf = {version = "0.10", features = ["macros"]}
 radix64 = "0.6"
 rand = "0.8"
 
