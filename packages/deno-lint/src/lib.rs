@@ -127,7 +127,7 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
       index as _,
       ctx
         .env
-        .create_string(format_diagnostic(&diagnostic, &s).as_str())?,
+        .create_string(format_diagnostic(diagnostic, &s).as_str())?,
     )?;
   }
 
