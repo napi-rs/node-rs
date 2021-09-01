@@ -298,7 +298,11 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
       let ts_config = TsConfig {
         dynamic_import: true,
         decorators: true,
-        tsx: p.ends_with(".tsx"),
+        tsx: p
+          .extension()
+          .and_then(|ext| ext.to_str())
+          .map(|ext| ext == "tsx")
+          .unwrap_or(false),
         ..Default::default()
       };
       let syntax = Syntax::Typescript(ts_config);
