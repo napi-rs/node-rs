@@ -8,7 +8,7 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-deno_lint = "=0.12.0"
+deno_lint = "=0.13.0"
 ignore = "0.4"
 napi = {version = "1", features = ["serde-json"]}
 napi-derive = "1"
