@@ -15,7 +15,7 @@ export function loadBinding(dirname: string, filename = 'index', packageName?: s
     if (packageName) {
       try {
         return require(require.resolve(`${packageName}-${triple.platformArchABI}`, { paths: [dirname] }))
-      } catch (e) {
+      } catch (e: any) {
         if (e?.code !== 'MODULE_NOT_FOUND') {
           try {
             const pkgPath = require.resolve(`${packageName}-${triple.platformArchABI}`, { paths: [dirname] })
@@ -29,7 +29,7 @@ export function loadBinding(dirname: string, filename = 'index', packageName?: s
     if (existsSync(localFilePath)) {
       try {
         return require(localFilePath)
-      } catch (e) {
+      } catch (e: any) {
         additionalErrorMsg += `file: ${localFilePath} existed but error occurred while require it: ${e.message ?? e} \n`
       }
     }
