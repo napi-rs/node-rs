@@ -5,13 +5,13 @@
 extern crate napi_derive;
 
 use std::env;
-use std::fmt;
 use std::fs;
-use std::io::Write;
 use std::str;
 
+use annotate_snippets::{display_list, snippet};
+use ast_view::{SourceFile, SourceFileTextInfo};
 use deno_lint::ast_parser::get_default_ts_config;
-use deno_lint::diagnostic::LintDiagnostic;
+use deno_lint::diagnostic::{LintDiagnostic, Range};
 use deno_lint::linter::LinterBuilder;
 use deno_lint::rules::{get_all_rules, get_recommended_rules};
 use ignore::types::TypesBuilder;
@@ -19,11 +19,6 @@ use ignore::WalkBuilder;
 use napi::{CallContext, Error, JsBoolean, JsBuffer, JsObject, JsString, Result, Status};
 use swc_ecmascript::parser::Syntax;
 use swc_ecmascript::parser::TsConfig;
-use termcolor::Color::{Ansi256, Red};
-use termcolor::{Ansi, ColorSpec, WriteColor};
-
-#[cfg(windows)]
-use termcolor::{BufferWriter, ColorChoice};
 
 #[cfg(all(
   target_arch = "x86_64",
@@ -33,150 +28,60 @@ use termcolor::{BufferWriter, ColorChoice};
 #[global_allocator]
 static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
-#[allow(unused)]
-#[cfg(windows)]
-fn enable_ansi() {
-  BufferWriter::stdout(ColorChoice::AlwaysAnsi);
+// Return slice of source code covered by diagnostic
+// and adjusted range of diagnostic (ie. original range - start line
+// of sliced source code).
+fn get_slice_source_and_range<'a>(
+  source_file: &'a SourceFileTextInfo,
+  range: &Range,
+) -> (&'a str, (usize, usize)) {
+  let first_line_start = source_file.line_start(range.start.line_index).0 as usize;
+  let last_line_end = source_file.line_end(range.end.line_index).0 as usize;
+  let adjusted_start = range.start.byte_pos - first_line_start;
+  let adjusted_end = range.end.byte_pos - first_line_start;
+  let adjusted_range = (adjusted_start, adjusted_end);
+  let slice_str = &source_file.text()[first_line_start..last_line_end];
+  (slice_str, adjusted_range)
 }
 
-fn gray(s: String) -> impl fmt::Display {
-  let mut style_spec = ColorSpec::new();
-  style_spec.set_fg(Some(Ansi256(8)));
-  style(&s, style_spec)
-}
-
-fn red(s: String) -> impl fmt::Display {
-  let mut style_spec = ColorSpec::new();
-  style_spec.set_fg(Some(Red));
-  style(&s, style_spec)
-}
-
-fn cyan(s: String) -> impl fmt::Display {
-  let mut style_spec = ColorSpec::new();
-  style_spec.set_fg(Some(Ansi256(14)));
-  style(&s, style_spec)
-}
-
-fn bold(s: String) -> impl fmt::Display {
-  let mut style_spec = ColorSpec::new();
-  style_spec.set_bold(true);
-  style(&s, style_spec)
-}
-
-fn style(s: &str, colorspec: ColorSpec) -> impl fmt::Display {
-  let mut v = Vec::new();
-  let mut ansi_writer = Ansi::new(&mut v);
-  ansi_writer.set_color(&colorspec).unwrap();
-  ansi_writer.write_all(s.as_bytes()).unwrap();
-  ansi_writer.reset().unwrap();
-  String::from_utf8_lossy(&v).into_owned()
-}
-
-pub fn format_diagnostic(diagnostic: &LintDiagnostic, source: &str) -> String {
-  let pretty_error = format!(
-    "({}) {}",
-    gray(diagnostic.code.to_string()),
-    diagnostic.message
-  );
-
-  let file_name = &diagnostic.filename;
-  let location =
-    if file_name.contains('/') || file_name.contains('\\') || file_name.starts_with("./") {
-      file_name.to_string()
-    } else {
-      format!("./{}", file_name)
-    };
-
-  let line_str_len = diagnostic.range.end.line.to_string().len();
-  let pretty_location = cyan(format!(
-    "{}--> {}:{}:{}",
-    " ".repeat(line_str_len),
-    location,
-    diagnostic.range.start.line,
-    diagnostic.range.start.col
-  ))
-  .to_string();
-
-  let dummy = format!("{} |", " ".repeat(line_str_len));
-
-  if diagnostic.range.start.line == diagnostic.range.end.line {
-    let snippet_length = diagnostic.range.end.col - diagnostic.range.start.col;
-    let source_lines: Vec<&str> = source.split('\n').collect();
-    let line = source_lines[diagnostic.range.start.line - 1];
-    let pretty_line_src = format!("{} | {}", diagnostic.range.start.line, line);
-    let red_glyphs = format!(
-      "{} | {}{}",
-      " ".repeat(line_str_len),
-      " ".repeat(diagnostic.range.start.col),
-      red("^".repeat(snippet_length))
-    );
-
-    let lines = vec![
-      pretty_error,
-      pretty_location,
-      dummy.clone(),
-      pretty_line_src,
-      red_glyphs,
-      dummy,
-    ];
-
-    lines.join("\n")
+fn format_diagnostic(diagnostic: &LintDiagnostic, source_file: &SourceFileTextInfo) -> String {
+  let (slice_source, range) = get_slice_source_and_range(source_file, &diagnostic.range);
+  let footer = if let Some(hint) = &diagnostic.hint {
+    vec![snippet::Annotation {
+      label: Some(hint),
+      id: None,
+      annotation_type: snippet::AnnotationType::Help,
+    }]
   } else {
-    let mut lines = vec![pretty_error, pretty_location, dummy.clone()];
-    let source_lines: Vec<&str> = source.split('\n').collect();
+    vec![]
+  };
 
-    for i in diagnostic.range.start.line..(diagnostic.range.end.line + 1) {
-      let line = source_lines[i - 1];
-      let is_first = i == diagnostic.range.start.line;
-      let is_last = i == diagnostic.range.end.line;
-
-      if is_first {
-        let (rest, snippet) = line.split_at(diagnostic.range.start.col);
-        lines.push(format!("{} |   {}{}", i, rest, bold(snippet.to_string())));
-      } else if is_last {
-        let (snippet, rest) = line.split_at(diagnostic.range.end.col);
-        lines.push(format!(
-          "{} | {} {}{}",
-          i,
-          red("|".to_string()),
-          bold(snippet.to_string()),
-          rest
-        ));
-      } else {
-        lines.push(format!(
-          "{} | {} {}",
-          i,
-          red("|".to_string()),
-          bold(line.to_string())
-        ));
-      }
-
-      // If this is the first line, render the ∨ symbols
-      if is_first {
-        lines.push(format!(
-          "{} |  {}{}",
-          " ".repeat(line_str_len),
-          red("_".repeat(diagnostic.range.start.col + 1)),
-          red("^".to_string())
-        ));
-      }
-
-      // If this is the last line, render the ∨ symbols
-      if is_last {
-        lines.push(format!(
-          "{} | {}{}{}",
-          " ".repeat(line_str_len),
-          red("|".to_string()),
-          red("_".repeat(diagnostic.range.end.col)),
-          red("^".to_string())
-        ));
-      }
-    }
-
-    lines.push(dummy);
-
-    lines.join("\n")
-  }
+  let snippet = snippet::Snippet {
+    title: Some(snippet::Annotation {
+      label: Some(&diagnostic.message),
+      id: Some(&diagnostic.code),
+      annotation_type: snippet::AnnotationType::Error,
+    }),
+    footer,
+    slices: vec![snippet::Slice {
+      source: slice_source,
+      line_start: diagnostic.range.start.line_index + 1, // make 1-indexed
+      origin: Some(&diagnostic.filename),
+      fold: false,
+      annotations: vec![snippet::SourceAnnotation {
+        range,
+        label: "",
+        annotation_type: snippet::AnnotationType::Error,
+      }],
+    }],
+    opt: display_list::FormatOptions {
+      color: true,
+      anonymized_line_numbers: false,
+      margin: None,
+    },
+  };
+  let display_list = display_list::DisplayList::from(snippet);
+  format!("{}", display_list)
 }
 
 #[module_exports]
@@ -208,7 +113,7 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
 
   let file_name_ref = file_name.as_str()?;
 
-  let (_, file_diagnostics) = linter
+  let (s, file_diagnostics) = linter
     .lint(file_name_ref.to_owned(), source_string.to_owned())
     .map_err(|e| Error {
       status: Status::GenericFailure,
@@ -222,7 +127,7 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
       index as _,
       ctx
         .env
-        .create_string(format_diagnostic(diagnostic, source_string).as_str())?,
+        .create_string(format_diagnostic(&diagnostic, &s).as_str())?,
     )?;
   }
 
@@ -314,7 +219,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
         })
         .syntax(syntax)
         .build();
-      let (_, file_diagnostics) = linter
+      let (s, file_diagnostics) = linter
         .lint(
           (&p.to_str())
             .ok_or(Error::from_reason(format!(
@@ -330,7 +235,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
         })?;
       for diagnostic in file_diagnostics {
         has_error = true;
-        println!("{}", format_diagnostic(&diagnostic, file_content.as_str()));
+        println!("{}", format_diagnostic(&diagnostic, &s));
       }
     }
   }
