@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.9.0...@node-rs/deno-lint@1.9.1) (2021-09-01)
+
+### Bug Fixes
+
+- **deno-lint:** clippy error ([5858217](https://github.com/napi-rs/node-rs/commit/5858217f8d87361853b7cd97405e760b2ccad329))
+
 # [1.9.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.8.0...@node-rs/deno-lint@1.9.0) (2021-09-01)
 
 ### Bug Fixes
