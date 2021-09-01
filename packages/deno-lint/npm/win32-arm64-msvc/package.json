@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-win32-arm64-msvc",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "os": ["win32"],
   "cpu": ["arm64"],
   "main": "deno-lint.win32-arm64-msvc.node",

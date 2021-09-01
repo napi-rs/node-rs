@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.8.0...@node-rs/deno-lint@1.9.0) (2021-09-01)
+
+### Bug Fixes
+
+- **deno-lint:** enable tsx when needed ([523e366](https://github.com/napi-rs/node-rs/commit/523e36630ee755ca8ecdf0c6a2b0d9f105498048))
+
+### Features
+
+- **deno-lint:** upgrade to deno-lint@0.14.0 ([f0944d4](https://github.com/napi-rs/node-rs/commit/f0944d4fe6337f82524026248eaadd3546e7f736))
+
 # [1.8.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.7.2...@node-rs/deno-lint@1.8.0) (2021-08-10)
 
 ### Features
