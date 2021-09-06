@@ -1,6 +1,7 @@
 {
-  "references": [{ "path": "./packages/helper" }],
+  "references": [{ "path": "./packages/helper" }, { "path": "./packages/deno-lint" }],
   "compilerOptions": {
     "noEmit": true
-  }
+  },
+  "include": []
 }

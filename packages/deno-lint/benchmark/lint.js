@@ -26,7 +26,7 @@ suite
     const parseForESLintResult = parseForESLint(sourcecode, {
       filePath: filepath,
       sourceType: 'module',
-      ecmaVersion: 2019,
+      ecmaVersion: 2020,
       project: tsconfigPath,
       loc: true,
       range: true,

@@ -9,14 +9,16 @@ crate-type = ["cdylib"]
 
 [dependencies]
 annotate-snippets = {version = "0.9", features = ["color"]}
-ast_view = {version = "0.33.1", package = "dprint-swc-ecma-ast-view"}
-deno_lint = "=0.14.0"
+anyhow = "1"
+deno_ast = "0.1"
+deno_lint = "0.15"
+env_logger = "0.9"
+globwalk = "0.8"
 ignore = "0.4"
 napi = {version = "1", features = ["serde-json"]}
 napi-derive = "1"
 serde = "1"
 serde_json = "1"
-swc_ecmascript = {version = "=0.61.0", features = ["parser", "transforms", "utils", "visit"]}
 
 [target.'cfg(all(target_arch = "x86_64", not(target_env = "musl")))'.dependencies]
 mimalloc = {version = "0.1"}

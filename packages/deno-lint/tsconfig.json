@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2018",
+    "rootDir": ".",
+    "composite": true,
+    "sourceMap": true,
+    "inlineSourceMap": false,
+    "noEmitHelpers": false,
+    "importHelpers": false
+  },
+  "include": ["."],
+  "exclude": ["*.js", "*.d.ts"]
+}

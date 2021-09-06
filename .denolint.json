@@ -1,0 +1,20 @@
+{
+  "rules": {
+    "tags": [
+      "recommended"
+    ],
+    "exclude": [
+      "no-explicit-any",
+      "camelcase",
+      "ban-unknown-rule-code",
+      "no-window-prefix",
+      "no-empty-interface",
+      "ban-types",
+      "ban-untagged-todo",
+      "no-unused-vars",
+      "ban-ts-comment",
+      "no-case-declarations",
+      "no-this-alias"
+    ]
+  }
+}

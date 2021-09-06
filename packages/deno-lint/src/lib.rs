@@ -6,19 +6,20 @@ extern crate napi_derive;
 
 use std::env;
 use std::fs;
+use std::path;
 use std::str;
+use std::sync::Arc;
 
-use annotate_snippets::{display_list, snippet};
-use ast_view::{SourceFile, SourceFileTextInfo};
+use deno_ast::swc::parser::{Syntax, TsConfig};
 use deno_lint::ast_parser::get_default_ts_config;
-use deno_lint::diagnostic::{LintDiagnostic, Range};
 use deno_lint::linter::LinterBuilder;
 use deno_lint::rules::{get_all_rules, get_recommended_rules};
 use ignore::types::TypesBuilder;
 use ignore::WalkBuilder;
 use napi::{CallContext, Error, JsBoolean, JsBuffer, JsObject, JsString, Result, Status};
-use swc_ecmascript::parser::Syntax;
-use swc_ecmascript::parser::TsConfig;
+
+mod config;
+mod diagnostics;
 
 #[cfg(all(
   target_arch = "x86_64",
@@ -28,64 +29,10 @@ use swc_ecmascript::parser::TsConfig;
 #[global_allocator]
 static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
-// Return slice of source code covered by diagnostic
-// and adjusted range of diagnostic (ie. original range - start line
-// of sliced source code).
-fn get_slice_source_and_range<'a>(
-  source_file: &'a SourceFileTextInfo,
-  range: &Range,
-) -> (&'a str, (usize, usize)) {
-  let first_line_start = source_file.line_start(range.start.line_index).0 as usize;
-  let last_line_end = source_file.line_end(range.end.line_index).0 as usize;
-  let adjusted_start = range.start.byte_pos - first_line_start;
-  let adjusted_end = range.end.byte_pos - first_line_start;
-  let adjusted_range = (adjusted_start, adjusted_end);
-  let slice_str = &source_file.text()[first_line_start..last_line_end];
-  (slice_str, adjusted_range)
-}
-
-fn format_diagnostic(diagnostic: &LintDiagnostic, source_file: &SourceFileTextInfo) -> String {
-  let (slice_source, range) = get_slice_source_and_range(source_file, &diagnostic.range);
-  let footer = if let Some(hint) = &diagnostic.hint {
-    vec![snippet::Annotation {
-      label: Some(hint),
-      id: None,
-      annotation_type: snippet::AnnotationType::Help,
-    }]
-  } else {
-    vec![]
-  };
-
-  let snippet = snippet::Snippet {
-    title: Some(snippet::Annotation {
-      label: Some(&diagnostic.message),
-      id: Some(&diagnostic.code),
-      annotation_type: snippet::AnnotationType::Error,
-    }),
-    footer,
-    slices: vec![snippet::Slice {
-      source: slice_source,
-      line_start: diagnostic.range.start.line_index + 1, // make 1-indexed
-      origin: Some(&diagnostic.filename),
-      fold: false,
-      annotations: vec![snippet::SourceAnnotation {
-        range,
-        label: "",
-        annotation_type: snippet::AnnotationType::Error,
-      }],
-    }],
-    opt: display_list::FormatOptions {
-      color: true,
-      anonymized_line_numbers: false,
-      margin: None,
-    },
-  };
-  let display_list = display_list::DisplayList::from(snippet);
-  format!("{}", display_list)
-}
-
 #[module_exports]
 fn init(mut exports: JsObject) -> Result<()> {
+  env_logger::init();
+
   exports.create_named_method("lint", lint)?;
   exports.create_named_method("denolint", lint_command)?;
 
@@ -104,6 +51,7 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
       get_recommended_rules()
     })
     .syntax(get_default_ts_config())
+    .ignore_diagnostic_directive("eslint-disable-next-line")
     .build();
 
   let source_string = str::from_utf8(&source_code).map_err(|e| Error {
@@ -122,12 +70,11 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
 
   let mut result = ctx.env.create_array_with_length(file_diagnostics.len())?;
 
-  for (index, diagnostic) in file_diagnostics.iter().enumerate() {
+  let d = diagnostics::display_diagnostics(&file_diagnostics, s.source(), false);
+  for (index, diagnostic) in d.iter().enumerate() {
     result.set_element(
       index as _,
-      ctx
-        .env
-        .create_string(format_diagnostic(diagnostic, &s).as_str())?,
+      ctx.env.create_string_from_std(format!("{}", diagnostic))?,
     )?;
   }
 
@@ -137,7 +84,8 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
 #[js_function(2)]
 fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
   let __dirname = ctx.get::<JsString>(0)?.into_utf8()?;
-  let enable_all_rules = ctx.get::<JsBoolean>(1)?.get_value()?;
+  let config_path_js = ctx.get::<JsString>(1)?.into_utf8()?;
+  let config_path = config_path_js.as_str()?;
   let mut has_error = false;
   let cwd = env::current_dir().map_err(|e| {
     Error::new(
@@ -145,6 +93,16 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
       format!("Get current_dir failed {}", e),
     )
   })?;
+  let config_existed = fs::metadata(&config_path)
+    .map(|m| m.is_file())
+    .unwrap_or(false);
+
+  let (rules, cfg_ignore_files) = if config_existed {
+    let cfg = config::load_from_json(path::Path::new(&config_path))?;
+    (cfg.get_rules(), cfg.ignore)
+  } else {
+    (get_recommended_rules(), None)
+  };
 
   let mut eslint_ignore_file = cwd.clone();
 
@@ -153,6 +111,12 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
   let mut denolint_ignore_file = cwd.clone();
 
   denolint_ignore_file.push(".denolintignore");
+
+  if let Some(ignore_files) = cfg_ignore_files {
+    for i in ignore_files {
+      denolint_ignore_file.push(i);
+    }
+  }
 
   let mut type_builder = TypesBuilder::new();
 
@@ -212,12 +176,10 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
       };
       let syntax = Syntax::Typescript(ts_config);
       let linter = LinterBuilder::default()
-        .rules(if enable_all_rules {
-          get_all_rules()
-        } else {
-          get_recommended_rules()
-        })
+        .rules(Arc::clone(&rules))
         .syntax(syntax)
+        .ignore_file_directive("eslint-disable")
+        .ignore_diagnostic_directive("eslint-disable-next-line")
         .build();
       let (s, file_diagnostics) = linter
         .lint(
@@ -233,10 +195,8 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
           status: Status::GenericFailure,
           reason: format!("Lint failed: {}, at: {:?}", e, &p),
         })?;
-      for diagnostic in file_diagnostics {
-        has_error = true;
-        println!("{}", format_diagnostic(&diagnostic, &s));
-      }
+      has_error = !file_diagnostics.is_empty();
+      diagnostics::display_diagnostics(&file_diagnostics, s.source(), true);
     }
   }
 
