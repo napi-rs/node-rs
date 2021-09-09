@@ -1,13 +1,19 @@
 #!/usr/bin/env node
 
-const { binding } = require('@node-rs/deno-lint')
+const { cli } = require('./cli')
 
-const { argv } = process
-
-const enableAllRules = argv.includes('--all') || argv.includes('-a')
-
-const hasError = binding.denolint(__dirname, enableAllRules)
-
-if (hasError) {
-  process.exit(1)
-}
+cli
+  .run(process.argv.slice(2), {
+    stdin: process.stdin,
+    stdout: process.stdout,
+    stderr: process.stderr,
+  })
+  .then((code) => {
+    if (code !== 0) {
+      process.exit(code)
+    }
+  })
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })

@@ -105,6 +105,30 @@ Emit nothing even if there were errors happened.
 
 `npx denolint`
 
-### `--all`, `-a`
+### `--config`, `-c`
 
-Enable all rules flag, if not present, denolint will run with recommend rules.
+Config path relative to the lint path. Config file must be a JSON file:
+
+Example:
+
+```json
+{
+  "rules": {
+    "tags": ["recommended"],
+    "exclude": [
+      "no-explicit-any",
+      "ban-unknown-rule-code",
+      "no-window-prefix",
+      "no-empty-interface",
+      "ban-types",
+      "ban-untagged-todo",
+      "no-unused-vars",
+      "ban-ts-comment",
+      "no-case-declarations",
+      "no-this-alias"
+    ]
+  }
+}
+```
+
+Checkout [deno_lint rules](https://github.com/denoland/deno_lint/tree/main/docs/rules) for all rules.
