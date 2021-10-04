@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@node-rs/helper": "^1.2.1",
-    "clipanion": "^3.0.1",
+    "clipanion": "^3.1.0",
     "loader-utils": "^2.0.0"
   },
   "devDependencies": {
