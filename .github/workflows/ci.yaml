@@ -152,7 +152,7 @@ jobs:
           path: packages/*/*.node
 
   build-freebsd:
-    runs-on: macos-latest
+    runs-on: macos-10.15
     name: Build FreeBSD
     steps:
       - uses: actions/checkout@v2
@@ -169,7 +169,9 @@ jobs:
           usesh: true
           mem: 3000
           prepare: |
-            pkg install -y curl node yarn npm python2
+            pkg install -y curl python2 node14
+            curl -qL https://www.npmjs.com/install.sh | sh
+            npm install -g yarn
             curl https://sh.rustup.rs -sSf --output rustup.sh
             sh rustup.sh -y --profile minimal --default-toolchain stable
             export PATH="/usr/local/cargo/bin:$PATH"
