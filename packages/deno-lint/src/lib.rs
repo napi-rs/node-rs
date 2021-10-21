@@ -7,8 +7,10 @@ extern crate napi_derive;
 use std::env;
 use std::fs;
 use std::path;
+use std::path::Path;
 use std::str;
 
+use deno_ast::MediaType;
 use deno_lint::linter::LinterBuilder;
 use deno_lint::rules::{get_all_rules, get_recommended_rules};
 use ignore::types::TypesBuilder;
@@ -36,6 +38,17 @@ fn init(mut exports: JsObject) -> Result<()> {
   Ok(())
 }
 
+#[inline(always)]
+fn get_media_type(p: &Path) -> MediaType {
+  match p.extension().and_then(|e| e.to_str()) {
+    Some("tsx") => MediaType::Tsx,
+    Some("jsx") => MediaType::Jsx,
+    Some("js") | Some("mjs") => MediaType::JavaScript,
+    Some("ts") => MediaType::TypeScript,
+    _ => MediaType::Tsx,
+  }
+}
+
 #[js_function(3)]
 fn lint(ctx: CallContext) -> Result<JsObject> {
   let file_name = ctx.get::<JsString>(0)?.into_utf8()?;
@@ -47,6 +60,7 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
     } else {
       get_recommended_rules()
     })
+    .media_type(get_media_type(Path::new(file_name.as_str()?)))
     .ignore_diagnostic_directive("eslint-disable-next-line")
     .build();
 
@@ -147,7 +161,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
     .types(types)
     .follow_links(true);
   for i in cfg_ignore_files {
-    dir_walker.add_custom_ignore_filename(i);
+    dir_walker.add_ignore(i);
   }
   for entry in dir_walker.build().filter_map(|v| v.ok()) {
     let p = entry.path();
@@ -157,6 +171,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
 
       let linter = LinterBuilder::default()
         .rules(rules.clone())
+        .media_type(get_media_type(p))
         .ignore_file_directive("eslint-disable")
         .ignore_diagnostic_directive("eslint-disable-next-line")
         .build();
