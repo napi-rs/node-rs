@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.9.2...@node-rs/deno-lint@1.10.0) (2021-10-21)
+
+### Bug Fixes
+
+- **deno-lint:** add missing peer dependncy ([21789be](https://github.com/napi-rs/node-rs/commit/21789be3d302e710b946f84e49240d5e7acb2f47))
+- **deno-lint:** ignore ban-unknown-rule-code error without this rule ([7468e6f](https://github.com/napi-rs/node-rs/commit/7468e6fd976a53c74579e38cfbf921177cdd16d2))
+
+### Features
+
+- **deno-lint:** upgrade to deno-lint@0.16.0 ([2afb52e](https://github.com/napi-rs/node-rs/commit/2afb52eacb6a2ccae4d6a7fac35f1f4d63b44af1))
+
 ## [1.9.2](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.9.1...@node-rs/deno-lint@1.9.2) (2021-09-09)
 
 **Note:** Version bump only for package @node-rs/deno-lint

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/napi-rs/node-rs/compare/@node-rs/jieba@1.3.1...@node-rs/jieba@1.4.0) (2021-10-21)
+
+### Features
+
+- **jieba:** upgrade once_cell crate ([9ffdd4a](https://github.com/napi-rs/node-rs/commit/9ffdd4ac000be54dac070e05352237dec8beefb9))
+
 ## [1.3.1](https://github.com/napi-rs/node-rs/compare/@node-rs/jieba@1.3.0...@node-rs/jieba@1.3.1) (2021-07-22)
 
 **Note:** Version bump only for package @node-rs/jieba
