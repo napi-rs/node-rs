@@ -1,13 +1,13 @@
 #![deny(clippy::all)]
 #![allow(clippy::nonstandard_macro_braces)]
 
-#[macro_use]
-extern crate napi_derive;
+/// Explicit extern crate to use allocator.
+extern crate global_alloc;
 
-use std::convert::TryInto;
 use std::str::FromStr;
 
 use napi::{CallContext, Error, JsBoolean, JsBuffer, JsNumber, JsObject, JsString, Result, Status};
+use napi_derive::*;
 
 use crate::hash_task::HashTask;
 use crate::lib_bcrypt::{format_salt, gen_salt, Version};
@@ -20,14 +20,6 @@ mod hash_task;
 mod lib_bcrypt;
 mod salt_task;
 mod verify_task;
-
-#[cfg(all(
-  target_arch = "x86_64",
-  not(target_env = "musl"),
-  not(debug_assertions)
-))]
-#[global_allocator]
-static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 #[module_exports]
 fn init(mut exports: JsObject) -> Result<()> {

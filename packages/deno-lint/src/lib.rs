@@ -1,8 +1,8 @@
 #![deny(clippy::all)]
 #![allow(clippy::nonstandard_macro_braces)]
 
-#[macro_use]
-extern crate napi_derive;
+/// Explicit extern crate to use allocator.
+extern crate global_alloc;
 
 use std::env;
 use std::fs;
@@ -16,17 +16,10 @@ use deno_lint::rules::{get_all_rules, get_recommended_rules};
 use ignore::types::TypesBuilder;
 use ignore::WalkBuilder;
 use napi::{CallContext, Error, JsBoolean, JsBuffer, JsObject, JsString, Result, Status};
+use napi_derive::*;
 
 mod config;
 mod diagnostics;
-
-#[cfg(all(
-  target_arch = "x86_64",
-  not(target_env = "musl"),
-  not(debug_assertions)
-))]
-#[global_allocator]
-static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 #[module_exports]
 fn init(mut exports: JsObject) -> Result<()> {

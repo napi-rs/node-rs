@@ -2,12 +2,16 @@ cargo-features = ["strip"]
 
 [workspace]
 members = [
+  "./crates/alloc",
   "./packages/bcrypt",
   "./packages/crc32",
   "./packages/deno-lint",
   "./packages/jieba",
+  "./packages/xxhash",
 ]
 
 [profile.release]
+codegen-units = 1
 lto = true
+overflow-checks = false
 strip = 'symbols'

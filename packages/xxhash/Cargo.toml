@@ -1,18 +1,17 @@
 [package]
 authors = ["LongYinan <lynweklm@gmail.com>"]
 edition = "2021"
-name = "node-rs-crc32"
+name = "xxhash"
 version = "0.1.0"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-crc32c = {version = "0.6"}
-crc32fast = {version = "1.2", features = ["nightly"]}
 global_alloc = {path = "../../crates/alloc"}
-napi = "1"
+napi = {version = "1", features = ["napi6"]}
 napi-derive = "1"
+xxhash-rust = {version = "0.8", features = ["xxh32", "const_xxh32", "xxh64", "const_xxh64", "xxh3", "const_xxh3"]}
 
 [build-dependencies]
 napi-build = "1"
