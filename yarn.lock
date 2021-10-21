@@ -6985,6 +6985,11 @@ typanion@^3.3.1:
   resolved "https://registry.npmjs.org/typanion/-/typanion-3.3.2.tgz#c31f3b2afb6e8ae74dbd3f96d5b1d8f9745e483e"
   integrity sha512-m3v3wtFc6R0wtl0RpEn11bKXIOjS1zch5gmx0zg2G5qfGQ3A9TVZRMSL43O5eFuGXsrgzyvDcGRmSXGP5UqpDQ==
 
+typanion@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.npmjs.org/typanion/-/typanion-3.7.0.tgz#8e328065a7943e69c67ac56d90f37d8af02eec0c"
+  integrity sha512-RV7UTpF6wa25Bc7o6DyeuEFkrCIt8zipzrOtBJsDsWH7BP/fAHZWlHxrBe9l5qg+Gs2tqhoahg79nsUBGTTWRQ==
+
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
   resolved "https://registry.npmjs.org/type-check/-/type-check-0.4.0.tgz#07b8203bfa7056c0657050e3ccd2c37730bab8f1"
