@@ -1,0 +1,27 @@
+{
+  "name": "@node-rs/xxhash-darwin-x64",
+  "version": "0.0.0",
+  "os": ["darwin"],
+  "cpu": ["x64"],
+  "main": "xxhash.darwin-x64.node",
+  "files": ["xxhash.darwin-x64.node"],
+  "description": "Fastest xxhash implementation in Node.js",
+  "keywords": ["hash", "xxhash", "xxhashjs", "Rust", "node-rs", "napi", "napi-rs", "N-API", "Node-API"],
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "homepage": "https://github.com/napi-rs/node-rs",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 12"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/napi-rs/node-rs/issues"
+  }
+}
