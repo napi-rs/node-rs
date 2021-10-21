@@ -8,10 +8,7 @@ use std::env;
 use std::fs;
 use std::path;
 use std::str;
-use std::sync::Arc;
 
-use deno_ast::swc::parser::{Syntax, TsConfig};
-use deno_lint::ast_parser::get_default_ts_config;
 use deno_lint::linter::LinterBuilder;
 use deno_lint::rules::{get_all_rules, get_recommended_rules};
 use ignore::types::TypesBuilder;
@@ -50,7 +47,6 @@ fn lint(ctx: CallContext) -> Result<JsObject> {
     } else {
       get_recommended_rules()
     })
-    .syntax(get_default_ts_config())
     .ignore_diagnostic_directive("eslint-disable-next-line")
     .build();
 
@@ -99,9 +95,9 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
 
   let (rules, cfg_ignore_files) = if config_existed {
     let cfg = config::load_from_json(path::Path::new(&config_path))?;
-    (cfg.get_rules(), cfg.ignore)
+    (cfg.get_rules(), cfg.files.exclude)
   } else {
-    (get_recommended_rules(), None)
+    (get_recommended_rules(), vec![])
   };
 
   let mut eslint_ignore_file = cwd.clone();
@@ -111,12 +107,6 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
   let mut denolint_ignore_file = cwd.clone();
 
   denolint_ignore_file.push(".denolintignore");
-
-  if let Some(ignore_files) = cfg_ignore_files {
-    for i in ignore_files {
-      denolint_ignore_file.push(i);
-    }
-  }
 
   let mut type_builder = TypesBuilder::new();
 
@@ -151,33 +141,22 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
       Err(_) => __dirname.as_str()?,
     },
   };
-
-  for entry in WalkBuilder::new(cwd)
+  let mut dir_walker = WalkBuilder::new(cwd);
+  dir_walker
     .add_custom_ignore_filename(ignore_file_path)
     .types(types)
-    .follow_links(true)
-    .build()
-    .filter_map(|v| v.ok())
-  {
+    .follow_links(true);
+  for i in cfg_ignore_files {
+    dir_walker.add_custom_ignore_filename(i);
+  }
+  for entry in dir_walker.build().filter_map(|v| v.ok()) {
     let p = entry.path();
     if !p.is_dir() {
       let file_content = fs::read_to_string(&p)
         .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
 
-      let ts_config = TsConfig {
-        dynamic_import: true,
-        decorators: true,
-        tsx: p
-          .extension()
-          .and_then(|ext| ext.to_str())
-          .map(|ext| ext == "tsx")
-          .unwrap_or(false),
-        ..Default::default()
-      };
-      let syntax = Syntax::Typescript(ts_config);
       let linter = LinterBuilder::default()
-        .rules(Arc::clone(&rules))
-        .syntax(syntax)
+        .rules(rules.clone())
         .ignore_file_directive("eslint-disable")
         .ignore_diagnostic_directive("eslint-disable-next-line")
         .build();

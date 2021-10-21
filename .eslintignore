@@ -7,3 +7,5 @@ coverage
 .nyc_output
 *.d.ts
 target
+packages/deno-lint/cli.js
+packages/deno-lint/cli.d.ts

@@ -1,9 +1,8 @@
 // Copyright 2020-2021 the Deno authors. All rights reserved. MIT license.
-use std::path::Path;
-use std::sync::Arc;
-
 use deno_lint::rules::{get_filtered_rules, LintRule};
 use serde::Deserialize;
+use std::path::Path;
+use std::sync::Arc;
 
 #[derive(Debug, Default, Deserialize)]
 #[serde(default)]
@@ -24,11 +23,11 @@ pub struct FilesConfig {
 #[serde(default)]
 pub struct Config {
   pub rules: RulesConfig,
-  pub ignore: Option<Vec<String>>,
+  pub files: FilesConfig,
 }
 
 impl Config {
-  pub fn get_rules(&self) -> Arc<Vec<Box<dyn LintRule>>> {
+  pub fn get_rules(&self) -> Vec<Arc<dyn LintRule>> {
     get_filtered_rules(
       Some(self.rules.tags.clone()),
       Some(self.rules.exclude.clone()),
@@ -60,7 +59,7 @@ mod tests {
     }}
   }
 
-  fn into_codes(rules: &Vec<Box<dyn LintRule>>) -> HashSet<&'static str> {
+  fn into_codes(rules: Vec<Arc<dyn LintRule>>) -> HashSet<&'static str> {
     rules.iter().map(|rule| rule.code()).collect()
   }
 
@@ -84,8 +83,8 @@ mod tests {
       },
       ..Default::default()
     };
-    let recommended_rules_codes = into_codes(&get_recommended_rules());
-    assert_eq!(into_codes(&config.get_rules()), recommended_rules_codes);
+    let recommended_rules_codes = into_codes(get_recommended_rules());
+    assert_eq!(into_codes(config.get_rules()), recommended_rules_codes);
 
     // even if "recommended" is specified in `tags` and `include` contains a rule
     // code that is in the "recommended" set, we have to make sure that each
@@ -98,8 +97,8 @@ mod tests {
       },
       ..Default::default()
     };
-    let recommended_rules_codes = into_codes(&get_recommended_rules());
-    assert_eq!(into_codes(&config.get_rules()), recommended_rules_codes);
+    let recommended_rules_codes = into_codes(get_recommended_rules());
+    assert_eq!(into_codes(config.get_rules()), recommended_rules_codes);
 
     // `include` has higher precedence over `exclude`
     let config = Config {
@@ -110,7 +109,7 @@ mod tests {
       },
       ..Default::default()
     };
-    assert_eq!(into_codes(&config.get_rules()), set!["eqeqeq"]);
+    assert_eq!(into_codes(config.get_rules()), set!["eqeqeq"]);
 
     // if unknown rule is specified, just ignore it
     let config = Config {
@@ -121,6 +120,6 @@ mod tests {
       },
       ..Default::default()
     };
-    assert_eq!(into_codes(&config.get_rules()), set![]);
+    assert_eq!(into_codes(config.get_rules()), set![]);
   }
 }

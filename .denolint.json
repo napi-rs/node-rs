@@ -1,8 +1,6 @@
 {
   "rules": {
-    "tags": [
-      "recommended"
-    ],
+    "tags": ["recommended"],
     "exclude": [
       "no-explicit-any",
       "camelcase",
@@ -16,5 +14,8 @@
       "no-case-declarations",
       "no-this-alias"
     ]
+  },
+  "files": {
+    "exclude": ["./packages/deno-lint/cli.js"]
   }
 }
