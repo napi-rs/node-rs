@@ -1,6 +1,6 @@
 [package]
 authors = ["LongYinan <lynweklm@gmail.com>"]
-edition = "2018"
+edition = "2021"
 name = "node-rs-crc32"
 version = "0.1.0"
 
@@ -10,11 +10,9 @@ crate-type = ["cdylib"]
 [dependencies]
 crc32c = {version = "0.6"}
 crc32fast = {version = "1.2", features = ["nightly"]}
+global_alloc = {path = "../../crates/alloc"}
 napi = "1"
 napi-derive = "1"
-
-[target.'cfg(all(target_arch = "x86_64", not(target_env = "musl")))'.dependencies]
-mimalloc = {version = "0.1"}
 
 [build-dependencies]
 napi-build = "1"
