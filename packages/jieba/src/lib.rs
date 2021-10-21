@@ -1,8 +1,8 @@
 #![deny(clippy::all)]
 #![allow(clippy::nonstandard_macro_braces)]
 
-#[macro_use]
-extern crate napi_derive;
+/// Explicit extern crate to use allocator.
+extern crate global_alloc;
 
 use std::convert::TryInto;
 use std::str;
@@ -12,15 +12,8 @@ use napi::{
   CallContext, Env, Error, JsBoolean, JsBuffer, JsNumber, JsObject, JsString, JsUndefined, Result,
   Status,
 };
+use napi_derive::*;
 use once_cell::sync::OnceCell;
-
-#[cfg(all(
-  target_arch = "x86_64",
-  not(target_env = "musl"),
-  not(debug_assertions)
-))]
-#[global_allocator]
-static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 static JIEBA: OnceCell<Jieba> = OnceCell::new();
 static TFIDF_INSTANCE: OnceCell<TFIDF> = OnceCell::new();
