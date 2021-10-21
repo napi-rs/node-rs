@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.10.0...@node-rs/deno-lint@1.10.1) (2021-10-21)
+
+### Bug Fixes
+
+- **deno-lint:** missing media type config ([534be10](https://github.com/napi-rs/node-rs/commit/534be103b90375ef1a031f14577cf62ffd03b2ff))
+
 # [1.10.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.9.2...@node-rs/deno-lint@1.10.0) (2021-10-21)
 
 ### Bug Fixes
