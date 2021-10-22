@@ -85,12 +85,16 @@ export const xxh3: {
 ### Hardware
 
 ```
-OS: Windows 10 x86_64
-Host: Micro-Star International Co., Ltd. MS-7C35
-Kernel: 10.0.19043
-Terminal: Windows Terminal
-CPU: AMD Ryzen 9 5950X (32) @ 3.400GHz
-Memory: 32688MiB
+Model Name: MacBook Pro
+Model Identifier: MacBookPro15,1
+Processor Name: 6-Core Intel Core i7
+Processor Speed: 2.6 GHz
+Number of Processors: 1
+Total Number of Cores: 6
+L2 Cache (per Core): 256 KB
+L3 Cache: 12 MB
+Hyper-Threading Technology: Enabled
+Memory: 16 GB
 ```
 
 ### Result
