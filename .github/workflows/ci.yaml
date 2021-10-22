@@ -375,8 +375,9 @@ jobs:
           image: ghcr.io/napi-rs/napi-rs/nodejs:aarch64-${{ matrix.node }}
           options: -v ${{ github.workspace }}:/skia -w /skia
           run: |
-            pnpm install --ignore-scripts && \
-            npm test && \
+            yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000 && \
+            yarn build:ts && \
+            yarn test
             ls -la
 
   test-linux-aarch64-musl-binding:
@@ -457,8 +458,9 @@ jobs:
           image: ghcr.io/napi-rs/napi-rs/nodejs:armhf-${{ matrix.node }}
           options: -v ${{ github.workspace }}:/skia -w /skia
           run: |
-            pnpm install --ignore-scripts && \
-            npm test && \
+            yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000 && \
+            yarn build:ts && \
+            yarn test
             ls -la
 
   publish:
