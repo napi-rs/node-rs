@@ -11,7 +11,7 @@ crate-type = ["cdylib"]
 global_alloc = {path = "../../crates/alloc"}
 napi = {version = "1", features = ["napi6"]}
 napi-derive = "1"
-xxhash-rust = {version = "0.8", features = ["xxh32", "const_xxh32", "xxh64", "const_xxh64", "xxh3", "const_xxh3"]}
+xxhash-rust = {version = "0.8", features = ["xxh32", "xxh64", "xxh3"]}
 
 [build-dependencies]
 napi-build = "1"
