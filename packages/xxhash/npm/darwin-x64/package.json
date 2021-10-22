@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/xxhash-darwin-x64",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "os": ["darwin"],
   "cpu": ["x64"],
   "main": "xxhash.darwin-x64.node",
