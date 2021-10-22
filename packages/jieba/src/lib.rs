@@ -4,7 +4,6 @@
 /// Explicit extern crate to use allocator.
 extern crate global_alloc;
 
-use std::convert::TryInto;
 use std::str;
 
 use jieba_rs::{Jieba, KeywordExtract, TFIDF};
@@ -154,7 +153,7 @@ fn extract(ctx: CallContext) -> Result<JsObject> {
     TFIDF::new_with_jieba(jieba)
   });
 
-  let topn: u32 = topn.try_into()?;
+  let topn: u32 = topn.get_uint32()?;
 
   let tags = keyword_extractor.extract_tags(
     str::from_utf8(&sentence).map_err(|_| Error::from_status(Status::InvalidArg))?,
