@@ -293,7 +293,13 @@ jobs:
         run: yarn build:ts
 
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/node-rs -w /node-rs node:${{ matrix.node }}-slim sh -c "./node_modules/.bin/lerna link && yarn test"
+        uses: addnab/docker-run-action@v3
+        with:
+          image: node:${{ matrix.node }}-slim
+          options: -v ${{ github.workspace }}:/build -w /build
+          run: |
+            npx lerna link
+            yarn test
 
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
@@ -335,7 +341,13 @@ jobs:
         shell: bash
 
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/node-rs -w /node-rs node:${{ matrix.node }}-alpine sh -c "./node_modules/.bin/lerna link && yarn test"
+        uses: addnab/docker-run-action@v3
+        with:
+          image: node:${{ matrix.node }}-alpine
+          options: -v ${{ github.workspace }}:/build -w /build
+          run: |
+            npx lerna link
+            yarn test
 
   test-linux-aarch64-gnu-binding:
     name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
@@ -373,10 +385,9 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: ghcr.io/napi-rs/napi-rs/nodejs:aarch64-${{ matrix.node }}
-          options: -v ${{ github.workspace }}:/skia -w /skia
+          options: -v ${{ github.workspace }}:/build -w /build
           run: |
-            yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000 && \
-            yarn build:ts && \
+            yarn build:ts
             yarn test
             ls -la
 
@@ -410,15 +421,14 @@ jobs:
         shell: bash
 
       - name: Setup and run tests
-        uses: docker://multiarch/alpine:aarch64-latest-stable
+        uses: addnab/docker-run-action@v3
         with:
-          args: >
-            sh -c "
-              apk add nodejs npm yarn && \
-              yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000 && \
-              yarn build:ts && \
-              yarn test
-            "
+          image: multiarch/alpine:aarch64-latest-stable
+          options: -v ${{ github.workspace }}:/build -w /build
+          run: |
+            apk add nodejs npm yarn
+            yarn build:ts
+            yarn test
 
   test-linux-arm-gnueabihf-binding:
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -456,10 +466,9 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: ghcr.io/napi-rs/napi-rs/nodejs:armhf-${{ matrix.node }}
-          options: -v ${{ github.workspace }}:/skia -w /skia
+          options: -v ${{ github.workspace }}:/build -w /build
           run: |
-            yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000 && \
-            yarn build:ts && \
+            yarn build:ts
             yarn test
             ls -la
 
