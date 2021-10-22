@@ -85,30 +85,38 @@ export const xxh3: {
 ### Hardware
 
 ```
-OS: Windows 10 x86_64
-Host: Micro-Star International Co., Ltd. MS-7C35
-Kernel: 10.0.19043
-Terminal: Windows Terminal
-CPU: AMD Ryzen 9 5950X (32) @ 3.400GHz
-Memory: 32688MiB
+Model Name: MacBook Pro
+Model Identifier: MacBookPro15,1
+Processor Name: 6-Core Intel Core i7
+Processor Speed: 2.6 GHz
+Number of Processors: 1
+Total Number of Cores: 6
+L2 Cache (per Core): 256 KB
+L3 Cache: 12 MB
+Hyper-Threading Technology: Enabled
+Memory: 16 GB
 ```
 
 ### Result
 
 ```
-@node-rs/xxhash h32 x 4,663 ops/sec ±6.22% (81 runs sampled)
-xxhashjs h32 x 1,880 ops/sec ±7.11% (75 runs sampled)
+@node-rs/xxhash h32 x 18,847 ops/sec ±3.81% (81 runs sampled)
+xxhash c++ x 12,190 ops/sec ±2.94% (83 runs sampled)
+xxhashjs h32 x 1,035 ops/sec ±11.04% (68 runs sampled)
 xxh32 bench suite: Fastest is @node-rs/xxhash h32
 
-@node-rs/xxhash h32 x 13,452 ops/sec ±2.73% (80 runs sampled)
-xxhashjs h32 x 2,496 ops/sec ±0.39% (97 runs sampled)
+@node-rs/xxhash h32 x 13,248 ops/sec ±4.38% (78 runs sampled)
+xxhashjs h32 x 1,366 ops/sec ±1.96% (85 runs sampled)
 xxh32 multi steps bench suite: Fastest is @node-rs/xxhash h32
 
-@node-rs/xxhash 64 x 15,806 ops/sec ±3.14% (79 runs sampled)
-xxhashjs h64 x 69.11 ops/sec ±5.99% (60 runs sampled)
+@node-rs/xxhash 64 x 43,532 ops/sec ±1.33% (88 runs sampled)
+xxhash C++ x 41,658 ops/sec ±1.45% (90 runs sampled)
+wasm x 32,415 ops/sec ±1.38% (90 runs sampled)
+xxhashjs h64 x 47.52 ops/sec ±3.20% (62 runs sampled)
 xxh64 bench suite: Fastest is @node-rs/xxhash 64
 
-@node-rs/xxhash 64 x 13,841 ops/sec ±3.17% (82 runs sampled)
-xxhashjs h64 x 79.71 ops/sec ±4.34% (70 runs sampled)
+@node-rs/xxhash 64 x 33,153 ops/sec ±5.42% (76 runs sampled)
+wasm x 29,477 ops/sec ±2.72% (81 runs sampled)
+xxhashjs h64 x 54.96 ops/sec ±1.93% (71 runs sampled)
 xxh64 multi steps bench suite: Fastest is @node-rs/xxhash 64
 ```

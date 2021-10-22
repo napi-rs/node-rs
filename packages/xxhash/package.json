@@ -53,6 +53,8 @@
   },
   "devDependencies": {
     "@types/xxhashjs": "^0.2.2",
+    "webpack": "^5.59.1",
+    "xxhash": "^0.3.0",
     "xxhashjs": "^0.2.2"
   },
   "funding": {
