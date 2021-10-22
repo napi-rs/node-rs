@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Rust bcrypt binding",
   "keywords": ["bcrypt", "auth", "password", "authentication", "encryption", "crypto", "N-API", "napi-rs", "node-rs"],
   "author": "LongYinan <lynweklm@gmail.com>",

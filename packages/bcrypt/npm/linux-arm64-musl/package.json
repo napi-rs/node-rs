@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt-linux-arm64-musl",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "os": ["linux"],
   "cpu": ["arm64"],
   "main": "bcrypt.linux-arm64-musl.node",
