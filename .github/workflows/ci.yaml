@@ -371,7 +371,7 @@ jobs:
           path: artifacts
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --ignore-platform --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Move artifacts
         run: yarn artifacts
@@ -404,7 +404,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --frozen-lockfile --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Download artifacts
         uses: actions/download-artifact@v2
@@ -446,7 +446,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --ignore-scripts --ignore-platform --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Download artifacts
         uses: actions/download-artifact@v2
