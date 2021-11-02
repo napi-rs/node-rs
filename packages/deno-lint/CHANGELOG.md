@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.3](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.10.2...@node-rs/deno-lint@1.10.3) (2021-11-02)
+
+### Bug Fixes
+
+- **deno-lint:** has_error value ([6dcd9b4](https://github.com/napi-rs/node-rs/commit/6dcd9b4bddede7db9b339a56b5cedf844b6606d8))
+
 ## [1.10.2](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.10.1...@node-rs/deno-lint@1.10.2) (2021-10-22)
 
 **Note:** Version bump only for package @node-rs/deno-lint
