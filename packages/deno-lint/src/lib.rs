@@ -182,7 +182,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
           status: Status::GenericFailure,
           reason: format!("Lint failed: {}, at: {:?}", e, &p),
         })?;
-      has_error = !file_diagnostics.is_empty();
+      has_error = has_error || !file_diagnostics.is_empty();
       diagnostics::display_diagnostics(&file_diagnostics, s.source(), true);
     }
   }
