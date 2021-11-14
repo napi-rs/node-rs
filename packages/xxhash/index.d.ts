@@ -27,7 +27,7 @@ export class Xxh64 {
 export class Xxh3 {
   static withSeed(seed?: BigInt): Xxh3
   static withSecret(secret: BufferLike): Xxh3
-  private constructor() {}
+  private constructor()
   update(input: BufferLike): this
   digest(): BigInt
   reset(): void

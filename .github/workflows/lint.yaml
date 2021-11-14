@@ -18,7 +18,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 16
 
       - name: Install
         uses: actions-rs/toolchain@v1
