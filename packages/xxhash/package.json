@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/xxhash",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fastest xxhash implementation in Node.js",
   "keywords": ["hash", "xxhash", "xxhashjs", "Rust", "node-rs", "napi", "napi-rs", "N-API", "Node-API"],
   "author": "LongYinan <lynweklm@gmail.com>",

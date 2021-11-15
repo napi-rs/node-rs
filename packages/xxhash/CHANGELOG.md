@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/napi-rs/node-rs/compare/@node-rs/xxhash@1.0.0...@node-rs/xxhash@1.0.1) (2021-11-15)
+
+### Bug Fixes
+
+- **xxhash:** Xxh3 type defination ([#550](https://github.com/napi-rs/node-rs/issues/550)) ([f69a7a1](https://github.com/napi-rs/node-rs/commit/f69a7a1723bf2d71c4d0c1be3039c72614b39df5))
+
 # 1.0.0 (2021-10-22)
 
 ### Features

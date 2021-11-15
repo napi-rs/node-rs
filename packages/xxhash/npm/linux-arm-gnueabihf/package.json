@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/xxhash-linux-arm-gnueabihf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "os": ["linux"],
   "cpu": ["arm"],
   "main": "xxhash.linux-arm-gnueabihf.node",

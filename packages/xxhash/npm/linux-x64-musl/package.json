@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/xxhash-linux-x64-musl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "os": ["linux"],
   "cpu": ["x64"],
   "main": "xxhash.linux-x64-musl.node",
