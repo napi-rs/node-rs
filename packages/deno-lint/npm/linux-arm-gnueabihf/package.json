@@ -1,12 +1,27 @@
 {
   "name": "@node-rs/deno-lint-linux-arm-gnueabihf",
   "version": "1.10.3",
-  "os": ["linux"],
-  "cpu": ["arm"],
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm"
+  ],
   "main": "deno-lint.linux-arm-gnueabihf.node",
-  "files": ["deno-lint.linux-arm-gnueabihf.node"],
+  "files": [
+    "deno-lint.linux-arm-gnueabihf.node"
+  ],
   "description": "Deno lint binding for Node.js",
-  "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
+  "keywords": [
+    "Deno",
+    "Lint",
+    "ESLint",
+    "node-rs",
+    "napi",
+    "N-API",
+    "Rust",
+    "napi-rs"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

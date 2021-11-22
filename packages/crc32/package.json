@@ -2,13 +2,24 @@
   "name": "@node-rs/crc32",
   "version": "1.2.2",
   "description": "SIMD crc32",
-  "keywords": ["SIMD", "NAPI", "napi-rs", "node-rs", "crc32", "crc32c"],
+  "keywords": [
+    "SIMD",
+    "NAPI",
+    "napi-rs",
+    "node-rs",
+    "crc32",
+    "crc32c"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "LICENSE"],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "LICENSE"
+  ],
   "napi": {
     "name": "crc32",
     "triples": {
@@ -20,6 +31,7 @@
         "aarch64-unknown-linux-gnu",
         "aarch64-apple-darwin",
         "aarch64-linux-android",
+        "armv7-linux-androideabi",
         "x86_64-unknown-freebsd",
         "aarch64-unknown-linux-musl",
         "aarch64-pc-windows-msvc"
@@ -40,16 +52,13 @@
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
     "bench": "cross-env NODE_ENV=production node benchmark/crc32.js",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
+    "build": "napi build --platform --release --pipe \"prettier -w\"",
+    "build:debug": "napi build --platform --pipe \"prettier -w\"",
     "prepublishOnly": "napi prepublish",
     "version": "napi version"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  },
-  "dependencies": {
-    "@node-rs/helper": "^1.2.1"
   },
   "devDependencies": {
     "@types/crc": "^3.4.0",

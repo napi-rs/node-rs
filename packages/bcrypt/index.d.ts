@@ -1,26 +1,23 @@
-export const DEFAULT_COST: 12
+/* eslint-disable */
 
-export function hashSync(password: string | Buffer, round?: number): string
-export function hash(password: string | Buffer, round?: number): Promise<string>
-export function verifySync(password: string | Buffer, hash: string | Buffer): boolean
-export function verify(password: string | Buffer, hash: string | Buffer): Promise<boolean>
-/**
- * The same with `verifySync`
- */
-export function compareSync(password: string | Buffer, hash: string | Buffer): boolean
-/**
- * The same with `verify`
- */
-export function compare(password: string | Buffer, hash: string | Buffer): Promise<boolean>
-
-export type Version = '2a' | '2x' | '2y' | '2b'
-/**
- * @param round default 10
- * @param version default '2b'
- */
-export function genSaltSync(round?: number, version?: Version): string
-/**
- * @param round default 10
- * @param version default '2b'
- */
-export function genSalt(round?: number, version?: Version): Promise<string>
+export class ExternalObject<T> {
+  readonly '': {
+    readonly '': unique symbol
+    [K: symbol]: T
+  }
+}
+export const DEFAULT_COST: number
+export function genSaltSync(round: number, version: string): string
+export function genSalt(round: number, version: string, signal?: AbortSignal | undefined | null): Promise<string>
+export function hashSync(input: string | Buffer, cost?: number | undefined | null): string
+export function hash(
+  input: string | Buffer,
+  cost?: number | undefined | null,
+  signal?: AbortSignal | undefined | null,
+): Promise<string>
+export function verifySync(input: string | Buffer, hash: string | Buffer): boolean
+export function verify(
+  password: string | Buffer,
+  hash: string | Buffer,
+  signal?: AbortSignal | undefined | null,
+): Promise<boolean>

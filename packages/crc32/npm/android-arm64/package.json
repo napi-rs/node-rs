@@ -1,12 +1,25 @@
 {
   "name": "@node-rs/crc32-android-arm64",
   "version": "1.2.2",
-  "os": ["android"],
-  "cpu": ["arm64"],
+  "os": [
+    "android"
+  ],
+  "cpu": [
+    "arm64"
+  ],
   "main": "crc32.android-arm64.node",
-  "files": ["crc32.android-arm64.node"],
+  "files": [
+    "crc32.android-arm64.node"
+  ],
   "description": "SIMD crc32",
-  "keywords": ["SIMD", "NAPI", "napi-rs", "node-rs", "crc32", "crc32c"],
+  "keywords": [
+    "SIMD",
+    "NAPI",
+    "napi-rs",
+    "node-rs",
+    "crc32",
+    "crc32c"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

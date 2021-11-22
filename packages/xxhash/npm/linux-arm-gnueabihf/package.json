@@ -1,12 +1,28 @@
 {
   "name": "@node-rs/xxhash-linux-arm-gnueabihf",
   "version": "1.0.1",
-  "os": ["linux"],
-  "cpu": ["arm"],
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm"
+  ],
   "main": "xxhash.linux-arm-gnueabihf.node",
-  "files": ["xxhash.linux-arm-gnueabihf.node"],
+  "files": [
+    "xxhash.linux-arm-gnueabihf.node"
+  ],
   "description": "Fastest xxhash implementation in Node.js",
-  "keywords": ["hash", "xxhash", "xxhashjs", "Rust", "node-rs", "napi", "napi-rs", "N-API", "Node-API"],
+  "keywords": [
+    "hash",
+    "xxhash",
+    "xxhashjs",
+    "Rust",
+    "node-rs",
+    "napi",
+    "napi-rs",
+    "N-API",
+    "Node-API"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

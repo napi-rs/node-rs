@@ -1,12 +1,25 @@
 {
   "name": "@node-rs/jieba-freebsd-x64",
   "version": "1.4.1",
-  "os": ["freebsd"],
-  "cpu": ["x64"],
+  "os": [
+    "freebsd"
+  ],
+  "cpu": [
+    "x64"
+  ],
   "main": "jieba.freebsd-x64.node",
-  "files": ["jieba.freebsd-x64.node"],
+  "files": [
+    "jieba.freebsd-x64.node"
+  ],
   "description": "Fastest Chinese word segmentation in Node.js",
-  "keywords": ["Jieba", "Rust", "node-rs", "napi", "napi-rs", "N-API"],
+  "keywords": [
+    "Jieba",
+    "Rust",
+    "node-rs",
+    "napi",
+    "napi-rs",
+    "N-API"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

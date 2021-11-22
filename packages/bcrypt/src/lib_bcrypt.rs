@@ -11,8 +11,6 @@ pub use crate::errors::{BcryptError, BcryptResult};
 // Cost constants
 pub const MIN_COST: u32 = 4;
 pub const MAX_COST: u32 = 31;
-#[allow(dead_code)]
-const DEFAULT_COST: u32 = 12;
 
 #[derive(Debug, PartialEq)]
 /// A bcrypt hash result before concatenating
@@ -233,8 +231,9 @@ pub fn verify<P: AsRef<[u8]>>(password: P, hash: &str) -> BcryptResult<bool> {
 mod tests {
   use super::{
     _hash_password, hash, hash_with_salt, split_hash, verify, BcryptError, BcryptResult, HashParts,
-    Version, DEFAULT_COST,
+    Version,
   };
+  use crate::DEFAULT_COST;
   use quickcheck::{quickcheck, TestResult};
   use std::iter;
   use std::str::FromStr;

@@ -1,12 +1,28 @@
 {
   "name": "@node-rs/bcrypt-linux-arm64-gnu",
   "version": "1.4.2",
-  "os": ["linux"],
-  "cpu": ["arm64"],
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
   "main": "bcrypt.linux-arm64-gnu.node",
-  "files": ["bcrypt.linux-arm64-gnu.node"],
+  "files": [
+    "bcrypt.linux-arm64-gnu.node"
+  ],
   "description": "Rust bcrypt binding",
-  "keywords": ["bcrypt", "auth", "password", "authentication", "encryption", "crypto", "N-API", "napi-rs", "node-rs"],
+  "keywords": [
+    "bcrypt",
+    "auth",
+    "password",
+    "authentication",
+    "encryption",
+    "crypto",
+    "N-API",
+    "napi-rs",
+    "node-rs"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
