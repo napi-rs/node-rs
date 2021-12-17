@@ -1,12 +1,28 @@
 {
   "name": "@node-rs/bcrypt-android-arm64",
   "version": "1.4.2",
-  "os": ["android"],
-  "cpu": ["arm64"],
+  "os": [
+    "android"
+  ],
+  "cpu": [
+    "arm64"
+  ],
   "main": "bcrypt.android-arm64.node",
-  "files": ["bcrypt.android-arm64.node"],
+  "files": [
+    "bcrypt.android-arm64.node"
+  ],
   "description": "Rust bcrypt binding",
-  "keywords": ["bcrypt", "auth", "password", "authentication", "encryption", "crypto", "N-API", "napi-rs", "node-rs"],
+  "keywords": [
+    "bcrypt",
+    "auth",
+    "password",
+    "authentication",
+    "encryption",
+    "crypto",
+    "N-API",
+    "napi-rs",
+    "node-rs"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

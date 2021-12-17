@@ -11,8 +11,8 @@ crate-type = ["cdylib"]
 blowfish = {version = "0.8", features = ["bcrypt"]}
 byteorder = "1"
 global_alloc = {path = "../../crates/alloc"}
-napi = "1"
-napi-derive = "1"
+napi = {version = "2"}
+napi-derive = {version = "2"}
 phf = {version = "0.10", features = ["macros"]}
 radix64 = "0.6"
 rand = "0.8"
@@ -21,4 +21,4 @@ rand = "0.8"
 quickcheck = "1.0"
 
 [build-dependencies]
-napi-build = "1.1.0"
+napi-build = "1"

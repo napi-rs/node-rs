@@ -2,13 +2,26 @@
   "name": "@node-rs/xxhash",
   "version": "1.0.1",
   "description": "Fastest xxhash implementation in Node.js",
-  "keywords": ["hash", "xxhash", "xxhashjs", "Rust", "node-rs", "napi", "napi-rs", "N-API", "Node-API"],
+  "keywords": [
+    "hash",
+    "xxhash",
+    "xxhashjs",
+    "Rust",
+    "node-rs",
+    "napi",
+    "napi-rs",
+    "N-API",
+    "Node-API"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts"],
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
   "napi": {
     "name": "xxhash",
     "triples": {
@@ -20,6 +33,7 @@
         "armv7-unknown-linux-gnueabihf",
         "aarch64-apple-darwin",
         "aarch64-linux-android",
+        "armv7-linux-androideabi",
         "x86_64-unknown-freebsd",
         "aarch64-unknown-linux-musl",
         "aarch64-pc-windows-msvc"
@@ -40,16 +54,13 @@
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
     "bench": "cross-env NODE_ENV=production node benchmark/xxhash.js",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
+    "build": "napi build --platform --release --pipe \"prettier -w\"",
+    "build:debug": "napi build --platform --pipe \"prettier -w\"",
     "prepublishOnly": "napi prepublish",
     "version": "napi version"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  },
-  "dependencies": {
-    "@node-rs/helper": "^1.2.1"
   },
   "devDependencies": {
     "@types/xxhashjs": "^0.2.2",

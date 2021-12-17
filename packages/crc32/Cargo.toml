@@ -11,8 +11,8 @@ crate-type = ["cdylib"]
 crc32c = {version = "0.6"}
 crc32fast = {version = "1.2", features = ["nightly"]}
 global_alloc = {path = "../../crates/alloc"}
-napi = "1"
-napi-derive = "1"
+napi = {version = "2"}
+napi-derive = {version = "2"}
 
 [build-dependencies]
 napi-build = "1"

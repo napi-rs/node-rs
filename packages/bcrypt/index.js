@@ -1,44 +1,203 @@
-const { loadBinding } = require('@node-rs/helper')
+const { existsSync, readFileSync } = require('fs')
+const { join } = require('path')
 
-const binding = loadBinding(__dirname, 'bcrypt', '@node-rs/bcrypt')
+const { platform, arch } = process
 
-const DEFAULT_COST = 12
+let nativeBinding = null
+let localFileExisted = false
+let isMusl = false
+let loadError = null
 
-function verify(password, hash) {
-  password = Buffer.isBuffer(password) ? password : Buffer.from(password)
-  hash = Buffer.isBuffer(hash) ? hash : Buffer.from(hash)
-  return binding.verify(password, hash)
+switch (platform) {
+  case 'android':
+    if (arch !== 'arm64') {
+      throw new Error(`Unsupported architecture on Android ${arch}`)
+    }
+    localFileExisted = existsSync(join(__dirname, 'bcrypt.android-arm64.node'))
+    try {
+      if (localFileExisted) {
+        nativeBinding = require('./bcrypt.android-arm64.node')
+      } else {
+        nativeBinding = require('@node-rs/bcrypt-android-arm64')
+      }
+    } catch (e) {
+      loadError = e
+    }
+    break
+  case 'win32':
+    switch (arch) {
+      case 'x64':
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.win32-x64-msvc.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./bcrypt.win32-x64-msvc.node')
+          } else {
+            nativeBinding = require('@node-rs/bcrypt-win32-x64-msvc')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'ia32':
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.win32-ia32-msvc.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./bcrypt.win32-ia32-msvc.node')
+          } else {
+            nativeBinding = require('@node-rs/bcrypt-win32-ia32-msvc')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'arm64':
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.win32-arm64-msvc.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./bcrypt.win32-arm64-msvc.node')
+          } else {
+            nativeBinding = require('@node-rs/bcrypt-win32-arm64-msvc')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on Windows: ${arch}`)
+    }
+    break
+  case 'darwin':
+    switch (arch) {
+      case 'x64':
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.darwin-x64.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./bcrypt.darwin-x64.node')
+          } else {
+            nativeBinding = require('@node-rs/bcrypt-darwin-x64')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'arm64':
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.darwin-arm64.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./bcrypt.darwin-arm64.node')
+          } else {
+            nativeBinding = require('@node-rs/bcrypt-darwin-arm64')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on macOS: ${arch}`)
+    }
+    break
+  case 'freebsd':
+    if (arch !== 'x64') {
+      throw new Error(`Unsupported architecture on FreeBSD: ${arch}`)
+    }
+    localFileExisted = existsSync(join(__dirname, 'bcrypt.freebsd-x64.node'))
+    try {
+      if (localFileExisted) {
+        nativeBinding = require('./bcrypt.freebsd-x64.node')
+      } else {
+        nativeBinding = require('@node-rs/bcrypt-freebsd-x64')
+      }
+    } catch (e) {
+      loadError = e
+    }
+    break
+  case 'linux':
+    switch (arch) {
+      case 'x64':
+        isMusl = readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
+        if (isMusl) {
+          localFileExisted = existsSync(join(__dirname, 'bcrypt.linux-x64-musl.node'))
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./bcrypt.linux-x64-musl.node')
+            } else {
+              nativeBinding = require('@node-rs/bcrypt-linux-x64-musl')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(join(__dirname, 'bcrypt.linux-x64-gnu.node'))
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./bcrypt.linux-x64-gnu.node')
+            } else {
+              nativeBinding = require('@node-rs/bcrypt-linux-x64-gnu')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        }
+        break
+      case 'arm64':
+        isMusl = readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
+        if (isMusl) {
+          localFileExisted = existsSync(join(__dirname, 'bcrypt.linux-arm64-musl.node'))
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./bcrypt.linux-arm64-musl.node')
+            } else {
+              nativeBinding = require('@node-rs/bcrypt-linux-arm64-musl')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(join(__dirname, 'bcrypt.linux-arm64-gnu.node'))
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./bcrypt.linux-arm64-gnu.node')
+            } else {
+              nativeBinding = require('@node-rs/bcrypt-linux-arm64-gnu')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        }
+        break
+      case 'arm':
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.linux-arm-gnueabihf.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./bcrypt.linux-arm-gnueabihf.node')
+          } else {
+            nativeBinding = require('@node-rs/bcrypt-linux-arm-gnueabihf')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on Linux: ${arch}`)
+    }
+    break
+  default:
+    throw new Error(`Unsupported OS: ${platform}, architecture: ${arch}`)
 }
 
-function verifySync(password, hash) {
-  password = Buffer.isBuffer(password) ? password : Buffer.from(password)
-  hash = Buffer.isBuffer(hash) ? hash : Buffer.from(hash)
-  return binding.verifySync(password, hash)
+if (!nativeBinding) {
+  if (loadError) {
+    throw loadError
+  }
+  throw new Error(`Failed to load native binding`)
 }
 
-module.exports = {
-  DEFAULT_COST: DEFAULT_COST,
+const { DEFAULT_COST, genSaltSync, genSalt, hashSync, hash, verifySync, verify } = nativeBinding
 
-  genSaltSync: function genSaltSync(round = 10, version = '2b') {
-    return binding.genSaltSync(round, version)
-  },
-
-  genSalt: function genSalt(round = 10, version = '2b') {
-    return binding.genSalt(round, version)
-  },
-
-  hashSync: function hashSync(password, round = DEFAULT_COST) {
-    const input = Buffer.isBuffer(password) ? password : Buffer.from(password)
-    return binding.hashSync(input, round)
-  },
-
-  hash: function hash(password, round = DEFAULT_COST) {
-    const input = Buffer.isBuffer(password) ? password : Buffer.from(password)
-    return binding.hash(input, round)
-  },
-
-  verifySync,
-  verify,
-  compareSync: verifySync,
-  compare: verify,
-}
+module.exports.DEFAULT_COST = DEFAULT_COST
+module.exports.genSaltSync = genSaltSync
+module.exports.genSalt = genSalt
+module.exports.hashSync = hashSync
+module.exports.hash = hash
+module.exports.verifySync = verifySync
+module.exports.verify = verify

@@ -11,11 +11,9 @@ env:
 
 plugins:
   - import
-  - sonarjs
 
 extends:
   - eslint:recommended
-  - plugin:sonarjs/recommended
   - plugin:prettier/recommended
 
 rules:
@@ -54,12 +52,6 @@ rules:
         'pathGroups': [{ 'pattern': '@node-rs/**', 'group': 'internal', 'position': 'before' }],
       },
     ]
-
-  'sonarjs/cognitive-complexity': 0
-  'sonarjs/no-duplicate-string': 0
-  'sonarjs/no-big-function': 0
-  'sonarjs/no-identical-functions': 0
-  'sonarjs/no-small-switch': 0
 
 overrides:
   - files:

@@ -1,34 +1,30 @@
 #![deny(clippy::all)]
-#![allow(clippy::nonstandard_macro_braces)]
 
 /// Explicit extern crate to use allocator.
 extern crate global_alloc;
 
 use crc32c::crc32c_append;
 use crc32fast::Hasher;
-use napi::{CallContext, JsBuffer, JsNumber, JsObject, Result};
+use napi::bindgen_prelude::{Buffer, Either};
 use napi_derive::*;
 
-#[module_exports]
-fn init(mut exports: JsObject) -> Result<()> {
-  exports.create_named_method("crc32c", crc32c)?;
-  exports.create_named_method("crc32", crc32)?;
-  Ok(())
+#[napi(js_name = "crc32c")]
+pub fn crc32c(input: Either<String, Buffer>, initial_state: Option<u32>) -> u32 {
+  crc32c_append(
+    initial_state.unwrap_or(0),
+    match &input {
+      Either::A(s) => s.as_bytes(),
+      Either::B(b) => b.as_ref(),
+    },
+  )
 }
 
-#[js_function(2)]
-fn crc32c(ctx: CallContext) -> Result<JsNumber> {
-  let input_data = ctx.get::<JsBuffer>(0)?.into_value()?;
-  let init_state = ctx.get::<JsNumber>(1)?.get_uint32()?;
-  let result = crc32c_append(init_state, &input_data);
-  ctx.env.create_uint32(result)
-}
-
-#[js_function(2)]
-fn crc32(ctx: CallContext) -> Result<JsNumber> {
-  let input_data = ctx.get::<JsBuffer>(0)?.into_value()?;
-  let init_state = ctx.get::<JsNumber>(1)?.get_uint32()?;
-  let mut hasher = Hasher::new_with_initial(init_state);
-  hasher.update(&input_data);
-  ctx.env.create_uint32(hasher.finalize())
+#[napi]
+pub fn crc32(input_data: Either<String, Buffer>, initial_state: Option<u32>) -> u32 {
+  let mut hasher = Hasher::new_with_initial(initial_state.unwrap_or(0));
+  hasher.update(match &input_data {
+    Either::A(s) => s.as_bytes(),
+    Either::B(b) => b.as_ref(),
+  });
+  hasher.finalize()
 }

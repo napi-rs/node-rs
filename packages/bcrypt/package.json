@@ -2,13 +2,28 @@
   "name": "@node-rs/bcrypt",
   "version": "1.4.2",
   "description": "Rust bcrypt binding",
-  "keywords": ["bcrypt", "auth", "password", "authentication", "encryption", "crypto", "N-API", "napi-rs", "node-rs"],
+  "keywords": [
+    "bcrypt",
+    "auth",
+    "password",
+    "authentication",
+    "encryption",
+    "crypto",
+    "N-API",
+    "napi-rs",
+    "node-rs"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "LICENSE", "LICENSE.rust-bcrypt"],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "LICENSE",
+    "LICENSE.rust-bcrypt"
+  ],
   "napi": {
     "name": "bcrypt",
     "triples": {
@@ -20,6 +35,7 @@
         "aarch64-unknown-linux-gnu",
         "aarch64-apple-darwin",
         "aarch64-linux-android",
+        "armv7-linux-androideabi",
         "x86_64-unknown-freebsd",
         "aarch64-unknown-linux-musl",
         "aarch64-pc-windows-msvc"
@@ -40,16 +56,13 @@
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
     "bench": "cross-env NODE_ENV=production node benchmark/bcrypt.js",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
+    "build": "napi build --platform --release --pipe \"prettier -w\"",
+    "build:debug": "napi build --platform --pipe \"prettier -w\"",
     "prepublishOnly": "napi prepublish",
     "version": "napi version"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  },
-  "dependencies": {
-    "@node-rs/helper": "^1.2.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

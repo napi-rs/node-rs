@@ -1,12 +1,28 @@
 {
   "name": "@node-rs/bcrypt-win32-x64-msvc",
   "version": "1.4.2",
-  "os": ["win32"],
-  "cpu": ["x64"],
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
   "main": "bcrypt.win32-x64-msvc.node",
-  "files": ["bcrypt.win32-x64-msvc.node"],
+  "files": [
+    "bcrypt.win32-x64-msvc.node"
+  ],
   "description": "Rust bcrypt binding",
-  "keywords": ["bcrypt", "auth", "password", "authentication", "encryption", "crypto", "N-API", "napi-rs", "node-rs"],
+  "keywords": [
+    "bcrypt",
+    "auth",
+    "password",
+    "authentication",
+    "encryption",
+    "crypto",
+    "N-API",
+    "napi-rs",
+    "node-rs"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

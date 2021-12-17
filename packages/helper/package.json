@@ -2,7 +2,12 @@
   "name": "@node-rs/helper",
   "version": "1.2.1",
   "description": "Helper library for node-rs",
-  "keywords": ["N-API", "napi", "Rust", "Performance"],
+  "keywords": [
+    "N-API",
+    "napi",
+    "Rust",
+    "Performance"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
@@ -12,7 +17,10 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "files": ["lib", "LICENSE"],
+  "files": [
+    "lib",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/napi-rs/node-rs.git"

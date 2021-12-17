@@ -1,20 +1,24 @@
+/* eslint-disable */
+
+export class ExternalObject<T> {
+  readonly '': {
+    readonly '': unique symbol
+    [K: symbol]: T
+  }
+}
 export function load(): void
 export function loadDict(dict: Buffer): void
-// If you want load dict and TDIDF dict, call `loadDict` before `loadTFIDFDict`
-export function loadTFIDFDict(dict: Buffer): void
-export function cut(sentence: string | Buffer, hmm?: boolean): string[]
+export function cut(sentence: string | Buffer, hmm?: boolean | undefined | null): string[]
 export function cutAll(sentence: string | Buffer): string[]
-
-export interface TagResult {
-  word: string
+export function cutForSearch(sentence: string | Buffer, hmm?: boolean | undefined | null): string[]
+export interface TaggedWord {
   tag: string
+  word: string
 }
-
+export function tag(sentence: string | Buffer, hmm?: boolean | undefined | null): Array<TaggedWord>
 export interface Keyword {
   keyword: string
   weight: number
 }
-
-export function tag(sentence: string | Buffer, hmm?: boolean): TagResult[]
-
-export function extract(sentence: string | Buffer, topn: number, allowedPos?: string[]): Keyword[]
+export function extract(sentence: string | Buffer, topn: number, allowedPos?: string | undefined | null): Array<Keyword>
+export function loadTFIDFDict(dict: Buffer): void

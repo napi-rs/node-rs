@@ -1,5 +1,4 @@
 #![deny(clippy::all)]
-#![allow(clippy::nonstandard_macro_braces)]
 
 /// Explicit extern crate to use allocator.
 extern crate global_alloc;
@@ -15,21 +14,11 @@ use deno_lint::linter::LinterBuilder;
 use deno_lint::rules::{get_all_rules, get_recommended_rules};
 use ignore::types::TypesBuilder;
 use ignore::WalkBuilder;
-use napi::{CallContext, Error, JsBoolean, JsBuffer, JsObject, JsString, Result, Status};
+use napi::bindgen_prelude::*;
 use napi_derive::*;
 
 mod config;
 mod diagnostics;
-
-#[module_exports]
-fn init(mut exports: JsObject) -> Result<()> {
-  env_logger::init();
-
-  exports.create_named_method("lint", lint)?;
-  exports.create_named_method("denolint", lint_command)?;
-
-  Ok(())
-}
 
 #[inline(always)]
 fn get_media_type(p: &Path) -> MediaType {
@@ -42,53 +31,52 @@ fn get_media_type(p: &Path) -> MediaType {
   }
 }
 
-#[js_function(3)]
-fn lint(ctx: CallContext) -> Result<JsObject> {
-  let file_name = ctx.get::<JsString>(0)?.into_utf8()?;
-  let source_code = ctx.get::<JsBuffer>(1)?.into_value()?;
-  let all_rules = ctx.get::<JsBoolean>(2)?;
+#[napi]
+fn lint(
+  file_name: String,
+  source_code: Either<String, Buffer>,
+  all_rules: Option<bool>,
+) -> Result<Vec<String>> {
+  let all_rules = all_rules.unwrap_or(false);
   let linter = LinterBuilder::default()
-    .rules(if all_rules.get_value()? {
+    .rules(if all_rules {
       get_all_rules()
     } else {
       get_recommended_rules()
     })
-    .media_type(get_media_type(Path::new(file_name.as_str()?)))
+    .media_type(get_media_type(Path::new(file_name.as_str())))
     .ignore_diagnostic_directive("eslint-disable-next-line")
     .build();
 
-  let source_string = str::from_utf8(&source_code).map_err(|e| Error {
-    status: Status::StringExpected,
-    reason: format!("Input source is not valid utf8 string {}", e),
-  })?;
-
-  let file_name_ref = file_name.as_str()?;
+  let source_string = match &source_code {
+    Either::A(s) => s,
+    Either::B(b) => str::from_utf8(b.as_ref()).map_err(|e| {
+      Error::new(
+        Status::StringExpected,
+        format!("Input source is not valid utf8 string {}", e),
+      )
+    })?,
+  };
 
   let (s, file_diagnostics) = linter
-    .lint(file_name_ref.to_owned(), source_string.to_owned())
-    .map_err(|e| Error {
-      status: Status::GenericFailure,
-      reason: format!("Lint failed: {}, at: {}", e, file_name_ref),
+    .lint(file_name.clone(), source_string.to_owned())
+    .map_err(|e| {
+      Error::new(
+        Status::GenericFailure,
+        format!("Lint failed: {}, at: {}", e, file_name),
+      )
     })?;
 
-  let mut result = ctx.env.create_array_with_length(file_diagnostics.len())?;
-
-  let d = diagnostics::display_diagnostics(&file_diagnostics, s.source(), false);
-  for (index, diagnostic) in d.iter().enumerate() {
-    result.set_element(
-      index as _,
-      ctx.env.create_string_from_std(format!("{}", diagnostic))?,
-    )?;
-  }
-
-  Ok(result)
+  Ok(
+    diagnostics::display_diagnostics(&file_diagnostics, s.source(), false)
+      .into_iter()
+      .map(|d| format!("{}", d))
+      .collect(),
+  )
 }
 
-#[js_function(2)]
-fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
-  let __dirname = ctx.get::<JsString>(0)?.into_utf8()?;
-  let config_path_js = ctx.get::<JsString>(1)?.into_utf8()?;
-  let config_path = config_path_js.as_str()?;
+#[napi]
+fn denolint(__dirname: String, config_path: String) -> Result<bool> {
   let mut has_error = false;
   let cwd = env::current_dir().map_err(|e| {
     Error::new(
@@ -145,7 +133,7 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
           &eslint_ignore_file
         ))
       })?,
-      Err(_) => __dirname.as_str()?,
+      Err(_) => __dirname.as_str(),
     },
   };
   let mut dir_walker = WalkBuilder::new(cwd);
@@ -178,14 +166,16 @@ fn lint_command(ctx: CallContext) -> Result<JsBoolean> {
             .to_owned(),
           file_content.clone(),
         )
-        .map_err(|e| Error {
-          status: Status::GenericFailure,
-          reason: format!("Lint failed: {}, at: {:?}", e, &p),
+        .map_err(|e| {
+          Error::new(
+            Status::GenericFailure,
+            format!("Lint failed: {}, at: {:?}", e, &p),
+          )
         })?;
       has_error = has_error || !file_diagnostics.is_empty();
       diagnostics::display_diagnostics(&file_diagnostics, s.source(), true);
     }
   }
 
-  ctx.env.get_boolean(has_error)
+  Ok(has_error)
 }

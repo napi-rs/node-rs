@@ -1,12 +1,28 @@
 {
   "name": "@node-rs/xxhash-linux-x64-gnu",
   "version": "1.0.1",
-  "os": ["linux"],
-  "cpu": ["x64"],
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
   "main": "xxhash.linux-x64-gnu.node",
-  "files": ["xxhash.linux-x64-gnu.node"],
+  "files": [
+    "xxhash.linux-x64-gnu.node"
+  ],
   "description": "Fastest xxhash implementation in Node.js",
-  "keywords": ["hash", "xxhash", "xxhashjs", "Rust", "node-rs", "napi", "napi-rs", "N-API", "Node-API"],
+  "keywords": [
+    "hash",
+    "xxhash",
+    "xxhashjs",
+    "Rust",
+    "node-rs",
+    "napi",
+    "napi-rs",
+    "N-API",
+    "Node-API"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",

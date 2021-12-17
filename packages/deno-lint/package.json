@@ -2,7 +2,16 @@
   "name": "@node-rs/deno-lint",
   "version": "1.10.3",
   "description": "Deno lint binding for Node.js",
-  "keywords": ["Deno", "Lint", "ESLint", "node-rs", "napi", "N-API", "Rust", "napi-rs"],
+  "keywords": [
+    "Deno",
+    "Lint",
+    "ESLint",
+    "node-rs",
+    "napi",
+    "N-API",
+    "Rust",
+    "napi-rs"
+  ],
   "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
@@ -11,7 +20,14 @@
     "denolint": "./bin.js"
   },
   "typings": "index.d.ts",
-  "files": ["index.js", "index.d.ts", "bin.js", "cli.js", "webpack-loader.js", "LICENSE"],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "bin.js",
+    "cli.js",
+    "webpack-loader.js",
+    "LICENSE"
+  ],
   "napi": {
     "name": "deno-lint",
     "triples": {
@@ -23,6 +39,7 @@
         "aarch64-unknown-linux-gnu",
         "aarch64-apple-darwin",
         "aarch64-linux-android",
+        "armv7-linux-androideabi",
         "x86_64-unknown-freebsd",
         "aarch64-unknown-linux-musl",
         "aarch64-pc-windows-msvc"
@@ -43,8 +60,8 @@
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
     "bench": "cross-env NODE_ENV=production node benchmark/lint.js",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
+    "build": "napi build --platform --release --pipe \"prettier -w\"",
+    "build:debug": "napi build --platform --pipe \"prettier -w\"",
     "prepublishOnly": "napi prepublish",
     "version": "napi version"
   },
@@ -52,7 +69,6 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "dependencies": {
-    "@node-rs/helper": "^1.2.1",
     "clipanion": "^3.1.0",
     "loader-utils": "^3.2.0",
     "typanion": "^3.7.1"

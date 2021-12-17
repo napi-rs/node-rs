@@ -1,42 +1,35 @@
-export type BufferLike =
-  | Buffer
-  | string
-  | Uint8Array
-  | ArrayBuffer
-  | SharedArrayBuffer
-  | ReadonlyArray<number>
-  | number[]
+/* eslint-disable */
 
-export function xxh32(input: BufferLike, seed?: number): number
-export function xxh64(input: BufferLike, seed?: BigInt): BigInt
-
+export class ExternalObject<T> {
+  readonly '': {
+    readonly '': unique symbol
+    [K: symbol]: T
+  }
+}
+export function xxh32(input: string | Buffer, seed?: number | undefined | null): number
+export function xxh64(input: string | Buffer, seed?: BigInt | undefined | null): BigInt
 export class Xxh32 {
-  constructor(seed?: number)
-  update(input: BufferLike): this
+  constructor(seed?: number | undefined | null)
+  update(input: string | Buffer): this
   digest(): number
-  reset(): void
+  reset(newState?: number | undefined | null): void
 }
-
 export class Xxh64 {
-  constructor(seed?: BigInt)
-  update(input: BufferLike): this
+  constructor(seed?: BigInt | undefined | null)
+  update(input: string | Buffer): this
   digest(): BigInt
-  reset(): void
+  reset(newState?: BigInt | undefined | null): void
 }
-
-export class Xxh3 {
-  static withSeed(seed?: BigInt): Xxh3
-  static withSecret(secret: BufferLike): Xxh3
-  private constructor()
-  update(input: BufferLike): this
-  digest(): BigInt
-  reset(): void
-}
-
-export const xxh3: {
-  xxh64: (input: BufferLike, seed?: BigInt) => BigInt
-  xxh64WithSecret: (input: BufferLike, secret: BufferLike) => BigInt
-  xxh128: (input: BufferLike, seed?: BigInt) => BigInt
-  xxh128WithSecret: (input: BufferLike, secret: BufferLike) => BigInt
-  Xxh3: typeof Xxh3
+export namespace xxh3 {
+  export function xxh64(input: string | Buffer, seed?: BigInt | undefined | null): BigInt
+  export function xxh64WithSecret(input: string | Buffer, secret: Buffer): BigInt
+  export function xxh128(input: string | Buffer, seed?: BigInt | undefined | null): BigInt
+  export function xxh128WithSecret(input: string | Buffer, secret: Buffer): BigInt
+  export class Xxh3 {
+    static withSeed(seed?: BigInt | undefined | null): Xxh3
+    static withSecret(secret: Buffer): Xxh3
+    update(input: string | Buffer): this
+    digest(): BigInt
+    reset(): void
+  }
 }
