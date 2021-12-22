@@ -46,6 +46,7 @@ Tag 246568 words bench suite: Fastest is @node-rs/jieba
 | Linux arm64 gnu  | ✓      | ✓      | ✓      |
 | Linux arm64 musl | ✓      | ✓      | ✓      |
 | Android arm64    | ✓      | ✓      | ✓      |
+| Android armv7    | ✓      | ✓      | ✓      |
 | FreeBSD x64      | ✓      | ✓      | ✓      |
 
 ## Usage

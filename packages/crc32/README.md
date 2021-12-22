@@ -55,6 +55,7 @@ js_crc32 for inputs 16931844B, avg 2066B x 22.12 ops/sec ±5.20% (40 runs sample
 | Linux arm64 gnu  | ✓      | ✓      | ✓      |
 | Linux arm64 musl | ✓      | ✓      | ✓      |
 | Android arm64    | ✓      | ✓      | ✓      |
+| Android armv7    | ✓      | ✓      | ✓      |
 | FreeBSD x64      | ✓      | ✓      | ✓      |
 
 ## API
