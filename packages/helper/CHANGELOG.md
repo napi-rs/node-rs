@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.2.1...@node-rs/helper@1.3.0) (2021-12-22)
+
+### Bug Fixes
+
+- **helper:** typescript@4.4 typecheck error ([1963a0e](https://github.com/napi-rs/node-rs/commit/1963a0e56889e299a2d662ea89012eb89c4e7120))
+
+### Features
+
+- upgrade napi-rs to v2 ([#561](https://github.com/napi-rs/node-rs/issues/561)) ([7914fd5](https://github.com/napi-rs/node-rs/commit/7914fd526b03b0bb22d06cfd18024ae41206040f))
+
 ## [1.2.1](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.2.0...@node-rs/helper@1.2.1) (2021-07-22)
 
 ### Performance Improvements

@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba-linux-x64-gnu",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "os": [
     "linux"
   ],
