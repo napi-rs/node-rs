@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.3.0...@node-rs/crc32@1.3.1) (2021-12-23)
+
+### Bug Fixes
+
+- **crc32:** remove ExternalObject definition ([0e5f172](https://github.com/napi-rs/node-rs/commit/0e5f172ac1ce323afb44fc37dc54540c7427c7a7))
+
 # [1.3.0](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.2.2...@node-rs/crc32@1.3.0) (2021-12-22)
 
 ### Features
