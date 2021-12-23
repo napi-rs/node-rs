@@ -52,8 +52,8 @@
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
     "bench": "cross-env NODE_ENV=production node benchmark/crc32.js",
-    "build": "napi build --platform --release --pipe \"prettier -w\"",
-    "build:debug": "napi build --platform --pipe \"prettier -w\"",
+    "build": "napi build --platform --release --pipe \"prettier -w\" --js false",
+    "build:debug": "napi build --platform --pipe \"prettier -w\" --js false",
     "prepublishOnly": "napi prepublish",
     "version": "napi version"
   },
