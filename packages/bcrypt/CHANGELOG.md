@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.5.0...@node-rs/bcrypt@1.5.1) (2021-12-24)
+
+### Bug Fixes
+
+- **bcrypt:** update to upstream rust-bcrypt implementation ([741dd01](https://github.com/napi-rs/node-rs/commit/741dd013448172fb14782738e052cf26869753de))
+
 # [1.5.0](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.4.2...@node-rs/bcrypt@1.5.0) (2021-12-22)
 
 ### Features
