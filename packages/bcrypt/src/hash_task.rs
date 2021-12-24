@@ -3,8 +3,6 @@ use napi::{
 };
 use napi_derive::napi;
 
-use crate::lib_bcrypt::hash;
-
 pub enum AsyncHashInput {
   String(String),
   Buffer(Ref<JsBufferValue>),
@@ -42,7 +40,7 @@ impl HashTask {
 
   #[inline]
   pub fn hash(buf: &[u8], cost: u32) -> Result<String> {
-    hash(buf, cost).map_err(|_| Error::from_status(Status::GenericFailure))
+    bcrypt::hash(buf, cost).map_err(|_| Error::from_status(Status::GenericFailure))
   }
 }
 

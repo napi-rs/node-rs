@@ -4,7 +4,6 @@ use napi::{Env, Error, JsBoolean, Result, Status, Task};
 use napi_derive::napi;
 
 use crate::hash_task::AsyncHashInput;
-use crate::lib_bcrypt::verify;
 
 pub struct VerifyTask {
   password: AsyncHashInput,
@@ -23,8 +22,8 @@ impl VerifyTask {
     H: AsRef<[u8]>,
   {
     Ok(
-      verify(
-        password.as_ref(),
+      bcrypt::verify(
+        password,
         str::from_utf8(hash.as_ref()).map_err(|_| Error::from_status(Status::StringExpected))?,
       )
       .unwrap_or(false),
