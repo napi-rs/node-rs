@@ -8,6 +8,7 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
+bcrypt = "0.10"
 blowfish = {version = "0.8", features = ["bcrypt"]}
 byteorder = "1"
 global_alloc = {path = "../../crates/alloc"}

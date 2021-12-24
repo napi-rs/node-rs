@@ -15,7 +15,6 @@ use crate::lib_bcrypt::{format_salt, gen_salt, Version};
 use crate::verify_task::VerifyTask;
 
 mod b64;
-mod bcrypt;
 mod errors;
 mod hash_task;
 mod lib_bcrypt;

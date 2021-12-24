@@ -2,8 +2,6 @@ use std::error;
 use std::fmt;
 use std::io;
 
-use crate::lib_bcrypt::{MAX_COST, MIN_COST};
-
 /// Library generic result type.
 pub type BcryptResult<T> = Result<T, BcryptError>;
 
@@ -12,13 +10,10 @@ pub type BcryptResult<T> = Result<T, BcryptError>;
 /// passwords
 pub enum BcryptError {
   Io(io::Error),
-  CostNotAllowed(u32),
-  InvalidPassword,
   InvalidVersion(String),
   InvalidCost(String),
   InvalidPrefix(String),
   InvalidHash(String),
-  DecodeError(char, String),
   Rand(rand::Error),
 }
 
@@ -40,18 +35,9 @@ impl fmt::Display for BcryptError {
     match *self {
       BcryptError::Io(ref err) => write!(f, "IO error: {}", err),
       BcryptError::InvalidCost(ref cost) => write!(f, "Invalid Cost: {}", cost),
-      BcryptError::CostNotAllowed(ref cost) => write!(
-        f,
-        "Cost needs to be between {} and {}, got {}",
-        MIN_COST, MAX_COST, cost
-      ),
-      BcryptError::InvalidPassword => write!(f, "Invalid password: contains NULL byte"),
       BcryptError::InvalidVersion(ref v) => write!(f, "Invalid version: {}", v),
       BcryptError::InvalidPrefix(ref prefix) => write!(f, "Invalid Prefix: {}", prefix),
       BcryptError::InvalidHash(ref hash) => write!(f, "Invalid hash: {}", hash),
-      BcryptError::DecodeError(ref c, ref s) => {
-        write!(f, "Invalid base64 error in {}, char {}", c, s)
-      }
       BcryptError::Rand(ref err) => write!(f, "Rand error: {}", err),
     }
   }
@@ -62,11 +48,8 @@ impl error::Error for BcryptError {
     match *self {
       BcryptError::Io(ref err) => Some(err),
       BcryptError::InvalidCost(_)
-      | BcryptError::CostNotAllowed(_)
-      | BcryptError::InvalidPassword
       | BcryptError::InvalidVersion(_)
       | BcryptError::InvalidPrefix(_)
-      | BcryptError::DecodeError(_, _)
       | BcryptError::InvalidHash(_) => None,
       BcryptError::Rand(ref err) => Some(err),
     }
