@@ -3,6 +3,7 @@ cargo-features = ["strip"]
 [workspace]
 members = [
   "./crates/alloc",
+  "./packages/argon2",
   "./packages/bcrypt",
   "./packages/crc32",
   "./packages/deno-lint",

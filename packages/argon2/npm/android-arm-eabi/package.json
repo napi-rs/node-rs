@@ -1,0 +1,18 @@
+{
+  "name": "@node-rs/argon2-android-arm-eabi",
+  "version": "0.0.0",
+  "os": [
+    "android"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "main": "argon2.android-arm-eabi.node",
+  "files": [
+    "argon2.android-arm-eabi.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}

@@ -1,0 +1,16 @@
+[package]
+edition = "2021"
+name = "node-rs_argon2"
+version = "0.0.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+argon2 = {version = "0.3", features = ["parallel"]}
+napi = {version = "2", default-features = false, features = ["napi3"]}
+napi-derive = {version = "2", default-features = false, features = ["type-def"]}
+rand = {version = "0.8", features = ["nightly", "simd_support"]}
+
+[build-dependencies]
+napi-build = "1"
