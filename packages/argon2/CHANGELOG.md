@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/napi-rs/node-rs/compare/@node-rs/argon2@1.0.0...@node-rs/argon2@1.0.1) (2021-12-29)
+
+### Bug Fixes
+
+- **argon2:** publish config ([5514535](https://github.com/napi-rs/node-rs/commit/5514535ba6bd8f47e301fdef46f6e57134672ece))
+
 # 1.0.0 (2021-12-29)
 
 ### Features
