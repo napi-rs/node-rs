@@ -20,6 +20,10 @@
       ]
     }
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "license": "MIT",
   "engines": {
     "node": ">= 10"
