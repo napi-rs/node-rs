@@ -4,6 +4,36 @@ import test from 'ava'
 
 import { Algorithm, hash, verify, Version } from '../index.js'
 
+const passwordString = 'some_string123'
+const passwordBuffer = Buffer.from(passwordString)
+
+test('should allow buffer input', async (t) => {
+  const hashed = await hash(passwordBuffer)
+  t.true(await verify(hashed, passwordString))
+})
+
+test('should allow changing timeCost', async (t) => {
+  const hashed = await hash(passwordString, {
+    timeCost: 5,
+  })
+  t.true(await verify(hashed, passwordString))
+})
+
+test('should allow changing memoryCost', async (t) => {
+  const hashed = await hash(passwordString, {
+    memoryCost: 16384,
+  })
+  t.true(await verify(hashed, passwordString))
+})
+
+test('should allow changing parallelism', async (t) => {
+  const hashed = await hash(passwordString, {
+    memoryCost: 65536,
+    parallelism: 2,
+  })
+  t.true(await verify(hashed, passwordString))
+})
+
 test('should be able to hash string', async (t) => {
   await t.notThrowsAsync(() => hash('whatever'))
   await t.notThrowsAsync(() =>
@@ -46,4 +76,38 @@ test('should be able to verify hashed string', async (t) => {
       },
     ),
   )
+})
+
+// error
+test('should return memoryCost error', async (t) => {
+  const error = await t.throwsAsync(() =>
+    hash(passwordString, {
+      timeCost: 2,
+      memoryCost: 1,
+      parallelism: 1,
+    }),
+  )
+
+  t.is(error.message, 'memory cost is too small')
+})
+
+test('should return timeCost error', async (t) => {
+  const error = await t.throwsAsync(() =>
+    hash(passwordString, {
+      timeCost: 0.6,
+    }),
+  )
+
+  t.is(error.message, 'time cost is too small')
+})
+
+test('should return parallelism error', async (t) => {
+  const error = await t.throwsAsync(() =>
+    hash(passwordString, {
+      timeCost: 3,
+      parallelism: 0,
+    }),
+  )
+
+  t.is(error.message, 'not enough threads')
 })
