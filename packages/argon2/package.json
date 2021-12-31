@@ -1,8 +1,20 @@
 {
   "name": "@node-rs/argon2",
   "version": "1.0.1",
+  "description": "RustCrypto: Argon2 binding for Node.js",
   "main": "index.js",
   "types": "index.d.ts",
+  "keywords": [
+    "argon2",
+    "argon2-password",
+    "crypto",
+    "password",
+    "encryption",
+    "hashing",
+    "hash",
+    "secure",
+    "verify"
+  ],
   "napi": {
     "name": "argon2",
     "triples": {

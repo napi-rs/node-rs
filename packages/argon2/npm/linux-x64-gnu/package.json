@@ -11,6 +11,18 @@
   "files": [
     "argon2.linux-x64-gnu.node"
   ],
+  "description": "RustCrypto: Argon2 binding for Node.js",
+  "keywords": [
+    "argon2",
+    "argon2-password",
+    "crypto",
+    "password",
+    "encryption",
+    "hashing",
+    "hash",
+    "secure",
+    "verify"
+  ],
   "license": "MIT",
   "engines": {
     "node": ">= 10"
