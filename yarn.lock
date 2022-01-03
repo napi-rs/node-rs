@@ -2594,10 +2594,10 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-crc@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/crc/-/crc-4.0.0.tgz#49d97bba62bbe97a0018d9d109ab2540f81a3b5a"
-  integrity sha512-MFJnrsPVGMW9NkRO+BNquPNqTTvblLQ49VoSJSUdVSqlqJ+SLJylxsfuvNNlDNkoGwbR/2nO0T8rgUTv7HxUyg==
+crc@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/crc/-/crc-4.1.0.tgz#bb875159ac3012d52611f13a2bcf5d46b401c8e7"
+  integrity sha512-xl6/PgOWZCDOA9mnytKzg2ftRS2YT/SUnNPPiCMoD6KWuiJayRjHcaLmBzGWNZGHSXDSrDuLNUEIljLRMbn7vA==
 
 cross-env@^7.0.3:
   version "7.0.3"
