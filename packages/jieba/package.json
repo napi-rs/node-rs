@@ -61,7 +61,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "devDependencies": {
-    "nodejieba": "^2.5.2"
+    "nodejieba": "^2.6.0"
   },
   "funding": {
     "type": "github",
