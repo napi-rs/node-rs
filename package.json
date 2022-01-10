@@ -48,6 +48,7 @@
     "extensions": [
       "ts"
     ],
+    "workerThreads": false,
     "require": [
       "@swc-node/register"
     ],
