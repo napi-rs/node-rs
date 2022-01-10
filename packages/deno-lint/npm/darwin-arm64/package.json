@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-darwin-arm64",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "os": [
     "darwin"
   ],

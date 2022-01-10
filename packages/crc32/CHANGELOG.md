@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.3.1...@node-rs/crc32@1.4.0) (2022-01-10)
+
+### Features
+
+- **argon2:** implement argon2 ([6adc51d](https://github.com/napi-rs/node-rs/commit/6adc51dd43dc077bd1a3e458b183f81375508dae))
+
 ## [1.3.1](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.3.0...@node-rs/crc32@1.3.1) (2021-12-23)
 
 ### Bug Fixes

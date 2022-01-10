@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba-android-arm64",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "os": [
     "android"
   ],

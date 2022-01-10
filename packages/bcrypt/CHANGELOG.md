@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.5.1...@node-rs/bcrypt@1.5.2) (2022-01-10)
+
+### Bug Fixes
+
+- **argon2,bcrypt,crc32,deno-lint,jieba,xxhash:** update js binding ([4ac6d2b](https://github.com/napi-rs/node-rs/commit/4ac6d2b9e9072a63216d05b47c92d3725b5b36f4))
+
 ## [1.5.1](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.5.0...@node-rs/bcrypt@1.5.1) (2021-12-24)
 
 ### Bug Fixes
