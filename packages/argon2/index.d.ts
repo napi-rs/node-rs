@@ -32,7 +32,7 @@ export const enum Version {
   V0x10 = 0,
   /**
    * Default value
-   * Version 19 (0x13 in hex, default)
+   * Version 19 (0x13 in hex)
    */
   V0x13 = 1,
 }

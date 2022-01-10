@@ -10,8 +10,8 @@ crate-type = ["cdylib"]
 [dependencies]
 annotate-snippets = {version = "0.9", features = ["color"]}
 anyhow = "1"
-deno_ast = "0.7.0"
-deno_lint = "0.20.1"
+deno_ast = "=0.8.0"
+deno_lint = "=0.21.0"
 env_logger = "0.9"
 global_alloc = {path = "../../crates/alloc"}
 globwalk = "0.8"

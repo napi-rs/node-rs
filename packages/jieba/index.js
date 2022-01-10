@@ -5,8 +5,21 @@ const { platform, arch } = process
 
 let nativeBinding = null
 let localFileExisted = false
-let isMusl = false
 let loadError = null
+
+function isMusl() {
+  // For Node 10
+  if (!process.report || typeof process.report.getReport !== 'function') {
+    try {
+      return readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
+    } catch (e) {
+      return false
+    }
+  } else {
+    const { glibcVersionRuntime } = process.report.getReport().header
+    return !glibcVersionRuntime
+  }
+}
 
 switch (platform) {
   case 'android':
@@ -114,8 +127,7 @@ switch (platform) {
   case 'linux':
     switch (arch) {
       case 'x64':
-        isMusl = readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
-        if (isMusl) {
+        if (isMusl()) {
           localFileExisted = existsSync(join(__dirname, 'jieba.linux-x64-musl.node'))
           try {
             if (localFileExisted) {
@@ -140,8 +152,7 @@ switch (platform) {
         }
         break
       case 'arm64':
-        isMusl = readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
-        if (isMusl) {
+        if (isMusl()) {
           localFileExisted = existsSync(join(__dirname, 'jieba.linux-arm64-musl.node'))
           try {
             if (localFileExisted) {
