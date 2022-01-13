@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32-android-arm-eabi",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "os": [
     "android"
   ],
