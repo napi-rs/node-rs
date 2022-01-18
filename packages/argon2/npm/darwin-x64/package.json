@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/argon2-darwin-x64",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "os": [
     "darwin"
   ],

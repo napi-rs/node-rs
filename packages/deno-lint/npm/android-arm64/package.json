@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-android-arm64",
-  "version": "1.11.3",
+  "version": "1.12.0",
   "os": [
     "android"
   ],

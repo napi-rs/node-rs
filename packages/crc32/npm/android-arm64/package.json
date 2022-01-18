@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32-android-arm64",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "os": [
     "android"
   ],

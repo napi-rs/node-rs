@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba-darwin-x64",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "os": [
     "darwin"
   ],

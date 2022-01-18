@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/Brooooooklyn/node-rs/compare/@node-rs/argon2@1.0.5...@node-rs/argon2@1.0.6) (2022-01-18)
+
+**Note:** Version bump only for package @node-rs/argon2
+
 ## [1.0.5](https://github.com/napi-rs/node-rs/compare/@node-rs/argon2@1.0.4...@node-rs/argon2@1.0.5) (2022-01-13)
 
 **Note:** Version bump only for package @node-rs/argon2

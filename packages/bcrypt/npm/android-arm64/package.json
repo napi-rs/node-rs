@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt-android-arm64",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "os": [
     "android"
   ],
