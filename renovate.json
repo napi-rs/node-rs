@@ -1,0 +1,17 @@
+{
+  "extends": ["config:base", ":preserveSemverRanges"],
+  "packageRules": [
+    {
+      "automerge": true,
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"]
+    },
+    {
+      "groupName": "deno-lint",
+      "matchPackagePrefixes": ["deno_"]
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "extends": ["schedule:monthly"]
+  }
+}

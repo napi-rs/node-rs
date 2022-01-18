@@ -938,10 +938,10 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@napi-rs/cli@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.npmjs.org/@napi-rs/cli/-/cli-2.4.0.tgz#a74d991e12871d6fb8eb32b33cc53a9c105b1921"
-  integrity sha512-rq4ivqWY7KWG104gRxTmWyehE4eUxJ/mBJx81r3PeghtLZ11NpJNuvF9kSvsol8hTjJQ7CWlF2plQ20I9rMOng==
+"@napi-rs/cli@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.npmjs.org/@napi-rs/cli/-/cli-2.4.1.tgz#03b55ad13a421d1d4031d6b807423a72cf6fb9ca"
+  integrity sha512-H+3PgpL3XIdkKo5eeExuQjJ0lt83BS/IhjYpLGmN6c1yWnT1aTiCDlpQo8vVNuw2bkytEQwHeYUlEdBp2DF5mw==
 
 "@napi-rs/triples@^1.1.0":
   version "1.1.0"
