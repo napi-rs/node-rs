@@ -275,6 +275,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
+          cache: yarn
 
       - name: Install dependencies
         run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
@@ -360,7 +361,6 @@ jobs:
           yum install nodejs -y
           npm install -g yarn
           yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
-          yarn add ts-node -D -W
 
       - name: Download artifacts
         uses: actions/download-artifact@v2
