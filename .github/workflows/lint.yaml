@@ -31,7 +31,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: npm-cache-lint-node@14-${{ hashFiles('yarn.lock') }}
+          key: npm-cache-lint-node@16-${{ hashFiles('yarn.lock') }}
 
       - name: 'Install dependencies'
         run: yarn install --frozen-lockfile --registry https://registry.npmjs.org
