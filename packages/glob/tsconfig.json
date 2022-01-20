@@ -1,14 +1,14 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "ES2018",
-    "strict": true,
-    "moduleResolution": "node",
-    "module": "CommonJS",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "rootDir": ".",
+    "composite": true,
+    "sourceMap": true,
+    "inlineSourceMap": false,
+    "noEmitHelpers": false,
+    "importHelpers": false
   },
   "include": ["."],
-  "exclude": ["node_modules"]
+  "exclude": ["*.js", "*.d.ts"]
 }
