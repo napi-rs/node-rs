@@ -17,19 +17,20 @@ static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
 pub fn glob_pattern<T: Fn(Vec<String>) -> Result<()>>(pattern: String, callback: T) {
   let mut results = Vec::new();
 
-  let _glob_results = glob::glob(&pattern).map(|paths| {
-    let _paths_rsults = paths.map(|path| {
-      results.push(
-        path
-          .unwrap()
-          .to_owned()
-          .into_os_string()
-          .into_string()
-          .unwrap(),
-      );
-    });
-  });
-  // .collect();
+  for entry in glob::glob(&pattern).expect("Failed to read Glob pattern") {
+    match entry {
+      Ok(path) => {
+        results.push(path.to_str().unwrap().to_string());
+      }
 
-  let _callback_results = callback(results);
+      // TODO: call callback with an error
+      Err(e) => println!("{:?}", e),
+    }
+  }
+
+  match callback(results) {
+    Ok(_) => (),
+    // TODO: handle failing to call the callback!
+    Err(e) => println!("{:?}", e),
+  }
 }
