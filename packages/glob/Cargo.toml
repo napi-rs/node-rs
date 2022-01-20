@@ -1,0 +1,24 @@
+[package]
+authors = ["Mohsen Azimi <me@azimi.me>"]
+edition = "2021"
+name = "napi-glob"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+glob = "0.3.0"
+napi = "2"
+napi-derive = "2"
+
+[target.'cfg(all(any(windows, unix), target_arch = "x86_64", not(target_env = "musl")))'.dependencies]
+mimalloc = {version = "0.1"}
+
+[build-dependencies]
+napi-build = "1"
+
+[profile.release]
+lto = true

@@ -7,6 +7,7 @@ members = [
   "./packages/bcrypt",
   "./packages/crc32",
   "./packages/deno-lint",
+  "./packages/glob",
   "./packages/jieba",
   "./packages/xxhash",
 ]
