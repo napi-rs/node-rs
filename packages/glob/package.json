@@ -1,11 +1,15 @@
 {
   "name": "@napi-rs/glob",
   "version": "1.0.0",
-  "description": "Rust glob crate for Node.js",
+  "description": "Rust glob crate binding",
   "main": "index.js",
   "repository": "git@github.com:napi-rs/node-rs.git",
+  "bugs": {
+    "url": "https://github.com/napi-rs/node-rs/issues"
+  },
   "license": "MIT",
   "keywords": [
+    "glob",
     "napi-rs",
     "NAPI",
     "N-API",
@@ -48,7 +52,6 @@
     "build": "napi build --platform --release --pipe \"prettier -w\"",
     "build:debug": "napi build --platform --pipe \"prettier -w\"",
     "prepublishOnly": "napi prepublish -t npm",
-    "test": "ava",
     "version": "napi version"
   },
   "devDependencies": {
