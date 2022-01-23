@@ -9,4 +9,27 @@ export class ExternalObject<T> {
     [K: symbol]: T
   }
 }
-export function globPattern(pattern: string, callback: (arg0: Array<string>) => void): void
+export interface GlobOptions {
+  /**
+   * Whether or not patterns should be matched in a case-sensitive manner.
+   * This currently only considers upper/lower case relationships between
+   * ASCII characters, but in future this might be extended to work with
+   * Unicode.
+   */
+  caseSensitive?: boolean | undefined | null
+  /**
+   * Whether or not path-component separator characters (e.g. `/` on
+   * Posix) must be matched by a literal `/`, rather than by `*` or `?` or
+   * `[...]`.
+   */
+  requireLiteralSeparator?: boolean | undefined | null
+  /**
+   * Whether or not paths that contain components that start with a `.`
+   * will require that `.` appears literally in the pattern; `*`, `?`, `**`,
+   * or `[...]` will not match. This is useful because such files are
+   * conventionally considered hidden on Unix systems and it might be
+   * desirable to skip them when listing files.
+   */
+  requireLiteralLeadingDot?: boolean | undefined | null
+}
+export function glob(pattern: string, options?: GlobOptions | undefined | null): Array<string>

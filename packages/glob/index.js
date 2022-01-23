@@ -218,6 +218,6 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { globPattern } = nativeBinding
+const { glob } = nativeBinding
 
-module.exports.globPattern = globPattern
+module.exports.glob = glob
