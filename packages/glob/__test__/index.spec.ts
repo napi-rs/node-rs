@@ -2,9 +2,14 @@ import path from 'path'
 
 import test from 'ava'
 
-import { glob } from '../index'
+import { globSync, glob } from '../index'
 
-test('gets results for the test directory', (t) => {
-  const results = glob(path.join(__dirname, '../__fixtures__/*'))
+test('globSync', (t) => {
+  const results = globSync(path.join(__dirname, '../__fixtures__/*'))
+  t.true(results.includes(path.join(__dirname, '../__fixtures__/test.file')))
+})
+
+test('glob', async (t) => {
+  const results = await glob(path.join(__dirname, '../__fixtures__/*'))
   t.true(results.includes(path.join(__dirname, '../__fixtures__/test.file')))
 })

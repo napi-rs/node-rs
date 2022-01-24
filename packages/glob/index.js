@@ -218,6 +218,7 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { glob } = nativeBinding
+const { globSync, glob } = nativeBinding
 
+module.exports.globSync = globSync
 module.exports.glob = glob

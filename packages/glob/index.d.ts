@@ -32,4 +32,11 @@ export interface GlobOptions {
    */
   requireLiteralLeadingDot?: boolean | undefined | null
 }
-export function glob(pattern: string, options?: GlobOptions | undefined | null): Array<string>
+/** Run glob task sync */
+export function globSync(pattern: string, options?: GlobOptions | undefined | null): Array<string>
+/** Run glob async */
+export function glob(
+  pattern: string,
+  options?: GlobOptions | undefined | null,
+  abortSignal?: AbortSignal | undefined | null,
+): Promise<string>
