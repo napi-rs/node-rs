@@ -29,7 +29,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "scripts": {
-    "build": "exit 0;"
+    "build": "tsc"
   },
   "dependencies": {
     "@napi-rs/triples": "^1.1.0"

@@ -27,6 +27,8 @@
 tmp=${TMPDIR:-/tmp}
 export CDPATH=
 set -e
+rm -rf $tmp/benchmark-fixture
+mkdir -p $tmp/benchmark-fixture
 if ! [ -d $tmp/benchmark-fixture ]; then
   echo Making benchmark fixtures
   mkdir $tmp/benchmark-fixture
