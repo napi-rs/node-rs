@@ -1,21 +1,23 @@
+import { execFileSync } from 'child_process'
+import path from 'path'
+
 import b from 'benny'
+import glob from 'glob'
 
-import { plus100 } from '../index'
-
-function add(a: number) {
-  return a + 100
-}
+import { globSync } from '../index'
 
 async function run() {
-  await b.suite(
-    'Add 100',
+  execFileSync(path.join(__dirname, 'make-benchmark-fixtures.sh'))
 
-    b.add('Native a + 100', () => {
-      plus100(10)
+  await b.suite(
+    'Glob "**/*.txt" sync',
+
+    b.add('npm "glob" package', () => {
+      glob.globSync('/tmp/**/*.txt')
     }),
 
-    b.add('JavaScript a + 100', () => {
-      add(10)
+    b.add('"@napi-rs/glob"', () => {
+      globSync('/tmp/**/*.txt')
     }),
 
     b.cycle(),
@@ -23,6 +25,4 @@ async function run() {
   )
 }
 
-run().catch((e) => {
-  console.error(e)
-})
+run().catch(console.error)
