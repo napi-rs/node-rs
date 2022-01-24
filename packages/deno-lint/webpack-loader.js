@@ -1,10 +1,8 @@
-const { getOptions } = require('loader-utils')
-
 const { lint } = require('./index')
 
 module.exports = function denoLintLoader(source, sm) {
   const callback = this.async()
-  const options = getOptions(this)
+  const options = this.getOptions()
   const diagnostics = lint(this.resourcePath, source, options.enableAllRules)
 
   if (this.resourcePath.endsWith('diff-size.ts')) {
