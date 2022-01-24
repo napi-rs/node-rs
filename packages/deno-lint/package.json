@@ -70,7 +70,6 @@
   },
   "dependencies": {
     "clipanion": "^3.1.0",
-    "loader-utils": "^3.2.0",
     "typanion": "^3.7.1"
   },
   "devDependencies": {
