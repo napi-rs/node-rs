@@ -90,10 +90,8 @@ pub struct GlobTask {
 
 #[napi]
 impl Task for GlobTask {
-  // TODO: Can't figure out how to type `Output` and `JsValue` to be an array of strings
-  // For now the async task only returns one string!
-  type Output = String; // Vec<String>;
-  type JsValue = String; // JsObject;
+  type Output = Vec<String>;
+  type JsValue = Vec<String>;
 
   fn compute(&mut self) -> Result<Self::Output> {
     let results = glob_sync(self.pattern.clone(), self.options.clone()).map_err(|err| {
@@ -107,7 +105,7 @@ impl Task for GlobTask {
       )
     })?;
 
-    return Ok(results.first().unwrap().clone());
+    return Ok(results);
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {

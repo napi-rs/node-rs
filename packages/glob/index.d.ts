@@ -39,4 +39,4 @@ export function glob(
   pattern: string,
   options?: GlobOptions | undefined | null,
   abortSignal?: AbortSignal | undefined | null,
-): Promise<string>
+): Promise<Array<string>>
