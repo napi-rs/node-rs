@@ -1,8 +1,9 @@
-import { promises as fs } from 'fs'
 import path from 'path'
 import { promisify } from 'util'
 
 import b from 'benny'
+import fastGlob from 'fast-glob'
+import fs from 'graceful-fs'
 import mkdirp from 'mkdirp'
 import rimraf from 'rimraf'
 
@@ -20,8 +21,10 @@ function rand() {
 }
 
 function makeRandomFile(dir: string) {
-  const file = path.join(dir, `file-${rand()}${rand()}.txt`)
-  return fs.writeFile(file, '')
+  const extensions = ['txt', 'log', 'code', 'py']
+  const extension = extensions[Math.floor(Math.random() * extensions.length)]
+  const file = path.join(dir, `file-${rand()}${rand()}.${extension}`)
+  return promisify(fs.writeFile)(file, '')
 }
 
 interface MakeRandomDirectoriesOption {
@@ -40,7 +43,7 @@ async function makeRandomDirectories({
   crrentDepth = 0,
   maxDepth,
   max,
-}: MakeRandomDirectoriesOption): Promise<unknown> {
+}: MakeRandomDirectoriesOption): Promise<void> {
   await mkdirp(currentDir)
   await Promise.all(Array.from({ length: max }).map(() => makeRandomFile(currentDir)))
 
@@ -48,7 +51,7 @@ async function makeRandomDirectories({
     return
   }
 
-  return Promise.all(
+  await Promise.all(
     Array.from({ length: max }).map(() =>
       makeRandomDirectories({
         currentDir: path.join(currentDir, `dir-${rand()}${rand()}`),
@@ -65,41 +68,61 @@ async function run() {
 
   await promisify(rimraf)(benchmarkFixturesPath)
   await mkdirp(benchmarkFixturesPath)
+
   await makeRandomDirectories({
     currentDir: benchmarkFixturesPath,
-    maxDepth: 4,
-    max: 7,
+    maxDepth: 5,
+    max: 20,
   })
 
-  await b.suite(
-    'Glob "**/*.txt" sync',
+  for await (const pattern of [
+    '**/*.txt',
+    '**/*a*.txt',
+    '*a*/*b*/*c.txt',
+    '**/*[0-9]*.code',
+    '*.py',
+    '**/dir-*/dir-**/dir-**/**/*.code',
+  ]) {
+    const pathAndPattern = path.join(benchmarkFixturesPath, pattern)
 
-    b.add('"glob"', () => {
-      glob.sync(path.join(benchmarkFixturesPath, '**/*.txt'))
-    }),
+    await b.suite(
+      `${pattern} sync`,
 
-    b.add('"@napi-rs/glob"', () => {
-      globSync(path.join(benchmarkFixturesPath, '**/*.txt'))
-    }),
+      b.add('"glob"', () => {
+        glob.sync(pathAndPattern)
+      }),
 
-    b.cycle(),
-    b.complete(),
-  )
+      b.add('"fast-glob', () => {
+        fastGlob.sync(pathAndPattern)
+      }),
 
-  await b.suite(
-    'Glob "**/*.txt" async',
+      b.add('"@napi-rs/glob"', () => {
+        globSync(pathAndPattern)
+      }),
 
-    b.add('"glob"', async () => {
-      await promisify(glob)(path.join(benchmarkFixturesPath, '**/*.txt'))
-    }),
+      b.cycle(),
+      b.complete(),
+    )
 
-    b.add('"@napi-rs/glob"', async () => {
-      await globAsync(path.join(benchmarkFixturesPath, '**/*.txt'))
-    }),
+    await b.suite(
+      `${pattern} async`,
 
-    b.cycle(),
-    b.complete(),
-  )
+      b.add('"glob"', async () => {
+        await promisify(glob)(pathAndPattern)
+      }),
+
+      b.add('"fast-glob', async () => {
+        await fastGlob(pathAndPattern)
+      }),
+
+      b.add('"@napi-rs/glob"', async () => {
+        await globAsync(pathAndPattern)
+      }),
+
+      b.cycle(),
+      b.complete(),
+    )
+  }
 }
 
 run().catch(console.error)
