@@ -20,9 +20,9 @@ pub fn crc32c(input: Either<String, Buffer>, initial_state: Option<u32>) -> u32 
 }
 
 #[napi]
-pub fn crc32(input_data: Either<String, Buffer>, initial_state: Option<u32>) -> u32 {
+pub fn crc32(input: Either<String, Buffer>, initial_state: Option<u32>) -> u32 {
   let mut hasher = Hasher::new_with_initial(initial_state.unwrap_or(0));
-  hasher.update(match &input_data {
+  hasher.update(match &input {
     Either::A(s) => s.as_bytes(),
     Either::B(b) => b.as_ref(),
   });

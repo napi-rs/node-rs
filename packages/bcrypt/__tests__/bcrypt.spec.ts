@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { verifySync, hash } from '../index'
+import { verifySync, compareSync, verify, compare, hash } from '../index'
 
 const { hashSync } = require('bcryptjs')
 
@@ -21,4 +21,9 @@ test('verifySync should always return boolean even if the password is invalid', 
   t.false(verifySync('a', 'b'))
   t.false(verifySync('a', ''))
   t.false(verifySync('', ''))
+})
+
+test('compare should be equal to verify', (t) => {
+  t.is(verifySync, compareSync)
+  t.is(verify, compare)
 })
