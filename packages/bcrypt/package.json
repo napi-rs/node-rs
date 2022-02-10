@@ -21,6 +21,8 @@
   "files": [
     "index.js",
     "index.d.ts",
+    "binding.js",
+    "binding.d.ts",
     "LICENSE",
     "LICENSE.rust-bcrypt"
   ],
