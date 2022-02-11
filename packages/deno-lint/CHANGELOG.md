@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.12.0...@node-rs/deno-lint@1.13.0) (2022-02-11)
+
+### Bug Fixes
+
+- **deno-lint:** getOptions is now provided by webpack@5 ([cf048f5](https://github.com/napi-rs/node-rs/commit/cf048f51ded73204f49d5cfae07d2a213d9aa7bf))
+
+### Features
+
+- upgrade to napi@2.1.0 ([27d003b](https://github.com/napi-rs/node-rs/commit/27d003b28919ff5f499abe1d4bbd77cc5afb930d))
+
 # [1.12.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.11.3...@node-rs/deno-lint@1.12.0) (2022-01-18)
 
 ### Features

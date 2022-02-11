@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32-win32-arm64-msvc",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "os": [
     "win32"
   ],
