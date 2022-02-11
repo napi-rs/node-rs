@@ -22,7 +22,7 @@
     "postinstall": "husky install"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^2.4.1",
+    "@napi-rs/cli": "^2.4.4",
     "@swc-node/core": "^1.8.2",
     "@swc-node/register": "^1.4.2",
     "@types/node": "^17.0.8",

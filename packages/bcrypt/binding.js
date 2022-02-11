@@ -25,24 +25,24 @@ switch (platform) {
   case 'android':
     switch (arch) {
       case 'arm64':
-        localFileExisted = existsSync(join(__dirname, 'crc32.android-arm64.node'))
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.android-arm64.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./crc32.android-arm64.node')
+            nativeBinding = require('./bcrypt.android-arm64.node')
           } else {
-            nativeBinding = require('@node-rs/crc32-android-arm64')
+            nativeBinding = require('@node-rs/bcrypt-android-arm64')
           }
         } catch (e) {
           loadError = e
         }
         break
       case 'arm':
-        localFileExisted = existsSync(join(__dirname, 'crc32.android-arm-eabi.node'))
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.android-arm-eabi.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./crc32.android-arm-eabi.node')
+            nativeBinding = require('./bcrypt.android-arm-eabi.node')
           } else {
-            nativeBinding = require('@node-rs/crc32-android-arm-eabi')
+            nativeBinding = require('@node-rs/bcrypt-android-arm-eabi')
           }
         } catch (e) {
           loadError = e
@@ -55,36 +55,36 @@ switch (platform) {
   case 'win32':
     switch (arch) {
       case 'x64':
-        localFileExisted = existsSync(join(__dirname, 'crc32.win32-x64-msvc.node'))
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.win32-x64-msvc.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./crc32.win32-x64-msvc.node')
+            nativeBinding = require('./bcrypt.win32-x64-msvc.node')
           } else {
-            nativeBinding = require('@node-rs/crc32-win32-x64-msvc')
+            nativeBinding = require('@node-rs/bcrypt-win32-x64-msvc')
           }
         } catch (e) {
           loadError = e
         }
         break
       case 'ia32':
-        localFileExisted = existsSync(join(__dirname, 'crc32.win32-ia32-msvc.node'))
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.win32-ia32-msvc.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./crc32.win32-ia32-msvc.node')
+            nativeBinding = require('./bcrypt.win32-ia32-msvc.node')
           } else {
-            nativeBinding = require('@node-rs/crc32-win32-ia32-msvc')
+            nativeBinding = require('@node-rs/bcrypt-win32-ia32-msvc')
           }
         } catch (e) {
           loadError = e
         }
         break
       case 'arm64':
-        localFileExisted = existsSync(join(__dirname, 'crc32.win32-arm64-msvc.node'))
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.win32-arm64-msvc.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./crc32.win32-arm64-msvc.node')
+            nativeBinding = require('./bcrypt.win32-arm64-msvc.node')
           } else {
-            nativeBinding = require('@node-rs/crc32-win32-arm64-msvc')
+            nativeBinding = require('@node-rs/bcrypt-win32-arm64-msvc')
           }
         } catch (e) {
           loadError = e
@@ -97,24 +97,24 @@ switch (platform) {
   case 'darwin':
     switch (arch) {
       case 'x64':
-        localFileExisted = existsSync(join(__dirname, 'crc32.darwin-x64.node'))
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.darwin-x64.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./crc32.darwin-x64.node')
+            nativeBinding = require('./bcrypt.darwin-x64.node')
           } else {
-            nativeBinding = require('@node-rs/crc32-darwin-x64')
+            nativeBinding = require('@node-rs/bcrypt-darwin-x64')
           }
         } catch (e) {
           loadError = e
         }
         break
       case 'arm64':
-        localFileExisted = existsSync(join(__dirname, 'crc32.darwin-arm64.node'))
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.darwin-arm64.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./crc32.darwin-arm64.node')
+            nativeBinding = require('./bcrypt.darwin-arm64.node')
           } else {
-            nativeBinding = require('@node-rs/crc32-darwin-arm64')
+            nativeBinding = require('@node-rs/bcrypt-darwin-arm64')
           }
         } catch (e) {
           loadError = e
@@ -128,12 +128,12 @@ switch (platform) {
     if (arch !== 'x64') {
       throw new Error(`Unsupported architecture on FreeBSD: ${arch}`)
     }
-    localFileExisted = existsSync(join(__dirname, 'crc32.freebsd-x64.node'))
+    localFileExisted = existsSync(join(__dirname, 'bcrypt.freebsd-x64.node'))
     try {
       if (localFileExisted) {
-        nativeBinding = require('./crc32.freebsd-x64.node')
+        nativeBinding = require('./bcrypt.freebsd-x64.node')
       } else {
-        nativeBinding = require('@node-rs/crc32-freebsd-x64')
+        nativeBinding = require('@node-rs/bcrypt-freebsd-x64')
       }
     } catch (e) {
       loadError = e
@@ -143,23 +143,23 @@ switch (platform) {
     switch (arch) {
       case 'x64':
         if (isMusl()) {
-          localFileExisted = existsSync(join(__dirname, 'crc32.linux-x64-musl.node'))
+          localFileExisted = existsSync(join(__dirname, 'bcrypt.linux-x64-musl.node'))
           try {
             if (localFileExisted) {
-              nativeBinding = require('./crc32.linux-x64-musl.node')
+              nativeBinding = require('./bcrypt.linux-x64-musl.node')
             } else {
-              nativeBinding = require('@node-rs/crc32-linux-x64-musl')
+              nativeBinding = require('@node-rs/bcrypt-linux-x64-musl')
             }
           } catch (e) {
             loadError = e
           }
         } else {
-          localFileExisted = existsSync(join(__dirname, 'crc32.linux-x64-gnu.node'))
+          localFileExisted = existsSync(join(__dirname, 'bcrypt.linux-x64-gnu.node'))
           try {
             if (localFileExisted) {
-              nativeBinding = require('./crc32.linux-x64-gnu.node')
+              nativeBinding = require('./bcrypt.linux-x64-gnu.node')
             } else {
-              nativeBinding = require('@node-rs/crc32-linux-x64-gnu')
+              nativeBinding = require('@node-rs/bcrypt-linux-x64-gnu')
             }
           } catch (e) {
             loadError = e
@@ -168,23 +168,23 @@ switch (platform) {
         break
       case 'arm64':
         if (isMusl()) {
-          localFileExisted = existsSync(join(__dirname, 'crc32.linux-arm64-musl.node'))
+          localFileExisted = existsSync(join(__dirname, 'bcrypt.linux-arm64-musl.node'))
           try {
             if (localFileExisted) {
-              nativeBinding = require('./crc32.linux-arm64-musl.node')
+              nativeBinding = require('./bcrypt.linux-arm64-musl.node')
             } else {
-              nativeBinding = require('@node-rs/crc32-linux-arm64-musl')
+              nativeBinding = require('@node-rs/bcrypt-linux-arm64-musl')
             }
           } catch (e) {
             loadError = e
           }
         } else {
-          localFileExisted = existsSync(join(__dirname, 'crc32.linux-arm64-gnu.node'))
+          localFileExisted = existsSync(join(__dirname, 'bcrypt.linux-arm64-gnu.node'))
           try {
             if (localFileExisted) {
-              nativeBinding = require('./crc32.linux-arm64-gnu.node')
+              nativeBinding = require('./bcrypt.linux-arm64-gnu.node')
             } else {
-              nativeBinding = require('@node-rs/crc32-linux-arm64-gnu')
+              nativeBinding = require('@node-rs/bcrypt-linux-arm64-gnu')
             }
           } catch (e) {
             loadError = e
@@ -192,12 +192,12 @@ switch (platform) {
         }
         break
       case 'arm':
-        localFileExisted = existsSync(join(__dirname, 'crc32.linux-arm-gnueabihf.node'))
+        localFileExisted = existsSync(join(__dirname, 'bcrypt.linux-arm-gnueabihf.node'))
         try {
           if (localFileExisted) {
-            nativeBinding = require('./crc32.linux-arm-gnueabihf.node')
+            nativeBinding = require('./bcrypt.linux-arm-gnueabihf.node')
           } else {
-            nativeBinding = require('@node-rs/crc32-linux-arm-gnueabihf')
+            nativeBinding = require('@node-rs/bcrypt-linux-arm-gnueabihf')
           }
         } catch (e) {
           loadError = e
@@ -218,7 +218,12 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { crc32c, crc32 } = nativeBinding
+const { DEFAULT_COST, genSaltSync, genSalt, hashSync, hash, verifySync, verify } = nativeBinding
 
-module.exports.crc32c = crc32c
-module.exports.crc32 = crc32
+module.exports.DEFAULT_COST = DEFAULT_COST
+module.exports.genSaltSync = genSaltSync
+module.exports.genSalt = genSalt
+module.exports.hashSync = hashSync
+module.exports.hash = hash
+module.exports.verifySync = verifySync
+module.exports.verify = verify

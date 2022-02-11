@@ -13,7 +13,7 @@ function isMusl() {
     try {
       return readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
     } catch (e) {
-      return false
+      return true
     }
   } else {
     const { glibcVersionRuntime } = process.report.getReport().header
@@ -23,18 +23,33 @@ function isMusl() {
 
 switch (platform) {
   case 'android':
-    if (arch !== 'arm64') {
-      throw new Error(`Unsupported architecture on Android ${arch}`)
-    }
-    localFileExisted = existsSync(join(__dirname, 'xxhash.android-arm64.node'))
-    try {
-      if (localFileExisted) {
-        nativeBinding = require('./xxhash.android-arm64.node')
-      } else {
-        nativeBinding = require('@node-rs/xxhash-android-arm64')
-      }
-    } catch (e) {
-      loadError = e
+    switch (arch) {
+      case 'arm64':
+        localFileExisted = existsSync(join(__dirname, 'xxhash.android-arm64.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./xxhash.android-arm64.node')
+          } else {
+            nativeBinding = require('@node-rs/xxhash-android-arm64')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'arm':
+        localFileExisted = existsSync(join(__dirname, 'xxhash.android-arm-eabi.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./xxhash.android-arm-eabi.node')
+          } else {
+            nativeBinding = require('@node-rs/xxhash-android-arm-eabi')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on Android ${arch}`)
     }
     break
   case 'win32':

@@ -158,11 +158,8 @@ fn denolint(__dirname: String, config_path: String) -> Result<bool> {
         .build();
       let (s, file_diagnostics) = linter
         .lint(
-          (&p.to_str())
-            .ok_or(Error::from_reason(format!(
-              "Convert path to string failed: {:?}",
-              &p
-            )))?
+          p.to_str()
+            .ok_or_else(|| Error::from_reason(format!("Convert path to string failed: {:?}", &p)))?
             .to_owned(),
           file_content.clone(),
         )

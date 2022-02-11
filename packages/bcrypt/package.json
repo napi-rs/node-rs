@@ -21,6 +21,8 @@
   "files": [
     "index.js",
     "index.d.ts",
+    "binding.js",
+    "binding.d.ts",
     "LICENSE",
     "LICENSE.rust-bcrypt"
   ],
@@ -56,7 +58,7 @@
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
     "bench": "cross-env NODE_ENV=production node benchmark/bcrypt.js",
-    "build": "napi build --platform --release --pipe \"prettier -w\"",
+    "build": "napi build --platform --release --js binding.js --dts binding.d.ts --pipe \"prettier -w\"",
     "build:debug": "napi build --platform --pipe \"prettier -w\"",
     "prepublishOnly": "napi prepublish",
     "version": "napi version"
