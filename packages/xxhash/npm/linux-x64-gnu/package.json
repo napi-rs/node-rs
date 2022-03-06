@@ -7,6 +7,9 @@
   "cpu": [
     "x64"
   ],
+  "libc": [
+    "glibc"
+  ],
   "main": "xxhash.linux-x64-gnu.node",
   "files": [
     "xxhash.linux-x64-gnu.node"

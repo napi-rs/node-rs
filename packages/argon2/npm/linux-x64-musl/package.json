@@ -7,6 +7,9 @@
   "cpu": [
     "x64"
   ],
+  "libc": [
+    "musl"
+  ],
   "main": "argon2.linux-x64-musl.node",
   "files": [
     "argon2.linux-x64-musl.node"
