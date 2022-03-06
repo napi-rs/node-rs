@@ -8,15 +8,13 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-bcrypt = "0.10"
-blowfish = {version = "0.9", features = ["bcrypt"]}
-byteorder = "1"
-global_alloc = {path = "../../crates/alloc"}
-napi = {version = "2", default-features = false, features = ["napi3"]}
-napi-derive = {version = "2"}
-phf = {version = "0.10", features = ["macros"]}
-radix64 = "0.6"
-rand = {git = "https://github.com/rust-random/rand", rev = "a407bdf"}
+bcrypt = "0.12"
+blowfish = { version = "0.9", features = ["bcrypt"] }
+global_alloc = { path = "../../crates/alloc" }
+napi = { version = "2", default-features = false, features = ["napi3"] }
+napi-derive = { version = "2" }
+getrandom = "0.2"
+base64 = { version = "0.13", default-features = false }
 
 [dev-dependencies]
 quickcheck = "1.0"

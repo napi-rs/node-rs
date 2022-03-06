@@ -1,5 +1,8 @@
 #![deny(clippy::all)]
 
+/// Explicit extern crate to use allocator.
+extern crate global_alloc;
+
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
