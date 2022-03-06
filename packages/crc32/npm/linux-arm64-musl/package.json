@@ -7,6 +7,9 @@
   "cpu": [
     "arm64"
   ],
+  "libc": [
+    "musl"
+  ],
   "main": "crc32.linux-arm64-musl.node",
   "files": [
     "crc32.linux-arm64-musl.node"

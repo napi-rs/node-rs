@@ -7,6 +7,9 @@
   "cpu": [
     "arm64"
   ],
+  "libc": [
+    "musl"
+  ],
   "main": "jieba.linux-arm64-musl.node",
   "files": [
     "jieba.linux-arm64-musl.node"

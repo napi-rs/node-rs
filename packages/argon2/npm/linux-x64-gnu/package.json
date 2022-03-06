@@ -8,6 +8,9 @@
     "x64"
   ],
   "main": "argon2.linux-x64-gnu.node",
+  "libc": [
+    "glibc"
+  ],
   "files": [
     "argon2.linux-x64-gnu.node"
   ],

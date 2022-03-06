@@ -7,6 +7,9 @@
   "cpu": [
     "x64"
   ],
+  "libc": [
+    "musl"
+  ],
   "main": "xxhash.linux-x64-musl.node",
   "files": [
     "xxhash.linux-x64-musl.node"
