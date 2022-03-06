@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(dead_code)]
 
 /// Explicit extern crate to use allocator.
 extern crate global_alloc;
@@ -14,7 +15,6 @@ use crate::hash_task::HashTask;
 use crate::lib_bcrypt::{format_salt, gen_salt, Version};
 use crate::verify_task::VerifyTask;
 
-mod b64;
 mod errors;
 mod hash_task;
 mod lib_bcrypt;
@@ -26,7 +26,12 @@ pub const DEFAULT_COST: u32 = 12;
 
 #[napi]
 pub fn gen_salt_sync(round: u32, version: String) -> Result<String> {
-  let salt = gen_salt();
+  let salt = gen_salt().map_err(|err| {
+    Error::new(
+      Status::GenericFailure,
+      format!("Generate salt failed {}", err),
+    )
+  })?;
   Ok(format_salt(
     round,
     Version::from_str(version.as_str()).map_err(|_| Error::from_status(Status::InvalidArg))?,
