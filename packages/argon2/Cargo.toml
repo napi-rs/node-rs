@@ -7,7 +7,7 @@ version = "0.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-argon2 = {version = "0.3", features = ["parallel"]}
+argon2 = {version = "0.4", features = ["parallel"]}
 napi = {version = "2", default-features = false, features = ["napi3"]}
 napi-derive = {version = "2", default-features = false, features = ["type-def"]}
 rand = {git = "https://github.com/rust-random/rand", version = "0.8", rev = "a407bdf", features = ["nightly", "simd_support"]}
