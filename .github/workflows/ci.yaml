@@ -493,7 +493,7 @@ jobs:
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.cpu --json '["arm64", "x64"]'
-          yarn config set supportedArchitectures.libc "musl"
+          yarn config set supportedArchitectures.libc --json '["musl", "glibc"]'
           yarn install --immutable --mode=skip-build
 
       - name: Download artifacts
