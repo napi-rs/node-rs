@@ -24,7 +24,7 @@
     "postinstall": "husky install"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^2.5.0",
+    "@napi-rs/cli": "2.6.0-alpha.0",
     "@swc-node/core": "^1.8.2",
     "@swc-node/register": "^1.4.2",
     "@taplo/cli": "^0.3.2",
