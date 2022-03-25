@@ -9,7 +9,7 @@ const USE_TS_NODE = (function () {
 
 module.exports = {
   extensions: ['ts'],
-  workerThreads: true,
+  workerThreads: false,
   require: [USE_TS_NODE ? 'ts-node/register/transpile-only' : '@swc-node/register'],
   files: ['packages/**/*.spec.ts'],
   timeout: '3m',
