@@ -16,3 +16,6 @@ codegen-units = 1
 lto = true
 overflow-checks = false
 strip = 'symbols'
+
+[patch.crates-io]
+napi = { git = "https://github.com/messense/napi-rs.git", branch = "thread-local" }
