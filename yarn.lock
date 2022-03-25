@@ -905,12 +905,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:2.6.0-alpha.0":
-  version: 2.6.0-alpha.0
-  resolution: "@napi-rs/cli@npm:2.6.0-alpha.0"
+"@napi-rs/cli@npm:2.6.0-alpha.1":
+  version: 2.6.0-alpha.1
+  resolution: "@napi-rs/cli@npm:2.6.0-alpha.1"
   bin:
     napi: scripts/index.js
-  checksum: 819a3f3021e2fc42015207e5bc52799c39e27a61e014ebf9230d1352ee7d999a7dc73b286c086ad3ebef8b593013b2e12dc0fa3ccf77eacf15a391aa5b580c07
+  checksum: 9ec0b8a790fe4fdb324199be5c4747f567fd9824f8b0ffa0ab638b4a76fe3a5290ed76613a3fad66252f9ece4f292f71d2d595e436759028b7b9a16eba89b279
   languageName: node
   linkType: hard
 
@@ -6137,7 +6137,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "node-rs@workspace:."
   dependencies:
-    "@napi-rs/cli": 2.6.0-alpha.0
+    "@napi-rs/cli": 2.6.0-alpha.1
     "@swc-node/core": ^1.8.2
     "@swc-node/register": ^1.4.2
     "@taplo/cli": ^0.3.2
