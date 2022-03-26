@@ -9,8 +9,16 @@ const USE_TS_NODE = (function () {
 
 module.exports = {
   extensions: ['ts'],
-  workerThreads: process.platform !== 'win32',
-  require: [USE_TS_NODE ? 'ts-node/register/transpile-only' : '@swc-node/register'],
+  workerThreads: true,
+  require: [
+    USE_TS_NODE ? 'ts-node/register/transpile-only' : '@swc-node/register',
+    '@node-rs/argon2',
+    '@node-rs/bcrypt',
+    '@node-rs/crc32',
+    '@node-rs/deno-lint',
+    '@node-rs/jieba',
+    '@node-rs/xxhash',
+  ],
   files: ['packages/**/*.spec.ts'],
   timeout: '3m',
   environmentVariables: {
