@@ -2,6 +2,9 @@ name: CI
 env:
   DEBUG: 'napi:*'
   MACOSX_DEPLOYMENT_TARGET: '10.13'
+  NODE_OPTIONS: '--max-old-space-size=3072'
+  CARGO_UNSTABLE_TARGET_APPLIES_TO_HOST: true
+  CARGO_TARGET_APPLIES_TO_HOST: false
 
 on:
   push:
@@ -20,41 +23,33 @@ jobs:
       matrix:
         settings:
           - host: macos-latest
-            architecture: x64
             target: 'x86_64-apple-darwin'
             build: |
               yarn build
               strip -x packages/*/*.node
           - host: windows-latest
-            architecture: x64
             build: yarn build
             target: 'x86_64-pc-windows-msvc'
           - host: windows-latest
-            architecture: x86
             build: |
-              yarn global add lerna
-              lerna exec "yarn build --target i686-pc-windows-msvc" --concurrency 1 --stream --no-prefix
-              yarn test
+              yarn lerna exec "yarn build --target i686-pc-windows-msvc" --concurrency 1 --stream --no-prefix
+              yarn test -s
             target: 'i686-pc-windows-msvc'
           - host: ubuntu-latest
-            architecture: x64
             target: 'x86_64-unknown-linux-gnu'
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine-zig
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             # Node.js in Baidu need to compatible with `GLIBC_2.12`
             build: >-
               set -e &&
               rustup toolchain install $(cat ./rust-toolchain) &&
               rustup target add x86_64-unknown-linux-gnu &&
-              yarn global add lerna &&
-              lerna exec "yarn build --target x86_64-unknown-linux-gnu --zig --zig-abi-suffix 2.12" --concurrency 1 --stream --no-prefix &&
-              llvm-strip -x packages/*/*.node
+              yarn lerna exec "yarn build --target x86_64-unknown-linux-gnu" --concurrency 1 --stream --no-prefix &&
+              strip packages/*/*.node
           - host: ubuntu-latest
-            architecture: x64
             target: 'x86_64-unknown-linux-musl'
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: yarn build
           - host: macos-latest
-            architecture: x64
             target: 'aarch64-apple-darwin'
             build: |
               sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
@@ -62,39 +57,32 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              yarn global add lerna
-              lerna exec "yarn build --target aarch64-apple-darwin" --concurrency 1 --stream --no-prefix
+              yarn lerna exec "yarn build --target aarch64-apple-darwin" --concurrency 1 --stream --no-prefix
               strip -x packages/*/*.node
-          - host: ubuntu-latest
-            architecture: x64
-            target: 'aarch64-unknown-linux-gnu'
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine-zig
-            build: >-
-              set -e &&
-              rustup toolchain install $(cat ./rust-toolchain) &&
-              rustup target add aarch64-unknown-linux-gnu &&
-              yarn global add lerna &&
-              lerna exec "yarn build --target aarch64-unknown-linux-gnu --zig --zig-abi-suffix 2.17" --concurrency 1 --stream --no-prefix &&
-              llvm-strip -x packages/*/*.node
           - host: ubuntu-18.04
-            architecture: x64
+            target: aarch64-unknown-linux-gnu
+            setup: |
+              sudo apt-get update
+              sudo apt-get install g++-aarch64-linux-gnu gcc-aarch64-linux-gnu -y
+            build: |
+              rustup toolchain install $(cat ./rust-toolchain)
+              rustup target add aarch64-unknown-linux-gnu
+              yarn lerna exec "yarn build --target aarch64-unknown-linux-gnu" --concurrency 1 --stream --no-prefix
+              aarch64-linux-gnu-strip packages/*/*.node
+          - host: ubuntu-18.04
             target: 'armv7-unknown-linux-gnueabihf'
             setup: |
               sudo apt-get update
               sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
-            build: |
-              yarn global add lerna
-              lerna exec "yarn build --target armv7-unknown-linux-gnueabihf" --concurrency 1 --stream --no-prefix
+            build: yarn lerna exec "yarn build --target armv7-unknown-linux-gnueabihf" --concurrency 1 --stream --no-prefix
           - host: ubuntu-latest
-            architecture: x64
             target: aarch64-linux-android
             build: |
               export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang"
               export CC="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang"
               export CXX="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang++"
               export PATH="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
-              yarn global add lerna
-              lerna exec "yarn build --target aarch64-linux-android" --concurrency 1 --stream --no-prefix
+              yarn lerna exec "yarn build --target aarch64-linux-android" --concurrency 1 --stream --no-prefix
           - host: ubuntu-latest
             architecture: x64
             target: armv7-linux-androideabi
@@ -103,10 +91,8 @@ jobs:
               export CC="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang"
               export CXX="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang++"
               export PATH="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
-              yarn global add lerna
-              lerna exec "yarn build --target armv7-linux-androideabi" --concurrency 1 --stream --no-prefix
+              yarn lerna exec "yarn build --target armv7-linux-androideabi" --concurrency 1 --stream --no-prefix
           - host: ubuntu-latest
-            architecture: x64
             target: 'aarch64-unknown-linux-musl'
             downloadTarget: 'aarch64-unknown-linux-musl'
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
@@ -114,29 +100,24 @@ jobs:
               set -e &&
               rustup toolchain install $(cat ./rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
-              yarn global add lerna &&
-              lerna exec "yarn build --target aarch64-unknown-linux-musl" --concurrency 1 --stream --no-prefix
+              yarn lerna exec "yarn build --target aarch64-unknown-linux-musl" --concurrency 1 --stream --no-prefix
           - host: windows-latest
-            architecture: x64
             target: 'aarch64-pc-windows-msvc'
-            build: |
-              yarn global add lerna
-              lerna exec "yarn build --target aarch64-pc-windows-msvc" --concurrency 1 --stream --no-prefix
+            build: yarn lerna exec "yarn build --target aarch64-pc-windows-msvc" --concurrency 1 --stream --no-prefix
 
     name: stable - ${{ matrix.settings.target }} - node@16
     runs-on: ${{ matrix.settings.host }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         if: ${{ !matrix.settings.docker }}
         with:
           node-version: 16
           check-latest: true
           cache: yarn
-          architecture: ${{ matrix.settings.architecture }}
 
       - name: Install
         uses: actions-rs/toolchain@v1
@@ -153,19 +134,18 @@ jobs:
           command: generate-lockfile
 
       - name: Cache cargo registry
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
-          path: ~/.cargo/registry
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+            ${{ env.RUNNER_TEMP }}/.cargo/registry
+            ${{ env.RUNNER_TEMP }}/.cargo/git
           key: ${{ matrix.settings.target }}-cargo-registry
 
-      - name: Cache cargo index
-        uses: actions/cache@v2
-        with:
-          path: ~/.cargo/git
-          key: ${{ matrix.settings.target }}-cargo-index
-
       - name: Cache NPM dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: npm-cache-build-${{ matrix.settings.target }}-node@16
@@ -175,8 +155,13 @@ jobs:
         if: ${{ matrix.settings.setup }}
         shell: bash
 
+      - name: Setup node x86
+        if: matrix.settings.target == 'i686-pc-windows-msvc'
+        run: yarn config set supportedArchitectures.cpu --json '["ia32", "x64"]'
+        shell: bash
+
       - name: 'Install dependencies'
-        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --immutable --mode=skip-build
 
       - name: 'Build TypeScript'
         run: yarn build:ts
@@ -186,8 +171,17 @@ jobs:
         if: ${{ matrix.settings.docker }}
         with:
           image: ${{ matrix.settings.docker }}
-          options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
+          options: --user 0:0 -v ${{ env.RUNNER_TEMP }}/.cargo/git:/root/.cargo/git -v ${{ env.RUNNER_TEMP }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
           run: ${{ matrix.settings.build }}
+
+      - name: Setup node x86
+        uses: actions/setup-node@v3
+        if: matrix.settings.target == 'i686-pc-windows-msvc'
+        with:
+          node-version: 16
+          check-latest: true
+          cache: yarn
+          architecture: x86
 
       - name: 'Build'
         run: ${{ matrix.settings.build }}
@@ -195,19 +189,20 @@ jobs:
         shell: bash
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
           path: packages/*/*.node
+          if-no-files-found: error
 
   build-freebsd:
     runs-on: macos-10.15
     name: Build FreeBSD
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         id: build
-        uses: vmactions/freebsd-vm@v0.1.5
+        uses: vmactions/freebsd-vm@v0.1.6
         env:
           DEBUG: 'napi:*'
           RUSTUP_HOME: /usr/local/rustup
@@ -237,18 +232,21 @@ jobs:
             whoami
             env
             freebsd-version
-            yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+            yarn install --immutable --mode=skip-build
             yarn build:ts
             yarn build
+            strip -x packages/*/*.node
             yarn test
             rm -rf node_modules
             rm -rf target
+            rm -rf .yarn/cache
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: bindings-freebsd-amd64
           path: packages/*/*.node
+          if-no-files-found: error
 
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
@@ -262,26 +260,26 @@ jobs:
             target: 'x86_64-apple-darwin'
           - host: windows-latest
             target: 'x86_64-pc-windows-msvc'
-        node: ['12', '14', '16']
+        node: ['14', '16', '18']
     runs-on: ${{ matrix.settings.host }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
           cache: yarn
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --immutable --mode=skip-build
 
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
           path: artifacts
@@ -294,7 +292,12 @@ jobs:
         run: yarn build:ts
 
       - name: Test bindings
-        run: yarn test
+        run: |
+          yarn test packages/argon2
+          yarn test packages/bcrypt
+          yarn test packages/crc32
+          yarn test packages/jieba
+          yarn test packages/xxhash
 
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
@@ -303,24 +306,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['12', '14', '16']
+        node: ['14', '16', '18']
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
           cache: yarn
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --immutable --mode=skip-build
 
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-gnu
           path: artifacts
@@ -342,7 +345,7 @@ jobs:
           image: node:${{ matrix.node }}-slim
           options: -v ${{ github.workspace }}:/build -w /build
           run: |
-            npx lerna link
+            yarn lerna link
             yarn test
 
   test-linux-x64-centos-7:
@@ -353,17 +356,17 @@ jobs:
     container:
       image: centos:7
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install dependencies
         run: |
           curl -sL https://rpm.nodesource.com/setup_16.x | bash -
           yum install nodejs -y
           npm install -g yarn
-          yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+          yarn install --immutable --mode=skip-build
 
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-gnu
           path: artifacts
@@ -381,8 +384,8 @@ jobs:
 
       - name: Test bindings
         run: |
-          npx lerna link
-          yarn test
+          yarn lerna link
+          yarn test -s
 
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
@@ -391,27 +394,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['12', '14', '16']
+        node: ['14', '16', '18']
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
           cache: yarn
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: |
+          yarn config set supportedArchitectures.libc "musl"
+          yarn install --immutable --mode=skip-build
 
       - name: Build TypeScript
         run: yarn build:ts
 
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-musl
           path: artifacts
@@ -430,7 +435,7 @@ jobs:
           image: node:${{ matrix.node }}-alpine
           options: -v ${{ github.workspace }}:/build -w /build
           run: |
-            npx lerna link
+            yarn lerna link
             yarn test
 
   test-linux-aarch64-gnu-binding:
@@ -440,22 +445,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['12', '14', '16']
+        node: ['14', '16', '18']
     runs-on: ubuntu-latest
 
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: bindings-aarch64-unknown-linux-gnu
           path: artifacts
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --ignore-platform --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: |
+          yarn config set supportedArchitectures.cpu --json '["arm64", "x64"]'
+          yarn config set supportedArchitectures.libc "glibc"
+          yarn install --immutable --mode=skip-build
 
       - name: Move artifacts
         run: yarn artifacts
@@ -473,7 +481,7 @@ jobs:
           run: |
             set -e
             yarn build:ts
-            yarn test
+            yarn test -s
             ls -la
 
   test-linux-aarch64-musl-binding:
@@ -486,13 +494,16 @@ jobs:
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --frozen-lockfile --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
+        run: |
+          yarn config set supportedArchitectures.cpu --json '["arm64", "x64"]'
+          yarn config set supportedArchitectures.libc --json '["musl", "glibc"]'
+          yarn install --immutable --mode=skip-build
 
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: bindings-aarch64-unknown-linux-musl
           path: packages
@@ -523,19 +534,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['12', '14', '16']
+        node: ['14', '16', '18']
     runs-on: ubuntu-latest
 
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --ignore-platform --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: |
+          yarn config set supportedArchitectures.cpu --json '["arm", "x64"]'
+          yarn install --immutable --mode=skip-build
 
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: bindings-armv7-unknown-linux-gnueabihf
           path: artifacts
@@ -571,26 +584,26 @@ jobs:
       - test-linux-arm-gnueabihf-binding
       - test-macOS-windows-binding
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@v3
         with:
           node-version: 16
           check-latest: true
           cache: yarn
 
       - name: Cache NPM dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: npm-cache-ubuntu-latest-publish-${{ hashFiles('yarn.lock') }}
 
       - name: 'Install dependencies'
-        run: yarn install --ignore-scripts --frozen-lockfile --registry https://registry.npmjs.org --network-timeout 300000
+        run: yarn install --immutable --mode=skip-build
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           path: artifacts
 
@@ -613,7 +626,7 @@ jobs:
         run: |
           find ./packages/ -type d -maxdepth 1 -exec cp LICENSE {} \;
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          npx lerna publish from-package --no-verify-access --yes
+          yarn lerna publish from-package --no-verify-access --yes
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

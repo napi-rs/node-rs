@@ -7,6 +7,9 @@
   "cpu": [
     "x64"
   ],
+  "libc": [
+    "glibc"
+  ],
   "main": "bcrypt.linux-x64-gnu.node",
   "files": [
     "bcrypt.linux-x64-gnu.node"

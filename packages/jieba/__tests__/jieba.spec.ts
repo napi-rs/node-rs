@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { cut, tag, extract } from '../index'
+import { cut, tag, extract, loadTFIDFDict, loadDict } from '../index'
 
 const sentence = '我是拖拉机学院手扶拖拉机专业的。不用多久，我就会升职加薪，走上人生巅峰。'
 
@@ -22,4 +22,18 @@ test('extract should be equal to nodejieba', (t) => {
       weight: typeof t.weight,
     })),
   )
+})
+
+test.skip('should be able to load custom TFID dict', (t) => {
+  const userdict = Buffer.from('专业 20.19')
+  loadTFIDFDict(userdict)
+  const fixture = '我是拖拉机学院手扶拖拉机专业的。不用多久，我就会升职加薪，当上CEO，走上人生巅峰。'
+  t.snapshot(extract(fixture, 3))
+})
+
+test.skip('should be able to load custom dict', (t) => {
+  const userdict = Buffer.from('出了 10000')
+  loadDict(userdict)
+  const fixture = '我们中出了一个叛徒'
+  t.notThrows(() => cut(fixture))
 })

@@ -7,6 +7,9 @@
   "cpu": [
     "x64"
   ],
+  "libc": [
+    "glibc"
+  ],
   "main": "deno-lint.linux-x64-gnu.node",
   "files": [
     "deno-lint.linux-x64-gnu.node"

@@ -7,6 +7,9 @@
   "cpu": [
     "arm64"
   ],
+  "libc": [
+    "musl"
+  ],
   "main": "deno-lint.linux-arm64-musl.node",
   "files": [
     "deno-lint.linux-arm64-musl.node"

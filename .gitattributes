@@ -22,3 +22,4 @@ packages/jieba/index.js linguist-detectable=false
 packages/jieba/index.d.ts linguist-detectable=false
 packages/xxhash/index.js linguist-detectable=false
 packages/xxhash/index.d.ts linguist-detectable=false
+.yarn/releases/*.js linguist-detectable=false

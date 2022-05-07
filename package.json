@@ -1,5 +1,6 @@
 {
   "name": "node-rs",
+  "packageManager": "yarn@4.0.0-rc.4",
   "version": "0.0.0",
   "description": "Node & Rust bindings monorepo",
   "author": "LongYinan <lynweklm@gmail.com>",
@@ -15,36 +16,37 @@
     "build:ts": "tsc -b tsconfig.project.json -verbose",
     "lint": "eslint . -c ./.eslintrc.yml \"packages/**/*.{ts,js}\"",
     "test": "ava",
-    "format": "run-p format:prettier format:rs",
+    "format": "run-p format:prettier format:rs format:toml",
     "format:prettier": "prettier --config ./package.json -w .",
     "format:rs": "cargo fmt --all",
+    "format:toml": "taplo format",
     "typecheck": "tsc -b tsconfig.project.json -verbose",
     "postinstall": "husky install"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^2.4.4",
-    "@swc-node/core": "^1.8.2",
-    "@swc-node/register": "^1.4.2",
-    "@types/node": "^17.0.8",
-    "@typescript-eslint/eslint-plugin": "^5.9.1",
-    "@typescript-eslint/parser": "^5.9.1",
-    "ava": "^4.0.1",
+    "@napi-rs/cli": "2.8.0-alpha.0",
+    "@swc-node/core": "^1.9.0",
+    "@swc-node/register": "^1.5.1",
+    "@taplo/cli": "^0.3.2",
+    "@types/node": "^17.0.31",
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "@typescript-eslint/parser": "^5.22.0",
+    "ava": "^4.2.0",
     "benchmark": "^2.1.4",
     "codecov": "^3.8.3",
     "cross-env": "^7.0.3",
-    "eslint": "^8.7.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint": "^8.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
-    "lint-staged": "^12.1.7",
+    "lint-staged": "^12.4.1",
     "npm-run-all": "^4.1.5",
-    "nyc": "^15.1.0",
-    "prettier": "^2.5.1",
-    "ts-node": "^10.4.0",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.4"
+    "prettier": "^2.6.2",
+    "ts-node": "^10.7.0",
+    "tslib": "^2.4.0",
+    "typescript": "^4.6.4"
   },
   "lint-staged": {
     "*.@(js|ts|tsx)": [
@@ -52,6 +54,12 @@
     ],
     "*.@(js|ts|tsx|yml|yaml|json|md)": [
       "prettier --write"
+    ],
+    "*.toml": [
+      "taplo format"
+    ],
+    "*.rs": [
+      "cargo fmt --"
     ]
   },
   "prettier": {

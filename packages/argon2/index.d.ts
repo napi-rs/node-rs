@@ -38,7 +38,7 @@ export interface Options {
    *
    * The default value is 4096, meaning a pool of 4 MiB per thread.
    */
-  memoryCost?: number | undefined | null
+  memoryCost?: number
   /**
    * The time cost is the amount of passes (iterations) used by the hash function. It increases hash strength at the cost of time required to compute.
    *
@@ -46,13 +46,13 @@ export interface Options {
    *
    * The default value is 3.
    */
-  timeCost?: number | undefined | null
+  timeCost?: number
   /**
    * The hash length is the length of the hash function output in bytes. Note that the resulting hash is encoded with Base 64, so the digest will be ~1/3 longer.
    *
    * The default value is 32, which produces raw hashes of 32 bytes or digests of 43 characters.
    */
-  outputLen?: number | undefined | null
+  outputLen?: number
   /**
    * The amount of threads to compute the hash on. Each thread has a memory pool with memoryCost size. Note that changing it also changes the resulting hash.
    *
@@ -60,10 +60,10 @@ export interface Options {
    *
    * The default value is 1, meaning a single thread is used.
    */
-  parallelism?: number | undefined | null
-  algorithm?: Algorithm | undefined | null
-  version?: Version | undefined | null
-  secret?: Buffer | undefined | null
+  parallelism?: number
+  algorithm?: Algorithm
+  version?: Version
+  secret?: Buffer
 }
 export function hash(
   password: string | Buffer,
