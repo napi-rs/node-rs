@@ -1,12 +1,12 @@
 import test from 'ava'
 
-import { verifySync, compareSync, verify, compare, hash } from '../index'
+import { verifySync, compareSync, verify, compare, hash, genSaltSync } from '../index'
 
 const { hashSync } = require('bcryptjs')
 
 const fx = Buffer.from('bcrypt-test-password')
 
-const hashedPassword = hashSync(fx.toString('utf8'), 10)
+const hashedPassword = hashSync(fx.toString('utf8'), genSaltSync())
 
 test('verifySync hashed password from bcrypt should be true', (t) => {
   t.true(verifySync(fx, hashedPassword))

@@ -218,7 +218,7 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { DEFAULT_COST, genSaltSync, genSalt, hashSync, hash, verifySync, verify } = nativeBinding
+const { DEFAULT_COST, genSaltSync, genSalt, hashSync, hash, verifySync, verify, Version } = nativeBinding
 
 module.exports.DEFAULT_COST = DEFAULT_COST
 module.exports.genSaltSync = genSaltSync
@@ -227,3 +227,4 @@ module.exports.hashSync = hashSync
 module.exports.hash = hash
 module.exports.verifySync = verifySync
 module.exports.verify = verify
+module.exports.Version = Version

@@ -1,8 +1,6 @@
 use getrandom::getrandom;
-use napi::{Env, Error, Result, Status, Task};
+use napi::{bindgen_prelude::Buffer, Env, Error, Result, Status, Task};
 use napi_derive::napi;
-
-use crate::Version;
 
 #[inline]
 pub(crate) fn gen_salt() -> bcrypt::BcryptResult<[u8; 16]> {
@@ -13,25 +11,37 @@ pub(crate) fn gen_salt() -> bcrypt::BcryptResult<[u8; 16]> {
   Ok(s)
 }
 
-#[inline]
-pub(crate) fn format_salt(rounds: u32, version: &Version, salt: &[u8; 16]) -> String {
-  format!(
-    "${}${:0>2}${}",
-    version,
-    rounds,
-    base64::encode_config(salt, base64::BCRYPT)
-  )
-}
-
-pub struct SaltTask {
-  pub(crate) round: u32,
-  pub(crate) version: Version,
+#[napi]
+pub struct Salt {
+  pub(crate) inner: [u8; 16],
+  pub(crate) version: bcrypt::Version,
+  pub(crate) cost: u32,
 }
 
 #[napi]
+impl Salt {
+  #[napi]
+  pub fn version(&self) -> String {
+    format!("{}", self.version)
+  }
+
+  #[napi]
+  pub fn cost(&self) -> u32 {
+    self.cost
+  }
+
+  #[napi]
+  pub fn to_string(&self) -> String {
+    base64::encode_config(self.inner, base64::BCRYPT)
+  }
+}
+
+pub struct SaltTask {}
+
+#[napi]
 impl Task for SaltTask {
-  type Output = String;
-  type JsValue = String;
+  type Output = [u8; 16];
+  type JsValue = Buffer;
 
   fn compute(&mut self) -> Result<Self::Output> {
     let random = gen_salt().map_err(|err| {
@@ -40,10 +50,10 @@ impl Task for SaltTask {
         format!("Generate salt failed {}", err),
       )
     })?;
-    Ok(format_salt(self.round, &self.version, &random))
+    Ok(random)
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
-    Ok(output)
+    Ok(output.to_vec().into())
   }
 }

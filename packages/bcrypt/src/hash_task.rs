@@ -1,7 +1,32 @@
+use bcrypt::Version as BcryptVersion;
 use napi::{
-  bindgen_prelude::Either, Env, Error, JsBuffer, JsBufferValue, Ref, Result, Status, Task,
+  bindgen_prelude::{Buffer, Either},
+  Env, Error, JsBuffer, JsBufferValue, Ref, Result, Status, Task,
 };
 use napi_derive::napi;
+
+use crate::salt_task::gen_salt;
+
+#[napi]
+#[allow(non_snake_case)]
+pub mod Version {
+  #[napi]
+  pub const TWO_A: &str = "2a";
+  #[napi]
+  pub const TWO_B: &str = "2b";
+  #[napi]
+  pub const TWO_Y: &str = "2y";
+  #[napi]
+  pub const TWO_X: &str = "2x";
+}
+
+#[napi(object)]
+#[derive(Default)]
+pub struct HashOptions {
+  pub salt: Option<Buffer>,
+  pub version: Option<String>,
+  pub cost: Option<u32>,
+}
 
 pub enum AsyncHashInput {
   String(String),
@@ -30,21 +55,13 @@ impl AsRef<[u8]> for AsyncHashInput {
 
 pub struct HashTask {
   buf: AsyncHashInput,
-  cost: u32,
-  salt: [u8; 16],
+  options: HashOptions,
 }
 
 impl HashTask {
   #[inline]
-  pub fn new(buf: AsyncHashInput, cost: u32, salt: [u8; 16]) -> HashTask {
-    HashTask { buf, cost, salt }
-  }
-
-  #[inline]
-  pub fn hash(buf: &[u8], salt: [u8; 16], cost: u32) -> Result<String> {
-    bcrypt::hash_with_salt(buf, cost, salt)
-      .map(|hash_part| hash_part.to_string())
-      .map_err(|err| Error::new(Status::GenericFailure, format!("{}", err)))
+  pub fn new(buf: AsyncHashInput, options: HashOptions) -> HashTask {
+    HashTask { buf, options }
   }
 }
 
@@ -54,10 +71,26 @@ impl Task for HashTask {
   type JsValue = String;
 
   fn compute(&mut self) -> Result<Self::Output> {
+    let salt = if let Some(ref salt) = self.options.salt {
+      let mut s = [0; 16];
+      s.copy_from_slice(salt.as_ref());
+      s
+    } else {
+      gen_salt().map_err(|err| Error::new(Status::GenericFailure, format!("{}", err)))?
+    };
+    let cost = self.options.cost.unwrap_or(bcrypt::DEFAULT_COST);
     match &self.buf {
-      AsyncHashInput::String(s) => Self::hash(s.as_bytes(), self.salt, self.cost),
-      AsyncHashInput::Buffer(buf) => Self::hash(buf.as_ref(), self.salt, self.cost),
+      AsyncHashInput::String(s) => bcrypt::hash_with_salt(s.as_bytes(), cost, salt),
+      AsyncHashInput::Buffer(buf) => bcrypt::hash_with_salt(buf.as_ref(), cost, salt),
     }
+    .map_err(|err| Error::new(Status::GenericFailure, format!("{}", err)))
+    .and_then(|hash_part| {
+      if let Some(ref version) = self.options.version {
+        Ok(hash_part.format_for_version(version_from_str(version)?))
+      } else {
+        Ok(hash_part.to_string())
+      }
+    })
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
@@ -69,5 +102,19 @@ impl Task for HashTask {
       buf.unref(env)?;
     }
     Ok(())
+  }
+}
+
+#[inline]
+fn version_from_str(version: &str) -> Result<BcryptVersion> {
+  match version {
+    "2a" => Ok(BcryptVersion::TwoA),
+    "2b" => Ok(BcryptVersion::TwoB),
+    "2y" => Ok(BcryptVersion::TwoX),
+    "2x" => Ok(BcryptVersion::TwoY),
+    _ => Err(Error::new(
+      Status::InvalidArg,
+      format!("{} is not a valid version", version),
+    )),
   }
 }
