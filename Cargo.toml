@@ -16,8 +16,3 @@ codegen-units = 1
 lto = true
 overflow-checks = false
 strip = 'symbols'
-
-[patch.crates-io]
-napi = { git = "https://github.com/napi-rs/napi-rs", branch = "main" }
-napi-derive = { git = "https://github.com/napi-rs/napi-rs", branch = "main" }
-napi-build = { git = "https://github.com/napi-rs/napi-rs", branch = "main" }

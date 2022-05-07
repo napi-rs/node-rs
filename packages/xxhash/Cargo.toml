@@ -14,4 +14,4 @@ napi-derive = { version = "2" }
 xxhash-rust = { version = "0.8", features = ["xxh32", "xxh64", "xxh3"] }
 
 [build-dependencies]
-napi-build = "1"
+napi-build = "2"

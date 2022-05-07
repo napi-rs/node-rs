@@ -16,4 +16,4 @@ napi-derive = { version = "2", default-features = false, features = [
 rand = { version = "0.8", features = ["nightly", "simd_support", "getrandom"] }
 
 [build-dependencies]
-napi-build = "1"
+napi-build = "2"
