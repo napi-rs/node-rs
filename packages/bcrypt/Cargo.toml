@@ -20,4 +20,4 @@ base64 = { version = "0.13", default-features = false }
 quickcheck = "1.0"
 
 [build-dependencies]
-napi-build = "1"
+napi-build = "2"

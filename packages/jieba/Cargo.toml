@@ -15,4 +15,4 @@ napi-derive = { version = "2" }
 once_cell = "1"
 
 [build-dependencies]
-napi-build = "1"
+napi-build = "2"

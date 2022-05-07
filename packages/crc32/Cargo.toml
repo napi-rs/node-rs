@@ -15,4 +15,4 @@ napi = { version = "2", default-features = false, features = ["napi3"] }
 napi-derive = { version = "2", default-features = false }
 
 [build-dependencies]
-napi-build = "1"
+napi-build = "2"
