@@ -29,7 +29,7 @@ It has a simple design aimed at the highest memory filling rate and effective us
 
 ## Support matrix
 
-|                     | node12 | node14 | node16 | node17 |
+|                     | node12 | node14 | node16 | node18 |
 | ------------------- | ------ | ------ | ------ | ------ |
 | Windows x64         | ✓      | ✓      | ✓      | ✓      |
 | Windows x32         | ✓      | ✓      | ✓      | ✓      |

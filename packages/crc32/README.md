@@ -42,21 +42,21 @@ js_crc32 for inputs 16931844B, avg 2066B x 22.12 ops/sec ±5.20% (40 runs sample
 
 ## Support matrix
 
-|                  | node12 | node14 | node16 |
-| ---------------- | ------ | ------ | ------ |
-| Windows x64      | ✓      | ✓      | ✓      |
-| Windows x32      | ✓      | ✓      | ✓      |
-| Windows arm64    | ✓      | ✓      | ✓      |
-| macOS x64        | ✓      | ✓      | ✓      |
-| macOS arm64      | ✓      | ✓      | ✓      |
-| Linux x64 gnu    | ✓      | ✓      | ✓      |
-| Linux x64 musl   | ✓      | ✓      | ✓      |
-| Linux arm gnu    | ✓      | ✓      | ✓      |
-| Linux arm64 gnu  | ✓      | ✓      | ✓      |
-| Linux arm64 musl | ✓      | ✓      | ✓      |
-| Android arm64    | ✓      | ✓      | ✓      |
-| Android armv7    | ✓      | ✓      | ✓      |
-| FreeBSD x64      | ✓      | ✓      | ✓      |
+|                  | node12 | node14 | node16 | node18 |
+| ---------------- | ------ | ------ | ------ | ------ |
+| Windows x64      | ✓      | ✓      | ✓      | ✓      |
+| Windows x32      | ✓      | ✓      | ✓      | ✓      |
+| Windows arm64    | ✓      | ✓      | ✓      | ✓      |
+| macOS x64        | ✓      | ✓      | ✓      | ✓      |
+| macOS arm64      | ✓      | ✓      | ✓      | ✓      |
+| Linux x64 gnu    | ✓      | ✓      | ✓      | ✓      |
+| Linux x64 musl   | ✓      | ✓      | ✓      | ✓      |
+| Linux arm gnu    | ✓      | ✓      | ✓      | ✓      |
+| Linux arm64 gnu  | ✓      | ✓      | ✓      | ✓      |
+| Linux arm64 musl | ✓      | ✓      | ✓      | ✓      |
+| Android arm64    | ✓      | ✓      | ✓      | ✓      |
+| Android armv7    | ✓      | ✓      | ✓      | ✓      |
+| FreeBSD x64      | ✓      | ✓      | ✓      | ✓      |
 
 ## API
 
