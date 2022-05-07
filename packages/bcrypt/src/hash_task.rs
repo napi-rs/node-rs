@@ -31,16 +31,20 @@ impl AsRef<[u8]> for AsyncHashInput {
 pub struct HashTask {
   buf: AsyncHashInput,
   cost: u32,
+  salt: [u8; 16],
 }
 
 impl HashTask {
-  pub fn new(buf: AsyncHashInput, cost: u32) -> HashTask {
-    HashTask { buf, cost }
+  #[inline]
+  pub fn new(buf: AsyncHashInput, cost: u32, salt: [u8; 16]) -> HashTask {
+    HashTask { buf, cost, salt }
   }
 
   #[inline]
-  pub fn hash(buf: &[u8], cost: u32) -> Result<String> {
-    bcrypt::hash(buf, cost).map_err(|_| Error::from_status(Status::GenericFailure))
+  pub fn hash(buf: &[u8], salt: [u8; 16], cost: u32) -> Result<String> {
+    bcrypt::hash_with_salt(buf, cost, salt)
+      .map(|hash_part| hash_part.to_string())
+      .map_err(|err| Error::new(Status::GenericFailure, format!("{}", err)))
   }
 }
 
@@ -51,8 +55,8 @@ impl Task for HashTask {
 
   fn compute(&mut self) -> Result<Self::Output> {
     match &self.buf {
-      AsyncHashInput::String(s) => Self::hash(s.as_bytes(), self.cost),
-      AsyncHashInput::Buffer(buf) => Self::hash(buf.as_ref(), self.cost),
+      AsyncHashInput::String(s) => Self::hash(s.as_bytes(), self.salt, self.cost),
+      AsyncHashInput::Buffer(buf) => Self::hash(buf.as_ref(), self.salt, self.cost),
     }
   }
 
