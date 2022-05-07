@@ -5,5 +5,8 @@ version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[target.'cfg(all(not(target_env = "musl"), not(target_arch = "aarch64")))'.dependencies]
+[target.'cfg(not(target_os = "linux"))'.dependencies]
 mimalloc-rust = { version = "0.1" }
+
+[target.'cfg(all(target_os = "linux", target_env = "gnu", all(target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
+tikv-jemallocator = { version = "0.4", features = ["disable_initial_exec_tls"] }
