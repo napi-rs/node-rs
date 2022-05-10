@@ -1,6 +1,6 @@
 module.exports = {
   extensions: ['ts'],
-  workerThreads: false,
+  workerThreads: true,
   require: ['@swc-node/register'],
   files: ['packages/**/*.spec.ts'],
   timeout: '3m',
