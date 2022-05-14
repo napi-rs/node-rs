@@ -157,7 +157,7 @@ jobs:
 
       - name: Setup node x86
         if: matrix.settings.target == 'i686-pc-windows-msvc'
-        run: yarn config set supportedArchitectures.cpu --json '["ia32", "x64"]'
+        run: yarn config set supportedArchitectures.cpu "ia32"
         shell: bash
 
       - name: 'Install dependencies'
@@ -461,7 +461,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn config set supportedArchitectures.cpu --json '["arm64", "x64"]'
+          yarn config set supportedArchitectures.cpu "arm64"
           yarn config set supportedArchitectures.libc "glibc"
           yarn install --immutable --mode=skip-build
 
@@ -498,8 +498,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn config set supportedArchitectures.cpu --json '["arm64", "x64"]'
-          yarn config set supportedArchitectures.libc --json '["musl", "glibc"]'
+          yarn config set supportedArchitectures.cpu "arm64"
+          yarn config set supportedArchitectures.libc "musl"
           yarn install --immutable --mode=skip-build
 
       - name: Download artifacts
@@ -544,7 +544,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn config set supportedArchitectures.cpu --json '["arm", "x64"]'
+          yarn config set supportedArchitectures.cpu "arm"
           yarn install --immutable --mode=skip-build
 
       - name: Download artifacts
