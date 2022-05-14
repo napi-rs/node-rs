@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/xxhash",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Fastest xxhash implementation in Node.js",
   "keywords": [
     "hash",

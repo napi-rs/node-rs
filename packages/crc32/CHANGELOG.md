@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.5.0...@node-rs/crc32@1.5.1) (2022-05-14)
+
+### Bug Fixes
+
+- Node.js worker_threads safe by upgrade NAPI-RS version ([#623](https://github.com/napi-rs/node-rs/issues/623)) ([792f69d](https://github.com/napi-rs/node-rs/commit/792f69d7ac1055947ac47c8049f16c863d3a0ad8))
+
 # [1.5.0](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.4.3...@node-rs/crc32@1.5.0) (2022-02-11)
 
 ### Features
