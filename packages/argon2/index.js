@@ -218,9 +218,13 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { Algorithm, Version, hash, verify } = nativeBinding
+const { Algorithm, Version, hash, hashSync, hashRaw, hashRawSync, verify, verifySync } = nativeBinding
 
 module.exports.Algorithm = Algorithm
 module.exports.Version = Version
 module.exports.hash = hash
+module.exports.hashSync = hashSync
+module.exports.hashRaw = hashRaw
+module.exports.hashRawSync = hashRawSync
 module.exports.verify = verify
+module.exports.verifySync = verifySync

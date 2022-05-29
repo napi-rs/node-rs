@@ -70,9 +70,21 @@ export function hash(
   options?: Options | undefined | null,
   abortSignal?: AbortSignal | undefined | null,
 ): Promise<string>
+export function hashSync(password: string | Buffer, options?: Options | undefined | null): string
+export function hashRaw(
+  password: string | Buffer,
+  options?: Options | undefined | null,
+  abortSignal?: AbortSignal | undefined | null,
+): Promise<Buffer>
+export function hashRawSync(password: string | Buffer, options?: Options | undefined | null): Buffer
 export function verify(
   hashed: string | Buffer,
   password: string | Buffer,
   options?: Options | undefined | null,
   abortSignal?: AbortSignal | undefined | null,
 ): Promise<boolean>
+export function verifySync(
+  hashed: string | Buffer,
+  password: string | Buffer,
+  options?: Options | undefined | null,
+): boolean

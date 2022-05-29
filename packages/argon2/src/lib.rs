@@ -8,7 +8,7 @@ use napi_derive::napi;
 
 use argon2::{
   password_hash::{rand_core::OsRng, PasswordHasher, PasswordVerifier, SaltString},
-  Argon2,
+  Argon2, Params,
 };
 
 #[napi]
@@ -153,6 +153,91 @@ pub fn hash(
   )
 }
 
+#[napi]
+pub fn hash_sync(
+  env: Env,
+  password: Either<String, Buffer>,
+  options: Option<Options>,
+) -> Result<String> {
+  let mut hash_task = HashTask {
+    password: match password {
+      Either::A(s) => s.as_bytes().to_vec(),
+      Either::B(b) => b.to_vec(),
+    },
+    options: options.unwrap_or_default(),
+  };
+  let output = hash_task.compute()?;
+  hash_task.resolve(env, output)
+}
+
+pub struct RawHashTask {
+  password: Vec<u8>,
+  options: Options,
+}
+
+#[napi]
+impl Task for RawHashTask {
+  type Output = Vec<u8>;
+  type JsValue = Buffer;
+
+  fn compute(&mut self) -> Result<Self::Output> {
+    let salt = SaltString::generate(&mut OsRng);
+    let hasher = self
+      .options
+      .to_argon()
+      .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?;
+    let output_len = hasher
+      .params()
+      .output_len()
+      .unwrap_or(Params::DEFAULT_OUTPUT_LEN);
+    let mut output = vec![0; output_len];
+
+    hasher
+      .hash_password_into(self.password.as_slice(), salt.as_bytes(), &mut output)
+      .map_err(|err| Error::new(Status::GenericFailure, format!("{}", err)))
+      .map(|_| output)
+  }
+
+  fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
+    Ok(output.into())
+  }
+}
+
+#[napi]
+pub fn hash_raw(
+  password: Either<String, Buffer>,
+  options: Option<Options>,
+  abort_signal: Option<AbortSignal>,
+) -> AsyncTask<RawHashTask> {
+  AsyncTask::with_optional_signal(
+    RawHashTask {
+      password: match password {
+        Either::A(s) => s.as_bytes().to_vec(),
+        Either::B(b) => b.to_vec(),
+      },
+      options: options.unwrap_or_default(),
+    },
+    abort_signal,
+  )
+}
+
+#[napi]
+pub fn hash_raw_sync(
+  env: Env,
+  password: Either<String, Buffer>,
+  options: Option<Options>,
+) -> Result<Buffer> {
+  let mut hash_task = RawHashTask {
+    password: match password {
+      Either::A(s) => s.as_bytes().to_vec(),
+      Either::B(b) => b.to_vec(),
+    },
+    options: options.unwrap_or_default(),
+  };
+  let output = hash_task.compute()?;
+  hash_task.resolve(env, output)
+}
+
 pub struct VerifyTask {
   password: String,
   hashed: String,
@@ -204,4 +289,28 @@ pub fn verify(
     },
     abort_signal,
   ))
+}
+
+#[napi]
+pub fn verify_sync(
+  env: Env,
+  hashed: Either<String, Buffer>,
+  password: Either<String, Buffer>,
+  options: Option<Options>,
+) -> Result<bool> {
+  let mut verify_task = VerifyTask {
+    password: match password {
+      Either::A(s) => s,
+      Either::B(b) => String::from_utf8(b.to_vec())
+        .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?,
+    },
+    hashed: match hashed {
+      Either::A(s) => s,
+      Either::B(b) => String::from_utf8(b.to_vec())
+        .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?,
+    },
+    options: options.unwrap_or_default(),
+  };
+  let output = verify_task.compute()?;
+  verify_task.resolve(env, output)
 }
