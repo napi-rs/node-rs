@@ -12,7 +12,7 @@ members = [
 ]
 
 [profile.release]
-codegen-units = 1
+codegen-units = 4
 lto = true
 overflow-checks = false
 strip = 'symbols'
