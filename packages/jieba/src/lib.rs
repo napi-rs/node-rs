@@ -15,14 +15,14 @@ static JIEBA: OnceCell<Jieba> = OnceCell::new();
 static TFIDF_INSTANCE: OnceCell<TFIDF> = OnceCell::new();
 
 #[napi]
-fn load() -> Result<()> {
+pub fn load() -> Result<()> {
   assert_not_init()?;
   let _ = JIEBA.get_or_init(Jieba::new);
   Ok(())
 }
 
 #[napi]
-fn load_dict(dict: Buffer) -> Result<()> {
+pub fn load_dict(dict: Buffer) -> Result<()> {
   assert_not_init()?;
   let mut readable_dict: &[u8] = &dict;
   JIEBA.get_or_init(|| {
@@ -50,7 +50,7 @@ fn assert_not_init() -> Result<()> {
 }
 
 #[napi(ts_return_type = "string[]")]
-fn cut(env: Env, sentence: Either<String, Buffer>, hmm: Option<bool>) -> Result<Array> {
+pub fn cut(env: Env, sentence: Either<String, Buffer>, hmm: Option<bool>) -> Result<Array> {
   let hmm = hmm.unwrap_or(false);
   let jieba = JIEBA.get_or_init(Jieba::new);
   let cutted = jieba.cut(
@@ -66,7 +66,7 @@ fn cut(env: Env, sentence: Either<String, Buffer>, hmm: Option<bool>) -> Result<
 }
 
 #[napi(ts_return_type = "string[]")]
-fn cut_all(env: Env, sentence: Either<String, Buffer>) -> Result<Array> {
+pub fn cut_all(env: Env, sentence: Either<String, Buffer>) -> Result<Array> {
   let jieba = JIEBA.get_or_init(Jieba::new);
   let cutted = jieba.cut_all(match &sentence {
     Either::A(s) => s.as_str(),
@@ -79,7 +79,11 @@ fn cut_all(env: Env, sentence: Either<String, Buffer>) -> Result<Array> {
 }
 
 #[napi(ts_return_type = "string[]")]
-fn cut_for_search(env: Env, sentence: Either<String, Buffer>, hmm: Option<bool>) -> Result<Array> {
+pub fn cut_for_search(
+  env: Env,
+  sentence: Either<String, Buffer>,
+  hmm: Option<bool>,
+) -> Result<Array> {
   let hmm = hmm.unwrap_or(false);
   let jieba = JIEBA.get_or_init(Jieba::new);
   let cutted = jieba.cut_for_search(
@@ -96,13 +100,13 @@ fn cut_for_search(env: Env, sentence: Either<String, Buffer>, hmm: Option<bool>)
 }
 
 #[napi(object)]
-struct TaggedWord {
+pub struct TaggedWord {
   pub tag: String,
   pub word: String,
 }
 
 #[napi]
-fn tag(sentence: Either<String, Buffer>, hmm: Option<bool>) -> Result<Vec<TaggedWord>> {
+pub fn tag(sentence: Either<String, Buffer>, hmm: Option<bool>) -> Result<Vec<TaggedWord>> {
   let jieba = JIEBA.get_or_init(Jieba::new);
   let tagged = jieba.tag(
     match &sentence {
@@ -132,7 +136,7 @@ pub struct Keyword {
 }
 
 #[napi]
-fn extract(
+pub fn extract(
   sentence: Either<String, Buffer>,
   topn: u32,
   allowed_pos: Option<String>,
@@ -176,7 +180,7 @@ fn extract(
 }
 
 #[napi(js_name = "loadTFIDFDict")]
-fn load_tfidf_dict(dict: Buffer) -> Result<()> {
+pub fn load_tfidf_dict(dict: Buffer) -> Result<()> {
   let mut readable_dict: &[u8] = &dict;
   if TFIDF_INSTANCE.get().is_some() {
     return Err(Error::new(
