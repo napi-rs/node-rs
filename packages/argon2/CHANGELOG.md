@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/napi-rs/node-rs/compare/@node-rs/argon2@1.1.1...@node-rs/argon2@1.2.0) (2022-05-30)
+
+### Features
+
+- **argon2:** add hashRaw and sync api ([75ba99d](https://github.com/napi-rs/node-rs/commit/75ba99d90003579c54f94c2fed24774623df0658))
+
 ## [1.1.1](https://github.com/napi-rs/node-rs/compare/@node-rs/argon2@1.1.0...@node-rs/argon2@1.1.1) (2022-05-14)
 
 ### Bug Fixes
