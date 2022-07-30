@@ -68,12 +68,8 @@ fn lint(
       )
     })?;
 
-  Ok(
-    diagnostics::display_diagnostics(&file_diagnostics, s.source(), false)
-      .into_iter()
-      .map(|d| format!("{}", d))
-      .collect(),
-  )
+  diagnostics::display_diagnostics(&file_diagnostics, s.text_info(), &file_name)
+    .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
 }
 
 #[napi]
@@ -147,7 +143,7 @@ fn denolint(__dirname: String, config_path: String) -> Result<bool> {
   }
   for entry in dir_walker.build().filter_map(|v| v.ok()) {
     let p = entry.path();
-    if !p.is_dir() {
+    if p.is_file() {
       let file_content = fs::read_to_string(&p)
         .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
 
@@ -171,7 +167,12 @@ fn denolint(__dirname: String, config_path: String) -> Result<bool> {
           )
         })?;
       has_error = has_error || !file_diagnostics.is_empty();
-      diagnostics::display_diagnostics(&file_diagnostics, s.source(), true);
+      for issue in
+        diagnostics::display_diagnostics(&file_diagnostics, s.text_info(), p.to_str().unwrap())
+          .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))?
+      {
+        eprintln!("{issue}")
+      }
     }
   }
 

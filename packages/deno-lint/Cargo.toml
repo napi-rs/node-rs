@@ -10,12 +10,13 @@ crate-type = ["cdylib"]
 [dependencies]
 annotate-snippets = { version = "0.9", features = ["color"] }
 anyhow = "1"
-deno_ast = "=0.14.0"
-deno_lint = "=0.29.0"
+deno_ast = "=0.17.0"
+deno_lint = "=0.32.0"
 env_logger = "0.9"
 global_alloc = { path = "../../crates/alloc" }
 globwalk = "0.8"
 ignore = "0.4"
+miette = { version = "5", features = ["fancy-no-backtrace"] }
 napi = { version = "2", default-features = false, features = ["napi3"] }
 napi-derive = { version = "2" }
 serde = "1"
