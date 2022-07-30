@@ -54,6 +54,6 @@
     "version": "napi version"
   },
   "devDependencies": {
-    "argon2": "^0.28.5"
+    "argon2": "^0.28.7"
   }
 }
