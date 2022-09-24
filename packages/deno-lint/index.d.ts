@@ -6,6 +6,6 @@
 export function lint(
   fileName: string,
   sourceCode: string | Buffer,
-  allRules?: boolean | undefined | null,
+  allRules?: boolean | string | undefined | null
 ): Array<string>
 export function denolint(dirname: string, configPath: string): boolean

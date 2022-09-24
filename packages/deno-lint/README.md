@@ -50,10 +50,22 @@ Lint benchmark bench suite: Fastest is @node-rs/deno-lint
 
 ## Usage
 
+Pass a boolean `enableAllRules` to use the recommended (`true`, default) or all rules (`false`):
+
 ```ts
 import { lint } from '@node-rs/deno-lint'
 
 lint(filepath, source, enableAllRules)
+```
+
+Pass the config file content (as string), to be able to specify what rules should be included or excluded:
+
+```ts
+import { readFile } from 'fs/promises'
+import { lint } from '@node-rs/deno-lint'
+
+const config = await readFile('.denolint.json', 'utf8')
+lint(filepath, source, config)
 ```
 
 ## webpack-loader
@@ -81,10 +93,12 @@ You can pass denolint options using standard webpack loader options.
 
 #### `enableAllRules`
 
-- Type: `Boolean`
+- Type: `Boolean | String`
 - Default: `false`
 
 Whether to enable all rules. If false, `denolint` will enable all recommend rules.
+
+Instead of the boolean, a string with the content of `.denolint.json` can be passed as a value.
 
 #### `failOnError`
 

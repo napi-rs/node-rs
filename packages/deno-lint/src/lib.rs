@@ -36,14 +36,24 @@ fn get_media_type(p: &Path) -> MediaType {
 fn lint(
   file_name: String,
   source_code: Either<String, Buffer>,
-  all_rules: Option<bool>,
+  all_rules: Option<Either<bool, String>>,
 ) -> Result<Vec<String>> {
-  let all_rules = all_rules.unwrap_or(false);
   let linter = LinterBuilder::default()
-    .rules(if all_rules {
-      get_all_rules()
-    } else {
-      get_recommended_rules()
+    .rules(match all_rules {
+      Some(r) => match r {
+        Either::A(a) => {
+          if a {
+            get_all_rules()
+          } else {
+            get_recommended_rules()
+          }
+        }
+        Either::B(b) => {
+          let cfg = config::load_from_string(b)?;
+          cfg.get_rules()
+        }
+      },
+      None => get_recommended_rules(),
     })
     .media_type(get_media_type(Path::new(file_name.as_str())))
     .ignore_diagnostic_directive("eslint-disable-next-line")
