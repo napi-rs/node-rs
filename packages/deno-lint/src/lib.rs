@@ -13,6 +13,7 @@ use std::str;
 use deno_ast::MediaType;
 use deno_lint::linter::LinterBuilder;
 use deno_lint::rules::{get_all_rules, get_recommended_rules};
+use ignore::overrides::OverrideBuilder;
 use ignore::types::TypesBuilder;
 use ignore::WalkBuilder;
 use napi::bindgen_prelude::*;
@@ -133,13 +134,24 @@ fn denolint(__dirname: String, config_path: String) -> Result<bool> {
       Err(_) => __dirname.as_str(),
     },
   };
-  let mut dir_walker = WalkBuilder::new(cwd);
+  let mut dir_walker = WalkBuilder::new(cwd.clone());
   dir_walker
     .add_custom_ignore_filename(ignore_file_path)
     .types(types)
     .follow_links(true);
-  for i in cfg_ignore_files {
-    dir_walker.add_ignore(i);
+  if !cfg_ignore_files.is_empty() {
+    let mut overrides = OverrideBuilder::new(cwd);
+    for f in cfg_ignore_files {
+      let mut r = "!".to_string();
+      r.push_str(&f);
+      overrides
+        .add(&r)
+        .unwrap_or_else(|_| panic!("Adding excluded file {:?} failed", f));
+    }
+    let o = overrides
+      .build()
+      .unwrap_or_else(|_| panic!("Applying files.exclude from {:?} failed", config_path));
+    dir_walker.overrides(o);
   }
   for entry in dir_walker.build().filter_map(|v| v.ok()) {
     let p = entry.path();
