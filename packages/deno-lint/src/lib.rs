@@ -12,7 +12,7 @@ use std::str;
 
 use deno_ast::MediaType;
 use deno_lint::linter::LinterBuilder;
-use deno_lint::rules::{get_all_rules, get_recommended_rules};
+use deno_lint::rules::get_recommended_rules;
 use ignore::types::TypesBuilder;
 use ignore::WalkBuilder;
 use napi::bindgen_prelude::*;
@@ -37,14 +37,13 @@ fn lint(
   file_name: String,
   source_code: Either<String, Buffer>,
   all_rules: Option<bool>,
+  exclude_rules: Option<Vec<String>>,
 ) -> Result<Vec<String>> {
-  let all_rules = all_rules.unwrap_or(false);
   let linter = LinterBuilder::default()
-    .rules(if all_rules {
-      get_all_rules()
-    } else {
-      get_recommended_rules()
-    })
+    .rules(config::filter_rules(
+      all_rules.unwrap_or(false),
+      exclude_rules,
+    ))
     .media_type(get_media_type(Path::new(file_name.as_str())))
     .ignore_diagnostic_directive("eslint-disable-next-line")
     .build();
