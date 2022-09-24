@@ -46,6 +46,7 @@ fn lint(
       get_recommended_rules()
     })
     .media_type(get_media_type(Path::new(file_name.as_str())))
+    .ignore_file_directive("eslint-disable")
     .ignore_diagnostic_directive("eslint-disable-next-line")
     .build();
 
