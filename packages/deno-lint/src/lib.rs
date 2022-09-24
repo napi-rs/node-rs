@@ -38,11 +38,13 @@ fn lint(
   source_code: Either<String, Buffer>,
   all_rules: Option<bool>,
   exclude_rules: Option<Vec<String>>,
+  include_rules: Option<Vec<String>>,
 ) -> Result<Vec<String>> {
   let linter = LinterBuilder::default()
     .rules(config::filter_rules(
       all_rules.unwrap_or(false),
       exclude_rules,
+      include_rules,
     ))
     .media_type(get_media_type(Path::new(file_name.as_str())))
     .ignore_diagnostic_directive("eslint-disable-next-line")

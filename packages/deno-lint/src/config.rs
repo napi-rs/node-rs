@@ -42,23 +42,27 @@ pub fn load_from_json(config_path: &Path) -> Result<Config, std::io::Error> {
   Ok(config)
 }
 
-pub fn filter_rules(all: bool, exclude: Option<Vec<String>>) -> Vec<Arc<dyn LintRule>> {
-  match exclude {
-    Some(exclude) => {
-      let tags = if all {
-        vec![]
-      } else {
-        vec!["recommended".to_string()]
-      };
-      get_filtered_rules(Some(tags), Some(exclude.clone()), Some(vec![]))
-    }
-    None => {
-      if all {
-        get_all_rules()
-      } else {
-        get_recommended_rules()
-      }
-    }
+pub fn filter_rules(
+  all: bool,
+  exclude: Option<Vec<String>>,
+  include: Option<Vec<String>>,
+) -> Vec<Arc<dyn LintRule>> {
+  if exclude.is_some() || include.is_some() {
+    let tags = if all {
+      vec![]
+    } else {
+      vec!["recommended".to_string()]
+    };
+    return get_filtered_rules(
+      Some(tags),
+      Some(exclude.unwrap_or_default()),
+      Some(include.unwrap_or_default()),
+    );
+  }
+  if all {
+    get_all_rules()
+  } else {
+    get_recommended_rules()
   }
 }
 
