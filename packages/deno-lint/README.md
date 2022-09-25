@@ -104,7 +104,13 @@ Emit nothing even if there were errors happened.
 
 ### usage
 
-`npx denolint`
+`npx denolint [options] [dirs...]`
+
+The current directory will be considered the project root and scanned by default.
+
+### `--root`, `-r`
+
+Root directory of the project, which contains files `.denolintignore` or `.eslintignore`. Defaults to the current directory.
 
 ### `--config`, `-c`
 
