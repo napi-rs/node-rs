@@ -70,6 +70,8 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "devDependencies": {
+    "@cwasm/openbsd-bcrypt": "^0.1.0",
+    "@cwasm/openwall-bcrypt": "^0.1.0",
     "@napi-rs/cli": "^3.0.0-alpha.63",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
