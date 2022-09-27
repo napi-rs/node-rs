@@ -68,6 +68,8 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "2.16.3",
+    "@cwasm/openbsd-bcrypt": "^0.1.0",
+    "@cwasm/openwall-bcrypt": "^0.1.0",
     "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",

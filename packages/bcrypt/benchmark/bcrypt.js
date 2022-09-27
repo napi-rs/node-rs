@@ -1,5 +1,7 @@
 const { cpus } = require('os')
 
+const openbsd = require('@cwasm/openbsd-bcrypt')
+const openwall = require('@cwasm/openwall-bcrypt')
 const { hashSync, hash, compare, genSaltSync } = require('bcrypt')
 const { hashSync: hashSyncJs, hash: hashJs, compare: compareJs, genSaltSync: genSaltSyncJs } = require('bcryptjs')
 const { Suite } = require('benchmark')
@@ -110,6 +112,12 @@ runAsync()
         .add('bcryptjs', () => {
           hashSyncJs(password, 12)
         })
+        .add('wasm OpenBSD', () => {
+          openbsd.hashSync(password, 12)
+        })
+        .add('wasm Openwall', () => {
+          openwall.hashSync(password, 12)
+        })
         .on('cycle', function (event) {
           console.info(String(event.target))
         })
@@ -131,6 +139,12 @@ runAsync()
         })
         .add('bcryptjs', () => {
           genSaltSyncJs(10)
+        })
+        .add('wasm OpenBSD', () => {
+          openbsd.genSaltSync(10)
+        })
+        .add('wasm Openwall', () => {
+          openwall.genSaltSync(10)
         })
         .on('cycle', function (event) {
           console.info(String(event.target))

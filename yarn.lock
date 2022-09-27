@@ -48,6 +48,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cwasm/openbsd-bcrypt@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@cwasm/openbsd-bcrypt@npm:0.1.0"
+  checksum: e1245b874b2dc5e4ca94ae39cf42b40b5e5963bd484357b3d60d3802fef5d6e3ba1e886a277e1a14ef722ee8a40e464b036695db25c7fd37cb82bff8d03cfeec
+  languageName: node
+  linkType: hard
+
+"@cwasm/openwall-bcrypt@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@cwasm/openwall-bcrypt@npm:0.1.0"
+  checksum: 1272e86a32e388ab9e333d16c57afb5cb3005bb829a317142ddc34ecc4041fe5bc52b42e0f04691852de77e9fb0a4e9427defa41d0b1fe76204d726137e4faef
+  languageName: node
+  linkType: hard
+
 "@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0":
   version: 4.4.0
   resolution: "@eslint-community/eslint-utils@npm:4.4.0"
