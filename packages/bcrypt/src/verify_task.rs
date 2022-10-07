@@ -37,7 +37,7 @@ impl Task for VerifyTask {
   type JsValue = JsBoolean;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    VerifyTask::verify(&self.password.as_ref(), &self.hash.as_ref())
+    VerifyTask::verify(self.password.as_ref(), self.hash.as_ref())
   }
 
   fn resolve(&mut self, env: Env, output: Self::Output) -> Result<Self::JsValue> {
