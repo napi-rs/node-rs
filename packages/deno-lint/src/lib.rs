@@ -154,7 +154,7 @@ fn denolint(__dirname: String, config_path: String) -> Result<bool> {
   for entry in dir_walker.build().filter_map(|v| v.ok()) {
     let p = entry.path();
     if p.is_file() {
-      let file_content = fs::read_to_string(&p)
+      let file_content = fs::read_to_string(p)
         .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
 
       let linter = LinterBuilder::default()
