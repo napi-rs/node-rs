@@ -3,7 +3,13 @@ const { lint } = require('./index')
 module.exports = function denoLintLoader(source, sm) {
   const callback = this.async()
   const options = this.getOptions()
-  const diagnostics = lint(this.resourcePath, source, options.enableAllRules)
+  const diagnostics = lint(
+    this.resourcePath,
+    source,
+    options.enableAllRules,
+    options.excludeRules,
+    options.includeRules,
+  )
 
   if (this.resourcePath.endsWith('diff-size.ts')) {
     this.emitWarning(`${this.resourcePath}, ${diagnostics.length}`)

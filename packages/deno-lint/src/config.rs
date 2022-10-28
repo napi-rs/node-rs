@@ -1,5 +1,5 @@
 // Copyright 2020-2021 the Deno authors. All rights reserved. MIT license.
-use deno_lint::rules::{get_filtered_rules, LintRule};
+use deno_lint::rules::{get_all_rules, get_filtered_rules, get_recommended_rules, LintRule};
 use serde::Deserialize;
 use std::path::Path;
 use std::sync::Arc;
@@ -40,6 +40,30 @@ pub fn load_from_json(config_path: &Path) -> Result<Config, std::io::Error> {
   let json_str = std::fs::read_to_string(config_path)?;
   let config: Config = serde_json::from_str(&json_str)?;
   Ok(config)
+}
+
+pub fn filter_rules(
+  all: bool,
+  exclude: Option<Vec<String>>,
+  include: Option<Vec<String>>,
+) -> Vec<Arc<dyn LintRule>> {
+  if exclude.is_some() || include.is_some() {
+    let tags = if all {
+      vec![]
+    } else {
+      vec!["recommended".to_string()]
+    };
+    return get_filtered_rules(
+      Some(tags),
+      Some(exclude.unwrap_or_default()),
+      Some(include.unwrap_or_default()),
+    );
+  }
+  if all {
+    get_all_rules()
+  } else {
+    get_recommended_rules()
+  }
 }
 
 #[cfg(test)]

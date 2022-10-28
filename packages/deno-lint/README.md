@@ -53,7 +53,7 @@ Lint benchmark bench suite: Fastest is @node-rs/deno-lint
 ```ts
 import { lint } from '@node-rs/deno-lint'
 
-lint(filepath, source, enableAllRules)
+lint(filepath, source, enableAllRules, excludeRules, includeRules)
 ```
 
 ## webpack-loader
@@ -85,6 +85,20 @@ You can pass denolint options using standard webpack loader options.
 - Default: `false`
 
 Whether to enable all rules. If false, `denolint` will enable all recommend rules.
+
+#### `excludeRules`
+
+- Type: `String[]`
+- Default: `[]`
+
+Rules to exclude from all or recommended ones chosen by `enableAllRules`.
+
+#### `includeRules`
+
+- Type: `String[]`
+- Default: `[]`
+
+Rules to include in addition to the recommended ones chosen by `enableAllRules` set to `false`.
 
 #### `failOnError`
 
