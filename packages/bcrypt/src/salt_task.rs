@@ -15,12 +15,16 @@ pub(crate) fn gen_salt() -> bcrypt::BcryptResult<[u8; 16]> {
 
 #[inline]
 pub(crate) fn format_salt(rounds: u32, version: &Version, salt: &[u8; 16]) -> String {
-  format!(
-    "${}${:0>2}${}",
-    version,
-    rounds,
-    base64::encode_config(salt, base64::BCRYPT)
-  )
+  let mut base64_string = String::new();
+  base64::encode_engine_string(
+    salt,
+    &mut base64_string,
+    &base64::engine::fast_portable::FastPortable::from(
+      &base64::alphabet::BCRYPT,
+      base64::engine::fast_portable::PAD,
+    ),
+  );
+  format!("${}${:0>2}${}", version, rounds, base64_string)
 }
 
 pub struct SaltTask {

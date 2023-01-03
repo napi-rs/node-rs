@@ -11,7 +11,8 @@ function isMusl() {
   // For Node 10
   if (!process.report || typeof process.report.getReport !== 'function') {
     try {
-      return readFileSync('/usr/bin/ldd', 'utf8').includes('musl')
+      const lddPath = require('child_process').execSync('which ldd').toString().trim()
+      return readFileSync(lddPath, 'utf8').includes('musl')
     } catch (e) {
       return true
     }
@@ -95,6 +96,15 @@ switch (platform) {
     }
     break
   case 'darwin':
+    localFileExisted = existsSync(join(__dirname, 'jieba.darwin-universal.node'))
+    try {
+      if (localFileExisted) {
+        nativeBinding = require('./jieba.darwin-universal.node')
+      } else {
+        nativeBinding = require('@node-rs/jieba-darwin-universal')
+      }
+      break
+    } catch {}
     switch (arch) {
       case 'x64':
         localFileExisted = existsSync(join(__dirname, 'jieba.darwin-x64.node'))

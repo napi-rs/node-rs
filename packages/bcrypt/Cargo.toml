@@ -14,7 +14,7 @@ global_alloc = { path = "../../crates/alloc" }
 napi = { version = "2", default-features = false, features = ["napi3"] }
 napi-derive = { version = "2" }
 getrandom = "0.2"
-base64 = { version = "0.13", default-features = false }
+base64 = { version = "0.20" }
 
 [dev-dependencies]
 quickcheck = "1.0"
