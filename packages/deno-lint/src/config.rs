@@ -42,6 +42,11 @@ pub fn load_from_json(config_path: &Path) -> Result<Config, std::io::Error> {
   Ok(config)
 }
 
+pub fn load_from_string(json_str: String) -> Result<Config, std::io::Error> {
+  let config: Config = serde_json::from_str(&json_str)?;
+  Ok(config)
+}
+
 #[cfg(test)]
 mod tests {
   use super::*;
