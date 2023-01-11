@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/napi-rs/node-rs/compare/@node-rs/xxhash@1.2.1...@node-rs/xxhash@1.3.0) (2023-01-11)
+
+### Features
+
+- **deno-lint:** upgrade to deno_lint 0.32 ([e697ca0](https://github.com/napi-rs/node-rs/commit/e697ca0879e53a2dccf68e263a053122cb4835af))
+
 ## [1.2.1](https://github.com/napi-rs/node-rs/compare/@node-rs/xxhash@1.2.0...@node-rs/xxhash@1.2.1) (2022-05-14)
 
 ### Bug Fixes

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.14.0...@node-rs/deno-lint@1.15.0) (2023-01-11)
+
+### Bug Fixes
+
+- **deno-lint:** Replace WalkBuilder.add_ignore with WalkBuilder.overrides ([#646](https://github.com/napi-rs/node-rs/issues/646)) ([a785bec](https://github.com/napi-rs/node-rs/commit/a785bec5f2a7296e3720d4083483c2eb89a2fee7))
+
+### Features
+
+- **deno-lint:** Support config content in lint and webpack ([#644](https://github.com/napi-rs/node-rs/issues/644)) ([82091a5](https://github.com/napi-rs/node-rs/commit/82091a53de9dc7cf5645b67c36d4600f9d5d459c))
+
 # [1.14.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.13.1...@node-rs/deno-lint@1.14.0) (2022-07-31)
 
 ### Features

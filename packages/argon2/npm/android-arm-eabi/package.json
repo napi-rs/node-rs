@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/argon2-android-arm-eabi",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "os": [
     "android"
   ],

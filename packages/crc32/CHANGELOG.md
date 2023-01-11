@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.5.1...@node-rs/crc32@1.6.0) (2023-01-11)
+
+### Features
+
+- **deno-lint:** upgrade to deno_lint 0.32 ([e697ca0](https://github.com/napi-rs/node-rs/commit/e697ca0879e53a2dccf68e263a053122cb4835af))
+
+### Performance Improvements
+
+- **crc32:** enable sse4.2 for x86 platform ([8ae3d85](https://github.com/napi-rs/node-rs/commit/8ae3d85dd5a6239f40abde4ecd6e476cba3a85a9))
+
 ## [1.5.1](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.5.0...@node-rs/crc32@1.5.1) (2022-05-14)
 
 ### Bug Fixes
