@@ -5,26 +5,28 @@ extern crate global_alloc;
 
 use crc32c::crc32c_append;
 use crc32fast::Hasher;
-use napi::bindgen_prelude::{Buffer, Either};
+use napi::{bindgen_prelude::Either, JsBuffer, Result};
 use napi_derive::*;
 
 #[napi(js_name = "crc32c")]
-pub fn crc32c(input: Either<String, Buffer>, initial_state: Option<u32>) -> u32 {
-  crc32c_append(
-    initial_state.unwrap_or(0),
-    match &input {
-      Either::A(s) => s.as_bytes(),
-      Either::B(b) => b.as_ref(),
-    },
-  )
+pub fn crc32c(input: Either<String, JsBuffer>, initial_state: Option<u32>) -> Result<u32> {
+  Ok(match input {
+    Either::A(s) => crc32c_append(initial_state.unwrap_or(0), s.as_bytes()),
+    Either::B(b) => crc32c_append(initial_state.unwrap_or(0), &b.into_value()?),
+  })
 }
 
 #[napi]
-pub fn crc32(input: Either<String, Buffer>, initial_state: Option<u32>) -> u32 {
+pub fn crc32(input: Either<String, JsBuffer>, initial_state: Option<u32>) -> Result<u32> {
   let mut hasher = Hasher::new_with_initial(initial_state.unwrap_or(0));
-  hasher.update(match &input {
-    Either::A(s) => s.as_bytes(),
-    Either::B(b) => b.as_ref(),
-  });
-  hasher.finalize()
+  match input {
+    Either::A(s) => {
+      hasher.update(s.as_bytes());
+    }
+    Either::B(b) => {
+      let b = b.into_value()?;
+      hasher.update(&b);
+    }
+  };
+  Ok(hasher.finalize())
 }
