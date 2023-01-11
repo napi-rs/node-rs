@@ -44,7 +44,7 @@ impl HashTask {
   pub fn hash(buf: &[u8], salt: [u8; 16], cost: u32) -> Result<String> {
     bcrypt::hash_with_salt(buf, cost, salt)
       .map(|hash_part| hash_part.to_string())
-      .map_err(|err| Error::new(Status::GenericFailure, format!("{}", err)))
+      .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
   }
 }
 

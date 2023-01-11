@@ -194,7 +194,7 @@ pub fn load_tfidf_dict(dict: Buffer) -> Result<()> {
     tfidf
       .load_dict(&mut readable_dict)
       .map(|_| tfidf)
-      .map_err(|e| Error::new(Status::GenericFailure, format!("{}", e)))
+      .map_err(|e| Error::new(Status::GenericFailure, format!("{e}")))
   })?;
   Ok(())
 }

@@ -65,7 +65,7 @@ fn lint(
     Either::B(b) => str::from_utf8(b.as_ref()).map_err(|e| {
       Error::new(
         Status::StringExpected,
-        format!("Input source is not valid utf8 string {}", e),
+        format!("Input source is not valid utf8 string {e}"),
       )
     })?,
   };
@@ -75,7 +75,7 @@ fn lint(
     .map_err(|e| {
       Error::new(
         Status::GenericFailure,
-        format!("Lint failed: {}, at: {}", e, file_name),
+        format!("Lint failed: {e}, at: {file_name}"),
       )
     })?;
 
@@ -89,7 +89,7 @@ fn denolint(__dirname: String, config_path: String) -> Result<bool> {
   let cwd = env::current_dir().map_err(|e| {
     Error::new(
       Status::GenericFailure,
-      format!("Get current_dir failed {}", e),
+      format!("Get current_dir failed {e}"),
     )
   })?;
   let config_existed = fs::metadata(&config_path)
@@ -115,17 +115,17 @@ fn denolint(__dirname: String, config_path: String) -> Result<bool> {
 
   type_builder
     .add("typescript", "*.ts")
-    .map_err(|e| Error::from_reason(format!("{}", e)))?;
+    .map_err(|e| Error::from_reason(format!("{e}")))?;
   type_builder
     .add("typescript", "*.tsx")
-    .map_err(|e| Error::from_reason(format!("{}", e)))?;
+    .map_err(|e| Error::from_reason(format!("{e}")))?;
 
   let types = type_builder
     .add_defaults()
     .select("typescript")
     .select("js")
     .build()
-    .map_err(|e| Error::from_reason(format!("{}", e)))?;
+    .map_err(|e| Error::from_reason(format!("{e}")))?;
 
   let ignore_file_path = match fs::File::open(&denolint_ignore_file) {
     Ok(_) => denolint_ignore_file.as_path().to_str().ok_or_else(|| {
@@ -156,18 +156,18 @@ fn denolint(__dirname: String, config_path: String) -> Result<bool> {
       r.push_str(&f);
       overrides
         .add(&r)
-        .unwrap_or_else(|_| panic!("Adding excluded file {:?} failed", f));
+        .unwrap_or_else(|_| panic!("Adding excluded file {f:?} failed"));
     }
     let o = overrides
       .build()
-      .unwrap_or_else(|_| panic!("Applying files.exclude from {:?} failed", config_path));
+      .unwrap_or_else(|_| panic!("Applying files.exclude from {config_path:?} failed"));
     dir_walker.overrides(o);
   }
   for entry in dir_walker.build().filter_map(|v| v.ok()) {
     let p = entry.path();
     if p.is_file() {
       let file_content = fs::read_to_string(p)
-        .map_err(|e| Error::from_reason(format!("Read file {:?} failed: {}", p, e)))?;
+        .map_err(|e| Error::from_reason(format!("Read file {p:?} failed: {e}")))?;
 
       let linter = LinterBuilder::default()
         .rules(rules.clone())

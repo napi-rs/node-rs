@@ -124,9 +124,9 @@ impl Task for HashTask {
     let salt = SaltString::generate(&mut OsRng);
     let hasher = self.options.to_argon();
     hasher
-      .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?
+      .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
       .hash_password(self.password.as_slice(), &salt)
-      .map_err(|err| Error::new(Status::GenericFailure, format!("{}", err)))
+      .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
       .map(|h| h.to_string())
   }
 
@@ -185,7 +185,7 @@ impl Task for RawHashTask {
     let hasher = self
       .options
       .to_argon()
-      .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?;
+      .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?;
     let output_len = hasher
       .params()
       .output_len()
@@ -194,7 +194,7 @@ impl Task for RawHashTask {
 
     hasher
       .hash_password_into(self.password.as_slice(), salt.as_bytes(), &mut output)
-      .map_err(|err| Error::new(Status::GenericFailure, format!("{}", err)))
+      .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
       .map(|_| output)
   }
 
@@ -251,11 +251,11 @@ impl Task for VerifyTask {
 
   fn compute(&mut self) -> Result<Self::Output> {
     let parsed_hash = argon2::PasswordHash::new(self.hashed.as_str())
-      .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?;
+      .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?;
     let argon2 = self.options.to_argon();
     Ok(
       argon2
-        .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?
+        .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
         .verify_password(self.password.as_bytes(), &parsed_hash)
         .is_ok(),
     )
@@ -278,12 +278,12 @@ pub fn verify(
       password: match password {
         Either::A(s) => s,
         Either::B(b) => String::from_utf8(b.to_vec())
-          .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?,
+          .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?,
       },
       hashed: match hashed {
         Either::A(s) => s,
         Either::B(b) => String::from_utf8(b.to_vec())
-          .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?,
+          .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?,
       },
       options: options.unwrap_or_default(),
     },
@@ -302,12 +302,12 @@ pub fn verify_sync(
     password: match password {
       Either::A(s) => s,
       Either::B(b) => String::from_utf8(b.to_vec())
-        .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?,
+        .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?,
     },
     hashed: match hashed {
       Either::A(s) => s,
       Either::B(b) => String::from_utf8(b.to_vec())
-        .map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?,
+        .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?,
     },
     options: options.unwrap_or_default(),
   };

@@ -24,7 +24,7 @@ pub(crate) fn format_salt(rounds: u32, version: &Version, salt: &[u8; 16]) -> St
       base64::engine::fast_portable::PAD,
     ),
   );
-  format!("${}${:0>2}${}", version, rounds, base64_string)
+  format!("${version}${rounds:0>2}${base64_string}")
 }
 
 pub struct SaltTask {
@@ -41,7 +41,7 @@ impl Task for SaltTask {
     let random = gen_salt().map_err(|err| {
       Error::new(
         Status::GenericFailure,
-        format!("Generate salt failed {}", err),
+        format!("Generate salt failed {err}"),
       )
     })?;
     Ok(format_salt(self.round, &self.version, &random))

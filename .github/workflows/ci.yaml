@@ -40,6 +40,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: >-
               set -e &&
+              rustup target add x86_64-unknown-linux-gnu &&
               yarn lerna exec "yarn build --target x86_64-unknown-linux-gnu" --concurrency 1 --stream --no-prefix &&
               strip packages/*/*.node
           - host: ubuntu-latest
@@ -59,8 +60,9 @@ jobs:
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
-            build: |
-              yarn lerna exec "yarn build --target aarch64-unknown-linux-gnu" --concurrency 1 --stream --no-prefix
+            build: >-
+              rustup target add aarch64-unknown-linux-gnu &&
+              yarn lerna exec "yarn build --target aarch64-unknown-linux-gnu" --concurrency 1 --stream --no-prefix &&
               llvm-strip packages/*/*.node
           - host: ubuntu-latest
             target: 'armv7-unknown-linux-gnueabihf'
@@ -109,7 +111,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
         with:
-          toolchain: stable
+          toolchain: nightly-2023-01-11
           targets: ${{ matrix.settings.target }}
 
       - name: Cache cargo registry
