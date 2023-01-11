@@ -26,7 +26,7 @@ pub fn gen_salt_sync(round: u32, version: String) -> Result<String> {
   let salt = gen_salt().map_err(|err| {
     Error::new(
       Status::GenericFailure,
-      format!("Generate salt failed {}", err),
+      format!("Generate salt failed {err}"),
     )
   })?;
   Ok(format_salt(
@@ -60,7 +60,7 @@ pub fn hash_sync(
     s.copy_from_slice(salt.as_ref());
     s
   } else {
-    gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?
+    gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
   };
   match input {
     Either::A(s) => HashTask::hash(s.as_bytes(), salt, cost.unwrap_or(DEFAULT_COST)),
@@ -80,7 +80,7 @@ pub fn hash(
     s.copy_from_slice(salt.as_ref());
     s
   } else {
-    gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{}", err)))?
+    gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
   };
   let task = HashTask::new(
     AsyncHashInput::from_either(input)?,
@@ -127,7 +127,7 @@ fn version_from_str(version: &str) -> Result<Version> {
     "2x" => Ok(Version::TwoY),
     _ => Err(Error::new(
       Status::InvalidArg,
-      format!("{} is not a valid version", version),
+      format!("{version} is not a valid version"),
     )),
   }
 }
