@@ -1,7 +1,10 @@
 use napi::{
-  bindgen_prelude::Either, Env, Error, JsBuffer, JsBufferValue, Ref, Result, Status, Task,
+  bindgen_prelude::{Buffer, Either},
+  Env, Error, JsBuffer, JsBufferValue, Ref, Result, Status, Task,
 };
 use napi_derive::napi;
+
+use crate::salt_task;
 
 pub enum AsyncHashInput {
   String(String),
@@ -31,16 +34,14 @@ impl AsRef<[u8]> for AsyncHashInput {
 pub struct HashTask {
   buf: AsyncHashInput,
   cost: u32,
-  salt: [u8; 16],
+  salt: Option<Buffer>,
 }
 
 impl HashTask {
-  #[inline]
-  pub fn new(buf: AsyncHashInput, cost: u32, salt: [u8; 16]) -> HashTask {
+  pub fn new(buf: AsyncHashInput, cost: u32, salt: Option<Buffer>) -> HashTask {
     HashTask { buf, cost, salt }
   }
 
-  #[inline]
   pub fn hash(buf: &[u8], salt: [u8; 16], cost: u32) -> Result<String> {
     bcrypt::hash_with_salt(buf, cost, salt)
       .map(|hash_part| hash_part.to_string())
@@ -54,9 +55,16 @@ impl Task for HashTask {
   type JsValue = String;
 
   fn compute(&mut self) -> Result<Self::Output> {
+    let salt = if let Some(salt) = &self.salt {
+      let mut s = [0u8; 16];
+      s.copy_from_slice(salt.as_ref());
+      s
+    } else {
+      salt_task::gen_salt()
+    };
     match &self.buf {
-      AsyncHashInput::String(s) => Self::hash(s.as_bytes(), self.salt, self.cost),
-      AsyncHashInput::Buffer(buf) => Self::hash(buf.as_ref(), self.salt, self.cost),
+      AsyncHashInput::String(s) => Self::hash(s.as_bytes(), salt, self.cost),
+      AsyncHashInput::Buffer(buf) => Self::hash(buf.as_ref(), salt, self.cost),
     }
   }
 

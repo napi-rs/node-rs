@@ -1020,6 +1020,8 @@ __metadata:
     "@types/bcrypt": ^5.0.0
     bcrypt: ^5.1.0
     bcryptjs: ^2.4.3
+    cross-env: ^7.0.3
+    rxjs: ^7.8.0
   languageName: unknown
   linkType: soft
 
@@ -7776,7 +7778,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.5, rxjs@npm:^7.5.7":
+"rxjs@npm:^7.5.5, rxjs@npm:^7.5.7, rxjs@npm:^7.8.0":
   version: 7.8.0
   resolution: "rxjs@npm:7.8.0"
   dependencies:

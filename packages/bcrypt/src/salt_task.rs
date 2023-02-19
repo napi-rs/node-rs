@@ -1,29 +1,22 @@
-use getrandom::getrandom;
-use napi::{Env, Error, Result, Status, Task};
+use base64::Engine;
+use napi::{Env, Result, Task};
 use napi_derive::napi;
 
 use crate::Version;
 
-#[inline]
-pub(crate) fn gen_salt() -> bcrypt::BcryptResult<[u8; 16]> {
-  let mut s = [0u8; 16];
-  getrandom(&mut s)
-    .map(|_| s)
-    .map_err(bcrypt::BcryptError::from)?;
-  Ok(s)
+const BASE64_ENCODE_BCRYPT: base64::engine::GeneralPurpose = base64::engine::GeneralPurpose::new(
+  &base64::alphabet::BCRYPT,
+  base64::engine::GeneralPurposeConfig::new().with_encode_padding(true),
+);
+
+pub(crate) fn gen_salt() -> [u8; 16] {
+  rand::random()
 }
 
 #[inline]
 pub(crate) fn format_salt(rounds: u32, version: &Version, salt: &[u8; 16]) -> String {
   let mut base64_string = String::new();
-  base64::encode_engine_string(
-    salt,
-    &mut base64_string,
-    &base64::engine::fast_portable::FastPortable::from(
-      &base64::alphabet::BCRYPT,
-      base64::engine::fast_portable::PAD,
-    ),
-  );
+  BASE64_ENCODE_BCRYPT.encode_string(salt, &mut base64_string);
   format!("${version}${rounds:0>2}${base64_string}")
 }
 
@@ -38,12 +31,7 @@ impl Task for SaltTask {
   type JsValue = String;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let random = gen_salt().map_err(|err| {
-      Error::new(
-        Status::GenericFailure,
-        format!("Generate salt failed {err}"),
-      )
-    })?;
+    let random = gen_salt();
     Ok(format_salt(self.round, &self.version, &random))
   }
 
