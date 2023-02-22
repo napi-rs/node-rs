@@ -1,0 +1,29 @@
+{
+  "name": "@node-rs/jsonwebtoken-darwin-x64",
+  "version": "0.1.0",
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "jsonwebtoken.darwin-x64.node",
+  "files": [
+    "jsonwebtoken.darwin-x64.node"
+  ],
+  "description": "Rust jsonwebtoken binding for Node.js",
+  "keywords": [
+    "jsonwebtoken",
+    "jwt",
+    "napi-rs",
+    "node-rs"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}

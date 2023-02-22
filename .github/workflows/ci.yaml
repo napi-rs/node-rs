@@ -276,6 +276,7 @@ jobs:
           yarn test packages/bcrypt
           yarn test packages/crc32
           yarn test packages/jieba
+          yarn test packages/jsonwebtoken
           yarn test packages/xxhash
 
   test-linux-x64-gnu-binding:

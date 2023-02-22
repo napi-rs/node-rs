@@ -1,0 +1,29 @@
+{
+  "name": "@node-rs/jsonwebtoken-win32-ia32-msvc",
+  "version": "0.1.0",
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "ia32"
+  ],
+  "main": "jsonwebtoken.win32-ia32-msvc.node",
+  "files": [
+    "jsonwebtoken.win32-ia32-msvc.node"
+  ],
+  "description": "Rust jsonwebtoken binding for Node.js",
+  "keywords": [
+    "jsonwebtoken",
+    "jwt",
+    "napi-rs",
+    "node-rs"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}

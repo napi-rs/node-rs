@@ -1,0 +1,32 @@
+{
+  "name": "@node-rs/jsonwebtoken-linux-arm64-musl",
+  "version": "0.1.0",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "jsonwebtoken.linux-arm64-musl.node",
+  "libc": [
+    "musl"
+  ],
+  "files": [
+    "jsonwebtoken.linux-arm64-musl.node"
+  ],
+  "description": "Rust jsonwebtoken binding for Node.js",
+  "keywords": [
+    "jsonwebtoken",
+    "jwt",
+    "napi-rs",
+    "node-rs"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}

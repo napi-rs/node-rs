@@ -1,0 +1,23 @@
+[package]
+authors = ["Francesco Benedetto"]
+edition = "2021"
+name = "node-rs-jsonwebtoken"
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+global_alloc = { path = "../../crates/alloc" }
+jsonwebtoken = { version = "8.2" }
+napi = { version = "2", default-features = false, features = [
+  "napi3",
+  "serde-json",
+] }
+napi-derive = { version = "2" }
+serde = "1.0"
+serde_json = "1.0"
+rand = "0.8"
+
+[build-dependencies]
+napi-build = "2"
