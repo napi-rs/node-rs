@@ -4,15 +4,13 @@ use napi::{
 };
 use napi_derive::napi;
 
-use crate::salt_task;
-
 pub enum AsyncHashInput {
   String(String),
   Buffer(Ref<JsBufferValue>),
 }
 
 impl AsyncHashInput {
-  #[inline]
+  #[inline(always)]
   pub fn from_either(input: Either<String, JsBuffer>) -> Result<Self> {
     match input {
       Either::A(s) => Ok(Self::String(s)),
@@ -22,7 +20,7 @@ impl AsyncHashInput {
 }
 
 impl AsRef<[u8]> for AsyncHashInput {
-  #[inline]
+  #[inline(always)]
   fn as_ref(&self) -> &[u8] {
     match self {
       Self::String(s) => s.as_bytes(),
@@ -38,10 +36,12 @@ pub struct HashTask {
 }
 
 impl HashTask {
+  #[inline(always)]
   pub fn new(buf: AsyncHashInput, cost: u32, salt: Option<Buffer>) -> HashTask {
     HashTask { buf, cost, salt }
   }
 
+  #[inline(always)]
   pub fn hash(buf: &[u8], salt: [u8; 16], cost: u32) -> Result<String> {
     bcrypt::hash_with_salt(buf, cost, salt)
       .map(|hash_part| hash_part.to_string())
@@ -60,7 +60,7 @@ impl Task for HashTask {
       s.copy_from_slice(salt.as_ref());
       s
     } else {
-      salt_task::gen_salt()
+      rand::random()
     };
     match &self.buf {
       AsyncHashInput::String(s) => Self::hash(s.as_bytes(), salt, self.cost),
@@ -68,10 +68,12 @@ impl Task for HashTask {
     }
   }
 
+  #[inline(always)]
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
     Ok(output)
   }
 
+  #[inline(always)]
   fn finally(&mut self, env: Env) -> Result<()> {
     if let AsyncHashInput::Buffer(buf) = &mut self.buf {
       buf.unref(env)?;

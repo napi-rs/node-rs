@@ -9,11 +9,7 @@ const BASE64_ENCODE_BCRYPT: base64::engine::GeneralPurpose = base64::engine::Gen
   base64::engine::GeneralPurposeConfig::new().with_encode_padding(true),
 );
 
-pub(crate) fn gen_salt() -> [u8; 16] {
-  rand::random()
-}
-
-#[inline]
+#[inline(always)]
 pub(crate) fn format_salt(rounds: u32, version: &Version, salt: &[u8; 16]) -> String {
   let mut base64_string = String::new();
   BASE64_ENCODE_BCRYPT.encode_string(salt, &mut base64_string);
@@ -30,11 +26,13 @@ impl Task for SaltTask {
   type Output = String;
   type JsValue = String;
 
+  #[inline(always)]
   fn compute(&mut self) -> Result<Self::Output> {
-    let random = gen_salt();
+    let random = rand::random();
     Ok(format_salt(self.round, &self.version, &random))
   }
 
+  #[inline(always)]
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
     Ok(output)
   }

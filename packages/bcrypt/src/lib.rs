@@ -11,7 +11,7 @@ use napi_derive::*;
 
 use crate::hash_task::AsyncHashInput;
 use crate::hash_task::HashTask;
-use crate::salt_task::{format_salt, gen_salt};
+use crate::salt_task::format_salt;
 use crate::verify_task::VerifyTask;
 
 mod hash_task;
@@ -23,7 +23,7 @@ pub const DEFAULT_COST: u32 = 12;
 
 #[napi]
 pub fn gen_salt_sync(round: u32, version: String) -> Result<String> {
-  let salt = gen_salt();
+  let salt = rand::random();
   Ok(format_salt(
     round,
     &version_from_str(version.as_str())?,
@@ -55,7 +55,7 @@ pub fn hash_sync(
     s.copy_from_slice(salt.as_ref());
     s
   } else {
-    gen_salt()
+    rand::random()
   };
   match input {
     Either::A(s) => HashTask::hash(s.as_bytes(), salt, cost.unwrap_or(DEFAULT_COST)),
@@ -64,6 +64,7 @@ pub fn hash_sync(
 }
 
 #[napi]
+#[inline(always)]
 pub fn hash(
   input: Either<String, JsBuffer>,
   cost: Option<u32>,
