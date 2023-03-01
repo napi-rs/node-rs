@@ -1,4 +1,3 @@
-use jsonwebtoken;
 use napi::{bindgen_prelude::*, JsBuffer, JsBufferValue, Ref};
 use napi_derive::napi;
 use std::borrow::Borrow;
@@ -66,12 +65,12 @@ pub struct VerifyTask {
 }
 
 impl VerifyTask {
-  pub fn verify(token: &String, key: &[u8], validation: &Validation) -> Result<Claims> {
+  pub fn verify(token: &str, key: &[u8], validation: &Validation) -> Result<Claims> {
     let validation: &jsonwebtoken::Validation = &validation.borrow().into();
 
     let first_alg = validation.algorithms.first().ok_or(Error::new(
       Status::InvalidArg,
-      format!("Validation `algorithms` should contain at least one valid algorithm"),
+      "Validation `algorithms` should contain at least one valid algorithm".to_string(),
     ))?;
     let verify_key = &into_decoding_key(key, first_alg)?;
 
@@ -87,7 +86,7 @@ impl Task for VerifyTask {
   type JsValue = Claims;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    VerifyTask::verify(&self.token, &self.key.as_ref(), &self.validation)
+    VerifyTask::verify(&self.token, self.key.as_ref(), &self.validation)
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {

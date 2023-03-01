@@ -57,7 +57,7 @@ pub struct Header {
 impl From<&Header> for jsonwebtoken::Header {
   #[inline]
   fn from(value: &Header) -> Self {
-    let header = jsonwebtoken::Header {
+    jsonwebtoken::Header {
       typ: Some(String::from("JWT")),
       alg: value.algorithm.unwrap_or(Algorithm::ES256).into(),
       cty: value.content_type.clone(),
@@ -69,9 +69,7 @@ impl From<&Header> for jsonwebtoken::Header {
       x5t_s256: value.x5t_s256_cert_thumbprint.clone(),
       // TODO: support jwk
       jwk: None,
-    };
-
-    header
+    }
   }
 }
 
