@@ -1,0 +1,29 @@
+{
+  "name": "@node-rs/jsonwebtoken-linux-arm-gnueabihf",
+  "version": "0.1.0",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "main": "jsonwebtoken.linux-arm-gnueabihf.node",
+  "files": [
+    "jsonwebtoken.linux-arm-gnueabihf.node"
+  ],
+  "description": "Rust jsonwebtoken binding for Node.js",
+  "keywords": [
+    "jsonwebtoken",
+    "jwt",
+    "napi-rs",
+    "node-rs"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}

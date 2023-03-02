@@ -91,7 +91,7 @@ jobs:
               yarn lerna exec "yarn build --target aarch64-unknown-linux-musl" --concurrency 1 --stream --no-prefix
           - host: windows-latest
             target: 'aarch64-pc-windows-msvc'
-            build: yarn lerna exec "yarn build --target aarch64-pc-windows-msvc" --concurrency 1 --stream --no-prefix
+            build: yarn lerna exec "yarn build --target aarch64-pc-windows-msvc" --ignore @node-rs/jsonwebtoken --concurrency 1 --stream --no-prefix
 
     name: stable - ${{ matrix.settings.target }} - node@18
     runs-on: ${{ matrix.settings.host }}
@@ -111,7 +111,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
         with:
-          toolchain: nightly-2023-01-11
+          toolchain: nightly-2023-03-01
           targets: ${{ matrix.settings.target }}
 
       - name: Cache cargo registry
@@ -132,7 +132,7 @@ jobs:
       - uses: goto-bus-stop/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
         with:
-          version: 0.10.0
+          version: 0.10.1
 
       - name: Setup node x86
         if: matrix.settings.target == 'i686-pc-windows-msvc'
@@ -276,6 +276,7 @@ jobs:
           yarn test packages/bcrypt
           yarn test packages/crc32
           yarn test packages/jieba
+          yarn test packages/jsonwebtoken
           yarn test packages/xxhash
 
   test-linux-x64-gnu-binding:
