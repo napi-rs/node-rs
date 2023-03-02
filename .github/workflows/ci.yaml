@@ -91,7 +91,7 @@ jobs:
               yarn lerna exec "yarn build --target aarch64-unknown-linux-musl" --concurrency 1 --stream --no-prefix
           - host: windows-latest
             target: 'aarch64-pc-windows-msvc'
-            build: yarn lerna exec "yarn build --target aarch64-pc-windows-msvc" --concurrency 1 --stream --no-prefix
+            build: yarn lerna exec "yarn build --target aarch64-pc-windows-msvc" --ignore @node-rs/jsonwebtoken --concurrency 1 --stream --no-prefix
 
     name: stable - ${{ matrix.settings.target }} - node@18
     runs-on: ${{ matrix.settings.host }}

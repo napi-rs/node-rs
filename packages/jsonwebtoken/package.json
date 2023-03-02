@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jsonwebtoken",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Rust jsonwebtoken binding for Node.js",
   "main": "index.js",
   "types": "index.d.ts",
@@ -25,7 +25,6 @@
         "aarch64-linux-android",
         "aarch64-unknown-linux-gnu",
         "aarch64-unknown-linux-musl",
-        "aarch64-pc-windows-msvc",
         "armv7-unknown-linux-gnueabihf",
         "x86_64-unknown-linux-musl",
         "x86_64-unknown-freebsd",
@@ -44,7 +43,11 @@
     "napi-rs",
     "node-rs"
   ],
-  "author": "Francesco Benedetto",
+  "author": {
+    "name": "Francesco Benedetto",
+    "url": "https://github.com/nebarf",
+    "email": "francesco.benedetto263@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
