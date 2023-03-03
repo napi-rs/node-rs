@@ -89,6 +89,7 @@ pub struct Options {
   pub algorithm: Option<Algorithm>,
   pub version: Option<Version>,
   pub secret: Option<Buffer>,
+  pub salt: Option<Buffer>,
 }
 
 impl Options {
@@ -121,7 +122,12 @@ impl Task for HashTask {
   type JsValue = String;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let salt = SaltString::generate(&mut OsRng);
+    let salt: SaltString;
+    if let Some(provided_salt) = &self.options.salt {
+      salt = SaltString::new(std::str::from_utf8(provided_salt.as_ref()).unwrap()).unwrap()
+    } else {
+      salt = SaltString::generate(&mut OsRng);
+    }
     let hasher = self.options.to_argon();
     hasher
       .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
@@ -181,7 +187,12 @@ impl Task for RawHashTask {
   type JsValue = Buffer;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let salt = SaltString::generate(&mut OsRng);
+    let salt: SaltString;
+    if let Some(provided_salt) = &self.options.salt {
+      salt = SaltString::new(std::str::from_utf8(provided_salt.as_ref()).unwrap()).unwrap()
+    } else {
+      salt = SaltString::generate(&mut OsRng);
+    }
     let hasher = self
       .options
       .to_argon()

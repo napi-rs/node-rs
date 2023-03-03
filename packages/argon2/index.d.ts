@@ -64,6 +64,7 @@ export interface Options {
   algorithm?: Algorithm
   version?: Version
   secret?: Buffer
+  salt?: Buffer
 }
 export function hash(
   password: string | Buffer,

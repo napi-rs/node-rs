@@ -43,6 +43,16 @@ test('should be able to hash string', async (t) => {
   )
 })
 
+test('should be able to hash string with a defined salt', async (t) => {
+  await t.notThrowsAsync(() => hash('whatever'))
+  await t.notThrowsAsync(() =>
+    hash('whatever', {
+      secret: randomBytes(32),
+      salt: randomBytes(32),
+    }),
+  )
+})
+
 test('should be able to verify hashed string', async (t) => {
   const PASSWORD = 'Argon2_is_the_best_algorithm_ever'
   t.true(await verify(await hash(PASSWORD), PASSWORD))
@@ -88,7 +98,7 @@ test('should return memoryCost error', async (t) => {
     }),
   )
 
-  t.is(error.message, 'memory cost is too small')
+  t.is(error?.message, 'memory cost is too small')
 })
 
 test('should return timeCost error', async (t) => {
@@ -98,7 +108,7 @@ test('should return timeCost error', async (t) => {
     }),
   )
 
-  t.is(error.message, 'time cost is too small')
+  t.is(error?.message, 'time cost is too small')
 })
 
 test('should return parallelism error', async (t) => {
@@ -109,5 +119,5 @@ test('should return parallelism error', async (t) => {
     }),
   )
 
-  t.is(error.message, 'not enough threads')
+  t.is(error?.message, 'not enough threads')
 })
