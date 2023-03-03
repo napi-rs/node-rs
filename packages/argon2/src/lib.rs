@@ -122,12 +122,8 @@ impl Task for HashTask {
   type JsValue = String;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let salt: SaltString;
-    if let Some(provided_salt) = &self.options.salt {
-      salt = SaltString::new(std::str::from_utf8(provided_salt.as_ref()).unwrap()).unwrap()
-    } else {
-      salt = SaltString::generate(&mut OsRng);
-    }
+    let salt = SaltString::generate(&mut OsRng);
+
     let hasher = self.options.to_argon();
     hasher
       .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
@@ -187,11 +183,12 @@ impl Task for RawHashTask {
   type JsValue = Buffer;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let salt: SaltString;
+    let generated_salt = SaltString::generate(&mut OsRng);
+    let salt: &[u8];
     if let Some(provided_salt) = &self.options.salt {
-      salt = SaltString::new(std::str::from_utf8(provided_salt.as_ref()).unwrap()).unwrap()
+      salt = provided_salt.as_ref()
     } else {
-      salt = SaltString::generate(&mut OsRng);
+      salt = generated_salt.as_bytes();
     }
     let hasher = self
       .options
@@ -204,7 +201,7 @@ impl Task for RawHashTask {
     let mut output = vec![0; output_len];
 
     hasher
-      .hash_password_into(self.password.as_slice(), salt.as_bytes(), &mut output)
+      .hash_password_into(self.password.as_slice(), salt, &mut output)
       .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
       .map(|_| output)
   }

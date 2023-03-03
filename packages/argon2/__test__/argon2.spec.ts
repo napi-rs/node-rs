@@ -2,7 +2,7 @@ import { randomBytes } from 'crypto'
 
 import test from 'ava'
 
-import { Algorithm, hash, verify, Version } from '../index.js'
+import { Algorithm, hash, hashRaw, verify, Version } from '../index.js'
 
 const passwordString = 'some_string123'
 const passwordBuffer = Buffer.from(passwordString)
@@ -43,10 +43,10 @@ test('should be able to hash string', async (t) => {
   )
 })
 
-test('should be able to hash string with a defined salt', async (t) => {
+test('should be able to hashRaw string with a defined salt', async (t) => {
   await t.notThrowsAsync(() => hash('whatever'))
   await t.notThrowsAsync(() =>
-    hash('whatever', {
+    hashRaw('whatever', {
       secret: randomBytes(32),
       salt: randomBytes(32),
     }),
