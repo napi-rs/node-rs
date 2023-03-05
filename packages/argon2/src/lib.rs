@@ -183,13 +183,6 @@ impl Task for RawHashTask {
   type JsValue = Buffer;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let generated_salt = SaltString::generate(&mut OsRng);
-    let salt: &[u8];
-    if let Some(provided_salt) = &self.options.salt {
-      salt = provided_salt.as_ref()
-    } else {
-      salt = generated_salt.as_bytes();
-    }
     let hasher = self
       .options
       .to_argon()
@@ -200,10 +193,19 @@ impl Task for RawHashTask {
       .unwrap_or(Params::DEFAULT_OUTPUT_LEN);
     let mut output = vec![0; output_len];
 
-    hasher
-      .hash_password_into(self.password.as_slice(), salt, &mut output)
-      .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
-      .map(|_| output)
+    match &self.options.salt {
+      Some(buf) => hasher.hash_password_into(self.password.as_slice(), buf.as_ref(), &mut output),
+      None => {
+        let generated_salt = SaltString::generate(&mut OsRng);
+        hasher.hash_password_into(
+          self.password.as_slice(),
+          generated_salt.as_bytes(),
+          &mut output,
+        )
+      }
+    }
+    .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
+    .map(|_| output)
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
