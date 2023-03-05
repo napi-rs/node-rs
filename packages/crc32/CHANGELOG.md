@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.6.0...@node-rs/crc32@1.6.1) (2023-03-05)
+
+**Note:** Version bump only for package @node-rs/crc32
+
 # [1.6.0](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.5.1...@node-rs/crc32@1.6.0) (2023-01-11)
 
 ### Features

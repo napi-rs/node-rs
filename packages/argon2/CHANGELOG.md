@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/napi-rs/node-rs/compare/@node-rs/argon2@1.3.0...@node-rs/argon2@1.4.0) (2023-03-05)
+
+### Features
+
+- **argon2:** support salt input on Argon2 ([#660](https://github.com/napi-rs/node-rs/issues/660)) ([ca0c191](https://github.com/napi-rs/node-rs/commit/ca0c191f62b76c31dc178e00917c308dd1b423c8))
+
 # [1.3.0](https://github.com/napi-rs/node-rs/compare/@node-rs/argon2@1.2.0...@node-rs/argon2@1.3.0) (2023-01-11)
 
 ### Features

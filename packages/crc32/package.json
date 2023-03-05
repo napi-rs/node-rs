@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "SIMD crc32",
   "keywords": [
     "SIMD",
