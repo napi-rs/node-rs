@@ -6,7 +6,7 @@
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "module": "CommonJS",
     "moduleResolution": "node",
     "newLine": "LF",
