@@ -10,9 +10,9 @@
     "packages/*"
   ],
   "scripts": {
-    "artifacts": "lerna run artifacts",
+    "artifacts": "yarn workspaces foreach --no-private run artifacts",
     "bench": "lerna run bench --concurrency 1 --stream --no-prefix",
-    "build": "lerna run build --concurrency 1 --stream --no-prefix",
+    "build": "yarn workspaces foreach --no-private -j 1 run build",
     "build:ts": "tsc -b tsconfig.project.json -verbose",
     "lint": "eslint . -c ./.eslintrc.yml \"packages/**/*.{ts,js}\"",
     "test": "ava",
