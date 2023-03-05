@@ -2,7 +2,7 @@ import { randomBytes } from 'crypto'
 
 import test from 'ava'
 
-import { Algorithm, hash, verify, Version } from '../index.js'
+import { Algorithm, hash, hashRaw, verify, Version } from '../index.js'
 
 const passwordString = 'some_string123'
 const passwordBuffer = Buffer.from(passwordString)
@@ -39,6 +39,16 @@ test('should be able to hash string', async (t) => {
   await t.notThrowsAsync(() =>
     hash('whatever', {
       secret: randomBytes(32),
+    }),
+  )
+})
+
+test('should be able to hashRaw string with a defined salt', async (t) => {
+  await t.notThrowsAsync(() => hash('whatever'))
+  await t.notThrowsAsync(() =>
+    hashRaw('whatever', {
+      secret: randomBytes(32),
+      salt: randomBytes(32),
     }),
   )
 })
@@ -88,7 +98,7 @@ test('should return memoryCost error', async (t) => {
     }),
   )
 
-  t.is(error.message, 'memory cost is too small')
+  t.is(error?.message, 'memory cost is too small')
 })
 
 test('should return timeCost error', async (t) => {
@@ -98,7 +108,7 @@ test('should return timeCost error', async (t) => {
     }),
   )
 
-  t.is(error.message, 'time cost is too small')
+  t.is(error?.message, 'time cost is too small')
 })
 
 test('should return parallelism error', async (t) => {
@@ -109,5 +119,5 @@ test('should return parallelism error', async (t) => {
     }),
   )
 
-  t.is(error.message, 'not enough threads')
+  t.is(error?.message, 'not enough threads')
 })
