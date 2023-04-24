@@ -58,8 +58,8 @@
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
     "bench": "cross-env NODE_ENV=production node benchmark/bcrypt.js",
-    "build": "napi build --platform --release --js binding.js --dts binding.d.ts --pipe \"prettier -w\"",
-    "build:debug": "napi build --platform --pipe \"prettier -w\"",
+    "build": "napi build --platform --release --js binding.js --dts binding.d.ts",
+    "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish",
     "version": "napi version"
   },
@@ -69,7 +69,8 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.1.0",
-    "bcryptjs": "^2.4.3"
+    "bcryptjs": "^2.4.3",
+    "cross-env": "^7.0.3"
   },
   "funding": {
     "type": "github",

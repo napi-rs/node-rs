@@ -1,15 +1,15 @@
 [package]
 edition = "2021"
-name = "node-rs_argon2"
+name    = "node-rs_argon2"
 version = "0.0.0"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-argon2 = { version = "0.4", features = ["parallel"] }
-napi = { version = "2", default-features = false, features = ["napi3"] }
+argon2 = "0.5"
 global_alloc = { path = "../../crates/alloc" }
+napi = { version = "2", default-features = false, features = ["napi3"] }
 napi-derive = { version = "2", default-features = false, features = [
   "type-def",
 ] }

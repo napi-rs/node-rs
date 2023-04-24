@@ -1,3 +1,4 @@
+use base64::engine::Engine;
 use getrandom::getrandom;
 use napi::{Env, Error, Result, Status, Task};
 use napi_derive::napi;
@@ -16,14 +17,11 @@ pub(crate) fn gen_salt() -> bcrypt::BcryptResult<[u8; 16]> {
 #[inline]
 pub(crate) fn format_salt(rounds: u32, version: &Version, salt: &[u8; 16]) -> String {
   let mut base64_string = String::new();
-  base64::encode_engine_string(
-    salt,
-    &mut base64_string,
-    &base64::engine::fast_portable::FastPortable::from(
-      &base64::alphabet::BCRYPT,
-      base64::engine::fast_portable::PAD,
-    ),
+  let engine = base64::engine::general_purpose::GeneralPurpose::new(
+    &base64::alphabet::BCRYPT,
+    base64::engine::general_purpose::PAD,
   );
+  engine.encode_string(salt, &mut base64_string);
   format!("${version}${rounds:0>2}${base64_string}")
 }
 

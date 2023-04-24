@@ -199,7 +199,7 @@ impl Task for RawHashTask {
         let generated_salt = SaltString::generate(&mut OsRng);
         hasher.hash_password_into(
           self.password.as_slice(),
-          generated_salt.as_bytes(),
+          generated_salt.as_str().as_bytes(),
           &mut output,
         )
       }
