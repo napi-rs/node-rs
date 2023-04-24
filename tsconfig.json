@@ -16,8 +16,6 @@
     "removeComments": true,
     "strict": true,
     "skipLibCheck": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "suppressExcessPropertyErrors": true,
     "forceConsistentCasingInFileNames": true,
     "target": "ES2018",
     "inlineSourceMap": true,
