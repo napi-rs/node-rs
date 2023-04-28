@@ -43,15 +43,13 @@ export function compare(password: string | Buffer, hash: string | Buffer): Promi
 
 export type Version = '2a' | '2x' | '2y' | '2b'
 /**
- * @param round default 10
  * @param version default '2b'
  */
-export function genSaltSync(round?: number, version?: Version): string
+export function genSaltSync(round: number, version?: Version): string
 /**
- * @param round default 10
  * @param version default '2b'
  */
-export function genSalt(round?: number, version?: Version): Promise<string>
+export function genSalt(round: number, version?: Version): Promise<string>
 ```
 
 ## Bench
