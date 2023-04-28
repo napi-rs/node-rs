@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba",
-  "version": "1.6.2",
+  "version": "1.7.0",
   "description": "Fastest Chinese word segmentation in Node.js",
   "keywords": [
     "Jieba",

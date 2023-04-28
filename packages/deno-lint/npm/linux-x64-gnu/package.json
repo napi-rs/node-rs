@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-linux-x64-gnu",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "os": [
     "linux"
   ],

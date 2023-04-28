@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/argon2-freebsd-x64",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "os": [
     "freebsd"
   ],

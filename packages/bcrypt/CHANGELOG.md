@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.6.2...@node-rs/bcrypt@1.7.0) (2023-04-28)
+
+### Bug Fixes
+
+- **bcrypt:** version of genSalt should be optional ([dc3700b](https://github.com/napi-rs/node-rs/commit/dc3700b8bce3ead87d3c2767ebd64ec3f6c0605d))
+- **deps:** update rust crate bcrypt to 0.14 ([#669](https://github.com/napi-rs/node-rs/issues/669)) ([271667b](https://github.com/napi-rs/node-rs/commit/271667be374712518f04713c568d46271e9160a8))
+
+### Features
+
+- upgrade dependencies ([a0ef7de](https://github.com/napi-rs/node-rs/commit/a0ef7deb79e15dbe860c02fca21bc00dbc80de00))
+
 ## [1.6.2](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.6.1...@node-rs/bcrypt@1.6.2) (2023-01-11)
 
 **Note:** Version bump only for package @node-rs/bcrypt

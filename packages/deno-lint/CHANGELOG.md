@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.17.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.16.0...@node-rs/deno-lint@1.17.0) (2023-04-28)
+
+### Bug Fixes
+
+- **deps:** update deno-lint ([#666](https://github.com/napi-rs/node-rs/issues/666)) ([0f09669](https://github.com/napi-rs/node-rs/commit/0f09669e4b05a18264ae69e0593ca211376b83f7))
+- **deps:** update deno-lint ([#672](https://github.com/napi-rs/node-rs/issues/672)) ([66d56e4](https://github.com/napi-rs/node-rs/commit/66d56e48d4dd2b28e5aa13857e87d73a6db21b8d))
+- **deps:** update rust crate deno_lint to v0.45.0 ([db9cac4](https://github.com/napi-rs/node-rs/commit/db9cac405bd0405a80a471f00a165b161604baa4))
+
+### Features
+
+- upgrade dependencies ([a0ef7de](https://github.com/napi-rs/node-rs/commit/a0ef7deb79e15dbe860c02fca21bc00dbc80de00))
+
 # [1.16.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.15.0...@node-rs/deno-lint@1.16.0) (2023-03-05)
 
 ### Features
