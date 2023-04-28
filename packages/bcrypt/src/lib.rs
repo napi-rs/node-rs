@@ -22,29 +22,25 @@ mod verify_task;
 pub const DEFAULT_COST: u32 = 12;
 
 #[napi]
-pub fn gen_salt_sync(round: u32, version: String) -> Result<String> {
+pub fn gen_salt_sync(round: u32, version: Option<String>) -> Result<String> {
   let salt = gen_salt().map_err(|err| {
     Error::new(
       Status::GenericFailure,
       format!("Generate salt failed {err}"),
     )
   })?;
-  Ok(format_salt(
-    round,
-    &version_from_str(version.as_str())?,
-    &salt,
-  ))
+  Ok(format_salt(round, &version_from_str(version)?, &salt))
 }
 
 #[napi(js_name = "genSalt")]
 pub fn gen_salt_js(
   round: u32,
-  version: String,
+  version: Option<String>,
   signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<salt_task::SaltTask>> {
   let task = salt_task::SaltTask {
     round,
-    version: version_from_str(version.as_str())?,
+    version: version_from_str(version)?,
   };
   Ok(AsyncTask::with_optional_signal(task, signal))
 }
@@ -119,13 +115,13 @@ pub fn verify(
 }
 
 #[inline]
-fn version_from_str(version: &str) -> Result<Version> {
-  match version {
-    "2a" => Ok(Version::TwoA),
-    "2b" => Ok(Version::TwoB),
-    "2y" => Ok(Version::TwoX),
-    "2x" => Ok(Version::TwoY),
-    _ => Err(Error::new(
+fn version_from_str(version: Option<String>) -> Result<Version> {
+  match version.as_deref() {
+    Some("2a") => Ok(Version::TwoA),
+    Some("2b") | None => Ok(Version::TwoB),
+    Some("2y") => Ok(Version::TwoX),
+    Some("2x") => Ok(Version::TwoY),
+    Some(version) => Err(Error::new(
       Status::InvalidArg,
       format!("{version} is not a valid version"),
     )),
