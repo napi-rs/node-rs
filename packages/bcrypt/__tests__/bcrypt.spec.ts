@@ -1,12 +1,30 @@
 import test from 'ava'
 
-import { verifySync, compareSync, verify, compare, hash } from '../index'
+import { verifySync, compareSync, verify, compare, hash, genSaltSync, genSalt } from '../index'
 
 const { hashSync } = require('bcryptjs')
 
 const fx = Buffer.from('bcrypt-test-password')
 
 const hashedPassword = hashSync(fx.toString('utf8'), 10)
+
+test('genSaltSync should return a string', (t) => {
+  t.is(typeof genSaltSync(10), 'string')
+  t.is(typeof genSaltSync(10, '2a'), 'string')
+  t.is(typeof genSaltSync(10, '2b'), 'string')
+  t.is(typeof genSaltSync(10, '2y'), 'string')
+  t.is(typeof genSaltSync(10, '2x'), 'string')
+  t.throws(() => genSaltSync(10, 'invalid' as any))
+})
+
+test('genSalt should return a string', async (t) => {
+  t.is(typeof (await genSalt(10)), 'string')
+  t.is(typeof (await genSalt(10, '2a')), 'string')
+  t.is(typeof (await genSalt(10, '2b')), 'string')
+  t.is(typeof (await genSalt(10, '2y')), 'string')
+  t.is(typeof (await genSalt(10, '2x')), 'string')
+  await t.throwsAsync(async () => genSalt(10, 'invalid' as any))
+})
 
 test('verifySync hashed password from bcrypt should be true', (t) => {
   t.true(verifySync(fx, hashedPassword))

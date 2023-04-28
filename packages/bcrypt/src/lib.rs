@@ -21,7 +21,7 @@ mod verify_task;
 #[napi]
 pub const DEFAULT_COST: u32 = 12;
 
-#[napi]
+#[napi(ts_args_type = "round: number, version?: '2a' | '2x' | '2y' | '2b'")]
 pub fn gen_salt_sync(round: u32, version: Option<String>) -> Result<String> {
   let salt = gen_salt().map_err(|err| {
     Error::new(
@@ -32,7 +32,10 @@ pub fn gen_salt_sync(round: u32, version: Option<String>) -> Result<String> {
   Ok(format_salt(round, &version_from_str(version)?, &salt))
 }
 
-#[napi(js_name = "genSalt")]
+#[napi(
+  js_name = "genSalt",
+  ts_args_type = "round: number, version?: '2a' | '2x' | '2y' | '2b', signal?: AbortSignal"
+)]
 pub fn gen_salt_js(
   round: u32,
   version: Option<String>,
@@ -119,8 +122,8 @@ fn version_from_str(version: Option<String>) -> Result<Version> {
   match version.as_deref() {
     Some("2a") => Ok(Version::TwoA),
     Some("2b") | None => Ok(Version::TwoB),
-    Some("2y") => Ok(Version::TwoX),
-    Some("2x") => Ok(Version::TwoY),
+    Some("2x") => Ok(Version::TwoX),
+    Some("2y") => Ok(Version::TwoY),
     Some(version) => Err(Error::new(
       Status::InvalidArg,
       format!("{version} is not a valid version"),
