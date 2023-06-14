@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-win32-arm64-msvc",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "os": [
     "win32"
   ],
