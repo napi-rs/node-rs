@@ -30,7 +30,7 @@ export const enum Algorithm {
   EdDSA = 11,
 }
 export interface Claims {
-  data: Record<string, any>
+  data?: Record<string, any>
   aud?: string
   exp?: Number
   iat?: Number
