@@ -5,7 +5,8 @@ use serde_json::{Map, Number, Value};
 #[napi(object)]
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
-  pub data: Map<String, Value>,
+  #[serde(skip_serializing_if = "Option::is_none")]
+  pub data: Option<Map<String, Value>>,
   // Recipient for which the JWT is intended
   #[serde(skip_serializing_if = "Option::is_none")]
   pub aud: Option<String>,
@@ -49,7 +50,7 @@ impl Default for Claims {
   #[inline]
   fn default() -> Self {
     Self {
-      data: Map::new(),
+      data: Some(Map::new()),
       aud: None,
       exp: None,
       iat: Some(jsonwebtoken::get_current_timestamp().into()),
