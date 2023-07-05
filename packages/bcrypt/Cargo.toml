@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 base64       = { version = "0.21" }
-bcrypt       = "0.14"
+bcrypt       = "0.15"
 blowfish     = { version = "0.9", features = ["bcrypt"] }
 getrandom    = "0.2"
 global_alloc = { path = "../../crates/alloc" }
