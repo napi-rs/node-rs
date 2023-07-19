@@ -11,6 +11,7 @@ members = [
   "./packages/jsonwebtoken",
   "./packages/xxhash",
 ]
+resolver = "2"
 
 [profile.release]
 codegen-units   = 1
