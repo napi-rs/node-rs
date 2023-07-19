@@ -54,6 +54,7 @@
     "version": "napi version"
   },
   "devDependencies": {
+    "@napi-rs/cli": "2.16.2",
     "argon2": "^0.30.3",
     "cross-env": "^7.0.3"
   }

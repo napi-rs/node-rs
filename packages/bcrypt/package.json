@@ -67,6 +67,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "devDependencies": {
+    "@napi-rs/cli": "2.16.2",
     "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",

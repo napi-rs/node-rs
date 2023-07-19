@@ -61,7 +61,8 @@
     "node": ">= 10"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.1",
-    "jsonwebtoken": "^9.0.0"
+    "@napi-rs/cli": "2.16.2",
+    "@types/jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^9.0.1"
   }
 }

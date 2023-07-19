@@ -2,9 +2,12 @@ name: CI
 env:
   DEBUG: 'napi:*'
   MACOSX_DEPLOYMENT_TARGET: '10.13'
-  NODE_OPTIONS: '--max-old-space-size=3072'
   CARGO_UNSTABLE_TARGET_APPLIES_TO_HOST: true
   CARGO_TARGET_APPLIES_TO_HOST: false
+
+permissions:
+  contents: write
+  id-token: write
 
 on:
   push:
@@ -32,7 +35,7 @@ jobs:
             target: 'x86_64-pc-windows-msvc'
           - host: windows-latest
             build: |
-              yarn lerna exec "yarn build --target i686-pc-windows-msvc" --concurrency 1 --stream --no-prefix
+              yarn build --target i686-pc-windows-msvc
               yarn test -s
             target: 'i686-pc-windows-msvc'
           - host: ubuntu-latest
@@ -41,7 +44,7 @@ jobs:
             build: >-
               set -e &&
               rustup target add x86_64-unknown-linux-gnu &&
-              yarn lerna exec "yarn build --target x86_64-unknown-linux-gnu" --concurrency 1 --stream --no-prefix &&
+              yarn build --target x86_64-unknown-linux-gnu &&
               strip packages/*/*.node
           - host: ubuntu-latest
             target: 'x86_64-unknown-linux-musl'
@@ -55,31 +58,31 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              yarn lerna exec "yarn build --target aarch64-apple-darwin" --concurrency 1 --stream --no-prefix
+              yarn build --target aarch64-apple-darwin
               strip -x packages/*/*.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
             build: >-
               rustup target add aarch64-unknown-linux-gnu &&
-              yarn lerna exec "yarn build --target aarch64-unknown-linux-gnu" --concurrency 1 --stream --no-prefix &&
+              yarn build --target aarch64-unknown-linux-gnu &&
               llvm-strip packages/*/*.node
           - host: ubuntu-latest
             target: 'armv7-unknown-linux-gnueabihf'
             setup: |
               sudo apt-get update
               sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
-            build: yarn lerna exec "yarn build --target armv7-unknown-linux-gnueabihf" --concurrency 1 --stream --no-prefix
+            build: yarn build --target armv7-unknown-linux-gnueabihf
           - host: ubuntu-latest
             target: aarch64-linux-android
             build: |
-              yarn lerna exec "yarn build --target aarch64-linux-android" --concurrency 1 --stream --no-prefix
+              yarn build --target aarch64-linux-android
               ${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip packages/*/*.node
           - host: ubuntu-latest
             architecture: x64
             target: armv7-linux-androideabi
             build: |
-              yarn lerna exec "yarn build --target armv7-linux-androideabi" --concurrency 1 --stream --no-prefix
+              yarn build --target armv7-linux-androideabi
               ${ANDROID_NDK_LATEST_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip packages/*/*.node
           - host: ubuntu-latest
             target: 'aarch64-unknown-linux-musl'
@@ -88,10 +91,12 @@ jobs:
             build: >-
               set -e &&
               rustup target add aarch64-unknown-linux-musl &&
-              yarn lerna exec "yarn build --target aarch64-unknown-linux-musl" --concurrency 1 --stream --no-prefix
+              yarn build --target aarch64-unknown-linux-musl
           - host: windows-latest
             target: 'aarch64-pc-windows-msvc'
-            build: yarn lerna exec "yarn build --target aarch64-pc-windows-msvc" --ignore @node-rs/jsonwebtoken --concurrency 1 --stream --no-prefix
+            build: |
+              npm i -g @napi-rs/cli
+              yarn workspaces foreach --no-private -j 1 --exclude @node-rs/jsonwebtoken run build --target aarch64-pc-windows-msvc
 
     name: stable - ${{ matrix.settings.target }} - node@18
     runs-on: ${{ matrix.settings.host }}
@@ -104,14 +109,13 @@ jobs:
         if: ${{ !matrix.settings.docker }}
         with:
           node-version: 18
-          check-latest: true
           cache: yarn
 
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
         with:
-          toolchain: nightly-2023-04-23
+          toolchain: nightly-2023-07-19
           targets: ${{ matrix.settings.target }}
 
       - name: Cache cargo registry
@@ -158,7 +162,6 @@ jobs:
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 18
-          check-latest: true
           cache: yarn
           architecture: x86
 
@@ -192,9 +195,7 @@ jobs:
           usesh: true
           mem: 3000
           prepare: |
-            pkg install -y -f curl node libnghttp2
-            curl -qL https://www.npmjs.com/install.sh | sh
-            npm install --location=global --ignore-scripts yarn
+            pkg install -y -f curl node libnghttp2 npm yarn
             curl https://sh.rustup.rs -sSf --output rustup.sh
             sh rustup.sh -y --profile minimal --default-toolchain stable
             export PATH="/usr/local/cargo/bin:$PATH"
@@ -239,7 +240,7 @@ jobs:
             target: 'x86_64-apple-darwin'
           - host: windows-latest
             target: 'x86_64-pc-windows-msvc'
-        node: ['14', '16', '18']
+        node: ['16', '18']
     runs-on: ${{ matrix.settings.host }}
 
     steps:
@@ -251,7 +252,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-          check-latest: true
           cache: yarn
 
       - name: Install dependencies
@@ -286,7 +286,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['14', '16', '18']
+        node: ['16', '18']
     runs-on: ubuntu-latest
 
     steps:
@@ -296,7 +296,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-          check-latest: true
           cache: yarn
 
       - name: Install dependencies
@@ -325,7 +324,6 @@ jobs:
           image: node:${{ matrix.node }}-slim
           options: -v ${{ github.workspace }}:/build -w /build
           run: |
-            yarn lerna link
             yarn test
 
   test-linux-x64-centos-7:
@@ -364,7 +362,6 @@ jobs:
 
       - name: Test bindings
         run: |
-          yarn lerna link
           yarn test -s
 
   test-linux-x64-musl-binding:
@@ -374,7 +371,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['14', '16', '18']
+        node: ['16', '18']
     runs-on: ubuntu-latest
 
     steps:
@@ -384,7 +381,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-          check-latest: true
           cache: yarn
 
       - name: Install dependencies
@@ -415,7 +411,6 @@ jobs:
           image: node:${{ matrix.node }}-alpine
           options: -v ${{ github.workspace }}:/build -w /build
           run: |
-            yarn lerna link
             yarn test
 
   test-linux-aarch64-gnu-binding:
@@ -425,12 +420,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['14', '16', '18']
+        node: ['16', '18']
     runs-on: ubuntu-latest
 
     steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-
       - uses: actions/checkout@v3
 
       - name: Download artifacts
@@ -453,11 +446,17 @@ jobs:
         run: ls -R packages
         shell: bash
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
+      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
-          image: ghcr.io/napi-rs/napi-rs/nodejs:aarch64-${{ matrix.node }}
-          options: -v ${{ github.workspace }}:/build -w /build
+          image: node:${{ matrix.node }}-slim
+          options: --platform linux/arm64 -v ${{ github.workspace }}:/build -w /build
           run: |
             set -e
             yarn build:ts
@@ -472,8 +471,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-
       - uses: actions/checkout@v3
 
       - name: Install dependencies
@@ -496,14 +493,19 @@ jobs:
         run: ls -R packages
         shell: bash
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
+      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
-          image: multiarch/alpine:aarch64-latest-stable
-          options: -v ${{ github.workspace }}:/build -w /build
+          image: node:lts-alpine
+          options: --platform linux/arm64 -v ${{ github.workspace }}:/build -w /build
           run: |
             set -e
-            apk add nodejs npm yarn
             yarn build:ts
             yarn test
 
@@ -514,12 +516,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['14', '16', '18']
+        node: ['16', '18']
     runs-on: ubuntu-latest
 
     steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-
       - uses: actions/checkout@v3
 
       - name: Install dependencies
@@ -541,11 +541,17 @@ jobs:
         run: ls -R ./packages
         shell: bash
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm
+      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
-          image: ghcr.io/napi-rs/napi-rs/nodejs:armhf-${{ matrix.node }}
-          options: -v ${{ github.workspace }}:/build -w /build
+          image: node:${{ matrix.node }}-bullseye-slim
+          options: --platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build
           run: |
             set -e
             yarn build:ts
@@ -598,6 +604,7 @@ jobs:
       - name: Lerna publish
         if: "startsWith(github.event.head_commit.message, 'chore(release): publish')"
         run: |
+          npm config set provenance true
           find ./packages/ -type d -maxdepth 1 -exec cp LICENSE {} \;
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
           yarn lerna publish from-package --no-verify-access --yes
