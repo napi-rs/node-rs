@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/napi-rs/node-rs/compare/@node-rs/jieba@1.7.0...@node-rs/jieba@1.7.1) (2023-07-20)
+
+### Bug Fixes
+
+- **bcrypt:** type ([a7b33e2](https://github.com/napi-rs/node-rs/commit/a7b33e2e9eee498a25bea34d6d95930d91aa7fd7))
+
 # [1.7.0](https://github.com/napi-rs/node-rs/compare/@node-rs/jieba@1.6.2...@node-rs/jieba@1.7.0) (2023-04-28)
 
 ### Features

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/napi-rs/node-rs/compare/@node-rs/jsonwebtoken@0.2.0...@node-rs/jsonwebtoken@0.2.2) (2023-07-20)
+
+### Bug Fixes
+
+- **bcrypt:** type ([a7b33e2](https://github.com/napi-rs/node-rs/commit/a7b33e2e9eee498a25bea34d6d95930d91aa7fd7))
+- **jsonwebtoken:** make Claims.data optional ([08bb37f](https://github.com/napi-rs/node-rs/commit/08bb37fea139a5cceee2088e7a6595aeaae2b525))
+
 ## [0.2.1](https://github.com/napi-rs/node-rs/compare/@node-rs/jsonwebtoken@0.2.0...@node-rs/jsonwebtoken@0.2.1) (2023-06-14)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt-darwin-x64",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "os": [
     "darwin"
   ],

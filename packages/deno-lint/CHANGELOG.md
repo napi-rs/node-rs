@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.17.2](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.17.0...@node-rs/deno-lint@1.17.2) (2023-07-20)
+
+### Bug Fixes
+
+- **bcrypt:** type ([a7b33e2](https://github.com/napi-rs/node-rs/commit/a7b33e2e9eee498a25bea34d6d95930d91aa7fd7))
+- **deps:** update rust crate deno_lint to v0.46.0 ([#685](https://github.com/napi-rs/node-rs/issues/685)) ([940e063](https://github.com/napi-rs/node-rs/commit/940e06338ab9310df8204b07a650a309b3ab8cf6))
+
 ## [1.17.1](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.17.0...@node-rs/deno-lint@1.17.1) (2023-06-14)
 
 ### Bug Fixes

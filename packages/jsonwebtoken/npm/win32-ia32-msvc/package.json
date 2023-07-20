@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jsonwebtoken-win32-ia32-msvc",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "os": [
     "win32"
   ],

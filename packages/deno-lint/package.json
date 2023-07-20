@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint",
-  "version": "1.17.1",
+  "version": "1.17.2",
   "description": "Deno lint binding for Node.js",
   "keywords": [
     "Deno",

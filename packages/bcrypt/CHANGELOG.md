@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.2](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.7.1...@node-rs/bcrypt@1.7.2) (2023-07-20)
+
+### Bug Fixes
+
+- **deps:** update rust crate bcrypt to 0.15 ([473d956](https://github.com/napi-rs/node-rs/commit/473d9565e886e11d4cba73ed7d4eb2a56fc3e809))
+
 ## [1.7.1](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.7.0...@node-rs/bcrypt@1.7.1) (2023-04-28)
 
 ### Bug Fixes
