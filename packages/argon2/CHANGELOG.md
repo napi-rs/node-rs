@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://github.com/napi-rs/node-rs/compare/@node-rs/argon2@1.5.1...@node-rs/argon2@1.5.2) (2023-07-20)
+
+### Bug Fixes
+
+- update native packages binary meta ([e22b97f](https://github.com/napi-rs/node-rs/commit/e22b97f00c568d21a001df432136db51843edf80))
+
 ## [1.5.1](https://github.com/napi-rs/node-rs/compare/@node-rs/argon2@1.5.0...@node-rs/argon2@1.5.1) (2023-07-20)
 
 **Note:** Version bump only for package @node-rs/argon2

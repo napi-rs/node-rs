@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jsonwebtoken-linux-arm64-musl",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "os": [
     "linux"
   ],
