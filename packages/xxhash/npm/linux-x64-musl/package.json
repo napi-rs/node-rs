@@ -7,9 +7,6 @@
   "cpu": [
     "x64"
   ],
-  "libc": [
-    "musl"
-  ],
   "main": "xxhash.linux-x64-musl.node",
   "files": [
     "xxhash.linux-x64-musl.node"
@@ -42,5 +39,8 @@
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  }
+  },
+  "libc": [
+    "musl"
+  ]
 }

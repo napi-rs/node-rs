@@ -8,9 +8,6 @@
     "x64"
   ],
   "main": "argon2.linux-x64-gnu.node",
-  "libc": [
-    "glibc"
-  ],
   "files": [
     "argon2.linux-x64-gnu.node"
   ],
@@ -26,6 +23,7 @@
     "secure",
     "verify"
   ],
+  "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
   "engines": {
     "node": ">= 10"
@@ -33,5 +31,12 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "libc": [
+    "glibc"
+  ]
 }

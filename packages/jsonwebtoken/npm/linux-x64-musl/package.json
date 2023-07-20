@@ -7,9 +7,6 @@
   "cpu": [
     "x64"
   ],
-  "libc": [
-    "musl"
-  ],
   "main": "jsonwebtoken.linux-x64-musl.node",
   "files": [
     "jsonwebtoken.linux-x64-musl.node"
@@ -21,6 +18,12 @@
     "napi-rs",
     "node-rs"
   ],
+  "author": {
+    "name": "Francesco Benedetto",
+    "url": "https://github.com/nebarf",
+    "email": "francesco.benedetto263@gmail.com"
+  },
+  "homepage": "https://github.com/napi-rs/node-rs#readme",
   "license": "MIT",
   "engines": {
     "node": ">= 10"
@@ -28,5 +31,15 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/napi-rs/node-rs/issues"
+  },
+  "libc": [
+    "musl"
+  ]
 }

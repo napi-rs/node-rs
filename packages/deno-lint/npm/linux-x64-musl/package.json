@@ -7,9 +7,6 @@
   "cpu": [
     "x64"
   ],
-  "libc": [
-    "musl"
-  ],
   "main": "deno-lint.linux-x64-musl.node",
   "files": [
     "deno-lint.linux-x64-musl.node"
@@ -41,5 +38,8 @@
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  }
+  },
+  "libc": [
+    "musl"
+  ]
 }
