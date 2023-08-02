@@ -253,7 +253,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/node-pre-gyp@npm:^1.0.10, @mapbox/node-pre-gyp@npm:^1.0.4":
+"@mapbox/node-pre-gyp@npm:^1.0.10, @mapbox/node-pre-gyp@npm:^1.0.11, @mapbox/node-pre-gyp@npm:^1.0.4":
   version: 1.0.11
   resolution: "@mapbox/node-pre-gyp@npm:1.0.11"
   dependencies:
@@ -293,7 +293,7 @@ __metadata:
   resolution: "@node-rs/argon2@workspace:packages/argon2"
   dependencies:
     "@napi-rs/cli": 2.16.2
-    argon2: ^0.30.3
+    argon2: ^0.31.0
     cross-env: ^7.0.3
   languageName: unknown
   linkType: soft
@@ -1681,14 +1681,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"argon2@npm:^0.30.3":
-  version: 0.30.3
-  resolution: "argon2@npm:0.30.3"
+"argon2@npm:^0.31.0":
+  version: 0.31.0
+  resolution: "argon2@npm:0.31.0"
   dependencies:
-    "@mapbox/node-pre-gyp": ^1.0.10
+    "@mapbox/node-pre-gyp": ^1.0.11
     "@phc/format": ^1.0.0
-    node-addon-api: ^5.0.0
-  checksum: 36784f69af8adad1e0e155a0f1999320999a3b76fb41a3b8f4674e1d896dc65a6e76bea4385b9433e8f935d0912a9ca81088b5d8d22e5fe4119d5abf9d10761f
+    node-addon-api: ^7.0.0
+  checksum: 7e0c3eb7b028695d4b421f7efa6b5c198d54a2a378d627409b87dace6deab8ab4fb3e08add47c6c8cebce0c93038d9f3dba671641605c191aaf59d7a507d567a
   languageName: node
   linkType: hard
 
@@ -6029,6 +6029,15 @@ __metadata:
   dependencies:
     node-gyp: latest
   checksum: 2508bd2d2981945406243a7bd31362fc7af8b70b8b4d65f869c61731800058fb818cc2fd36c8eac714ddd0e568cc85becf5e165cebbdf7b5024d5151bbc75ea1
+  languageName: node
+  linkType: hard
+
+"node-addon-api@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "node-addon-api@npm:7.0.0"
+  dependencies:
+    node-gyp: latest
+  checksum: 4349465d737e284b280fc0e5fd2384f9379bca6b7f2a5a1460bea676ba5b90bf563e7d02a9254c35b9ed808641c81d9b4ca9e1da17d2849cd07727660b00b332
   languageName: node
   linkType: hard
 
