@@ -178,7 +178,7 @@ jobs:
           if-no-files-found: error
 
   build-freebsd:
-    runs-on: macos-12
+    runs-on: macos-13
     name: Build FreeBSD
     steps:
       - uses: actions/checkout@v3
