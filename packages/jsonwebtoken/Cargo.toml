@@ -9,7 +9,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 global_alloc = { path = "../../crates/alloc" }
-jsonwebtoken = { version = "8" }
+jsonwebtoken = { version = "9" }
 napi = { version = "2", default-features = false, features = [
   "napi3",
   "serde-json",
