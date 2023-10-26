@@ -7,13 +7,13 @@ version = "0.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-argon2 = "0.5"
+argon2 = { version = "0.5", features = ["rand"] }
 global_alloc = { path = "../../crates/alloc" }
 napi = { version = "2", default-features = false, features = ["napi3"] }
 napi-derive = { version = "2", default-features = false, features = [
   "type-def",
 ] }
-rand = { version = "0.8", features = ["nightly", "simd_support", "getrandom"] }
+rand_core = { version = "0.6", features = ["getrandom"] }
 
 [build-dependencies]
 napi-build = "2"

@@ -96,7 +96,7 @@ jobs:
             target: 'aarch64-pc-windows-msvc'
             build: |
               npm i -g @napi-rs/cli
-              yarn workspaces foreach --no-private -j 1 --exclude @node-rs/jsonwebtoken run build --target aarch64-pc-windows-msvc
+              yarn build --target aarch64-pc-windows-msvc
 
     name: stable - ${{ matrix.settings.target }} - node@18
     runs-on: ${{ matrix.settings.host }}
@@ -115,7 +115,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
         with:
-          toolchain: nightly-2023-07-19
+          toolchain: nightly-2023-10-25
           targets: ${{ matrix.settings.target }}
 
       - name: Cache cargo registry
@@ -184,30 +184,32 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build
         id: build
-        uses: vmactions/freebsd-vm@v0
+        uses: cross-platform-actions/action@v0.21.0
         env:
           DEBUG: 'napi:*'
-          RUSTUP_HOME: /usr/local/rustup
-          CARGO_HOME: /usr/local/cargo
+          RUSTUP_HOME: /home/runner/rustup
+          CARGO_HOME: /home/runner/cargo
           RUSTUP_IO_THREADS: 1
         with:
-          envs: 'DEBUG RUSTUP_HOME CARGO_HOME RUSTUP_IO_THREADS'
-          usesh: true
-          mem: 3000
-          prepare: |
-            pkg install -y -f curl node libnghttp2 npm
-            npm install -g yarn --ignore-scripts
+          operating_system: freebsd
+          version: '13.2'
+          memory: 13G
+          cpu_count: 3
+          environment_variables: 'DEBUG RUSTUP_IO_THREADS'
+          shell: bash
+          run: |
+            env | sort
+            sudo pkg install -y -f curl node libnghttp2 npm
+            sudo npm install -g yarn --ignore-scripts
             curl https://sh.rustup.rs -sSf --output rustup.sh
-            sh rustup.sh -y --profile minimal --default-toolchain stable
-            export PATH="/usr/local/cargo/bin:$PATH"
+            sh rustup.sh -y --default-toolchain nightly-2023-10-25
+            source "$HOME/.cargo/env"
             echo "~~~~ rustc --version ~~~~"
             rustc --version
             echo "~~~~ node -v ~~~~"
             node -v
             echo "~~~~ yarn --version ~~~~"
             yarn --version
-          run: |
-            export PATH="/usr/local/cargo/bin:$PATH"
             pwd
             ls -lah
             whoami
@@ -217,7 +219,6 @@ jobs:
             yarn build:ts
             yarn build
             strip -x packages/*/*.node
-            yarn test
             rm -rf node_modules
             rm -rf target
             rm -rf .yarn/cache
@@ -241,7 +242,7 @@ jobs:
             target: 'x86_64-apple-darwin'
           - host: windows-latest
             target: 'x86_64-pc-windows-msvc'
-        node: ['16', '18']
+        node: ['18', '20']
     runs-on: ${{ matrix.settings.host }}
 
     steps:
@@ -287,7 +288,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['16', '18']
+        node: ['18', '20']
     runs-on: ubuntu-latest
 
     steps:
@@ -332,17 +333,11 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
-    container:
-      image: centos:7
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: |
-          curl -sL https://rpm.nodesource.com/setup_16.x | bash -
-          yum install nodejs -y
-          npm install -g yarn
-          yarn install --immutable --mode=skip-build
+        run: yarn install --immutable --mode=skip-build
 
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -362,8 +357,16 @@ jobs:
         run: yarn build:ts
 
       - name: Test bindings
-        run: |
-          yarn test -s
+        uses: addnab/docker-run-action@v3
+        with:
+          image: centos:7
+          options: -e YARN_IGNORE_NODE=1 -v ${{ github.workspace }}:/build -w /build
+          run: |
+            curl -sL https://rpm.nodesource.com/setup_16.x | bash -
+            yum install nodejs -y
+            npm install -g yarn
+            yarn install --immutable --mode=skip-build
+            yarn test -s
 
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
@@ -372,7 +375,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['16', '18']
+        node: ['18', '20']
     runs-on: ubuntu-latest
 
     steps:
@@ -421,7 +424,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['16', '18']
+        node: ['18', '20']
     runs-on: ubuntu-latest
 
     steps:
@@ -517,7 +520,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['16', '18']
+        node: ['18', '20']
     runs-on: ubuntu-latest
 
     steps:
@@ -577,7 +580,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          check-latest: true
           cache: yarn
 
       - name: 'Install dependencies'

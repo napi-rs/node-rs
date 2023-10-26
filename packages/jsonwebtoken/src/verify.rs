@@ -1,6 +1,5 @@
 use napi::{bindgen_prelude::*, JsBuffer, JsBufferValue, Ref};
 use napi_derive::napi;
-use std::borrow::Borrow;
 
 use crate::{claims::Claims, validation::Validation};
 
@@ -66,7 +65,7 @@ pub struct VerifyTask {
 
 impl VerifyTask {
   pub fn verify(token: &str, key: &[u8], validation: &Validation) -> Result<Claims> {
-    let validation: &jsonwebtoken::Validation = &validation.borrow().into();
+    let validation: &jsonwebtoken::Validation = &validation.into();
 
     let first_alg = validation.algorithms.first().ok_or(Error::new(
       Status::InvalidArg,
@@ -112,7 +111,7 @@ pub fn verify(
     VerifyTask {
       token,
       key: AsyncKeyInput::from_either(key)?,
-      validation: validation.unwrap_or(Validation::default()),
+      validation: validation.unwrap_or_default(),
     },
     abort_signal,
   ))
@@ -124,6 +123,6 @@ pub fn verify_sync(
   key: Either<String, Buffer>,
   validation: Option<Validation>,
 ) -> Result<Claims> {
-  let validation = validation.unwrap_or(Validation::default());
+  let validation = validation.unwrap_or_default();
   VerifyTask::verify(&token, key.as_ref(), &validation)
 }

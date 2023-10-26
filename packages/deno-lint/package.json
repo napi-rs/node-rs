@@ -70,11 +70,11 @@
   },
   "dependencies": {
     "clipanion": "^3.2.1",
-    "typanion": "^3.13.0"
+    "typanion": "^3.14.0"
   },
   "devDependencies": {
     "@napi-rs/cli": "2.16.3",
-    "@types/webpack": "^5.28.1"
+    "@types/webpack": "^5.28.4"
   },
   "funding": {
     "type": "github",
