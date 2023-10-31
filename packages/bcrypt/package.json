@@ -68,8 +68,8 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "2.16.3",
-    "@types/bcrypt": "^5.0.0",
-    "bcrypt": "^5.1.0",
+    "@types/bcrypt": "^5.0.1",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.3"
   },

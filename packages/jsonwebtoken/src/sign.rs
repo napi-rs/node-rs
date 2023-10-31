@@ -1,7 +1,5 @@
-use jsonwebtoken::{self};
 use napi::{bindgen_prelude::*, JsBuffer, JsBufferValue, Ref};
 use napi_derive::napi;
-use std::borrow::Borrow;
 
 use crate::{claims::Claims, header::Header};
 
@@ -68,7 +66,7 @@ pub struct SignTask {
 impl SignTask {
   #[inline]
   pub fn sign(claims: &Claims, header: &Header, key: &[u8]) -> Result<String> {
-    let header: &jsonwebtoken::Header = &header.borrow().into();
+    let header: &jsonwebtoken::Header = &header.into();
     let claims = &claims;
     let sign_key = &into_encoding_key(key, &header.alg)?;
 

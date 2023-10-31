@@ -7,9 +7,10 @@ use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
 use argon2::{
-  password_hash::{rand_core::OsRng, PasswordHasher, PasswordVerifier, SaltString},
+  password_hash::{PasswordHasher, PasswordVerifier, SaltString},
   Argon2, Params,
 };
+use rand_core::OsRng;
 
 #[napi]
 pub enum Algorithm {
