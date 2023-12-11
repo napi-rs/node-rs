@@ -32,7 +32,7 @@
     "@types/node": "^20.8.9",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
-    "ava": "^5.3.1",
+    "ava": "^6.0.0",
     "benchmark": "^2.1.4",
     "codecov": "^3.8.3",
     "cross-env": "^7.0.3",
