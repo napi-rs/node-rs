@@ -171,7 +171,7 @@ jobs:
         shell: bash
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bindings-${{ matrix.settings.target }}
           path: packages/*/*.node
@@ -224,7 +224,7 @@ jobs:
             rm -rf .yarn/cache
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bindings-freebsd-amd64
           path: packages/*/*.node
