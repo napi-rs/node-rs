@@ -14,7 +14,7 @@ deno_ast          = "=0.31.6"
 deno_lint         = "=0.52.2"
 env_logger        = "0.10"
 global_alloc      = { path = "../../crates/alloc" }
-globwalk          = "0.8"
+globwalk          = "0.9"
 ignore            = "0.4"
 miette            = { version = "5", features = ["fancy-no-backtrace"] }
 napi              = { version = "2", default-features = false, features = ["napi3"] }
