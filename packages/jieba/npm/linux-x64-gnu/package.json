@@ -1,9 +1,6 @@
 {
   "name": "@node-rs/jieba-linux-x64-gnu",
   "version": "1.7.2",
-  "os": [
-    "linux"
-  ],
   "cpu": [
     "x64"
   ],
@@ -37,6 +34,9 @@
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
+  "os": [
+    "linux"
+  ],
   "libc": [
     "glibc"
   ]

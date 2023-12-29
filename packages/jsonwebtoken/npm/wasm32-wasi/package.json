@@ -1,0 +1,39 @@
+{
+  "name": "@node-rs/jsonwebtoken-wasm32-wasi",
+  "version": "0.2.3",
+  "cpu": [
+    "wasm32"
+  ],
+  "main": "jsonwebtoken.wasm32-wasi.wasm",
+  "files": [
+    "jsonwebtoken.wasm32-wasi.wasm"
+  ],
+  "description": "Rust jsonwebtoken binding for Node.js",
+  "keywords": [
+    "jsonwebtoken",
+    "jwt",
+    "napi-rs",
+    "node-rs"
+  ],
+  "author": {
+    "name": "Francesco Benedetto",
+    "url": "https://github.com/nebarf",
+    "email": "francesco.benedetto263@gmail.com"
+  },
+  "homepage": "https://github.com/napi-rs/node-rs#readme",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/napi-rs/node-rs/issues"
+  }
+}

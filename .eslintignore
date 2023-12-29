@@ -9,3 +9,7 @@ coverage
 target
 packages/deno-lint/cli.js
 packages/deno-lint/cli.d.ts
+packages/*/*.wasi.cjs
+packages/*/wasi-worker.mjs
+packages/*/index.js
+packages/*/index.d.ts

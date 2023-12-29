@@ -1,9 +1,6 @@
 {
   "name": "@node-rs/bcrypt-darwin-x64",
   "version": "1.7.3",
-  "os": [
-    "darwin"
-  ],
   "cpu": [
     "x64"
   ],
@@ -39,5 +36,8 @@
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  }
+  },
+  "os": [
+    "darwin"
+  ]
 }

@@ -1,9 +1,6 @@
 {
   "name": "@node-rs/argon2-linux-arm64-gnu",
   "version": "1.5.2",
-  "os": [
-    "linux"
-  ],
   "cpu": [
     "arm64"
   ],
@@ -36,6 +33,9 @@
     "type": "git",
     "url": "git+https://github.com/napi-rs/node-rs.git"
   },
+  "os": [
+    "linux"
+  ],
   "libc": [
     "glibc"
   ]

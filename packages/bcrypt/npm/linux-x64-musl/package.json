@@ -1,9 +1,6 @@
 {
   "name": "@node-rs/bcrypt-linux-x64-musl",
   "version": "1.7.3",
-  "os": [
-    "linux"
-  ],
   "cpu": [
     "x64"
   ],
@@ -40,6 +37,9 @@
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
+  "os": [
+    "linux"
+  ],
   "libc": [
     "musl"
   ]

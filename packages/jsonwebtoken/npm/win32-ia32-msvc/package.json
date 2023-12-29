@@ -1,9 +1,6 @@
 {
   "name": "@node-rs/jsonwebtoken-win32-ia32-msvc",
   "version": "0.2.3",
-  "os": [
-    "win32"
-  ],
   "cpu": [
     "ia32"
   ],
@@ -38,5 +35,8 @@
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  }
+  },
+  "os": [
+    "win32"
+  ]
 }

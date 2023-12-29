@@ -24,6 +24,8 @@
     "postinstall": "husky install"
   },
   "devDependencies": {
+    "@emnapi/core": "^0.44.0",
+    "@emnapi/runtime": "^0.44.0",
     "@napi-rs/cli": "^3.0.0-alpha.25",
     "@swc-node/core": "^1.10.6",
     "@swc-node/register": "^1.6.8",

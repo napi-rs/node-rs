@@ -94,7 +94,9 @@ switch (platform) {
   case 'win32':
     switch (arch) {
       case 'x64':
-        localFileExisted = existsSync(join(__dirname, 'argon2.win32-x64-msvc.node'))
+        localFileExisted = existsSync(
+          join(__dirname, 'argon2.win32-x64-msvc.node')
+        )
         try {
           if (localFileExisted) {
             nativeBinding = require('./argon2.win32-x64-msvc.node')
@@ -106,7 +108,9 @@ switch (platform) {
         }
         break
       case 'ia32':
-        localFileExisted = existsSync(join(__dirname, 'argon2.win32-ia32-msvc.node'))
+        localFileExisted = existsSync(
+          join(__dirname, 'argon2.win32-ia32-msvc.node')
+        )
         try {
           if (localFileExisted) {
             nativeBinding = require('./argon2.win32-ia32-msvc.node')
@@ -118,7 +122,9 @@ switch (platform) {
         }
         break
       case 'arm64':
-        localFileExisted = existsSync(join(__dirname, 'argon2.win32-arm64-msvc.node'))
+        localFileExisted = existsSync(
+          join(__dirname, 'argon2.win32-arm64-msvc.node')
+        )
         try {
           if (localFileExisted) {
             nativeBinding = require('./argon2.win32-arm64-msvc.node')
@@ -157,7 +163,9 @@ switch (platform) {
         }
         break
       case 'arm64':
-        localFileExisted = existsSync(join(__dirname, 'argon2.darwin-arm64.node'))
+        localFileExisted = existsSync(
+          join(__dirname, 'argon2.darwin-arm64.node')
+        )
         try {
           if (localFileExisted) {
             nativeBinding = require('./argon2.darwin-arm64.node')
@@ -191,7 +199,9 @@ switch (platform) {
     switch (arch) {
       case 'x64':
         if (isMusl()) {
-          localFileExisted = existsSync(join(__dirname, 'argon2.linux-x64-musl.node'))
+          localFileExisted = existsSync(
+            join(__dirname, 'argon2.linux-x64-musl.node')
+          )
           try {
             if (localFileExisted) {
               nativeBinding = require('./argon2.linux-x64-musl.node')
@@ -202,7 +212,9 @@ switch (platform) {
             loadError = e
           }
         } else {
-          localFileExisted = existsSync(join(__dirname, 'argon2.linux-x64-gnu.node'))
+          localFileExisted = existsSync(
+            join(__dirname, 'argon2.linux-x64-gnu.node')
+          )
           try {
             if (localFileExisted) {
               nativeBinding = require('./argon2.linux-x64-gnu.node')
@@ -216,7 +228,9 @@ switch (platform) {
         break
       case 'arm64':
         if (isMusl()) {
-          localFileExisted = existsSync(join(__dirname, 'argon2.linux-arm64-musl.node'))
+          localFileExisted = existsSync(
+            join(__dirname, 'argon2.linux-arm64-musl.node')
+          )
           try {
             if (localFileExisted) {
               nativeBinding = require('./argon2.linux-arm64-musl.node')
@@ -227,7 +241,9 @@ switch (platform) {
             loadError = e
           }
         } else {
-          localFileExisted = existsSync(join(__dirname, 'argon2.linux-arm64-gnu.node'))
+          localFileExisted = existsSync(
+            join(__dirname, 'argon2.linux-arm64-gnu.node')
+          )
           try {
             if (localFileExisted) {
               nativeBinding = require('./argon2.linux-arm64-gnu.node')
@@ -240,7 +256,9 @@ switch (platform) {
         }
         break
       case 'arm':
-        localFileExisted = existsSync(join(__dirname, 'argon2.linux-arm-gnueabihf.node'))
+        localFileExisted = existsSync(
+          join(__dirname, 'argon2.linux-arm-gnueabihf.node')
+        )
         try {
           if (localFileExisted) {
             nativeBinding = require('./argon2.linux-arm-gnueabihf.node')
@@ -253,7 +271,9 @@ switch (platform) {
         break
       case 'riscv64':
         if (isMusl()) {
-          localFileExisted = existsSync(join(__dirname, 'argon2.linux-riscv64-musl.node'))
+          localFileExisted = existsSync(
+            join(__dirname, 'argon2.linux-riscv64-musl.node')
+          )
           try {
             if (localFileExisted) {
               nativeBinding = require('./argon2.linux-riscv64-musl.node')
@@ -264,7 +284,9 @@ switch (platform) {
             loadError = e
           }
         } else {
-          localFileExisted = existsSync(join(__dirname, 'argon2.linux-riscv64-gnu.node'))
+          localFileExisted = existsSync(
+            join(__dirname, 'argon2.linux-riscv64-gnu.node')
+          )
           try {
             if (localFileExisted) {
               nativeBinding = require('./argon2.linux-riscv64-gnu.node')
@@ -286,8 +308,9 @@ switch (platform) {
 
 if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   try {
-    localFileExisted =
-      existsSync(join(__dirname, 'argon2.wasm32-wasi.wasm')) && existsSync(join(__dirname, 'argon2.wasi.cjs'))
+    localFileExisted = existsSync(
+      join(__dirname, 'argon2.wasm32-wasi.wasm')
+    ) && existsSync(join(__dirname, 'argon2.wasi.cjs'))
     if (localFileExisted) {
       nativeBinding = require('./argon2.wasi.cjs')
     } else {

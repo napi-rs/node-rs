@@ -26,3 +26,4 @@ export interface TaggedWord {
   tag: string
   word: string
 }
+
