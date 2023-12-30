@@ -308,14 +308,7 @@ switch (platform) {
 
 if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   try {
-    localFileExisted = existsSync(
-      join(__dirname, 'jieba.wasm32-wasi.wasm')
-    ) && existsSync(join(__dirname, 'jieba.wasi.cjs'))
-    if (localFileExisted) {
-      nativeBinding = require('./jieba.wasi.cjs')
-    } else {
-      nativeBinding = require('@node-rs/jieba-wasm32-wasi')
-    }
+    nativeBinding = require('./jieba.wasi.cjs')
   } catch {
     // ignore
   }

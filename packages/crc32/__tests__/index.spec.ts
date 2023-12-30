@@ -9,7 +9,7 @@ test('crc32c result should be equal with sse4_crc32', (t) => {
   t.snapshot(crc32c(fx))
 })
 
-test('crc32c result should be equal with sse4_crc32 when caclulate with initial crc', (t) => {
+test('crc32c result should be equal with sse4_crc32 when calculate with initial crc', (t) => {
   const initialCrc = crc32c(fx)
   t.snapshot(crc32c(fx, initialCrc))
 })

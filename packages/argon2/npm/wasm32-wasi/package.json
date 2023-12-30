@@ -4,9 +4,11 @@
   "cpu": [
     "wasm32"
   ],
-  "main": "argon2.wasm32-wasi.wasm",
+  "main": "argon2.wasi.cjs",
   "files": [
-    "argon2.wasm32-wasi.wasm"
+    "argon2.wasm32-wasi.wasm",
+    "argon2.wasi.cjs",
+    "wasi-worker.mjs"
   ],
   "description": "RustCrypto: Argon2 binding for Node.js",
   "keywords": [
@@ -32,5 +34,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "dependencies": {
+    "@emnapi/core": "^0.45.0",
+    "@emnapi/runtime": "^0.45.0"
   }
 }

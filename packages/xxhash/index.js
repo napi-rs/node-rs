@@ -308,14 +308,7 @@ switch (platform) {
 
 if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   try {
-    localFileExisted = existsSync(
-      join(__dirname, 'xxhash.wasm32-wasi.wasm')
-    ) && existsSync(join(__dirname, 'xxhash.wasi.cjs'))
-    if (localFileExisted) {
-      nativeBinding = require('./xxhash.wasi.cjs')
-    } else {
-      nativeBinding = require('@node-rs/xxhash-wasm32-wasi')
-    }
+    nativeBinding = require('./xxhash.wasi.cjs')
   } catch {
     // ignore
   }

@@ -308,14 +308,7 @@ switch (platform) {
 
 if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   try {
-    localFileExisted = existsSync(
-      join(__dirname, 'argon2.wasm32-wasi.wasm')
-    ) && existsSync(join(__dirname, 'argon2.wasi.cjs'))
-    if (localFileExisted) {
-      nativeBinding = require('./argon2.wasi.cjs')
-    } else {
-      nativeBinding = require('@node-rs/argon2-wasm32-wasi')
-    }
+    nativeBinding = require('./argon2.wasi.cjs')
   } catch {
     // ignore
   }

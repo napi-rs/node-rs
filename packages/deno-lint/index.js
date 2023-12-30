@@ -308,14 +308,7 @@ switch (platform) {
 
 if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   try {
-    localFileExisted = existsSync(
-      join(__dirname, 'deno-lint.wasm32-wasi.wasm')
-    ) && existsSync(join(__dirname, 'deno-lint.wasi.cjs'))
-    if (localFileExisted) {
-      nativeBinding = require('./deno-lint.wasi.cjs')
-    } else {
-      nativeBinding = require('@node-rs/deno-lint-wasm32-wasi')
-    }
+    nativeBinding = require('./deno-lint.wasi.cjs')
   } catch {
     // ignore
   }

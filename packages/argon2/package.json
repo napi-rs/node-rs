@@ -56,7 +56,7 @@
     "version": "napi version"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.25",
+    "@napi-rs/cli": "^3.0.0-alpha.29",
     "argon2": "^0.31.2",
     "cross-env": "^7.0.3"
   }

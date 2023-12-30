@@ -308,14 +308,7 @@ switch (platform) {
 
 if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   try {
-    localFileExisted = existsSync(
-      join(__dirname, 'jsonwebtoken.wasm32-wasi.wasm')
-    ) && existsSync(join(__dirname, 'jsonwebtoken.wasi.cjs'))
-    if (localFileExisted) {
-      nativeBinding = require('./jsonwebtoken.wasi.cjs')
-    } else {
-      nativeBinding = require('@node-rs/jsonwebtoken-wasm32-wasi')
-    }
+    nativeBinding = require('./jsonwebtoken.wasi.cjs')
   } catch {
     // ignore
   }
