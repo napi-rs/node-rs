@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32-linux-x64-gnu",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "cpu": [
     "x64"
   ],

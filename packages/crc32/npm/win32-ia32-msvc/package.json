@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32-win32-ia32-msvc",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "cpu": [
     "ia32"
   ],

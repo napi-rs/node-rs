@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/xxhash-android-arm-eabi",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "cpu": [
     "arm"
   ],

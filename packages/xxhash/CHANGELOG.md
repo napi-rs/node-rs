@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/napi-rs/node-rs/compare/@node-rs/xxhash@1.4.2...@node-rs/xxhash@1.5.0) (2024-01-02)
+
+### Features
+
+- support wasi-wasm32 target ([#752](https://github.com/napi-rs/node-rs/issues/752)) ([12f25b5](https://github.com/napi-rs/node-rs/commit/12f25b5a5e09a01c832e4d26084acf4ddbd730b9))
+- upgrade dependencies and lockfile ([#751](https://github.com/napi-rs/node-rs/issues/751)) ([70d7fa7](https://github.com/napi-rs/node-rs/commit/70d7fa72262c6e547950b30daa2d03583a1b04bd))
+
 ## [1.4.2](https://github.com/napi-rs/node-rs/compare/@node-rs/xxhash@1.4.1...@node-rs/xxhash@1.4.2) (2023-07-20)
 
 ### Bug Fixes
