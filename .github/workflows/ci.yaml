@@ -69,6 +69,9 @@ jobs:
           - host: windows-latest
             target: 'aarch64-pc-windows-msvc'
             build: yarn build --target aarch64-pc-windows-msvc
+          - host: ubuntu-latest
+            target: 'wasm32-wasi-preview1-threads'
+            build: yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/{jsonwebtoken,deno-lint}" run build --target wasm32-wasi-preview1-threads
 
     name: stable - ${{ matrix.settings.target }} - node@20
     runs-on: ${{ matrix.settings.host }}
@@ -133,9 +136,18 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
+        if: ${{ matrix.settings.target != 'wasm32-wasi-preview1-threads' }}
         with:
           name: bindings-${{ matrix.settings.target }}
           path: packages/*/*.node
+          if-no-files-found: error
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        if: ${{ matrix.settings.target == 'wasm32-wasi-preview1-threads' }}
+        with:
+          name: bindings-${{ matrix.settings.target }}
+          path: packages/*/*.wasm
           if-no-files-found: error
 
   build-freebsd:
@@ -520,6 +532,40 @@ jobs:
             yarn test -s
             ls -la
 
+  test-wasi-nodejs:
+    name: Test bindings on wasi - node@${{ matrix.node }}
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['18', '20']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: yarn
+      - name: 'Install dependencies'
+        run: yarn install --immutable --mode=skip-build
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: bindings-wasm32-wasi-preview1-threads
+          path: artifacts
+      - name: Move artifacts
+        run: yarn artifacts
+        shell: bash
+      - name: List packages
+        run: ls -R .
+      - name: Test
+        run: |
+          yarn build:ts
+          yarn test -s
+        env:
+          NAPI_RS_FORCE_WASI: 'true'
+
   publish:
     name: Publish
     runs-on: ubuntu-latest
@@ -532,6 +578,7 @@ jobs:
       - test-linux-aarch64-musl-binding
       - test-linux-arm-gnueabihf-binding
       - test-macOS-windows-binding
+      - test-wasi-nodejs
     steps:
       - uses: actions/checkout@v4
 

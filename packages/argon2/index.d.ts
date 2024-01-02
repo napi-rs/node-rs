@@ -17,20 +17,12 @@ export const enum Algorithm {
    * Hybrid that mixes Argon2i and Argon2d passes.
    * Uses the Argon2i approach for the first half pass over memory and Argon2d approach for subsequent passes. This effectively places it in the “middle” between the other two: it doesn’t provide as good TMTO/GPU cracking resistance as Argon2d, nor as good of side-channel resistance as Argon2i, but overall provides the most well-rounded approach to both classes of attacks.
    */
-  Argon2id = 2,
+  Argon2id = 2
 }
 
-export function hash(
-  password: string | Buffer,
-  options?: Options | undefined | null,
-  abortSignal?: AbortSignal | undefined | null,
-): Promise<string>
+export function hash(password: string | Buffer, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
 
-export function hashRaw(
-  password: string | Buffer,
-  options?: Options | undefined | null,
-  abortSignal?: AbortSignal | undefined | null,
-): Promise<Buffer>
+export function hashRaw(password: string | Buffer, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<Buffer>
 
 export function hashRawSync(password: string | Buffer, options?: Options | undefined | null): Buffer
 
@@ -73,18 +65,9 @@ export interface Options {
   salt?: Buffer
 }
 
-export function verify(
-  hashed: string | Buffer,
-  password: string | Buffer,
-  options?: Options | undefined | null,
-  abortSignal?: AbortSignal | undefined | null,
-): Promise<boolean>
+export function verify(hashed: string | Buffer, password: string | Buffer, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<boolean>
 
-export function verifySync(
-  hashed: string | Buffer,
-  password: string | Buffer,
-  options?: Options | undefined | null,
-): boolean
+export function verifySync(hashed: string | Buffer, password: string | Buffer, options?: Options | undefined | null): boolean
 
 export const enum Version {
   /** Version 16 (0x10 in hex) */
@@ -93,5 +76,6 @@ export const enum Version {
    * Default value
    * Version 19 (0x13 in hex)
    */
-  V0x13 = 1,
+  V0x13 = 1
 }
+

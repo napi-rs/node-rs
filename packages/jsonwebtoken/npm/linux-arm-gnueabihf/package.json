@@ -1,9 +1,6 @@
 {
   "name": "@node-rs/jsonwebtoken-linux-arm-gnueabihf",
   "version": "0.2.3",
-  "os": [
-    "linux"
-  ],
   "cpu": [
     "arm"
   ],
@@ -38,5 +35,8 @@
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  }
+  },
+  "os": [
+    "linux"
+  ]
 }

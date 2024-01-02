@@ -286,13 +286,7 @@ switch (platform) {
 
 if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   try {
-    localFileExisted =
-      existsSync(join(__dirname, 'bcrypt.wasm32-wasi.wasm')) && existsSync(join(__dirname, 'bcrypt.wasi.cjs'))
-    if (localFileExisted) {
-      nativeBinding = require('./bcrypt.wasi.cjs')
-    } else {
-      nativeBinding = require('@node-rs/bcrypt-wasm32-wasi')
-    }
+    nativeBinding = require('./bcrypt.wasi.cjs')
   } catch {
     // ignore
   }

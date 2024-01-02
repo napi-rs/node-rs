@@ -25,7 +25,7 @@ export const enum Algorithm {
   /** RSASSA-PSS using SHA-512 */
   PS512 = 10,
   /** Edwards-curve Digital Signature Algorithm (EdDSA) */
-  EdDSA = 11,
+  EdDSA = 11
 }
 
 export interface Claims {
@@ -96,12 +96,7 @@ export interface Header {
   x5TS256CertThumbprint?: string
 }
 
-export function sign(
-  claims: Claims,
-  key: string | Buffer,
-  header?: Header | undefined | null,
-  abortSignal?: AbortSignal | undefined | null,
-): Promise<string>
+export function sign(claims: Claims, key: string | Buffer, header?: Header | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
 
 export function signSync(claims: Claims, key: string | Buffer, header?: Header | undefined | null): string
 
@@ -172,11 +167,7 @@ export interface Validation {
   validateSignature?: boolean
 }
 
-export function verify(
-  token: string,
-  key: string | Buffer,
-  validation?: Validation | undefined | null,
-  abortSignal?: AbortSignal | undefined | null,
-): Promise<Claims>
+export function verify(token: string, key: string | Buffer, validation?: Validation | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<Claims>
 
 export function verifySync(token: string, key: string | Buffer, validation?: Validation | undefined | null): Claims
+

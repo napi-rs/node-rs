@@ -1,9 +1,6 @@
 {
   "name": "@node-rs/jieba-android-arm-eabi",
   "version": "1.7.2",
-  "os": [
-    "android"
-  ],
   "cpu": [
     "arm"
   ],
@@ -36,5 +33,8 @@
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
-  }
+  },
+  "os": [
+    "android"
+  ]
 }

@@ -1,4 +1,4 @@
-export default {
+const avaConfig = {
   extensions: ['ts'],
   workerThreads: false,
   cache: false,
@@ -9,3 +9,9 @@ export default {
     TS_NODE_PROJECT: './tsconfig.test.json',
   },
 }
+
+if (process.env.NAPI_RS_FORCE_WASI) {
+  avaConfig.files.push(`!packages/jsonwebtoken/**/*.spec.ts`)
+}
+
+export default avaConfig

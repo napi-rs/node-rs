@@ -1,0 +1,42 @@
+{
+  "name": "@node-rs/argon2-wasm32-wasi",
+  "version": "1.5.2",
+  "cpu": [
+    "wasm32"
+  ],
+  "main": "argon2.wasi.cjs",
+  "files": [
+    "argon2.wasm32-wasi.wasm",
+    "argon2.wasi.cjs",
+    "wasi-worker.mjs"
+  ],
+  "description": "RustCrypto: Argon2 binding for Node.js",
+  "keywords": [
+    "argon2",
+    "argon2-password",
+    "crypto",
+    "password",
+    "encryption",
+    "hashing",
+    "hash",
+    "secure",
+    "verify"
+  ],
+  "homepage": "https://github.com/napi-rs/node-rs",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "dependencies": {
+    "@emnapi/core": "^0.45.0",
+    "@emnapi/runtime": "^0.45.0"
+  }
+}

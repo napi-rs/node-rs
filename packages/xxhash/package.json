@@ -37,7 +37,8 @@
       "x86_64-unknown-linux-musl",
       "x86_64-unknown-freebsd",
       "i686-pc-windows-msvc",
-      "armv7-linux-androideabi"
+      "armv7-linux-androideabi",
+      "wasm32-wasi-preview1-threads"
     ]
   },
   "engines": {
@@ -63,7 +64,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.25",
+    "@napi-rs/cli": "^3.0.0-alpha.29",
     "@types/xxhashjs": "^0.2.4",
     "webpack": "^5.89.0",
     "xxhash": "^0.3.0",
