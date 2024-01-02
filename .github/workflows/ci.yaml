@@ -71,7 +71,7 @@ jobs:
             build: yarn build --target aarch64-pc-windows-msvc
           - host: ubuntu-latest
             target: 'wasm32-wasi-preview1-threads'
-            build: yarn workspaces foreach -A --no-private -j 1 --exclude @node-rs/jsonwebtoken --exclude @node-rs/denolint run build --target wasm32-wasi-preview1-threads
+            build: yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/{jsonwebtoken,deno-lint}" run build --target wasm32-wasi-preview1-threads
 
     name: stable - ${{ matrix.settings.target }} - node@20
     runs-on: ${{ matrix.settings.host }}
@@ -578,6 +578,7 @@ jobs:
       - test-linux-aarch64-musl-binding
       - test-linux-arm-gnueabihf-binding
       - test-macOS-windows-binding
+      - test-wasi-nodejs
     steps:
       - uses: actions/checkout@v4
 
