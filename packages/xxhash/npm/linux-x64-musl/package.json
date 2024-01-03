@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/xxhash-linux-x64-musl",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "cpu": [
     "x64"
   ],

@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt-win32-ia32-msvc",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "cpu": [
     "ia32"
   ],
