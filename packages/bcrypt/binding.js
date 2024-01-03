@@ -290,6 +290,13 @@ if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   } catch {
     // ignore
   }
+  if (!nativeBinding) {
+    try {
+      nativeBinding = require('@node-rs/bcrypt-wasm32-wasi')
+    } catch (err) {
+      console.error(err)
+    }
+  }
 }
 
 if (!nativeBinding) {

@@ -23,7 +23,7 @@
   "homepage": "https://github.com/napi-rs/node-rs",
   "license": "MIT",
   "engines": {
-    "node": ">= 10"
+    "node": ">=14.0.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

@@ -35,6 +35,10 @@
       "wasm32-wasi-preview1-threads"
     ]
   },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
@@ -56,7 +60,7 @@
     "version": "napi version"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.29",
+    "@napi-rs/cli": "^3.0.0-alpha.30",
     "argon2": "^0.31.2",
     "cross-env": "^7.0.3"
   }
