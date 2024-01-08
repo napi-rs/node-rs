@@ -326,13 +326,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:^3.0.0-alpha.30":
-  version: 3.0.0-alpha.30
-  resolution: "@napi-rs/cli@npm:3.0.0-alpha.30"
+"@napi-rs/cli@npm:^3.0.0-alpha.33":
+  version: 3.0.0-alpha.33
+  resolution: "@napi-rs/cli@npm:3.0.0-alpha.33"
   dependencies:
     "@napi-rs/cross-toolchain": "npm:^0.0.14"
     "@octokit/rest": "npm:^20.0.2"
-    "@tybys/wasm-util": "npm:0.8.0"
+    "@tybys/wasm-util": "npm:0.8.1"
     clipanion: "npm:^3.2.1"
     colorette: "npm:^2.0.20"
     debug: "npm:^4.3.4"
@@ -357,7 +357,7 @@ __metadata:
   bin:
     napi: dist/cli.js
     napi-raw: cli.mjs
-  checksum: e06b7273977a1bb48ae1b45c52370a2e3f34577db2161c9886ed846430aca0c1a53098f76c7d0c89c38a0d44dbc7d56c64e678f39d043fbe27d6906775b72457
+  checksum: 7cd93b36f820f2157fa22a0300f148370782190530f53ce40129fe909acd2cd7cc4e49a85d73efb1946947dd5921c4e2a995f349c90f2a8d424da43f15226ef0
   languageName: node
   linkType: hard
 
@@ -681,7 +681,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/argon2@workspace:packages/argon2"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.30"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.33"
     argon2: "npm:^0.31.2"
     cross-env: "npm:^7.0.3"
   languageName: unknown
@@ -691,7 +691,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/bcrypt@workspace:packages/bcrypt"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.30"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.33"
     "@types/bcrypt": "npm:^5.0.2"
     bcrypt: "npm:^5.1.1"
     bcryptjs: "npm:^2.4.3"
@@ -703,7 +703,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/crc32@workspace:packages/crc32"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.30"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.33"
     "@types/crc": "npm:^3.8.3"
     buffer: "npm:^6.0.3"
     crc: "npm:^4.3.2"
@@ -715,7 +715,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/deno-lint@workspace:packages/deno-lint"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.30"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.33"
     "@types/webpack": "npm:^5.28.5"
     clipanion: "npm:^3.2.1"
     typanion: "npm:^3.14.0"
@@ -736,7 +736,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/jieba@workspace:packages/jieba"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.30"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.33"
     nodejieba: "npm:^2.6.0"
   languageName: unknown
   linkType: soft
@@ -745,7 +745,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/jsonwebtoken@workspace:packages/jsonwebtoken"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.30"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.33"
     "@types/jsonwebtoken": "npm:^9.0.5"
     jsonwebtoken: "npm:^9.0.2"
   languageName: unknown
@@ -755,7 +755,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/xxhash@workspace:packages/xxhash"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.30"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.33"
     "@types/xxhashjs": "npm:^0.2.4"
     webpack: "npm:^5.89.0"
     xxhash: "npm:^0.3.0"
@@ -1617,12 +1617,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tybys/wasm-util@npm:0.8.0":
-  version: 0.8.0
-  resolution: "@tybys/wasm-util@npm:0.8.0"
+"@tybys/wasm-util@npm:0.8.1, @tybys/wasm-util@npm:^0.8.1":
+  version: 0.8.1
+  resolution: "@tybys/wasm-util@npm:0.8.1"
   dependencies:
     tslib: "npm:^2.4.0"
-  checksum: e3f0c03a83d668deeed07cc8cb7e0f3deec0363402e83fa30b2690671eb5f72db8feec2bab1d04e1f4998bb94b051f546e23ea306657cfc39cbe3229014b9223
+  checksum: 4e0975ee0ed8202e4af0be45a379ac11fa98e8c17cb5a038bc1d29f6e1bd37eb84be991d725d214d0f257d4aaccd67e5ac6e68c3c81cdd3c7f3f678d05d52cb7
   languageName: node
   linkType: hard
 
@@ -4462,6 +4462,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fs-monkey@npm:^1.0.3":
+  version: 1.0.5
+  resolution: "fs-monkey@npm:1.0.5"
+  checksum: 815025e75549fb1ac6c403413b82fd631eded862ae27694a515c0f666069e95874ab34e79c33d1b3b8c87d1e54350d5e4262090d0aa5bd7130143cbc627537e4
+  languageName: node
+  linkType: hard
+
 "fs.realpath@npm:^1.0.0":
   version: 1.0.0
   resolution: "fs.realpath@npm:1.0.0"
@@ -6357,6 +6364,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"memfs-browser@npm:^3.4.13000":
+  version: 3.4.13000
+  resolution: "memfs-browser@npm:3.4.13000"
+  dependencies:
+    buffer: "npm:^6.0.3"
+    memfs: "npm:3.4.13"
+  checksum: 580fa76a69638b4f1e3e9f36db4ece7de3689427cc9519c567e5e6413e2106390892a63acf19675cc0908eafbb7f991ebf5425fede19ebd8b1fe0880e8b16cba
+  languageName: node
+  linkType: hard
+
+"memfs@npm:3.4.13":
+  version: 3.4.13
+  resolution: "memfs@npm:3.4.13"
+  dependencies:
+    fs-monkey: "npm:^1.0.3"
+  checksum: f14ab3ff938eacf688577d1b0f7bf77ca3a05d4df9c335b024ed6790e6b224b569cc4b61c1de604c0420a0fac6b3fbf3f283c72fd2be9ce395534539599ac63b
+  languageName: node
+  linkType: hard
+
 "memoize@npm:^10.0.0":
   version: 10.0.0
   resolution: "memoize@npm:10.0.0"
@@ -6842,11 +6868,12 @@ __metadata:
   dependencies:
     "@emnapi/core": "npm:^0.45.0"
     "@emnapi/runtime": "npm:^0.45.0"
-    "@napi-rs/cli": "npm:^3.0.0-alpha.30"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.33"
     "@swc-node/core": "npm:^1.10.6"
     "@swc-node/register": "npm:^1.6.8"
     "@swc/core": "npm:^1.3.101"
     "@taplo/cli": "npm:^0.5.2"
+    "@tybys/wasm-util": "npm:^0.8.1"
     "@types/node": "npm:^20.10.5"
     "@typescript-eslint/eslint-plugin": "npm:^6.16.0"
     "@typescript-eslint/parser": "npm:^6.16.0"
@@ -6861,6 +6888,7 @@ __metadata:
     husky: "npm:^8.0.3"
     lerna: "npm:^8.0.1"
     lint-staged: "npm:^15.2.0"
+    memfs-browser: "npm:^3.4.13000"
     npm-run-all: "npm:^4.1.5"
     prettier: "npm:^3.1.1"
     ts-node: "npm:^10.9.2"
