@@ -5,6 +5,7 @@
   "homepage": "https://github.com/napi-rs/node-rs",
   "main": "index.js",
   "types": "index.d.ts",
+  "browser": "browser.js",
   "keywords": [
     "argon2",
     "argon2-password",
@@ -37,7 +38,8 @@
   },
   "files": [
     "index.js",
-    "index.d.ts"
+    "index.d.ts",
+    "browser.js"
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -60,7 +62,7 @@
     "version": "napi version"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.33",
+    "@napi-rs/cli": "^3.0.0-alpha.34",
     "argon2": "^0.31.2",
     "cross-env": "^7.0.3"
   }
