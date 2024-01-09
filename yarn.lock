@@ -2325,6 +2325,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"arg@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "arg@npm:5.0.2"
+  checksum: ccaf86f4e05d342af6666c569f844bec426595c567d32a8289715087825c2ca7edd8a3d204e4d2fb2aa4602e09a57d0c13ea8c9eea75aac3dbb4af5514e6800e
+  languageName: node
+  linkType: hard
+
 "argon2@npm:^0.31.2":
   version: 0.31.2
   resolution: "argon2@npm:0.31.2"
@@ -4462,13 +4469,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-monkey@npm:^1.0.3":
-  version: 1.0.5
-  resolution: "fs-monkey@npm:1.0.5"
-  checksum: 815025e75549fb1ac6c403413b82fd631eded862ae27694a515c0f666069e95874ab34e79c33d1b3b8c87d1e54350d5e4262090d0aa5bd7130143cbc627537e4
-  languageName: node
-  linkType: hard
-
 "fs.realpath@npm:^1.0.0":
   version: 1.0.0
   resolution: "fs.realpath@npm:1.0.0"
@@ -5063,6 +5063,13 @@ __metadata:
   bin:
     husky: lib/bin.js
   checksum: 6722591771c657b91a1abb082e07f6547eca79144d678e586828ae806499d90dce2a6aee08b66183fd8b085f19d20e0990a2ad396961746b4c8bd5bdb619d668
+  languageName: node
+  linkType: hard
+
+"hyperdyperid@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "hyperdyperid@npm:1.2.0"
+  checksum: 885ba3177c7181d315a856ee9c0005ff8eb5dcb1ce9e9d61be70987895d934d84686c37c981cceeb53216d4c9c15c1cc25f1804e84cc6a74a16993c5d7fd0893
   languageName: node
   linkType: hard
 
@@ -5747,6 +5754,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"json-joy@npm:^9.2.0":
+  version: 9.9.1
+  resolution: "json-joy@npm:9.9.1"
+  dependencies:
+    arg: "npm:^5.0.2"
+    hyperdyperid: "npm:^1.2.0"
+  peerDependencies:
+    quill-delta: ^5
+    rxjs: 7
+    tslib: 2
+  bin:
+    jj: bin/jj.js
+    json-pack: bin/json-pack.js
+    json-pack-test: bin/json-pack-test.js
+    json-patch: bin/json-patch.js
+    json-patch-test: bin/json-patch-test.js
+    json-pointer: bin/json-pointer.js
+    json-pointer-test: bin/json-pointer-test.js
+    json-unpack: bin/json-unpack.js
+  checksum: e147eceae446a84521d60c36326c1528268aafbaaedfc0a79a25207ace9da23dc1b599be4b5a90ca84ff1d01eda1b29b037abc0f970fef7cff4ab1e9db20ba6b
+  languageName: node
+  linkType: hard
+
 "json-parse-better-errors@npm:^1.0.1":
   version: 1.0.2
   resolution: "json-parse-better-errors@npm:1.0.2"
@@ -6364,22 +6394,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"memfs-browser@npm:^3.4.13000":
-  version: 3.4.13000
-  resolution: "memfs-browser@npm:3.4.13000"
+"memfs-browser@npm:^4.0.0":
+  version: 4.6.10001
+  resolution: "memfs-browser@npm:4.6.10001"
   dependencies:
-    buffer: "npm:^6.0.3"
-    memfs: "npm:3.4.13"
-  checksum: 580fa76a69638b4f1e3e9f36db4ece7de3689427cc9519c567e5e6413e2106390892a63acf19675cc0908eafbb7f991ebf5425fede19ebd8b1fe0880e8b16cba
+    memfs: "npm:4.6.0"
+  checksum: 495f3294e24b939a14cbc1e31e79d064289deccfe79812f869ad738d21d67a6772b5353628cf038f64e4224d78b9f9ad0b1a7c4c91247aa15ddb6b38685b8f53
   languageName: node
   linkType: hard
 
-"memfs@npm:3.4.13":
-  version: 3.4.13
-  resolution: "memfs@npm:3.4.13"
+"memfs@npm:4.6.0":
+  version: 4.6.0
+  resolution: "memfs@npm:4.6.0"
   dependencies:
-    fs-monkey: "npm:^1.0.3"
-  checksum: f14ab3ff938eacf688577d1b0f7bf77ca3a05d4df9c335b024ed6790e6b224b569cc4b61c1de604c0420a0fac6b3fbf3f283c72fd2be9ce395534539599ac63b
+    json-joy: "npm:^9.2.0"
+    thingies: "npm:^1.11.1"
+  peerDependencies:
+    tslib: 2
+  checksum: 370a70ff9156aaf5a75bfeca265d66b08795bf736c5ad0c1a597e489864d4f031f424b320ef3f331a99f0fa36ad90688ab28859b7c647ee3b473d4ee1fdd8d95
   languageName: node
   linkType: hard
 
@@ -6888,7 +6920,7 @@ __metadata:
     husky: "npm:^8.0.3"
     lerna: "npm:^8.0.1"
     lint-staged: "npm:^15.2.0"
-    memfs-browser: "npm:^3.4.13000"
+    memfs-browser: "npm:^4.0.0"
     npm-run-all: "npm:^4.1.5"
     prettier: "npm:^3.1.1"
     ts-node: "npm:^10.9.2"
@@ -9075,6 +9107,15 @@ __metadata:
   version: 0.2.0
   resolution: "text-table@npm:0.2.0"
   checksum: 02805740c12851ea5982686810702e2f14369a5f4c5c40a836821e3eefc65ffeec3131ba324692a37608294b0fd8c1e55a2dd571ffed4909822787668ddbee5c
+  languageName: node
+  linkType: hard
+
+"thingies@npm:^1.11.1":
+  version: 1.15.0
+  resolution: "thingies@npm:1.15.0"
+  peerDependencies:
+    tslib: ^2
+  checksum: 62d855eedcaeec748d6b99a35052ab2b476ac5ec4fb22b89b3bf2056e97e6750f234c7e2fc541c400d08fc301a6ae08077ea306a3fb99ba6002acb957b710081
   languageName: node
   linkType: hard
 
