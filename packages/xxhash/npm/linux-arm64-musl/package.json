@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/xxhash-linux-arm64-musl",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "cpu": [
     "arm64"
   ],

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.3.3...@node-rs/helper@1.5.0) (2024-01-09)
+
+### Features
+
+- upgrade dependencies and lockfile ([#751](https://github.com/napi-rs/node-rs/issues/751)) ([70d7fa7](https://github.com/napi-rs/node-rs/commit/70d7fa72262c6e547950b30daa2d03583a1b04bd))
+
 # [1.4.0](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.3.3...@node-rs/helper@1.4.0) (2024-01-02)
 
 ### Features

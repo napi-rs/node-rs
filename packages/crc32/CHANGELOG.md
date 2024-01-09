@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.7.2...@node-rs/crc32@1.9.0) (2024-01-09)
+
+### Bug Fixes
+
+- wasi package load logic ([#755](https://github.com/napi-rs/node-rs/issues/755)) ([505856c](https://github.com/napi-rs/node-rs/commit/505856c4f9cb4c1f07e008f7f0dee41e7285a817))
+
+### Features
+
+- support wasi target on browser ([#757](https://github.com/napi-rs/node-rs/issues/757)) ([f39eec0](https://github.com/napi-rs/node-rs/commit/f39eec00c7322a26c1836cf1a19c11c9a9d53ef6))
+- support wasi-wasm32 target ([#752](https://github.com/napi-rs/node-rs/issues/752)) ([12f25b5](https://github.com/napi-rs/node-rs/commit/12f25b5a5e09a01c832e4d26084acf4ddbd730b9))
+- upgrade dependencies and lockfile ([#751](https://github.com/napi-rs/node-rs/issues/751)) ([70d7fa7](https://github.com/napi-rs/node-rs/commit/70d7fa72262c6e547950b30daa2d03583a1b04bd))
+
 # [1.8.0](https://github.com/napi-rs/node-rs/compare/@node-rs/crc32@1.7.2...@node-rs/crc32@1.8.0) (2024-01-02)
 
 ### Features
