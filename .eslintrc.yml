@@ -4,6 +4,9 @@ parserOptions:
   ecmaVersion: latest
   sourceType: module
 
+globals:
+  globalThis: true
+
 env:
   browser: true
   es6: true

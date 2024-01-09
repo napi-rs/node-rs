@@ -15,8 +15,8 @@ const __wasi = new __nodeWASI({
   version: 'preview1',
   env: process.env,
   preopens: {
-    '/': '/'
-  }
+    '/': '/',
+  },
 })
 
 const __emnapiContext = __emnapiGetDefaultContext()
@@ -33,13 +33,19 @@ if (!__nodeFs.existsSync(__wasmFilePath)) {
   try {
     __wasmFilePath = __nodePath.resolve('@node-rs/bcrypt-wasm32-wasi')
   } catch {
-    throw new Error('Cannot find bcrypt.wasm32-wasi.wasm file, and @node-rs/bcrypt-wasm32-wasi package is not installed.')
+    throw new Error(
+      'Cannot find bcrypt.wasm32-wasi.wasm file, and @node-rs/bcrypt-wasm32-wasi package is not installed.',
+    )
   }
 }
 
-const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule } = __emnapiInstantiateNapiModuleSync(__nodeFs.readFileSync(__wasmFilePath), {
+const {
+  instance: __napiInstance,
+  module: __wasiModule,
+  napiModule: __napiModule,
+} = __emnapiInstantiateNapiModuleSync(__nodeFs.readFileSync(__wasmFilePath), {
   context: __emnapiContext,
-  asyncWorkPoolSize: (function() {
+  asyncWorkPoolSize: (function () {
     const threadsSizeFromEnv = Number(process.env.NAPI_RS_ASYNC_WORK_POOL_SIZE ?? process.env.UV_THREADPOOL_SIZE)
     // NaN > 0 is false
     if (threadsSizeFromEnv > 0) {
@@ -66,7 +72,7 @@ const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule
   },
   beforeInit({ instance }) {
     __napi_rs_initialize_modules(instance)
-  }
+  },
 })
 
 function __napi_rs_initialize_modules(__napiInstance) {
@@ -81,10 +87,10 @@ function __napi_rs_initialize_modules(__napiInstance) {
   __napiInstance.exports['__napi_register__verify_sync_8']?.()
   __napiInstance.exports['__napi_register__verify_9']?.()
 }
-module.exports.DEFAULT_COST = __napiModule.exports.DEFAULT_COST,
-module.exports.genSalt = __napiModule.exports.genSalt,
-module.exports.genSaltSync = __napiModule.exports.genSaltSync,
-module.exports.hash = __napiModule.exports.hash,
-module.exports.hashSync = __napiModule.exports.hashSync,
-module.exports.verify = __napiModule.exports.verify,
+module.exports.DEFAULT_COST = __napiModule.exports.DEFAULT_COST
+module.exports.genSalt = __napiModule.exports.genSalt
+module.exports.genSaltSync = __napiModule.exports.genSaltSync
+module.exports.hash = __napiModule.exports.hash
+module.exports.hashSync = __napiModule.exports.hashSync
+module.exports.verify = __napiModule.exports.verify
 module.exports.verifySync = __napiModule.exports.verifySync

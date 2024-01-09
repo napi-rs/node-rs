@@ -15,8 +15,8 @@ const __wasi = new __nodeWASI({
   version: 'preview1',
   env: process.env,
   preopens: {
-    '/': '/'
-  }
+    '/': '/',
+  },
 })
 
 const __emnapiContext = __emnapiGetDefaultContext()
@@ -37,9 +37,13 @@ if (!__nodeFs.existsSync(__wasmFilePath)) {
   }
 }
 
-const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule } = __emnapiInstantiateNapiModuleSync(__nodeFs.readFileSync(__wasmFilePath), {
+const {
+  instance: __napiInstance,
+  module: __wasiModule,
+  napiModule: __napiModule,
+} = __emnapiInstantiateNapiModuleSync(__nodeFs.readFileSync(__wasmFilePath), {
   context: __emnapiContext,
-  asyncWorkPoolSize: (function() {
+  asyncWorkPoolSize: (function () {
     const threadsSizeFromEnv = Number(process.env.NAPI_RS_ASYNC_WORK_POOL_SIZE ?? process.env.UV_THREADPOOL_SIZE)
     // NaN > 0 is false
     if (threadsSizeFromEnv > 0) {
@@ -66,7 +70,7 @@ const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule
   },
   beforeInit({ instance }) {
     __napi_rs_initialize_modules(instance)
-  }
+  },
 })
 
 function __napi_rs_initialize_modules(__napiInstance) {
@@ -81,11 +85,11 @@ function __napi_rs_initialize_modules(__napiInstance) {
   __napiInstance.exports['__napi_register__extract_8']?.()
   __napiInstance.exports['__napi_register__load_tfidf_dict_9']?.()
 }
-module.exports.cut = __napiModule.exports.cut,
-module.exports.cutAll = __napiModule.exports.cutAll,
-module.exports.cutForSearch = __napiModule.exports.cutForSearch,
-module.exports.extract = __napiModule.exports.extract,
-module.exports.load = __napiModule.exports.load,
-module.exports.loadDict = __napiModule.exports.loadDict,
-module.exports.loadTFIDFDict = __napiModule.exports.loadTFIDFDict,
+module.exports.cut = __napiModule.exports.cut
+module.exports.cutAll = __napiModule.exports.cutAll
+module.exports.cutForSearch = __napiModule.exports.cutForSearch
+module.exports.extract = __napiModule.exports.extract
+module.exports.load = __napiModule.exports.load
+module.exports.loadDict = __napiModule.exports.loadDict
+module.exports.loadTFIDFDict = __napiModule.exports.loadTFIDFDict
 module.exports.tag = __napiModule.exports.tag

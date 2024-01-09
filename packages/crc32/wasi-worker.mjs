@@ -1,16 +1,16 @@
-import fs from "node:fs";
-import { createRequire } from "node:module";
-import { parentPort, Worker } from "node:worker_threads";
+import fs from 'node:fs'
+import { createRequire } from 'node:module'
+import { parentPort, Worker } from 'node:worker_threads'
 
-import { instantiateNapiModuleSync, MessageHandler } from "@emnapi/core";
-import { WASI } from "@tybys/wasm-util";
+import { instantiateNapiModuleSync, MessageHandler } from '@emnapi/core'
+import { WASI } from '@tybys/wasm-util'
 
-const require = createRequire(import.meta.url);
+const require = createRequire(import.meta.url)
 
 if (parentPort) {
-  parentPort.on("message", (data) => {
-    globalThis.onmessage({ data });
-  });
+  parentPort.on('message', (data) => {
+    globalThis.onmessage({ data })
+  })
 }
 
 Object.assign(globalThis, {
@@ -18,18 +18,18 @@ Object.assign(globalThis, {
   require,
   Worker,
   importScripts: function (f) {
-    ;(0, eval)(fs.readFileSync(f, "utf8") + "//# sourceURL=" + f);
+    ;(0, eval)(fs.readFileSync(f, 'utf8') + '//# sourceURL=' + f)
   },
   postMessage: function (msg) {
     if (parentPort) {
-      parentPort.postMessage(msg);
+      parentPort.postMessage(msg)
     }
   },
-});
+})
 
 const handler = new MessageHandler({
   onLoad({ wasmModule, wasmMemory }) {
-    const wasi = new WASI({ fs });
+    const wasi = new WASI({ fs })
 
     return instantiateNapiModuleSync(wasmModule, {
       childThread: true,
@@ -39,13 +39,13 @@ const handler = new MessageHandler({
           ...importObject.env,
           ...importObject.napi,
           ...importObject.emnapi,
-          memory: wasmMemory
-        };
+          memory: wasmMemory,
+        }
       },
-    });
+    })
   },
-});
+})
 
 globalThis.onmessage = function (e) {
-  handler.handle(e);
-};
+  handler.handle(e)
+}

@@ -8,7 +8,9 @@
   "files": [
     "argon2.wasm32-wasi.wasm",
     "argon2.wasi.cjs",
-    "wasi-worker.mjs"
+    "argon2.wasi-browser.js",
+    "wasi-worker.mjs",
+    "wasi-worker-browser.mjs"
   ],
   "description": "RustCrypto: Argon2 binding for Node.js",
   "keywords": [
@@ -35,8 +37,11 @@
     "type": "git",
     "url": "git+https://github.com/napi-rs/node-rs.git"
   },
+  "browser": "argon2.wasi-browser.js",
   "dependencies": {
     "@emnapi/core": "^0.45.0",
-    "@emnapi/runtime": "^0.45.0"
+    "@emnapi/runtime": "^0.45.0",
+    "@tybys/wasm-util": "^0.8.1",
+    "memfs-browser": "^3.4.13000"
   }
 }

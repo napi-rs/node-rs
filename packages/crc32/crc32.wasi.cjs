@@ -15,8 +15,8 @@ const __wasi = new __nodeWASI({
   version: 'preview1',
   env: process.env,
   preopens: {
-    '/': '/'
-  }
+    '/': '/',
+  },
 })
 
 const __emnapiContext = __emnapiGetDefaultContext()
@@ -37,9 +37,13 @@ if (!__nodeFs.existsSync(__wasmFilePath)) {
   }
 }
 
-const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule } = __emnapiInstantiateNapiModuleSync(__nodeFs.readFileSync(__wasmFilePath), {
+const {
+  instance: __napiInstance,
+  module: __wasiModule,
+  napiModule: __napiModule,
+} = __emnapiInstantiateNapiModuleSync(__nodeFs.readFileSync(__wasmFilePath), {
   context: __emnapiContext,
-  asyncWorkPoolSize: (function() {
+  asyncWorkPoolSize: (function () {
     const threadsSizeFromEnv = Number(process.env.NAPI_RS_ASYNC_WORK_POOL_SIZE ?? process.env.UV_THREADPOOL_SIZE)
     // NaN > 0 is false
     if (threadsSizeFromEnv > 0) {
@@ -66,12 +70,12 @@ const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule
   },
   beforeInit({ instance }) {
     __napi_rs_initialize_modules(instance)
-  }
+  },
 })
 
 function __napi_rs_initialize_modules(__napiInstance) {
   __napiInstance.exports['__napi_register__crc32c_0']?.()
   __napiInstance.exports['__napi_register__crc32_1']?.()
 }
-module.exports.crc32 = __napiModule.exports.crc32,
+module.exports.crc32 = __napiModule.exports.crc32
 module.exports.crc32c = __napiModule.exports.crc32c
