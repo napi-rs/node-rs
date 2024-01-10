@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32-wasm32-wasi",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "cpu": [
     "wasm32"
   ],

@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt-android-arm-eabi",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "cpu": [
     "arm"
   ],
