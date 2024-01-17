@@ -298,6 +298,20 @@ switch (platform) {
           }
         }
         break
+      case 's390x':
+        localFileExisted = existsSync(
+          join(__dirname, 'xxhash.linux-s390x-gnu.node')
+        )
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./xxhash.linux-s390x-gnu.node')
+          } else {
+            nativeBinding = require('@node-rs/xxhash-linux-s390x-gnu')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
       default:
         throw new Error(`Unsupported architecture on Linux: ${arch}`)
     }
