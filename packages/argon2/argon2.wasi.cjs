@@ -8,15 +8,17 @@ const __nodePath = require('node:path')
 const { WASI: __nodeWASI } = require('node:wasi')
 const { Worker } = require('node:worker_threads')
 
-const { instantiateNapiModuleSync: __emnapiInstantiateNapiModuleSync } = require('@emnapi/core')
-const { getDefaultContext: __emnapiGetDefaultContext } = require('@emnapi/runtime')
+const {
+  instantiateNapiModuleSync: __emnapiInstantiateNapiModuleSync,
+  getDefaultContext: __emnapiGetDefaultContext,
+} = require('@napi-rs/wasm-runtime')
 
 const __wasi = new __nodeWASI({
   version: 'preview1',
   env: process.env,
   preopens: {
-    '/': '/',
-  },
+    '/': '/'
+  }
 })
 
 const __emnapiContext = __emnapiGetDefaultContext()
@@ -33,19 +35,13 @@ if (!__nodeFs.existsSync(__wasmFilePath)) {
   try {
     __wasmFilePath = __nodePath.resolve('@node-rs/argon2-wasm32-wasi')
   } catch {
-    throw new Error(
-      'Cannot find argon2.wasm32-wasi.wasm file, and @node-rs/argon2-wasm32-wasi package is not installed.',
-    )
+    throw new Error('Cannot find argon2.wasm32-wasi.wasm file, and @node-rs/argon2-wasm32-wasi package is not installed.')
   }
 }
 
-const {
-  instance: __napiInstance,
-  module: __wasiModule,
-  napiModule: __napiModule,
-} = __emnapiInstantiateNapiModuleSync(__nodeFs.readFileSync(__wasmFilePath), {
+const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule } = __emnapiInstantiateNapiModuleSync(__nodeFs.readFileSync(__wasmFilePath), {
   context: __emnapiContext,
-  asyncWorkPoolSize: (function () {
+  asyncWorkPoolSize: (function() {
     const threadsSizeFromEnv = Number(process.env.NAPI_RS_ASYNC_WORK_POOL_SIZE ?? process.env.UV_THREADPOOL_SIZE)
     // NaN > 0 is false
     if (threadsSizeFromEnv > 0) {
@@ -72,7 +68,7 @@ const {
   },
   beforeInit({ instance }) {
     __napi_rs_initialize_modules(instance)
-  },
+  }
 })
 
 function __napi_rs_initialize_modules(__napiInstance) {
