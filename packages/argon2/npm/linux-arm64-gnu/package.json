@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/argon2-linux-arm64-gnu",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "cpu": [
     "arm64"
   ],

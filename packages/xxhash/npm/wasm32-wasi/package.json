@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/xxhash-wasm32-wasi",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "cpu": [
     "wasm32"
   ],
