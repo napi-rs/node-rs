@@ -11,6 +11,7 @@ use std::path::Path;
 use std::str;
 
 use deno_ast::MediaType;
+use deno_lint::linter::LintFileOptions;
 use deno_lint::linter::LinterBuilder;
 use deno_lint::rules::{get_all_rules, get_recommended_rules};
 use ignore::overrides::OverrideBuilder;
@@ -56,7 +57,6 @@ fn lint(
       },
       None => get_recommended_rules(),
     })
-    .media_type(get_media_type(Path::new(file_name.as_str())))
     .ignore_diagnostic_directive("eslint-disable-next-line")
     .build();
 
@@ -71,7 +71,11 @@ fn lint(
   };
 
   let (s, file_diagnostics) = linter
-    .lint(file_name.clone(), source_string.to_owned())
+    .lint_file(LintFileOptions {
+      media_type: get_media_type(Path::new(file_name.as_str())),
+      filename: file_name.clone(),
+      source_code: source_string.to_owned(),
+    })
     .map_err(|e| {
       Error::new(
         Status::GenericFailure,
@@ -171,17 +175,18 @@ fn denolint(__dirname: String, config_path: String) -> Result<bool> {
 
       let linter = LinterBuilder::default()
         .rules(rules.clone())
-        .media_type(get_media_type(p))
         .ignore_file_directive("eslint-disable")
         .ignore_diagnostic_directive("eslint-disable-next-line")
         .build();
       let (s, file_diagnostics) = linter
-        .lint(
-          p.to_str()
+        .lint_file(LintFileOptions {
+          source_code: file_content,
+          filename: p
+            .to_str()
             .ok_or_else(|| Error::from_reason(format!("Convert path to string failed: {:?}", &p)))?
             .to_owned(),
-          file_content.clone(),
-        )
+          media_type: get_media_type(p),
+        })
         .map_err(|e| {
           Error::new(
             Status::GenericFailure,

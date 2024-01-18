@@ -23,7 +23,7 @@ test('genSalt should return a string', async (t) => {
   t.is(typeof (await genSalt(10, '2b')), 'string')
   t.is(typeof (await genSalt(10, '2y')), 'string')
   t.is(typeof (await genSalt(10, '2x')), 'string')
-  await t.throwsAsync(async () => genSalt(10, 'invalid' as any))
+  t.throws(() => genSalt(10, 'invalid' as any))
 })
 
 test('verifySync hashed password from bcrypt should be true', (t) => {

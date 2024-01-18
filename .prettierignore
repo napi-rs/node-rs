@@ -3,6 +3,10 @@ node_modules
 lib
 .yarn
 yarn.lock
-packages/*/*.wasi.js
+packages/*/*.wasi.cjs
 packages/*/index.js
+packages/*/browser.js
+packages/*/wasi-worker*
 packages/*/index.d.ts
+packages/*/binding.js
+packages/*/binding.d.ts
