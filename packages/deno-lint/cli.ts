@@ -12,7 +12,7 @@ class LintCommand extends Command {
 
   private readonly checkOnly = Option.Boolean('--check-only', { required: false })
 
-  async execute() {
+  execute() {
     const hasError = denolint(this.cwd ?? __dirname, this.configPath ?? '.denolint.json')
     return Promise.resolve(hasError && !this.checkOnly ? 1 : 0)
   }
