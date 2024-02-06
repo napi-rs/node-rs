@@ -73,16 +73,6 @@ impl From<&Header> for jsonwebtoken::Header {
   }
 }
 
-impl Into<jsonwebtoken::Header> for Header {
-  #[inline]
-  fn into(value: &jsonwebtoken::Header) -> Self {
-    Header {
-      algorithm: value.alg,
-      content_type: value.cty.clone(),
-    }
-  }
-}
-
 impl Header {
   #[inline]
   pub fn merge(self, other: Self) -> Self {
