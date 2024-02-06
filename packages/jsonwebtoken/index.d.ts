@@ -31,11 +31,11 @@ export const enum Algorithm {
 export interface Claims {
   data?: Record<string, any>
   aud?: string
-  exp?: Number
-  iat?: Number
+  exp?: number
+  iat?: number
   iss?: string
   jti?: string
-  nbf?: Number
+  nbf?: number
   sub?: string
 }
 
@@ -123,7 +123,7 @@ export interface Validation {
    *
    * Defaults to `60`.
    */
-  leeway?: Number
+  leeway?: number
   /**
    * Whether to validate the `exp` field.
    *
