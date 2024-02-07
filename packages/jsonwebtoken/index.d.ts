@@ -29,7 +29,7 @@ export const enum Algorithm {
 }
 
 export interface Claims {
-  data?: Record<string, any>
+  [key: string]: any,
   aud?: string
   exp?: number
   iat?: number
