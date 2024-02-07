@@ -98,13 +98,13 @@ impl Task for SignTask {
 
 #[napi]
 pub fn sign(
-  claims: Claims,
+  mut claims: Claims,
   key: Either<String, JsBuffer>,
   header: Option<Header>,
   abort_signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<SignTask>> {
-  if(!claims.contains_key("iat")) {
-      claims["iat"] = jsonwebtoken::get_current_timestamp().into();
+  if !claims.contains_key("iat") {
+    claims.insert("iat".parse()?, jsonwebtoken::get_current_timestamp().into());
   }
 
   Ok(AsyncTask::with_optional_signal(
@@ -122,12 +122,12 @@ pub fn sign(
 
 #[napi]
 pub fn sign_sync(
-  claims: Claims,
+  mut claims: Claims,
   key: Either<String, Buffer>,
   header: Option<Header>,
 ) -> Result<String> {
-  if(!claims.contains_key("iat")) {
-    claims["iat"] = jsonwebtoken::get_current_timestamp().into();
+  if !claims.contains_key("iat") {
+    claims.insert("iat".parse()?, jsonwebtoken::get_current_timestamp().into());
   }
 
   let header = match header {

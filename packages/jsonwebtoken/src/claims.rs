@@ -1,3 +1,4 @@
-use serde_json::{Map, Value};
+use std::collections::HashMap;
+use serde_json::{Value};
 
-pub type Claims = Map<String, Value>;
+pub type Claims = HashMap<String, Value>;
