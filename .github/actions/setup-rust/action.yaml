@@ -1,0 +1,25 @@
+name: 'Setup Rust'
+description: 'Set up the Rust toolchain'
+inputs:
+  targets:
+    description: 'The target to install'
+    required: true
+  components:
+    description: 'The components to install'
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Print rustup toolchain version
+      shell: bash
+      id: rustup-version
+      run: |
+        export RUST_TOOLCHAIN_VERSION="$(grep 'channel' rust-toolchain.toml | head -1 | awk -F '"' '{print $2}')"
+        echo "Rust toolchain version: $RUST_TOOLCHAIN_VERSION"
+        echo "RUST_TOOLCHAIN_VERSION=$RUST_TOOLCHAIN_VERSION" >> "$GITHUB_OUTPUT"
+    - name: Install
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: ${{ inputs.targets }}
+        toolchain: ${{ steps.rustup-version.outputs.RUST_TOOLCHAIN_VERSION }}
+        components: ${{ inputs.components }}
