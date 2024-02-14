@@ -28,17 +28,6 @@ export const enum Algorithm {
   EdDSA = 11
 }
 
-export interface Claims {
-  [key: string]: any,
-  aud?: string
-  exp?: number
-  iat?: number
-  iss?: string
-  jti?: string
-  nbf?: number
-  sub?: string
-}
-
 export interface Header {
   /**
    * The algorithm used
