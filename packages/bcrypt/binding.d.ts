@@ -7,23 +7,11 @@ export function genSalt(round: number, version?: '2a' | '2x' | '2y' | '2b', sign
 
 export function genSaltSync(round: number, version?: '2a' | '2x' | '2y' | '2b'): string
 
-export function hash(
-  input: string | Buffer,
-  cost?: number | undefined | null,
-  salt?: Buffer | undefined | null,
-  signal?: AbortSignal | undefined | null,
-): Promise<string>
+export function hash(input: string | Buffer, cost?: number | undefined | null, salt?: Buffer | undefined | null, signal?: AbortSignal | undefined | null): Promise<string>
 
-export function hashSync(
-  input: string | Buffer,
-  cost?: number | undefined | null,
-  salt?: Buffer | undefined | null,
-): string
+export function hashSync(input: string | Buffer, cost?: number | undefined | null, salt?: Buffer | undefined | null): string
 
-export function verify(
-  password: string | Buffer,
-  hash: string | Buffer,
-  signal?: AbortSignal | undefined | null,
-): Promise<boolean>
+export function verify(password: string | Buffer, hash: string | Buffer, signal?: AbortSignal | undefined | null): Promise<boolean>
 
 export function verifySync(input: string | Buffer, hash: string | Buffer): boolean
+

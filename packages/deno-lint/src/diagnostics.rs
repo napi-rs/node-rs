@@ -31,13 +31,18 @@ pub fn display_diagnostics(
     .collect()
 }
 
-#[derive(Debug)]
 struct MietteDiagnostic<'a> {
   source_code: &'a MietteSourceCode<'a>,
   lint_diagnostic: &'a LintDiagnostic,
 }
 
 impl std::error::Error for MietteDiagnostic<'_> {}
+
+impl std::fmt::Debug for MietteDiagnostic<'_> {
+  fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    f.write_str(&self.lint_diagnostic.message)
+  }
+}
 
 impl Display for MietteDiagnostic<'_> {
   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -62,10 +67,9 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
   }
 
   fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
-    let len =
-      self.lint_diagnostic.range.end.byte_index - self.lint_diagnostic.range.start.byte_index;
-    let start = miette::SourceOffset::from(self.lint_diagnostic.range.start.byte_index);
-    let len = miette::SourceOffset::from(len);
+    let len = self.lint_diagnostic.range.end - self.lint_diagnostic.range.start;
+    let start =
+      miette::SourceOffset::from(self.lint_diagnostic.range.start.as_byte_pos().0 as usize);
     let span = miette::SourceSpan::new(start, len);
     let text = self
       .lint_diagnostic
@@ -114,8 +118,7 @@ impl miette::SourceCode for MietteSourceCode<'_> {
     let byte_range = range.as_byte_range(start_pos);
     let name = Some(self.filename.to_string());
     let start = miette::SourceOffset::from(byte_range.start);
-    let len = miette::SourceOffset::from(byte_range.len());
-    let span = miette::SourceSpan::new(start, len);
+    let span = miette::SourceSpan::new(start, byte_range.len());
 
     Ok(Box::new(SpanContentsImpl {
       data: src_text,

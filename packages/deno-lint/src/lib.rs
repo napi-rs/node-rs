@@ -40,7 +40,7 @@ fn lint(
   source_code: Either<String, Buffer>,
   all_rules: Option<Either<bool, String>>,
 ) -> Result<Vec<String>> {
-  let linter = LinterBuilder::default()
+  let linter: deno_lint::linter::Linter = LinterBuilder::default()
     .rules(match all_rules {
       Some(r) => match r {
         Either::A(a) => {
@@ -73,8 +73,13 @@ fn lint(
   let (s, file_diagnostics) = linter
     .lint_file(LintFileOptions {
       media_type: get_media_type(Path::new(file_name.as_str())),
-      filename: file_name.clone(),
       source_code: source_string.to_owned(),
+      specifier: url::Url::parse(&file_name).map_err(|e| {
+        Error::new(
+          Status::GenericFailure,
+          format!("Parse specifier failed: {e}"),
+        )
+      })?,
     })
     .map_err(|e| {
       Error::new(
@@ -181,10 +186,12 @@ fn denolint(__dirname: String, config_path: String) -> Result<bool> {
       let (s, file_diagnostics) = linter
         .lint_file(LintFileOptions {
           source_code: file_content,
-          filename: p
-            .to_str()
-            .ok_or_else(|| Error::from_reason(format!("Convert path to string failed: {:?}", &p)))?
-            .to_owned(),
+          specifier: url::Url::from_file_path(p).map_err(|_| {
+            Error::new(
+              Status::GenericFailure,
+              format!("Parse specifier failed: {p:?}"),
+            )
+          })?,
           media_type: get_media_type(p),
         })
         .map_err(|e| {
