@@ -326,27 +326,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:^3.0.0-alpha.36":
-  version: 3.0.0-alpha.36
-  resolution: "@napi-rs/cli@npm:3.0.0-alpha.36"
+"@napi-rs/cli@npm:^3.0.0-alpha.39":
+  version: 3.0.0-alpha.39
+  resolution: "@napi-rs/cli@npm:3.0.0-alpha.39"
   dependencies:
     "@napi-rs/cross-toolchain": "npm:^0.0.14"
     "@octokit/rest": "npm:^20.0.2"
-    "@tybys/wasm-util": "npm:0.8.1"
     clipanion: "npm:^3.2.1"
     colorette: "npm:^2.0.20"
     debug: "npm:^4.3.4"
-    emnapi: "npm:0.45.0"
-    inquirer: "npm:^9.2.12"
+    emnapi: "npm:1.0.0"
+    inquirer: "npm:^9.2.13"
     js-yaml: "npm:^4.1.0"
     lodash-es: "npm:^4.17.21"
     semver: "npm:^7.5.4"
     toml: "npm:^3.0.0"
     typanion: "npm:^3.14.0"
+    wasm-sjlj: "npm:^1.0.4"
   peerDependencies:
-    "@emnapi/runtime": ^0.45.0
-    "@tybys/wasm-util": ^0.8.0
-    emnapi: ^0.45.0
+    "@emnapi/runtime": ^1.0.0
+    emnapi: ^1.0.0
   peerDependenciesMeta:
     "@emnapi/runtime":
       optional: true
@@ -357,7 +356,7 @@ __metadata:
   bin:
     napi: dist/cli.js
     napi-raw: cli.mjs
-  checksum: 10c0/cbcd0fee9ac93d71e5a56a8a82bd6ffa75e1f51816bf38edee94b88bda611eb281e8f2eb8c415145da1c15d9c56c49f9d65f6d23a92bbf7d4f16d5fff780ad79
+  checksum: 10c0/ca02ff2a82920b6061406642f747e3e78c909c55d2497960013545d6502b67a411d42ee48ab43e7f68b5b4eaa639d067e19341e0c47391d211f933c6bc947434
   languageName: node
   linkType: hard
 
@@ -692,7 +691,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/argon2@workspace:packages/argon2"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.36"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.39"
     argon2: "npm:^0.31.2"
     cross-env: "npm:^7.0.3"
   languageName: unknown
@@ -702,7 +701,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/bcrypt@workspace:packages/bcrypt"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.36"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.39"
     "@types/bcrypt": "npm:^5.0.2"
     bcrypt: "npm:^5.1.1"
     bcryptjs: "npm:^2.4.3"
@@ -714,7 +713,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/crc32@workspace:packages/crc32"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.36"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.39"
     "@types/crc": "npm:^3.8.3"
     buffer: "npm:^6.0.3"
     crc: "npm:^4.3.2"
@@ -726,7 +725,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/deno-lint@workspace:packages/deno-lint"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.36"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.39"
     "@types/webpack": "npm:^5.28.5"
     clipanion: "npm:^3.2.1"
     typanion: "npm:^3.14.0"
@@ -747,7 +746,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/jieba@workspace:packages/jieba"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.36"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.39"
     nodejieba: "npm:^2.6.0"
   languageName: unknown
   linkType: soft
@@ -756,7 +755,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/jsonwebtoken@workspace:packages/jsonwebtoken"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.36"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.39"
     "@types/jsonwebtoken": "npm:^9.0.5"
     jsonwebtoken: "npm:^9.0.2"
   languageName: unknown
@@ -766,7 +765,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/xxhash@workspace:packages/xxhash"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.36"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.39"
     "@types/xxhashjs": "npm:^0.2.4"
     webpack: "npm:^5.89.0"
     xxhash: "npm:^0.3.0"
@@ -1676,7 +1675,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tybys/wasm-util@npm:0.8.1, @tybys/wasm-util@npm:^0.8.1":
+"@tybys/wasm-util@npm:^0.8.1":
   version: 0.8.1
   resolution: "@tybys/wasm-util@npm:0.8.1"
   dependencies:
@@ -3747,15 +3746,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emnapi@npm:0.45.0":
-  version: 0.45.0
-  resolution: "emnapi@npm:0.45.0"
+"emnapi@npm:1.0.0":
+  version: 1.0.0
+  resolution: "emnapi@npm:1.0.0"
+  dependencies:
+    node-gyp: "npm:latest"
   peerDependencies:
     node-addon-api: ">= 6.1.0"
   peerDependenciesMeta:
     node-addon-api:
       optional: true
-  checksum: 10c0/076411fc611c0e3f1c08a9260babbeac8094474d8a4174e6b9f27dc5ba569b51fd42c2513d17d4056680a680a575fb8c81f18259d7208327b53195bf3f58483b
+  checksum: 10c0/cd927b47189e313858f68147368685054bd63ad28d371caab821a308d32d571ae7e390f322dfd35c513f33eb8550330a28a4bc65c5c1ed01ba47250a186f0ba1
   languageName: node
   linkType: hard
 
@@ -5276,9 +5277,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inquirer@npm:^9.2.12":
-  version: 9.2.13
-  resolution: "inquirer@npm:9.2.13"
+"inquirer@npm:^9.2.13":
+  version: 9.2.14
+  resolution: "inquirer@npm:9.2.14"
   dependencies:
     "@ljharb/through": "npm:^2.3.12"
     ansi-escapes: "npm:^4.3.2"
@@ -5295,7 +5296,7 @@ __metadata:
     string-width: "npm:^4.2.3"
     strip-ansi: "npm:^6.0.1"
     wrap-ansi: "npm:^6.2.0"
-  checksum: 10c0/652329bdc380df627abd5edbe81444d39b08c9377c7e839b258679aa2025aa9c30178a5e23691b70018291c3c601b0b6d96f77ac24eae7ab9ec1816f32d68db4
+  checksum: 10c0/de4fc9054e4816835bfc1cee1db254b0b8df816fb57fc13d694cd4e80c13e43230b01bde0526e74f620910a64e3ad0f99ec89869f88e1cf50aa70d4958ef62cb
   languageName: node
   linkType: hard
 
@@ -6916,7 +6917,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "node-rs@workspace:."
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.36"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.39"
     "@napi-rs/wasm-runtime": "npm:^0.1.1"
     "@swc-node/core": "npm:^1.10.6"
     "@swc-node/register": "npm:^1.6.8"
@@ -9591,6 +9592,15 @@ __metadata:
   dependencies:
     builtins: "npm:^1.0.3"
   checksum: 10c0/064f21f59aefae6cc286dd4a50b15d14adb0227e0facab4316197dfb8d06801669e997af5081966c15f7828a5e6ff1957bd20886aeb6b9d0fa430e4cb5db9c4a
+  languageName: node
+  linkType: hard
+
+"wasm-sjlj@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "wasm-sjlj@npm:1.0.4"
+  dependencies:
+    node-gyp: "npm:latest"
+  checksum: 10c0/79b0d48c23e55e98e8cac86610003714dc5b874c76bc88501eab70c4c96f4c6d49420e036825fc7c55f42317620433f25ff7fb0ea2dc9e6db505b79450653301
   languageName: node
   linkType: hard
 

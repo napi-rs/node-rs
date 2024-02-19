@@ -323,14 +323,18 @@ switch (platform) {
 if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
   try {
     nativeBinding = require('./jieba.wasi.cjs')
-  } catch {
-    // ignore
+  } catch (err) {
+    if (process.env.NAPI_RS_FORCE_WASI) {
+      console.error(err)
+    }
   }
   if (!nativeBinding) {
     try {
       nativeBinding = require('@node-rs/jieba-wasm32-wasi')
     } catch (err) {
-      console.error(err)
+      if (process.env.NAPI_RS_FORCE_WASI) {
+        console.error(err)
+      }
     }
   }
 }
