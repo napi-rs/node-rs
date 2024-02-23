@@ -1,4 +1,4 @@
+use indexmap::IndexMap;
 use serde_json::Value;
-use std::collections::HashMap;
 
-pub type Claims = HashMap<String, Value>;
+pub type Claims = IndexMap<String, Value>;

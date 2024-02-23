@@ -9,10 +9,12 @@ crate-type = ["cdylib"]
 
 [dependencies]
 global_alloc = { path = "../../crates/alloc" }
+indexmap = { version = "2", features = ["serde"] }
 jsonwebtoken = { version = "9" }
 napi = { version = "2", default-features = false, features = [
   "napi3",
-  "serde-json",
+  "serde-json-ordered",
+  "object_indexmap",
 ] }
 napi-derive = { version = "2" }
 rand_core = { version = "0.6", features = ["std"] }

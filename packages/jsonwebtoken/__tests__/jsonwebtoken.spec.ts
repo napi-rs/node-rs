@@ -10,6 +10,7 @@ const getUtcTimestamp = () => Math.floor(new Date().getTime() / 1000)
 const oneDayInSeconds = 86400
 
 test('signSync and sign (async) should produce the same result', async (t) => {
+  const iat = getUtcTimestamp()
   const claims = {
     data: {
       id: 'f81d4fae-7dec-11d0-a765-00a0c91e6bf6',
@@ -18,7 +19,8 @@ test('signSync and sign (async) should produce the same result', async (t) => {
       set: ['KL', 'TV', 'JI'],
       nest: { id: 'poly' },
     },
-    exp: getUtcTimestamp() + oneDayInSeconds,
+    exp: iat + oneDayInSeconds,
+    iat,
   }
   const secretKey = 'secret'
   const resSync = signSync(claims, secretKey)

@@ -98,7 +98,7 @@ impl Task for SignTask {
 
 #[napi]
 pub fn sign(
-  mut claims: Claims,
+  #[napi(ts_arg_type = "{ [key: string]: any }")] mut claims: Claims,
   key: Either<String, JsBuffer>,
   header: Option<Header>,
   abort_signal: Option<AbortSignal>,
@@ -122,12 +122,15 @@ pub fn sign(
 
 #[napi]
 pub fn sign_sync(
-  mut claims: Claims,
+  #[napi(ts_arg_type = "{ [key: string]: any }")] mut claims: Claims,
   key: Either<String, Buffer>,
   header: Option<Header>,
 ) -> Result<String> {
   if !claims.contains_key("iat") {
-    claims.insert("iat".parse()?, jsonwebtoken::get_current_timestamp().into());
+    claims.insert(
+      "iat".to_owned(),
+      jsonwebtoken::get_current_timestamp().into(),
+    );
   }
 
   let header = match header {
