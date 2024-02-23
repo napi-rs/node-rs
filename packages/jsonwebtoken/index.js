@@ -351,3 +351,4 @@ module.exports.sign = nativeBinding.sign
 module.exports.signSync = nativeBinding.signSync
 module.exports.verify = nativeBinding.verify
 module.exports.verifySync = nativeBinding.verifySync
+module.exports.decodeHader = nativeBinding.decodeHader
