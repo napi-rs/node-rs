@@ -692,7 +692,7 @@ __metadata:
   resolution: "@node-rs/argon2@workspace:packages/argon2"
   dependencies:
     "@napi-rs/cli": "npm:^3.0.0-alpha.39"
-    argon2: "npm:^0.31.2"
+    argon2: "npm:^0.40.0"
     cross-env: "npm:^7.0.3"
   languageName: unknown
   linkType: soft
@@ -2400,14 +2400,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"argon2@npm:^0.31.2":
-  version: 0.31.2
-  resolution: "argon2@npm:0.31.2"
+"argon2@npm:^0.40.0":
+  version: 0.40.1
+  resolution: "argon2@npm:0.40.1"
   dependencies:
-    "@mapbox/node-pre-gyp": "npm:^1.0.11"
     "@phc/format": "npm:^1.0.0"
-    node-addon-api: "npm:^7.0.0"
-  checksum: 10c0/2452e0e7e3f80a9af42e5bbd40b6d4370fb210d9f23011e6baae0fc56225bb0adf1ddefcf634afac3d0cc7934118b07884a650a4ed3bc958c37942ff7ee6bcb0
+    node-addon-api: "npm:^7.1.0"
+    node-gyp: "npm:latest"
+    node-gyp-build: "npm:^4.8.0"
+  checksum: 10c0/b2fb46953e4bf8571f67160e2a6976d2e36d412bc6042d18b33f770088dbcf77b895f7dc6c5e144556fe0e5d83b715d60998eafeb0a9ddfbd648fb956e101f36
   languageName: node
   linkType: hard
 
@@ -6831,7 +6832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-addon-api@npm:^7.0.0":
+"node-addon-api@npm:^7.1.0":
   version: 7.1.0
   resolution: "node-addon-api@npm:7.1.0"
   dependencies:
@@ -6868,7 +6869,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp-build@npm:^4.2.2":
+"node-gyp-build@npm:^4.2.2, node-gyp-build@npm:^4.8.0":
   version: 4.8.0
   resolution: "node-gyp-build@npm:4.8.0"
   bin:
