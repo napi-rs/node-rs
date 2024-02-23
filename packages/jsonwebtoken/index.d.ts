@@ -160,3 +160,4 @@ export function verify(token: string, key: string | Buffer, validation?: Validat
 
 export function verifySync(token: string, key: string | Buffer, validation?: Validation | undefined | null): Claims
 
+export function decodeHeader(token: string) : Header;
