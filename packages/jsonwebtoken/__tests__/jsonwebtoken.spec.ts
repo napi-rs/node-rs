@@ -40,8 +40,8 @@ test('should decode header', async (t) => {
 
   const token = await sign(claims, secretKey, headers)
 
-  const header = decodeHeader(token);
-  t.is(header.algorithm, Algorithm.HS384);
+  const header = decodeHeader(token)
+  t.is(header.algorithm, Algorithm.HS384)
 })
 
 test('verify should return the decoded claims', async (t) => {
