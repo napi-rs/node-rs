@@ -28,17 +28,6 @@ export const enum Algorithm {
   EdDSA = 11
 }
 
-export interface Claims {
-  data?: Record<string, any>
-  aud?: string
-  exp?: number
-  iat?: number
-  iss?: string
-  jti?: string
-  nbf?: number
-  sub?: string
-}
-
 export interface Header {
   /**
    * The algorithm used
@@ -96,9 +85,9 @@ export interface Header {
   x5TS256CertThumbprint?: string
 }
 
-export function sign(claims: Claims, key: string | Buffer, header?: Header | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
+export function sign(claims: { [key: string]: any }, key: string | Buffer, header?: Header | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
 
-export function signSync(claims: Claims, key: string | Buffer, header?: Header | undefined | null): string
+export function signSync(claims: { [key: string]: any }, key: string | Buffer, header?: Header | undefined | null): string
 
 export interface Validation {
   /**

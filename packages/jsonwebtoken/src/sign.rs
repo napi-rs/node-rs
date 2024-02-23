@@ -98,18 +98,22 @@ impl Task for SignTask {
 
 #[napi]
 pub fn sign(
-  claims: Claims,
+  #[napi(ts_arg_type = "{ [key: string]: any }")] mut claims: Claims,
   key: Either<String, JsBuffer>,
   header: Option<Header>,
   abort_signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<SignTask>> {
+  if !claims.contains_key("iat") {
+    claims.insert("iat".parse()?, jsonwebtoken::get_current_timestamp().into());
+  }
+
   Ok(AsyncTask::with_optional_signal(
     SignTask {
       header: match header {
         Some(h) => h.merge(Header::default()),
         _ => Header::default(),
       },
-      claims: claims.merge(Claims::default()),
+      claims,
       key: AsyncKeyInput::from_either(key)?,
     },
     abort_signal,
@@ -118,15 +122,21 @@ pub fn sign(
 
 #[napi]
 pub fn sign_sync(
-  claims: Claims,
+  #[napi(ts_arg_type = "{ [key: string]: any }")] mut claims: Claims,
   key: Either<String, Buffer>,
   header: Option<Header>,
 ) -> Result<String> {
+  if !claims.contains_key("iat") {
+    claims.insert(
+      "iat".to_owned(),
+      jsonwebtoken::get_current_timestamp().into(),
+    );
+  }
+
   let header = match header {
     Some(h) => h.merge(Header::default()),
     _ => Header::default(),
   };
-  let claims = claims.merge(Claims::default());
 
   SignTask::sign(&claims, &header, key.as_ref())
 }
