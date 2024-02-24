@@ -28,6 +28,8 @@ export const enum Algorithm {
   EdDSA = 11
 }
 
+export function decodeHeader(token: string): Header
+
 export interface Header {
   /**
    * The algorithm used
@@ -160,4 +162,3 @@ export function verify(token: string, key: string | Buffer, validation?: Validat
 
 export function verifySync(token: string, key: string | Buffer, validation?: Validation | undefined | null): Claims
 
-export function decodeHeader(token: string) : Header;
