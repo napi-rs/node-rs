@@ -56,7 +56,7 @@ impl From<jsonwebtoken::Algorithm> for Algorithm {
       jsonwebtoken::Algorithm::ES384 => Algorithm::ES384,
       jsonwebtoken::Algorithm::EdDSA => Algorithm::EdDSA,
       jsonwebtoken::Algorithm::HS256 => Algorithm::HS256,
-      jsonwebtoken::Algorithm::HS384  => Algorithm::HS384,
+      jsonwebtoken::Algorithm::HS384 => Algorithm::HS384,
       jsonwebtoken::Algorithm::HS512 => Algorithm::HS512,
       jsonwebtoken::Algorithm::PS256 => Algorithm::PS256,
       jsonwebtoken::Algorithm::PS384 => Algorithm::PS384,
