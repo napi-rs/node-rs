@@ -1,7 +1,6 @@
 #![deny(clippy::all)]
 #![allow(dead_code)]
 
-extern crate core;
 /// Explicit extern crate to use allocator.
 extern crate global_alloc;
 
