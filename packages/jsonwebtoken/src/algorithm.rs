@@ -48,6 +48,26 @@ impl From<Algorithm> for jsonwebtoken::Algorithm {
   }
 }
 
+impl From<jsonwebtoken::Algorithm> for Algorithm {
+  #[inline]
+  fn from(value: jsonwebtoken::Algorithm) -> Self {
+    match value {
+      jsonwebtoken::Algorithm::ES256 => Algorithm::ES256,
+      jsonwebtoken::Algorithm::ES384 => Algorithm::ES384,
+      jsonwebtoken::Algorithm::EdDSA => Algorithm::EdDSA,
+      jsonwebtoken::Algorithm::HS256 => Algorithm::HS256,
+      jsonwebtoken::Algorithm::HS384  => Algorithm::HS384,
+      jsonwebtoken::Algorithm::HS512 => Algorithm::HS512,
+      jsonwebtoken::Algorithm::PS256 => Algorithm::PS256,
+      jsonwebtoken::Algorithm::PS384 => Algorithm::PS384,
+      jsonwebtoken::Algorithm::PS512 => Algorithm::PS512,
+      jsonwebtoken::Algorithm::RS256 => Algorithm::RS256,
+      jsonwebtoken::Algorithm::RS384 => Algorithm::RS384,
+      jsonwebtoken::Algorithm::RS512 => Algorithm::RS512,
+    }
+  }
+}
+
 impl Default for Algorithm {
   fn default() -> Self {
     Self::HS256

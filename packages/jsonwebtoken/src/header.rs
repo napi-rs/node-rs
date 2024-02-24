@@ -73,11 +73,11 @@ impl From<&Header> for jsonwebtoken::Header {
   }
 }
 
-impl From<&jsonwebtoken::Header> for Header {
+impl From<jsonwebtoken::Header> for Header {
   #[inline]
-  fn from(value: &jsonwebtoken::Header) -> Header {
+  fn from(value: jsonwebtoken::Header) -> Header {
     Header {
-      algorithm: value.alg.clone(),
+      algorithm: Algorithm::from(value.alg.clone()).into(),
       content_type: value.cty.clone(),
       json_key_url: value.jku.clone(),
       key_id: value.kid.clone(),

@@ -3,8 +3,9 @@ use napi_derive::napi;
 use crate::header::Header;
 
 #[napi]
-pub fn decode_header(token: &str) -> Header {
+pub fn decode_header(token: String) -> Header {
   let result = jsonwebtoken::decode_header(&token);
 
-  let header = Header::from(result.unwrap());
+  let header = result.unwrap().into();
+  return header;
 }
