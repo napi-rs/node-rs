@@ -73,6 +73,22 @@ impl From<&Header> for jsonwebtoken::Header {
   }
 }
 
+impl From<jsonwebtoken::Header> for Header {
+  #[inline]
+  fn from(value: jsonwebtoken::Header) -> Header {
+    Header {
+      algorithm: Algorithm::from(value.alg).into(),
+      content_type: value.cty.clone(),
+      json_key_url: value.jku.clone(),
+      key_id: value.kid.clone(),
+      x5_url: value.x5u.clone(),
+      x5_cert_chain: value.x5c.clone(),
+      x5_cert_thumbprint: value.x5t.clone(),
+      x5t_s256_cert_thumbprint: value.x5t_s256.clone(),
+    }
+  }
+}
+
 impl Header {
   #[inline]
   pub fn merge(self, other: Self) -> Self {

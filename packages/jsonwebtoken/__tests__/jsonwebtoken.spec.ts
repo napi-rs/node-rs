@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import test from 'ava'
 import { decode as nodeJwtDecode } from 'jsonwebtoken'
 
-import { Algorithm, sign, signSync, verifySync, verify } from '../index.js'
+import { Algorithm, sign, signSync, verifySync, verify, decodeHeader } from '../index.js'
 
 const getUtcTimestamp = () => Math.floor(new Date().getTime() / 1000)
 const oneDayInSeconds = 86400
@@ -28,6 +28,20 @@ test('signSync and sign (async) should produce the same result', async (t) => {
 
   t.is(resSync, resAsync)
   t.truthy(nodeJwtDecode(resAsync))
+})
+
+test('should decode header', async (t) => {
+  const data = {
+    id: 'f81d4fae-7dec-11d0-a765-00a0c91e6bf6',
+  }
+  const claims = { data, exp: getUtcTimestamp() + oneDayInSeconds }
+  const secretKey = 'secret'
+  const headers = { algorithm: Algorithm.HS384 }
+
+  const token = await sign(claims, secretKey, headers)
+
+  const header = decodeHeader(token)
+  t.is(header.algorithm, Algorithm.HS384)
 })
 
 test('verify should return the decoded claims', async (t) => {
