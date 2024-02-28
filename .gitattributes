@@ -2,26 +2,48 @@
 *        text=auto
 
 
-*.ts    text eol=lf merge=union 
-*.tsx   text eol=lf merge=union 
-*.rs    text eol=lf merge=union 
-*.js    text eol=lf merge=union 
-*.json  text eol=lf merge=union 
-*.debug text eol=lf merge=union 
+*.ts    text eol=lf merge=union
+*.tsx   text eol=lf merge=union
+*.rs    text eol=lf merge=union
+*.js    text eol=lf merge=union
+*.json  text eol=lf merge=union
+*.debug text eol=lf merge=union
 
 # Generated codes
 packages/argon2/index.js linguist-detectable=false
+packages/argon2/argon2.wasi-browser.js linguist-detectable=false
+packages/argon2/argon2.wasi.cjs linguist-detectable=false
+packages/argon2/wasi-worker-browser.mjs linguist-detectable=false
+packages/argon2/wasi-worker.mjs linguist-detectable=false
 packages/argon2/index.d.ts linguist-detectable=false
 packages/bcrypt/index.js linguist-detectable=false
+packages/bcrypt/binding.js linguist-detectable=false
+packages/bcrypt/bcrypt.wasi-browser.js linguist-detectable=false
+packages/bcrypt/bcrypt.wasi.cjs linguist-detectable=false
+packages/bcrypt/wasi-worker-browser.mjs linguist-detectable=false
+packages/bcrypt/wasi-worker.mjs linguist-detectable=false
 packages/bcrypt/index.d.ts linguist-detectable=false
+packages/bcrypt/binding.d.ts linguist-detectable=false
 packages/crc32/index.js linguist-detectable=false
+packages/crc32/crc32.wasi-browser.js linguist-detectable=false
+packages/crc32/crc32.wasi.cjs linguist-detectable=false
+packages/crc32/wasi-worker-browser.mjs linguist-detectable=false
+packages/crc32/wasi-worker.mjs linguist-detectable=false
 packages/crc32/index.d.ts linguist-detectable=false
 packages/deno-lint/index.js linguist-detectable=false
 packages/deno-lint/index.d.ts linguist-detectable=false
 packages/jieba/index.js linguist-detectable=false
+packages/jieba/jieba.wasi-browser.js linguist-detectable=false
+packages/jieba/jieba.wasi.cjs linguist-detectable=false
+packages/jieba/wasi-worker-browser.mjs linguist-detectable=false
+packages/jieba/wasi-worker.mjs linguist-detectable=false
 packages/jieba/index.d.ts linguist-detectable=false
 packages/jsonwebtoken/index.js linguist-detectable=false
 packages/jsonwebtoken/index.d.ts linguist-detectable=false
 packages/xxhash/index.js linguist-detectable=false
+packages/xxhash/xxhash.wasi-browser.js linguist-detectable=false
+packages/xxhash/xxhash.wasi.cjs linguist-detectable=false
+packages/xxhash/wasi-worker-browser.mjs linguist-detectable=false
+packages/xxhash/wasi-worker.mjs linguist-detectable=false
 packages/xxhash/index.d.ts linguist-detectable=false
 .yarn/releases/*.js linguist-detectable=false
