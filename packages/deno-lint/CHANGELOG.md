@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.20.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.17.3...@node-rs/deno-lint@1.20.0) (2024-02-29)
+
+### Bug Fixes
+
+- add browser entries for pkgs ([#760](https://github.com/napi-rs/node-rs/issues/760)) ([105ecad](https://github.com/napi-rs/node-rs/commit/105ecad99b5ce1a270b8e885e5a56c139db2f119))
+- **crc32,denolint:** upgrade rust toolchain ([#787](https://github.com/napi-rs/node-rs/issues/787)) ([5586e4f](https://github.com/napi-rs/node-rs/commit/5586e4face711d9fd73f8f6b262d6a3537ce6ce0))
+- **deps:** update deno-lint ([fd3830d](https://github.com/napi-rs/node-rs/commit/fd3830d2e2827e008c1ca6c94b7efd17c947f8f3))
+- **deps:** update deno-lint ([#706](https://github.com/napi-rs/node-rs/issues/706)) ([189f989](https://github.com/napi-rs/node-rs/commit/189f989856210a673346cfa148dbf731ae52a60b))
+- **deps:** update deno-lint ([#710](https://github.com/napi-rs/node-rs/issues/710)) ([9531b72](https://github.com/napi-rs/node-rs/commit/9531b72a7927e3960dc2f39d50f7eaf8a9f04fd8))
+- **deps:** update deno-lint ([#724](https://github.com/napi-rs/node-rs/issues/724)) ([bb75986](https://github.com/napi-rs/node-rs/commit/bb75986d6a6d19f40430a5bc2b136913c9c94e49))
+- **deps:** update deno-lint ([#793](https://github.com/napi-rs/node-rs/issues/793)) ([5993557](https://github.com/napi-rs/node-rs/commit/599355758755d34a4bb1950c20d613695c30e440))
+- **deps:** update dependency @emnapi/core to v1 ([#770](https://github.com/napi-rs/node-rs/issues/770)) ([64a4819](https://github.com/napi-rs/node-rs/commit/64a4819bf6f466657d996790eba4d4ddb94171f7))
+- **deps:** update dependency @emnapi/runtime to v1 ([#771](https://github.com/napi-rs/node-rs/issues/771)) ([1bf58f3](https://github.com/napi-rs/node-rs/commit/1bf58f3cbe32b815cbbf65e1cb258c85ce65675e))
+- **deps:** update rust crate deno_ast to v0.27.3 ([#686](https://github.com/napi-rs/node-rs/issues/686)) ([f0c9808](https://github.com/napi-rs/node-rs/commit/f0c9808be4591405e09028756c24b8cde96ec0f6))
+- **deps:** update rust crate deno_ast to v0.29.1 ([#714](https://github.com/napi-rs/node-rs/issues/714)) ([f38dd08](https://github.com/napi-rs/node-rs/commit/f38dd088a7139b76954a0e2daf3f16afa7e297a3))
+- **deps:** update rust crate deno_ast to v0.29.3 ([#716](https://github.com/napi-rs/node-rs/issues/716)) ([4297dd2](https://github.com/napi-rs/node-rs/commit/4297dd2608e4443694699afdc62070a4c4fa17b1))
+- **deps:** update rust crate deno_ast to v0.29.5 ([#717](https://github.com/napi-rs/node-rs/issues/717)) ([e1478c3](https://github.com/napi-rs/node-rs/commit/e1478c3548ab66cf50435aba49bd416b6ef7ad56))
+- **deps:** update rust crate deno_ast to v0.31.1 ([#728](https://github.com/napi-rs/node-rs/issues/728)) ([8b0be16](https://github.com/napi-rs/node-rs/commit/8b0be16dc0892d1ffed1cb6b68282b67467e1946))
+- **deps:** update rust crate deno_ast to v0.31.2 ([#730](https://github.com/napi-rs/node-rs/issues/730)) ([34b5246](https://github.com/napi-rs/node-rs/commit/34b5246e1a359be53fe9bc063aa92bf3719e9abc))
+- **deps:** update rust crate deno_ast to v0.31.3 ([#733](https://github.com/napi-rs/node-rs/issues/733)) ([f3511dc](https://github.com/napi-rs/node-rs/commit/f3511dc1c346f92fd92c53435124c2c1f8c7a5c1))
+- **deps:** update rust crate deno_ast to v0.31.4 ([#737](https://github.com/napi-rs/node-rs/issues/737)) ([2353c85](https://github.com/napi-rs/node-rs/commit/2353c8505200177d3ecf1953a8fc0beb73977014))
+- **deps:** update rust crate deno_ast to v0.31.5 ([#738](https://github.com/napi-rs/node-rs/issues/738)) ([c3a09cc](https://github.com/napi-rs/node-rs/commit/c3a09cc83adbcd857cb7d213fce831d9fa241534))
+- **deps:** update rust crate deno_ast to v0.31.6 ([#741](https://github.com/napi-rs/node-rs/issues/741)) ([c520e32](https://github.com/napi-rs/node-rs/commit/c520e3251dc8308cbba0a3660188d79c3e18c1e9))
+- **deps:** update rust crate deno_ast to v0.33.3 ([#783](https://github.com/napi-rs/node-rs/issues/783)) ([9eb692e](https://github.com/napi-rs/node-rs/commit/9eb692ebe4d579e213bb3259e8407ac5c1b6f597))
+- **deps:** update rust crate deno_ast to v0.34.1 ([#796](https://github.com/napi-rs/node-rs/issues/796)) ([97777fa](https://github.com/napi-rs/node-rs/commit/97777fa6c7c4c0acd16e8189853fcf4c1ee31f90))
+- **deps:** update rust crate deno_lint to v0.50.2 ([#708](https://github.com/napi-rs/node-rs/issues/708)) ([8d754f2](https://github.com/napi-rs/node-rs/commit/8d754f235d1dca14f52f830734a71f0251121bbc))
+- **deps:** update rust crate deno_lint to v0.55.0 ([#759](https://github.com/napi-rs/node-rs/issues/759)) ([1336462](https://github.com/napi-rs/node-rs/commit/13364629fa66ee077661c4766871cd331c9fbfcc))
+- **deps:** update rust crate deno_lint to v0.55.2 ([#782](https://github.com/napi-rs/node-rs/issues/782)) ([ab1f977](https://github.com/napi-rs/node-rs/commit/ab1f977ff9e87a5013a9510446b18385a3af6e64))
+- **deps:** update rust crate env_logger to 0.11 ([#763](https://github.com/napi-rs/node-rs/issues/763)) ([a21efaf](https://github.com/napi-rs/node-rs/commit/a21efafcfdf705b1d8c072a8e6502e93a3b84c89))
+- **deps:** update rust crate globwalk to 0.9 ([#749](https://github.com/napi-rs/node-rs/issues/749)) ([f999e60](https://github.com/napi-rs/node-rs/commit/f999e60955b1c7b0e4a6b6e5172af97c746552cb))
+- wasi browser compatible ([3ec8863](https://github.com/napi-rs/node-rs/commit/3ec88636fd32f5dc1357f7259267ff9823dfd80d))
+- wasi package load logic ([#755](https://github.com/napi-rs/node-rs/issues/755)) ([505856c](https://github.com/napi-rs/node-rs/commit/505856c4f9cb4c1f07e008f7f0dee41e7285a817))
+
+### Features
+
+- **denolint:** upgrade denolint crate ([#762](https://github.com/napi-rs/node-rs/issues/762)) ([19b888c](https://github.com/napi-rs/node-rs/commit/19b888c2bd5c474c7ddded82e3e4dc680f056ef2))
+- support wasi target on browser ([#757](https://github.com/napi-rs/node-rs/issues/757)) ([f39eec0](https://github.com/napi-rs/node-rs/commit/f39eec00c7322a26c1836cf1a19c11c9a9d53ef6))
+- support wasi-wasm32 target ([#752](https://github.com/napi-rs/node-rs/issues/752)) ([12f25b5](https://github.com/napi-rs/node-rs/commit/12f25b5a5e09a01c832e4d26084acf4ddbd730b9))
+- upgrade dependencies and lockfile ([#751](https://github.com/napi-rs/node-rs/issues/751)) ([70d7fa7](https://github.com/napi-rs/node-rs/commit/70d7fa72262c6e547950b30daa2d03583a1b04bd))
+
 # [1.19.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.17.3...@node-rs/deno-lint@1.19.0) (2024-01-09)
 
 ### Bug Fixes

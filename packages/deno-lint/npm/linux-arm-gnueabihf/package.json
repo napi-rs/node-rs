@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-linux-arm-gnueabihf",
-  "version": "1.19.0",
+  "version": "1.20.0",
   "cpu": [
     "arm"
   ],

@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba-win32-ia32-msvc",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "cpu": [
     "ia32"
   ],
