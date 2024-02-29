@@ -102,7 +102,7 @@ jobs:
             build: yarn build --target aarch64-pc-windows-msvc
           - host: ubuntu-latest
             target: 'wasm32-wasi-preview1-threads'
-            build: yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/{jsonwebtoken,deno-lint}" run build --target wasm32-wasi-preview1-threads
+            build: yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/deno-lint" run build --target wasm32-wasi-preview1-threads
 
     name: stable - ${{ matrix.settings.target }} - node@20
     runs-on: ${{ matrix.settings.host }}
