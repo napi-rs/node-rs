@@ -14,7 +14,7 @@
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish",
-    "version": "napi version"
+    "version": "napi version && git add npm"
   },
   "napi": {
     "binaryName": "jsonwebtoken",
