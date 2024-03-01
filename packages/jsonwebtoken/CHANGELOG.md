@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/napi-rs/node-rs/compare/@node-rs/jsonwebtoken@0.5.0...@node-rs/jsonwebtoken@0.5.1) (2024-03-01)
+
+### Bug Fixes
+
+- **jsonwebtoken:** handle error in decodeHeader ([#801](https://github.com/napi-rs/node-rs/issues/801)) ([edc6db8](https://github.com/napi-rs/node-rs/commit/edc6db8772b99080384a47d2546e9315adcfa4f4))
+
 # [0.5.0](https://github.com/napi-rs/node-rs/compare/@node-rs/jsonwebtoken@0.2.3...@node-rs/jsonwebtoken@0.5.0) (2024-02-29)
 
 ### Bug Fixes
