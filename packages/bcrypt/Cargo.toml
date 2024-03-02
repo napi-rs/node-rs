@@ -8,7 +8,7 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-base64       = { version = "0.21" }
+base64       = { version = "0.22" }
 bcrypt       = "0.15"
 blowfish     = { version = "0.9", features = ["bcrypt"] }
 getrandom    = "0.2"
