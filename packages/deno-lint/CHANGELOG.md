@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.1](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.20.0...@node-rs/deno-lint@1.20.1) (2024-03-12)
+
+### Bug Fixes
+
+- **deps:** update rust crate deno_ast to v0.34.2 ([#804](https://github.com/napi-rs/node-rs/issues/804)) ([d185477](https://github.com/napi-rs/node-rs/commit/d185477de5ebabfd601659c58c2c5b264b542958))
+
 # [1.20.0](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.17.3...@node-rs/deno-lint@1.20.0) (2024-02-29)
 
 ### Bug Fixes

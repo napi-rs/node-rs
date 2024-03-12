@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-android-arm-eabi",
-  "version": "1.20.0",
+  "version": "1.20.1",
   "cpu": [
     "arm"
   ],

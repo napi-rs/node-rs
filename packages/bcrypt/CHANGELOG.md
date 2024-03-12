@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.10.0...@node-rs/bcrypt@1.10.1) (2024-03-12)
+
+### Bug Fixes
+
+- **deps:** update rust crate base64 to 0.22 ([#802](https://github.com/napi-rs/node-rs/issues/802)) ([03fb0d5](https://github.com/napi-rs/node-rs/commit/03fb0d5da0f3c8ecfb1946d3e685f404ab135ee6))
+
 # [1.10.0](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.7.3...@node-rs/bcrypt@1.10.0) (2024-02-29)
 
 ### Bug Fixes
