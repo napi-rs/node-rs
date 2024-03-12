@@ -100,7 +100,7 @@ impl Task for VerifyTask {
   }
 }
 
-#[napi]
+#[napi(ts_return_type = "Promise<{ [key: string]: any }>")]
 pub fn verify(
   token: String,
   key: Either<String, JsBuffer>,
@@ -117,7 +117,7 @@ pub fn verify(
   ))
 }
 
-#[napi]
+#[napi(ts_return_type = "{ [key: string]: any }")]
 pub fn verify_sync(
   token: String,
   key: Either<String, Buffer>,

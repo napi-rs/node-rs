@@ -158,7 +158,7 @@ export interface Validation {
   validateSignature?: boolean
 }
 
-export function verify(token: string, key: string | Buffer, validation?: Validation | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<Claims>
+export function verify(token: string, key: string | Buffer, validation?: Validation | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<{ [key: string]: any }>
 
-export function verifySync(token: string, key: string | Buffer, validation?: Validation | undefined | null): Claims
+export function verifySync(token: string, key: string | Buffer, validation?: Validation | undefined | null): { [key: string]: any }
 
