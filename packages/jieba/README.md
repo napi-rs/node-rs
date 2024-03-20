@@ -79,3 +79,26 @@ extract(
 //   { keyword: '天气', weight: 1.0766573240983333 }
 // ]
 ```
+
+### Load custom dictionaries
+
+```javascript
+const { loadDict, cut } = require('@node-rs/jieba')
+const customDict = [
+  '哪行 50',
+  '干一行 51',
+  '行一行 52',
+  '行行 53',
+]
+
+const dictBuffer = Buffer.from(customDict.join('\n'), 'utf-8')
+// loadDict doc: https://github.com/fxsjy/jieba?tab=readme-ov-file#%E8%BD%BD%E5%85%A5%E8%AF%8D%E5%85%B8
+loadDict(dictBuffer)
+
+const text = '人要是行干一行行一行，一行行行行行，行行行干哪行都行'
+const output = cut(text, false)
+console.log('分词结果⤵️\n', output.join('/'))
+// Before: 人/要是/行/干/一行行/一行/，/一行行/行/行/行/，/行/行/行/干/哪/行/都行
+// After:  人/要是/行/干一行/行一行/，/一行行/行行/行/，/行行/行/干/哪行/都行
+// Pinyin: rén yào shi xíng gàn yì háng xíng yì háng ， yì háng xíng háng háng xíng ， háng háng xíng gàn nǎ háng dōu xíng
+```
