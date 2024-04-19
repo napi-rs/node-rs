@@ -4,6 +4,7 @@
   "description": "Rust jsonwebtoken binding for Node.js",
   "main": "index.js",
   "types": "index.d.ts",
+  "browser": "browser.js",
   "files": [
     "index.js",
     "index.d.ts"
@@ -32,7 +33,7 @@
       "x86_64-unknown-freebsd",
       "i686-pc-windows-msvc",
       "armv7-linux-androideabi",
-      "wasm32-wasi-preview1-threads"
+      "wasm32-wasip1-threads"
     ]
   },
   "repository": {
@@ -63,7 +64,7 @@
     "node": ">= 10"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.43",
+    "@napi-rs/cli": "^3.0.0-alpha.51",
     "@types/jsonwebtoken": "^9.0.6",
     "jsonwebtoken": "^9.0.2"
   }

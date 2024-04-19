@@ -246,7 +246,20 @@ function requireNative() {
 
       }
     } else if (process.arch === 'arm') {
+      if (isMusl()) {
+        try {
+        return require('./jieba.linux-arm-musleabihf.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
       try {
+        return require('@node-rs/jieba-linux-arm-musleabihf')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+
+      } else {
+        try {
         return require('./jieba.linux-arm-gnueabihf.node')
       } catch (e) {
         loadErrors.push(e)
@@ -257,6 +270,7 @@ function requireNative() {
         loadErrors.push(e)
       }
 
+      }
     } else if (process.arch === 'riscv64') {
       if (isMusl()) {
         try {
@@ -283,6 +297,18 @@ function requireNative() {
       }
 
       }
+    } else if (process.arch === 'ppc64') {
+      try {
+        return require('./jieba.linux-ppc64-gnu.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        return require('@node-rs/jieba-linux-ppc64-gnu')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+
     } else if (process.arch === 's390x') {
       try {
         return require('./jieba.linux-s390x-gnu.node')

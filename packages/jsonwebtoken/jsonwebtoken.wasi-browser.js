@@ -3,26 +3,18 @@ import {
   getDefaultContext as __emnapiGetDefaultContext,
   WASI as __WASI,
 } from '@napi-rs/wasm-runtime'
-import { Volume as __Volume, createFsFromVolume as __createFsFromVolume } from '@napi-rs/wasm-runtime/fs'
 
 import __wasmUrl from './jsonwebtoken.wasm32-wasi.wasm?url'
 
-const __fs = __createFsFromVolume(
-  __Volume.fromJSON({
-    '/': null,
-  }),
-)
-
 const __wasi = new __WASI({
   version: 'preview1',
-  fs: __fs,
 })
 
 const __emnapiContext = __emnapiGetDefaultContext()
 
 const __sharedMemory = new WebAssembly.Memory({
-  initial: 1024,
-  maximum: 10240,
+  initial: 4000,
+  maximum: 65536,
   shared: true,
 })
 

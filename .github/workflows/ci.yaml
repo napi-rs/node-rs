@@ -101,8 +101,8 @@ jobs:
             target: 'aarch64-pc-windows-msvc'
             build: yarn build --target aarch64-pc-windows-msvc
           - host: ubuntu-latest
-            target: 'wasm32-wasi-preview1-threads'
-            build: yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/deno-lint" run build --target wasm32-wasi-preview1-threads
+            target: 'wasm32-wasip1-threads'
+            build: yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/deno-lint" run build --target wasm32-wasip1-threads
 
     name: stable - ${{ matrix.settings.target }} - node@20
     runs-on: ${{ matrix.settings.host }}
@@ -166,7 +166,7 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
-        if: ${{ matrix.settings.target != 'wasm32-wasi-preview1-threads' }}
+        if: ${{ matrix.settings.target != 'wasm32-wasip1-threads' }}
         with:
           name: bindings-${{ matrix.settings.target }}
           path: packages/*/*.node
@@ -174,14 +174,14 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
-        if: ${{ matrix.settings.target == 'wasm32-wasi-preview1-threads' }}
+        if: ${{ matrix.settings.target == 'wasm32-wasip1-threads' }}
         with:
           name: bindings-${{ matrix.settings.target }}
           path: packages/*/*.wasm
           if-no-files-found: error
 
   build-freebsd:
-    runs-on: macos-12
+    runs-on: macos-13
     name: Build FreeBSD
     steps:
       - uses: actions/checkout@v4
@@ -583,7 +583,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: bindings-wasm32-wasi-preview1-threads
+          name: bindings-wasm32-wasip1-threads
           path: artifacts
       - name: Move artifacts
         run: yarn artifacts

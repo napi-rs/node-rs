@@ -84,12 +84,7 @@ extract(
 
 ```javascript
 const { loadDict, cut } = require('@node-rs/jieba')
-const customDict = [
-  '哪行 50',
-  '干一行 51',
-  '行一行 52',
-  '行行 53',
-]
+const customDict = ['哪行 50', '干一行 51', '行一行 52', '行行 53']
 
 const dictBuffer = Buffer.from(customDict.join('\n'), 'utf-8')
 // loadDict doc: https://github.com/fxsjy/jieba?tab=readme-ov-file#%E8%BD%BD%E5%85%A5%E8%AF%8D%E5%85%B8

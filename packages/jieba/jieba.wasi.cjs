@@ -13,25 +13,30 @@ const {
   getDefaultContext: __emnapiGetDefaultContext,
 } = require('@napi-rs/wasm-runtime')
 
+const __rootDir = __nodePath.parse(process.cwd()).root
+
 const __wasi = new __nodeWASI({
   version: 'preview1',
   env: process.env,
   preopens: {
-    '/': '/'
+    [__rootDir]: __rootDir,
   }
 })
 
 const __emnapiContext = __emnapiGetDefaultContext()
 
 const __sharedMemory = new WebAssembly.Memory({
-  initial: 1024,
-  maximum: 10240,
+  initial: 4000,
+  maximum: 65536,
   shared: true,
 })
 
 let __wasmFilePath = __nodePath.join(__dirname, 'jieba.wasm32-wasi.wasm')
+const __wasmDebugFilePath = __nodePath.join(__dirname, 'jieba.wasm32-wasi.debug.wasm')
 
-if (!__nodeFs.existsSync(__wasmFilePath)) {
+if (__nodeFs.existsSync(__wasmDebugFilePath)) {
+  __wasmFilePath = __wasmDebugFilePath
+} else if (!__nodeFs.existsSync(__wasmFilePath)) {
   try {
     __wasmFilePath = __nodePath.resolve('@node-rs/jieba-wasm32-wasi')
   } catch {

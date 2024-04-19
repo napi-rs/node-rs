@@ -44,7 +44,7 @@
       "x86_64-unknown-freebsd",
       "i686-pc-windows-msvc",
       "armv7-linux-androideabi",
-      "wasm32-wasi-preview1-threads"
+      "wasm32-wasip1-threads"
     ]
   },
   "engines": {
@@ -70,7 +70,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.43",
+    "@napi-rs/cli": "^3.0.0-alpha.51",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
