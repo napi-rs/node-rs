@@ -14,7 +14,7 @@
     "bench": "lerna run bench --concurrency 1 --stream --no-prefix",
     "build": "yarn workspaces foreach -A --no-private -j 1 run build",
     "build:ts": "tsc -b tsconfig.project.json -verbose",
-    "lint": "eslint . -c ./.eslintrc.yml \"packages/**/*.{ts,js}\"",
+    "lint": "oxlint .",
     "test": "ava",
     "format": "run-p format:prettier format:rs format:toml",
     "format:prettier": "prettier --config ./package.json -w .",
@@ -24,37 +24,31 @@
     "postinstall": "husky install"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.43",
-    "@napi-rs/wasm-runtime": "^0.1.1",
-    "@swc-node/core": "^1.12.0",
-    "@swc-node/register": "^1.8.0",
-    "@swc/core": "^1.4.2",
+    "@napi-rs/cli": "^3.0.0-alpha.51",
+    "@napi-rs/wasm-runtime": "^0.2.0",
+    "@swc-node/core": "^1.13.0",
+    "@swc-node/register": "^1.9.0",
+    "@swc/core": "^1.4.16",
     "@taplo/cli": "^0.7.0",
     "@tybys/wasm-util": "^0.8.1",
-    "@types/node": "^20.11.21",
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
-    "@typescript-eslint/parser": "^7.1.0",
-    "ava": "^6.1.1",
+    "@types/node": "^20.12.7",
+    "ava": "^6.1.2",
     "benchmark": "^2.1.4",
     "codecov": "^3.8.3",
     "cross-env": "^7.0.3",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-prettier": "^5.1.3",
     "husky": "^9.0.11",
     "lerna": "^8.1.2",
     "lint-staged": "^15.2.2",
-    "memfs-browser": "^4.6.0",
     "npm-run-all2": "^6.1.2",
+    "oxlint": "^0.2.17",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "tslib": "^2.6.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "lint-staged": {
     "*.@(js|ts|tsx)": [
-      "eslint -c .eslintrc.yml --fix"
+      "oxlint --fix"
     ],
     "*.@(js|ts|tsx|yml|yaml|json|md)": [
       "prettier --write"
