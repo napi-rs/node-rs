@@ -43,6 +43,6 @@
   },
   "browser": "xxhash.wasi-browser.js",
   "dependencies": {
-    "@napi-rs/wasm-runtime": "^0.1.1"
+    "@napi-rs/wasm-runtime": "^0.2.0"
   }
 }
