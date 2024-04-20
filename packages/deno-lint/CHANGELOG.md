@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.2](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.20.1...@node-rs/deno-lint@1.20.2) (2024-04-20)
+
+### Bug Fixes
+
+- **deps:** update deno-lint ([#813](https://github.com/napi-rs/node-rs/issues/813)) ([60102f8](https://github.com/napi-rs/node-rs/commit/60102f8f883a6e6eabce4ee22a1a938f29e7fdf3))
+- **deps:** update deno-lint ([#821](https://github.com/napi-rs/node-rs/issues/821)) ([c518732](https://github.com/napi-rs/node-rs/commit/c5187329fa7e072168d5d4dfce954b5e26960b64))
+- **deps:** update rust crate annotate-snippets to 0.11 ([#806](https://github.com/napi-rs/node-rs/issues/806)) ([e30c2e6](https://github.com/napi-rs/node-rs/commit/e30c2e6fccd2ccea57301b34b8bbfd697ddcf554))
+- **deps:** update rust crate deno_ast to v0.35.1 ([#817](https://github.com/napi-rs/node-rs/issues/817)) ([4d3d1b2](https://github.com/napi-rs/node-rs/commit/4d3d1b2c91d454fb8ec82000865a2a083a688038))
+- **deps:** update rust crate deno_ast to v0.35.2 ([#819](https://github.com/napi-rs/node-rs/issues/819)) ([dbb3255](https://github.com/napi-rs/node-rs/commit/dbb325559396920318a5d0cef4d44f1d687ba4fe))
+- **deps:** update rust crate deno_ast to v0.35.3 ([#820](https://github.com/napi-rs/node-rs/issues/820)) ([865cc48](https://github.com/napi-rs/node-rs/commit/865cc48c121628a832ee72763e995b7ad5ce8d0b))
+
 ## [1.20.1](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.20.0...@node-rs/deno-lint@1.20.1) (2024-03-12)
 
 ### Bug Fixes

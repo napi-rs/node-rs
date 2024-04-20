@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.3.3...@node-rs/helper@1.6.0) (2024-04-20)
+
+### Bug Fixes
+
+- **crc32,denolint:** upgrade rust toolchain ([#787](https://github.com/napi-rs/node-rs/issues/787)) ([5586e4f](https://github.com/napi-rs/node-rs/commit/5586e4face711d9fd73f8f6b262d6a3537ce6ce0))
+
+### Features
+
+- upgrade dependencies and lockfile ([#751](https://github.com/napi-rs/node-rs/issues/751)) ([70d7fa7](https://github.com/napi-rs/node-rs/commit/70d7fa72262c6e547950b30daa2d03583a1b04bd))
+
 # [1.5.0](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.3.3...@node-rs/helper@1.5.0) (2024-01-09)
 
 ### Features

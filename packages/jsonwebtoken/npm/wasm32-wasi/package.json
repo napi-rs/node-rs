@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jsonwebtoken-wasm32-wasi",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "cpu": [
     "wasm32"
   ],

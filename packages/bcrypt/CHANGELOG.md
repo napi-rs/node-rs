@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.2](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.10.1...@node-rs/bcrypt@1.10.2) (2024-04-20)
+
+### Bug Fixes
+
+- **deps:** update dependency @napi-rs/wasm-runtime to ^0.2.0 ([#826](https://github.com/napi-rs/node-rs/issues/826)) ([f863999](https://github.com/napi-rs/node-rs/commit/f8639994082a42145a2a3a82f41daaf6eb9b5881))
+
 ## [1.10.1](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.10.0...@node-rs/bcrypt@1.10.1) (2024-03-12)
 
 ### Bug Fixes
