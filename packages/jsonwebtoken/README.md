@@ -7,7 +7,7 @@
 
 ## Support matrix
 
-|                  | node12 | node14 | node16 | node18 |
+|                  | node14 | node16 | node18 | node20 |
 | ---------------- | ------ | ------ | ------ | ------ |
 | Windows x64      | ✓      | ✓      | ✓      | ✓      |
 | Windows x32      | ✓      | ✓      | ✓      | ✓      |
