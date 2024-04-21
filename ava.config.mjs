@@ -10,8 +10,4 @@ const avaConfig = {
   },
 }
 
-if (process.env.NAPI_RS_FORCE_WASI) {
-  avaConfig.files.push(`!packages/jsonwebtoken/**/*.spec.ts`)
-}
-
 export default avaConfig
