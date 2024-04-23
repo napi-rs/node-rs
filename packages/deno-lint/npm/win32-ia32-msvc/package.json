@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-win32-ia32-msvc",
-  "version": "1.20.3",
+  "version": "1.20.4",
   "cpu": [
     "ia32"
   ],

@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/argon2-darwin-x64",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "cpu": [
     "x64"
   ],

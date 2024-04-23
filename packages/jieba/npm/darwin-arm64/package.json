@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba-darwin-arm64",
-  "version": "1.10.2",
+  "version": "1.10.3",
   "cpu": [
     "arm64"
   ],

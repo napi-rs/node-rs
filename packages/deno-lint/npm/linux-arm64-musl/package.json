@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/deno-lint-linux-arm64-musl",
-  "version": "1.20.3",
+  "version": "1.20.4",
   "cpu": [
     "arm64"
   ],

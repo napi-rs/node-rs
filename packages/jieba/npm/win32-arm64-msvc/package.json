@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba-win32-arm64-msvc",
-  "version": "1.10.2",
+  "version": "1.10.3",
   "cpu": [
     "arm64"
   ],

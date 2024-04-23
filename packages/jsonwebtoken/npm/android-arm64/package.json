@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jsonwebtoken-android-arm64",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "cpu": [
     "arm64"
   ],

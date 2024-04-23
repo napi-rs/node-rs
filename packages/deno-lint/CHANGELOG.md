@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.20.4](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.20.3...@node-rs/deno-lint@1.20.4) (2024-04-23)
+
+**Note:** Version bump only for package @node-rs/deno-lint
+
 ## [1.20.3](https://github.com/napi-rs/node-rs/compare/@node-rs/deno-lint@1.20.2...@node-rs/deno-lint@1.20.3) (2024-04-23)
 
 ### Bug Fixes
