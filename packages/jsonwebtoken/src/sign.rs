@@ -1,19 +1,19 @@
-use napi::{bindgen_prelude::*, JsBuffer, JsBufferValue, Ref};
+use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
 use crate::{claims::Claims, header::Header};
 
 pub enum AsyncKeyInput {
   String(String),
-  Buffer(Ref<JsBufferValue>),
+  Buffer(Uint8Array),
 }
 
 impl AsyncKeyInput {
   #[inline]
-  pub fn from_either(input: Either<String, JsBuffer>) -> Result<Self> {
+  pub fn from_either(input: Either<String, Uint8Array>) -> Result<Self> {
     match input {
       Either::A(s) => Ok(Self::String(s)),
-      Either::B(b) => Ok(Self::Buffer(b.into_ref()?)),
+      Either::B(b) => Ok(Self::Buffer(b)),
     }
   }
 }
@@ -87,19 +87,12 @@ impl Task for SignTask {
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
     Ok(output)
   }
-
-  fn finally(&mut self, env: Env) -> Result<()> {
-    if let AsyncKeyInput::Buffer(buf) = &mut self.key {
-      buf.unref(env)?;
-    }
-    Ok(())
-  }
 }
 
 #[napi]
 pub fn sign(
   #[napi(ts_arg_type = "{ [key: string]: any }")] mut claims: Claims,
-  key: Either<String, JsBuffer>,
+  key: Either<String, Uint8Array>,
   header: Option<Header>,
   abort_signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<SignTask>> {
@@ -123,7 +116,7 @@ pub fn sign(
 #[napi]
 pub fn sign_sync(
   #[napi(ts_arg_type = "{ [key: string]: any }")] mut claims: Claims,
-  key: Either<String, Buffer>,
+  key: Either<String, &[u8]>,
   header: Option<Header>,
 ) -> Result<String> {
   if !claims.contains_key("iat") {

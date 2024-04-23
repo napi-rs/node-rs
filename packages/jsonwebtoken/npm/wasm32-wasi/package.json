@@ -42,6 +42,6 @@
   },
   "browser": "jsonwebtoken.wasi-browser.js",
   "dependencies": {
-    "@napi-rs/wasm-runtime": "^0.2.0"
+    "@napi-rs/wasm-runtime": "^0.2.3"
   }
 }

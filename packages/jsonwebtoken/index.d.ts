@@ -2,29 +2,29 @@
 /* eslint-disable */
 export const enum Algorithm {
   /** HMAC using SHA-256 */
-  HS256 = 0,
+  HS256 = 'HS256',
   /** HMAC using SHA-384 */
-  HS384 = 1,
+  HS384 = 'HS384',
   /** HMAC using SHA-512 */
-  HS512 = 2,
+  HS512 = 'HS512',
   /** ECDSA using SHA-256 */
-  ES256 = 3,
+  ES256 = 'ES256',
   /** ECDSA using SHA-384 */
-  ES384 = 4,
+  ES384 = 'ES384',
   /** RSASSA-PKCS1-v1_5 using SHA-256 */
-  RS256 = 5,
+  RS256 = 'RS256',
   /** RSASSA-PKCS1-v1_5 using SHA-384 */
-  RS384 = 6,
+  RS384 = 'RS384',
   /** RSASSA-PKCS1-v1_5 using SHA-512 */
-  RS512 = 7,
+  RS512 = 'RS512',
   /** RSASSA-PSS using SHA-256 */
-  PS256 = 8,
+  PS256 = 'PS256',
   /** RSASSA-PSS using SHA-384 */
-  PS384 = 9,
+  PS384 = 'PS384',
   /** RSASSA-PSS using SHA-512 */
-  PS512 = 10,
+  PS512 = 'PS512',
   /** Edwards-curve Digital Signature Algorithm (EdDSA) */
-  EdDSA = 11
+  EdDSA = 'EdDSA'
 }
 
 export function decodeHeader(token: string): Header
@@ -86,9 +86,9 @@ export interface Header {
   x5TS256CertThumbprint?: string
 }
 
-export function sign(claims: { [key: string]: any }, key: string | Buffer, header?: Header | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
+export function sign(claims: { [key: string]: any }, key: string | Uint8Array, header?: Header | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
 
-export function signSync(claims: { [key: string]: any }, key: string | Buffer, header?: Header | undefined | null): string
+export function signSync(claims: { [key: string]: any }, key: string | Uint8Array, header?: Header | undefined | null): string
 
 export interface Validation {
   /**
@@ -157,7 +157,7 @@ export interface Validation {
   validateSignature?: boolean
 }
 
-export function verify(token: string, key: string | Buffer, validation?: Validation | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<{ [key: string]: any }>
+export function verify(token: string, key: string | Uint8Array, validation?: Validation | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<{ [key: string]: any }>
 
-export function verifySync(token: string, key: string | Buffer, validation?: Validation | undefined | null): { [key: string]: any }
+export function verifySync(token: string, key: string | Uint8Array, validation?: Validation | undefined | null): { [key: string]: any }
 
