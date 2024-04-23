@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.2](https://github.com/napi-rs/node-rs/compare/@node-rs/xxhash@1.7.1...@node-rs/xxhash@1.7.2) (2024-04-23)
+
+### Bug Fixes
+
+- update browser worker bindings ([#830](https://github.com/napi-rs/node-rs/issues/830)) ([02d2bd9](https://github.com/napi-rs/node-rs/commit/02d2bd995a12b914dc67f59f00d8e60f99169f34))
+- update wasi bindings ([#831](https://github.com/napi-rs/node-rs/issues/831)) ([83037ac](https://github.com/napi-rs/node-rs/commit/83037acfa2db2c9b885412c360e65e4a7f9139f8))
+
 ## [1.7.1](https://github.com/napi-rs/node-rs/compare/@node-rs/xxhash@1.7.0...@node-rs/xxhash@1.7.1) (2024-04-20)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/argon2-win32-x64-msvc",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "cpu": [
     "x64"
   ],
