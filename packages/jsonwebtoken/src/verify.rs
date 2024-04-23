@@ -1,19 +1,19 @@
-use napi::{bindgen_prelude::*, JsBuffer, JsBufferValue, Ref};
+use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
 use crate::{claims::Claims, validation::Validation};
 
 pub enum AsyncKeyInput {
   String(String),
-  Buffer(Ref<JsBufferValue>),
+  Buffer(Uint8Array),
 }
 
 impl AsyncKeyInput {
   #[inline]
-  pub fn from_either(input: Either<String, JsBuffer>) -> Result<Self> {
+  pub fn from_either(input: Either<String, Uint8Array>) -> Result<Self> {
     match input {
       Either::A(s) => Ok(Self::String(s)),
-      Either::B(b) => Ok(Self::Buffer(b.into_ref()?)),
+      Either::B(b) => Ok(Self::Buffer(b)),
     }
   }
 }
@@ -91,19 +91,12 @@ impl Task for VerifyTask {
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
     Ok(output)
   }
-
-  fn finally(&mut self, env: Env) -> Result<()> {
-    if let AsyncKeyInput::Buffer(buf) = &mut self.key {
-      buf.unref(env)?;
-    }
-    Ok(())
-  }
 }
 
 #[napi(ts_return_type = "Promise<{ [key: string]: any }>")]
 pub fn verify(
   token: String,
-  key: Either<String, JsBuffer>,
+  key: Either<String, Uint8Array>,
   validation: Option<Validation>,
   abort_signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<VerifyTask>> {
@@ -120,7 +113,7 @@ pub fn verify(
 #[napi(ts_return_type = "{ [key: string]: any }")]
 pub fn verify_sync(
   token: String,
-  key: Either<String, Buffer>,
+  key: Either<String, &[u8]>,
   validation: Option<Validation>,
 ) -> Result<Claims> {
   let validation = validation.unwrap_or_default();
