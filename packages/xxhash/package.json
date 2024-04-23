@@ -66,7 +66,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.53",
+    "@napi-rs/cli": "^3.0.0-alpha.54",
     "@types/xxhashjs": "^0.2.4",
     "webpack": "^5.91.0",
     "xxhash": "^0.3.0",

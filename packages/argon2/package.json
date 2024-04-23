@@ -62,7 +62,7 @@
     "version": "napi version && git add npm"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.53",
+    "@napi-rs/cli": "^3.0.0-alpha.54",
     "argon2": "^0.40.1",
     "cross-env": "^7.0.3"
   }

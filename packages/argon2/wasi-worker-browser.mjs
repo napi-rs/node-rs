@@ -1,14 +1,8 @@
-import { instantiateNapiModuleSync, MessageHandler, WASI, createFsProxy } from '@napi-rs/wasm-runtime'
-
-const fs = null
+import { instantiateNapiModuleSync, MessageHandler, WASI } from '@napi-rs/wasm-runtime'
 
 const handler = new MessageHandler({
   onLoad({ wasmModule, wasmMemory }) {
     const wasi = new WASI({
-      fs,
-      preopens: {
-        '/': '/',
-      },
       print: function () {
         // eslint-disable-next-line no-console
         console.log.apply(console, arguments)
