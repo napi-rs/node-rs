@@ -30,7 +30,7 @@
     "@swc-node/register": "^1.9.0",
     "@swc/core": "^1.4.16",
     "@taplo/cli": "^0.7.0",
-    "@tybys/wasm-util": "^0.8.3",
+    "@tybys/wasm-util": "^0.9.0",
     "@types/node": "^20.12.7",
     "ava": "^6.1.2",
     "benchmark": "^2.1.4",
