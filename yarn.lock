@@ -1852,15 +1852,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tybys/wasm-util@npm:^0.8.3":
-  version: 0.8.3
-  resolution: "@tybys/wasm-util@npm:0.8.3"
-  dependencies:
-    tslib: "npm:^2.4.0"
-  checksum: 10c0/62ec238710453713a207a2cbcfa74ae5bebc5cd4d718dc34370a7fd5263e8213fe7e24436ec6544105331006f6d0806115956bed030672268dad4a3c123e0f2d
-  languageName: node
-  linkType: hard
-
 "@tybys/wasm-util@npm:^0.9.0":
   version: 0.9.0
   resolution: "@tybys/wasm-util@npm:0.9.0"
@@ -6235,7 +6226,7 @@ __metadata:
     "@swc-node/register": "npm:^1.9.0"
     "@swc/core": "npm:^1.4.16"
     "@taplo/cli": "npm:^0.7.0"
-    "@tybys/wasm-util": "npm:^0.8.3"
+    "@tybys/wasm-util": "npm:^0.9.0"
     "@types/node": "npm:^20.12.7"
     ava: "npm:^6.1.2"
     benchmark: "npm:^2.1.4"
