@@ -19,13 +19,13 @@ export const enum Algorithm {
   Argon2id = 2
 }
 
-export function hash(password: string | Buffer, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
+export declare function hash(password: string | Buffer, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
 
-export function hashRaw(password: string | Buffer, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<Buffer>
+export declare function hashRaw(password: string | Buffer, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<Buffer>
 
-export function hashRawSync(password: string | Buffer, options?: Options | undefined | null): Buffer
+export declare function hashRawSync(password: string | Buffer, options?: Options | undefined | null): Buffer
 
-export function hashSync(password: string | Buffer, options?: Options | undefined | null): string
+export declare function hashSync(password: string | Buffer, options?: Options | undefined | null): string
 
 export interface Options {
   /**
@@ -64,9 +64,9 @@ export interface Options {
   salt?: Buffer
 }
 
-export function verify(hashed: string | Buffer, password: string | Buffer, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<boolean>
+export declare function verify(hashed: string | Buffer, password: string | Buffer, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<boolean>
 
-export function verifySync(hashed: string | Buffer, password: string | Buffer, options?: Options | undefined | null): boolean
+export declare function verifySync(hashed: string | Buffer, password: string | Buffer, options?: Options | undefined | null): boolean
 
 export const enum Version {
   /** Version 16 (0x10 in hex) */

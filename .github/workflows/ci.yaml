@@ -330,46 +330,6 @@ jobs:
           options: -v ${{ github.workspace }}:/build -w /build
           run: yarn test -s
 
-  test-linux-x64-centos-7:
-    name: Test bindings on Linux-x64-glibc-2.17
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: yarn install --immutable --mode=skip-build
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: bindings-x86_64-unknown-linux-gnu
-          path: artifacts
-
-      - name: Move artifacts
-        run: yarn artifacts
-        shell: bash
-
-      - name: List packages
-        run: ls -R packages
-        shell: bash
-
-      - name: Build TypeScript
-        run: yarn build:ts
-
-      - name: Test bindings
-        uses: addnab/docker-run-action@v3
-        with:
-          image: centos:7
-          options: -e YARN_IGNORE_NODE=1 -v ${{ github.workspace }}:/build -w /build
-          run: |
-            curl -sL https://rpm.nodesource.com/setup_16.x | bash -
-            yum install nodejs -y
-            npm install -g yarn
-            yarn install --immutable --mode=skip-build
-            yarn test -s
-
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
@@ -609,7 +569,6 @@ jobs:
       - lint
       - build-freebsd
       - test-linux-x64-gnu-binding
-      - test-linux-x64-centos-7
       - test-linux-x64-musl-binding
       - test-linux-aarch64-gnu-binding
       - test-linux-aarch64-musl-binding
