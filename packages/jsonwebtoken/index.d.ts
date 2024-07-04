@@ -27,7 +27,7 @@ export const enum Algorithm {
   EdDSA = 'EdDSA'
 }
 
-export function decodeHeader(token: string): Header
+export declare function decodeHeader(token: string): Header
 
 export interface Header {
   /**
@@ -86,9 +86,9 @@ export interface Header {
   x5TS256CertThumbprint?: string
 }
 
-export function sign(claims: { [key: string]: any }, key: string | Uint8Array, header?: Header | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
+export declare function sign(claims: { [key: string]: any }, key: string | Uint8Array, header?: Header | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
 
-export function signSync(claims: { [key: string]: any }, key: string | Uint8Array, header?: Header | undefined | null): string
+export declare function signSync(claims: { [key: string]: any }, key: string | Uint8Array, header?: Header | undefined | null): string
 
 export interface Validation {
   /**
@@ -157,7 +157,7 @@ export interface Validation {
   validateSignature?: boolean
 }
 
-export function verify(token: string, key: string | Uint8Array, validation?: Validation | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<{ [key: string]: any }>
+export declare function verify(token: string, key: string | Uint8Array, validation?: Validation | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<{ [key: string]: any }>
 
-export function verifySync(token: string, key: string | Uint8Array, validation?: Validation | undefined | null): { [key: string]: any }
+export declare function verifySync(token: string, key: string | Uint8Array, validation?: Validation | undefined | null): { [key: string]: any }
 

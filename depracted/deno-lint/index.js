@@ -69,7 +69,6 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 'arm') {
       try {
         return require('./deno-lint.android-arm-eabi.node')
@@ -81,7 +80,6 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else {
       loadErrors.push(new Error(`Unsupported architecture on Android ${process.arch}`))
     }
@@ -97,7 +95,6 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 'ia32') {
       try {
         return require('./deno-lint.win32-ia32-msvc.node')
@@ -109,7 +106,6 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 'arm64') {
       try {
         return require('./deno-lint.win32-arm64-msvc.node')
@@ -121,21 +117,20 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else {
       loadErrors.push(new Error(`Unsupported architecture on Windows: ${process.arch}`))
     }
   } else if (process.platform === 'darwin') {
     try {
-        return require('./deno-lint.darwin-universal.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@node-rs/deno-lint-darwin-universal')
-      } catch (e) {
-        loadErrors.push(e)
-      }
+      return require('./deno-lint.darwin-universal.node')
+    } catch (e) {
+      loadErrors.push(e)
+    }
+    try {
+      return require('@node-rs/deno-lint-darwin-universal')
+    } catch (e) {
+      loadErrors.push(e)
+    }
 
     if (process.arch === 'x64') {
       try {
@@ -148,7 +143,6 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 'arm64') {
       try {
         return require('./deno-lint.darwin-arm64.node')
@@ -160,7 +154,6 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else {
       loadErrors.push(new Error(`Unsupported architecture on macOS: ${process.arch}`))
     }
@@ -176,7 +169,6 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 'arm64') {
       try {
         return require('./deno-lint.freebsd-arm64.node')
@@ -188,7 +180,6 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else {
       loadErrors.push(new Error(`Unsupported architecture on FreeBSD: ${process.arch}`))
     }
@@ -196,106 +187,98 @@ function requireNative() {
     if (process.arch === 'x64') {
       if (isMusl()) {
         try {
-        return require('./deno-lint.linux-x64-musl.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@node-rs/deno-lint-linux-x64-musl')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./deno-lint.linux-x64-musl.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          return require('@node-rs/deno-lint-linux-x64-musl')
+        } catch (e) {
+          loadErrors.push(e)
+        }
       } else {
         try {
-        return require('./deno-lint.linux-x64-gnu.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@node-rs/deno-lint-linux-x64-gnu')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./deno-lint.linux-x64-gnu.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          return require('@node-rs/deno-lint-linux-x64-gnu')
+        } catch (e) {
+          loadErrors.push(e)
+        }
       }
     } else if (process.arch === 'arm64') {
       if (isMusl()) {
         try {
-        return require('./deno-lint.linux-arm64-musl.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@node-rs/deno-lint-linux-arm64-musl')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./deno-lint.linux-arm64-musl.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          return require('@node-rs/deno-lint-linux-arm64-musl')
+        } catch (e) {
+          loadErrors.push(e)
+        }
       } else {
         try {
-        return require('./deno-lint.linux-arm64-gnu.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@node-rs/deno-lint-linux-arm64-gnu')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./deno-lint.linux-arm64-gnu.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          return require('@node-rs/deno-lint-linux-arm64-gnu')
+        } catch (e) {
+          loadErrors.push(e)
+        }
       }
     } else if (process.arch === 'arm') {
       if (isMusl()) {
         try {
-        return require('./deno-lint.linux-arm-musleabihf.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@node-rs/deno-lint-linux-arm-musleabihf')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./deno-lint.linux-arm-musleabihf.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          return require('@node-rs/deno-lint-linux-arm-musleabihf')
+        } catch (e) {
+          loadErrors.push(e)
+        }
       } else {
         try {
-        return require('./deno-lint.linux-arm-gnueabihf.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@node-rs/deno-lint-linux-arm-gnueabihf')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./deno-lint.linux-arm-gnueabihf.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          return require('@node-rs/deno-lint-linux-arm-gnueabihf')
+        } catch (e) {
+          loadErrors.push(e)
+        }
       }
     } else if (process.arch === 'riscv64') {
       if (isMusl()) {
         try {
-        return require('./deno-lint.linux-riscv64-musl.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@node-rs/deno-lint-linux-riscv64-musl')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./deno-lint.linux-riscv64-musl.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          return require('@node-rs/deno-lint-linux-riscv64-musl')
+        } catch (e) {
+          loadErrors.push(e)
+        }
       } else {
         try {
-        return require('./deno-lint.linux-riscv64-gnu.node')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-      try {
-        return require('@node-rs/deno-lint-linux-riscv64-gnu')
-      } catch (e) {
-        loadErrors.push(e)
-      }
-
+          return require('./deno-lint.linux-riscv64-gnu.node')
+        } catch (e) {
+          loadErrors.push(e)
+        }
+        try {
+          return require('@node-rs/deno-lint-linux-riscv64-gnu')
+        } catch (e) {
+          loadErrors.push(e)
+        }
       }
     } else if (process.arch === 'ppc64') {
       try {
@@ -308,7 +291,6 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else if (process.arch === 's390x') {
       try {
         return require('./deno-lint.linux-s390x-gnu.node')
@@ -320,7 +302,6 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
-
     } else {
       loadErrors.push(new Error(`Unsupported architecture on Linux: ${process.arch}`))
     }
