@@ -56,14 +56,8 @@ pub fn hash_sync(
 ) -> Result<String> {
   let salt = if let Some(salt) = salt {
     let mut s = [0u8; 16];
-    match salt {
-      Either::A(salt_str) => {
-        s.copy_from_slice(salt_str.as_bytes());
-      }
-      Either::B(salt_buf) => {
-        s.copy_from_slice(salt_buf.as_ref());
-      }
-    };
+    let buf = either_string_buffer_as_bytes(&salt);
+    s.copy_from_slice(&buf[..16]);
     s
   } else {
     gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
@@ -83,14 +77,8 @@ pub fn hash(
 ) -> Result<AsyncTask<HashTask>> {
   let salt = if let Some(salt) = salt {
     let mut s = [0u8; 16];
-    match salt {
-      Either::A(salt_str) => {
-        s.copy_from_slice(salt_str.as_bytes());
-      }
-      Either::B(salt_buf) => {
-        s.copy_from_slice(salt_buf.as_ref());
-      }
-    };
+    let buf = either_string_buffer_as_bytes(&salt);
+    s.copy_from_slice(&buf[..16]);
     s
   } else {
     gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
