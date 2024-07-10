@@ -52,11 +52,12 @@ pub fn gen_salt_js(
 pub fn hash_sync(
   input: Either<String, Buffer>,
   cost: Option<u32>,
-  salt: Option<Buffer>,
+  salt: Option<Either<String, Buffer>>,
 ) -> Result<String> {
   let salt = if let Some(salt) = salt {
     let mut s = [0u8; 16];
-    s.copy_from_slice(salt.as_ref());
+    let buf = either_string_buffer_as_bytes(&salt);
+    s.copy_from_slice(&buf[..16]);
     s
   } else {
     gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
@@ -71,12 +72,13 @@ pub fn hash_sync(
 pub fn hash(
   input: Either<String, JsBuffer>,
   cost: Option<u32>,
-  salt: Option<Buffer>,
+  salt: Option<Either<String, Buffer>>,
   signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<HashTask>> {
   let salt = if let Some(salt) = salt {
     let mut s = [0u8; 16];
-    s.copy_from_slice(salt.as_ref());
+    let buf = either_string_buffer_as_bytes(&salt);
+    s.copy_from_slice(&buf[..16]);
     s
   } else {
     gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
