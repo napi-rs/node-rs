@@ -4,7 +4,6 @@ members = [
   "./packages/argon2",
   "./packages/bcrypt",
   "./packages/crc32",
-  "./packages/deno-lint",
   "./packages/jieba",
   "./packages/jsonwebtoken",
   "./packages/xxhash",

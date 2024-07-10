@@ -14,9 +14,9 @@ export class Xxh64 {
   reset(newState?: bigint | undefined | null): void
 }
 
-export function xxh32(input: string | Uint8Array, seed?: number | undefined | null): number
+export declare function xxh32(input: string | Uint8Array, seed?: number | undefined | null): number
 
-export function xxh64(input: string | Uint8Array, seed?: bigint | undefined | null): bigint
+export declare function xxh64(input: string | Uint8Array, seed?: bigint | undefined | null): bigint
 
 export namespace xxh3 {
   export class Xxh3 {
