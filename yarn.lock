@@ -255,7 +255,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/node-pre-gyp@npm:^1.0.11, @mapbox/node-pre-gyp@npm:^1.0.4, @mapbox/node-pre-gyp@npm:^1.0.5":
+"@mapbox/node-pre-gyp@npm:^1.0.11, @mapbox/node-pre-gyp@npm:^1.0.5, @mapbox/node-pre-gyp@npm:^1.0.9":
   version: 1.0.11
   resolution: "@mapbox/node-pre-gyp@npm:1.0.11"
   dependencies:
@@ -846,7 +846,7 @@ __metadata:
   resolution: "@node-rs/jieba@workspace:packages/jieba"
   dependencies:
     "@napi-rs/cli": "npm:^3.0.0-alpha.54"
-    nodejieba: "npm:^2.6.0"
+    nodejieba: "npm:^3.0.0"
   languageName: unknown
   linkType: soft
 
@@ -6109,13 +6109,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"nodejieba@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "nodejieba@npm:2.6.0"
+"nodejieba@npm:^3.0.0":
+  version: 3.1.1
+  resolution: "nodejieba@npm:3.1.1"
   dependencies:
-    "@mapbox/node-pre-gyp": "npm:^1.0.4"
+    "@mapbox/node-pre-gyp": "npm:^1.0.9"
     node-addon-api: "npm:^3.0.2"
-  checksum: 10c0/c8d72f1b31928133836c451f18885304eafeff8c72b2015f99d2eedf9be03c2a37e95768456d6812acab5f16206f741cc2bc6f68d88f7fed22d241a5ca19e318
+  checksum: 10c0/dc0d87006901eee7d8a9a798409ea64d558deb87b83d1fef93792891b362a84c986af297a0959005c5c65c3f854de182363f25fad2ea4259747723bef4bbded7
   languageName: node
   linkType: hard
 

@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.0.0-alpha.54",
-    "nodejieba": "^2.6.0"
+    "nodejieba": "^3.0.0"
   },
   "funding": {
     "type": "github",
