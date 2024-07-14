@@ -144,7 +144,7 @@ jobs:
       - uses: goto-bus-stop/setup-zig@v2
         if: ${{ contains(matrix.settings.target, 'musl') }}
         with:
-          version: 0.11.0
+          version: 0.13.0
 
       - name: Setup node x86
         if: matrix.settings.target == 'i686-pc-windows-msvc'
@@ -185,13 +185,13 @@ jobs:
           if-no-files-found: error
 
   build-freebsd:
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     name: Build FreeBSD
     steps:
       - uses: actions/checkout@v4
       - name: Build
         id: build
-        uses: cross-platform-actions/action@v0.24.0
+        uses: cross-platform-actions/action@v0.25.0
         env:
           DEBUG: 'napi:*'
           RUSTUP_HOME: /home/runner/rustup
@@ -199,7 +199,7 @@ jobs:
           RUSTUP_IO_THREADS: 1
         with:
           operating_system: freebsd
-          version: '13.2'
+          version: '14.0'
           memory: 8G
           cpu_count: 3
           environment_variables: 'DEBUG RUSTUP_IO_THREADS'
