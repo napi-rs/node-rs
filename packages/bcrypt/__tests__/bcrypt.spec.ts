@@ -1,6 +1,15 @@
 import test from 'ava'
 
-import { verifySync, compareSync, verify, compare, hash, genSaltSync, genSalt } from '../index'
+import {
+  verifySync,
+  compareSync,
+  verify,
+  compare,
+  hash,
+  genSaltSync,
+  genSalt,
+  hashSync as bcryptHashSync,
+} from '../index'
 
 const { hashSync } = require('bcryptjs')
 
@@ -44,4 +53,9 @@ test('verifySync should always return boolean even if the password is invalid', 
 test('compare should be equal to verify', (t) => {
   t.is(verifySync, compareSync)
   t.is(verify, compare)
+})
+
+test('hash should support long or short string', (t) => {
+  t.is(typeof bcryptHashSync('string', 10, 'hello'), 'string')
+  t.is(typeof bcryptHashSync('string', 10, 'aloooooooooooooooooooooongsalt'), 'string')
 })
