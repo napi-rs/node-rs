@@ -4,6 +4,8 @@
 /// Explicit extern crate to use allocator.
 extern crate global_alloc;
 
+use std::cmp;
+
 use bcrypt::Version;
 use napi::bindgen_prelude::*;
 use napi::{Error, JsBuffer, Result, Status};
@@ -57,7 +59,9 @@ pub fn hash_sync(
   let salt = if let Some(salt) = salt {
     let mut s = [0u8; 16];
     let buf = either_string_buffer_as_bytes(&salt);
-    s.copy_from_slice(&buf[..16]);
+    // make sure salt buffer length should be 16
+    let copy_length = cmp::min(buf.len(), s.len());
+    s[..copy_length].copy_from_slice(&buf[..copy_length]);
     s
   } else {
     gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
@@ -78,7 +82,9 @@ pub fn hash(
   let salt = if let Some(salt) = salt {
     let mut s = [0u8; 16];
     let buf = either_string_buffer_as_bytes(&salt);
-    s.copy_from_slice(&buf[..16]);
+    // make sure salt buffer length should be 16
+    let copy_length = cmp::min(buf.len(), s.len());
+    s[..copy_length].copy_from_slice(&buf[..copy_length]);
     s
   } else {
     gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
