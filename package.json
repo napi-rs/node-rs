@@ -40,7 +40,7 @@
     "lerna": "^8.1.5",
     "lint-staged": "^15.2.7",
     "npm-run-all2": "^6.2.1",
-    "oxlint": "^0.6.0",
+    "oxlint": "^0.7.0",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
     "tslib": "^2.6.3",
