@@ -8,16 +8,16 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-base64       = { version = "0.22" }
-bcrypt       = "0.15"
-blowfish     = { version = "0.9", features = ["bcrypt"] }
-getrandom    = "0.2"
-global_alloc = { path = "../../crates/alloc" }
-napi         = { version = "2", default-features = false, features = ["napi3"] }
-napi-derive  = { version = "2" }
+base64       = { workspace = true }
+bcrypt       = { workspace = true }
+blowfish     = { workspace = true }
+getrandom    = { workspace = true }
+global_alloc = { workspace = true }
+napi         = { workspace = true, default-features = false, features = ["napi3"] }
+napi-derive  = { workspace = true }
 
 [dev-dependencies]
-quickcheck = "1.0"
+quickcheck = { workspace = true }
 
 [build-dependencies]
-napi-build = "2"
+napi-build = { workspace = true }

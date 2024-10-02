@@ -13,6 +13,7 @@ use argon2::{
 use rand_core::OsRng;
 
 #[napi]
+#[derive(Clone, Copy)]
 pub enum Algorithm {
   /// Optimizes against GPU cracking attacks but vulnerable to side-channels.
   /// Accesses the memory array in a password dependent order, reducing the possibility of time–memory tradeoff (TMTO) attacks.
@@ -40,6 +41,7 @@ impl Algorithm {
 }
 
 #[napi]
+#[derive(Clone, Copy)]
 pub enum Version {
   /// Version 16 (0x10 in hex)
   V0x10,
@@ -59,7 +61,7 @@ impl Version {
   }
 }
 
-#[napi(object)]
+#[napi(object, object_to_js = false)]
 #[derive(Default)]
 pub struct Options {
   /// The amount of memory to be used by the hash function, in kilobytes. Each thread will have a memory pool of this size. Note that large values for highly concurrent usage will cause starvation and thrashing if your system memory gets full.
@@ -89,8 +91,8 @@ pub struct Options {
   pub parallelism: Option<u32>,
   pub algorithm: Option<Algorithm>,
   pub version: Option<Version>,
-  pub secret: Option<Buffer>,
-  pub salt: Option<Buffer>,
+  pub secret: Option<Uint8Array>,
+  pub salt: Option<Uint8Array>,
 }
 
 impl Options {
@@ -140,7 +142,7 @@ impl Task for HashTask {
 
 #[napi]
 pub fn hash(
-  password: Either<String, Buffer>,
+  password: Either<String, &[u8]>,
   options: Option<Options>,
   abort_signal: Option<AbortSignal>,
 ) -> AsyncTask<HashTask> {
@@ -159,7 +161,7 @@ pub fn hash(
 #[napi]
 pub fn hash_sync(
   env: Env,
-  password: Either<String, Buffer>,
+  password: Either<String, &[u8]>,
   options: Option<Options>,
 ) -> Result<String> {
   let mut hash_task = HashTask {
@@ -216,7 +218,7 @@ impl Task for RawHashTask {
 
 #[napi]
 pub fn hash_raw(
-  password: Either<String, Buffer>,
+  password: Either<String, &[u8]>,
   options: Option<Options>,
   abort_signal: Option<AbortSignal>,
 ) -> AsyncTask<RawHashTask> {
@@ -235,7 +237,7 @@ pub fn hash_raw(
 #[napi]
 pub fn hash_raw_sync(
   env: Env,
-  password: Either<String, Buffer>,
+  password: Either<String, &[u8]>,
   options: Option<Options>,
 ) -> Result<Buffer> {
   let mut hash_task = RawHashTask {
@@ -279,8 +281,8 @@ impl Task for VerifyTask {
 
 #[napi]
 pub fn verify(
-  hashed: Either<String, Buffer>,
-  password: Either<String, Buffer>,
+  hashed: Either<String, &[u8]>,
+  password: Either<String, &[u8]>,
   options: Option<Options>,
   abort_signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<VerifyTask>> {
@@ -305,8 +307,8 @@ pub fn verify(
 #[napi]
 pub fn verify_sync(
   env: Env,
-  hashed: Either<String, Buffer>,
-  password: Either<String, Buffer>,
+  hashed: Either<String, &[u8]>,
+  password: Either<String, &[u8]>,
   options: Option<Options>,
 ) -> Result<bool> {
   let mut verify_task = VerifyTask {

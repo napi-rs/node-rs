@@ -6,7 +6,7 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [target.'cfg(all(not(target_os = "linux"), not(target_family = "wasm")))'.dependencies]
-mimalloc = { version = "0.1" }
+mimalloc = { workspace = true }
 
 [target.'cfg(target_os = "linux")'.dependencies]
-mimalloc = { version = "0.1", features = ["local_dynamic_tls"] }
+mimalloc = { workspace = true, features = ["local_dynamic_tls"] }

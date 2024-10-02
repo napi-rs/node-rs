@@ -8,11 +8,11 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-global_alloc = { path = "../../crates/alloc" }
-jieba-rs     = { version = "0.6", features = ["default-dict", "tfidf", "textrank"] }
-napi         = { version = "2", default-features = false, features = ["napi3"] }
-napi-derive  = { version = "2" }
-once_cell    = "1"
+global_alloc = { workspace = true }
+jieba-rs     = { workspace = true }
+napi         = { workspace = true, default-features = false, features = ["napi3"] }
+napi-derive  = { workspace = true }
+once_cell    = { workspace = true }
 
 [build-dependencies]
-napi-build = "2"
+napi-build = { workspace = true }

@@ -3,5 +3,6 @@ exclude = ["node_modules/**/*.toml"]
 # https://taplo.tamasfe.dev/configuration/formatter-options.html
 [formatting]
 align_entries = true
+column_width  = 180
 indent_tables = true
 reorder_keys  = true
