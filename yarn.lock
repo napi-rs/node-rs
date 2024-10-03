@@ -434,7 +434,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:^3.0.0-alpha.54, @napi-rs/cli@npm:^3.0.0-alpha.63":
+"@napi-rs/cli@npm:^3.0.0-alpha.63":
   version: 3.0.0-alpha.63
   resolution: "@napi-rs/cli@npm:3.0.0-alpha.63"
   dependencies:
@@ -1024,9 +1024,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/argon2@workspace:packages/argon2"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.54"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.63"
     argon2: "npm:^0.41.0"
     cross-env: "npm:^7.0.3"
+    tinybench: "npm:^2.9.0"
   languageName: unknown
   linkType: soft
 
@@ -1034,7 +1035,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/bcrypt@workspace:packages/bcrypt"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.54"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.63"
     "@types/bcrypt": "npm:^5.0.2"
     bcrypt: "npm:^5.1.1"
     bcryptjs: "npm:^2.4.3"
@@ -1046,7 +1047,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/crc32@workspace:packages/crc32"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.54"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.63"
     "@types/crc": "npm:^3.8.3"
     buffer: "npm:^6.0.3"
     crc: "npm:^4.3.2"
@@ -1066,7 +1067,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/jieba@workspace:packages/jieba"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.54"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.63"
     nodejieba: "npm:^3.0.0"
   languageName: unknown
   linkType: soft
@@ -1075,7 +1076,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/jsonwebtoken@workspace:packages/jsonwebtoken"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.54"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.63"
     "@types/jsonwebtoken": "npm:^9.0.6"
     jsonwebtoken: "npm:^9.0.2"
   languageName: unknown
@@ -1085,7 +1086,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/xxhash@workspace:packages/xxhash"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.54"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.63"
     "@types/xxhashjs": "npm:^0.2.4"
     webpack: "npm:^5.92.1"
     xxhash: "npm:^0.3.0"
@@ -8243,6 +8244,13 @@ __metadata:
   version: 1.0.0
   resolution: "time-zone@npm:1.0.0"
   checksum: 10c0/d00ebd885039109011b6e2423ebbf225160927333c2ade6d833e9cc4676db20759f1f3855fafde00d1bd668c243a6aa68938ce71fe58aab0d514e820d59c1d81
+  languageName: node
+  linkType: hard
+
+"tinybench@npm:^2.9.0":
+  version: 2.9.0
+  resolution: "tinybench@npm:2.9.0"
+  checksum: 10c0/c3500b0f60d2eb8db65250afe750b66d51623057ee88720b7f064894a6cb7eb93360ca824a60a31ab16dab30c7b1f06efe0795b352e37914a9d4bad86386a20c
   languageName: node
   linkType: hard
 

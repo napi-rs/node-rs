@@ -1,4 +1,4 @@
-import { randomBytes } from 'crypto'
+import { randomBytes } from 'node:crypto'
 
 import test from 'ava'
 
@@ -39,6 +39,30 @@ test('should be able to hash string', async (t) => {
   await t.notThrowsAsync(() =>
     hash('whatever', {
       secret: randomBytes(32),
+    }),
+  )
+})
+
+test('should be able to hash string with a defined salt', async (t) => {
+  await t.notThrowsAsync(() =>
+    hash('whatever', {
+      salt: randomBytes(32),
+    }),
+  )
+  await t.notThrowsAsync(() =>
+    hash('whatever', {
+      secret: randomBytes(32),
+      salt: randomBytes(32),
+    }),
+  )
+
+  const salt = randomBytes(32)
+  t.is(
+    await hash('whatever', {
+      salt,
+    }),
+    await hash('whatever', {
+      salt,
     }),
   )
 })

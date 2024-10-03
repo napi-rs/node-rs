@@ -27,24 +27,6 @@ It has a simple design aimed at the highest memory filling rate and effective us
     Hybrid that mixes Argon2i and Argon2d passes.
     Uses the Argon2i approach for the first half pass over memory and Argon2d approach for subsequent passes. This effectively places it in the “middle” between the other two: it doesn’t provide as good TMTO/GPU cracking resistance as Argon2d, nor as good of side-channel resistance as Argon2i, but overall provides the most well-rounded approach to both classes of attacks.
 
-## Support matrix
-
-|                     | node12 | node14 | node16 | node18 |
-| ------------------- | ------ | ------ | ------ | ------ |
-| Windows x64         | ✓      | ✓      | ✓      | ✓      |
-| Windows x32         | ✓      | ✓      | ✓      | ✓      |
-| Windows arm64       | ✓      | ✓      | ✓      | ✓      |
-| macOS x64           | ✓      | ✓      | ✓      | ✓      |
-| macOS arm64(m chip) | ✓      | ✓      | ✓      | ✓      |
-| Linux x64 gnu       | ✓      | ✓      | ✓      | ✓      |
-| Linux x64 musl      | ✓      | ✓      | ✓      | ✓      |
-| Linux arm gnu       | ✓      | ✓      | ✓      | ✓      |
-| Linux arm64 gnu     | ✓      | ✓      | ✓      | ✓      |
-| Linux arm64 musl    | ✓      | ✓      | ✓      | ✓      |
-| Android arm64       | ✓      | ✓      | ✓      | ✓      |
-| Android armv7       | ✓      | ✓      | ✓      | ✓      |
-| FreeBSD x64         | ✓      | ✓      | ✓      | ✓      |
-
 # Benchmarks
 
 See [benchmark/](benchmark/argon2.js).
