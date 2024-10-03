@@ -8,10 +8,8 @@ use std::cmp;
 
 use bcrypt::Version;
 use napi::bindgen_prelude::*;
-use napi::{Error, JsBuffer, Result, Status};
 use napi_derive::*;
 
-use crate::hash_task::AsyncHashInput;
 use crate::hash_task::HashTask;
 use crate::salt_task::{format_salt, gen_salt};
 use crate::verify_task::VerifyTask;
@@ -74,7 +72,7 @@ pub fn hash_sync(
 
 #[napi]
 pub fn hash(
-  input: Either<String, JsBuffer>,
+  input: Either<Uint8Array, String>,
   cost: Option<u32>,
   salt: Option<Either<String, Buffer>>,
   signal: Option<AbortSignal>,
@@ -89,11 +87,7 @@ pub fn hash(
   } else {
     gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
   };
-  let task = HashTask::new(
-    AsyncHashInput::from_either(input)?,
-    cost.unwrap_or(DEFAULT_COST),
-    salt,
-  );
+  let task = HashTask::new(input, cost.unwrap_or(DEFAULT_COST), salt);
   Ok(AsyncTask::with_optional_signal(task, signal))
 }
 
@@ -114,14 +108,11 @@ fn either_string_buffer_as_bytes(input: &Either<String, Buffer>) -> &[u8] {
 
 #[napi]
 pub fn verify(
-  password: Either<String, JsBuffer>,
-  hash: Either<String, JsBuffer>,
+  password: Either<Uint8Array, String>,
+  hash: Either<Uint8Array, String>,
   signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<VerifyTask>> {
-  let task = VerifyTask::new(
-    AsyncHashInput::from_either(password)?,
-    AsyncHashInput::from_either(hash)?,
-  );
+  let task = VerifyTask::new(password, hash);
   Ok(AsyncTask::with_optional_signal(task, signal))
 }
 

@@ -8,18 +8,14 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-global_alloc = { path = "../../crates/alloc" }
-indexmap = { version = "2", features = ["serde"] }
-jsonwebtoken = { version = "9" }
-napi = { version = "2", default-features = false, features = [
-  "napi3",
-  "serde-json-ordered",
-  "object_indexmap",
-] }
-napi-derive = { version = "2" }
-rand_core = { version = "0.6", features = ["std"] }
-serde = "1.0"
-serde_json = "1.0"
+global_alloc = { workspace = true }
+indexmap     = { workspace = true, features = ["serde"] }
+jsonwebtoken = { workspace = true }
+napi         = { workspace = true, default-features = false, features = ["napi3", "serde-json-ordered", "object_indexmap"] }
+napi-derive  = { workspace = true }
+rand_core    = { version = "0.6", features = ["std"] }
+serde        = { workspace = true }
+serde_json   = { workspace = true }
 
 [build-dependencies]
-napi-build = { version = "2" }
+napi-build = { workspace = true }

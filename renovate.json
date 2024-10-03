@@ -6,12 +6,13 @@
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"]
     },
     {
-      "groupName": "deno-lint",
-      "matchPackagePrefixes": ["deno_"]
+      "groupName": "rust toolchain",
+      "matchManagers": ["custom.regex"],
+      "matchDepNames": ["rustc"]
     }
   ],
   "lockFileMaintenance": {
     "enabled": true,
-    "extends": ["schedule:monthly"]
+    "extends": ["schedule:weekly"]
   }
 }

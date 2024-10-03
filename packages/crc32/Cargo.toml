@@ -8,11 +8,11 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-crc32c       = { version = "0.6" }
-crc32fast    = { version = "1.4", features = ["nightly"] }
-global_alloc = { path = "../../crates/alloc" }
-napi         = { version = "2", default-features = false, features = ["napi3"] }
-napi-derive  = { version = "2" }
+crc32c       = { workspace = true }
+crc32fast    = { workspace = true }
+global_alloc = { workspace = true }
+napi         = { workspace = true, default-features = false, features = ["napi3"] }
+napi-derive  = { workspace = true }
 
 [build-dependencies]
-napi-build = "2"
+napi-build = { workspace = true }

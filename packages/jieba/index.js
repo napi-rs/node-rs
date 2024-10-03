@@ -336,7 +336,7 @@ if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
     nativeBinding = require('./jieba.wasi.cjs')
   } catch (err) {
     if (process.env.NAPI_RS_FORCE_WASI) {
-      console.error(err)
+      loadErrors.push(err)
     }
   }
   if (!nativeBinding) {
@@ -344,7 +344,7 @@ if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
       nativeBinding = require('@node-rs/jieba-wasm32-wasi')
     } catch (err) {
       if (process.env.NAPI_RS_FORCE_WASI) {
-        console.error(err)
+        loadErrors.push(err)
       }
     }
   }

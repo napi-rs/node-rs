@@ -1,6 +1,7 @@
 use napi_derive::napi;
 
 #[napi(string_enum)]
+#[derive(Clone, Copy)]
 pub enum Algorithm {
   /// HMAC using SHA-256
   HS256,

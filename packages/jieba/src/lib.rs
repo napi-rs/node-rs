@@ -22,9 +22,9 @@ pub fn load() -> Result<()> {
 }
 
 #[napi]
-pub fn load_dict(dict: Buffer) -> Result<()> {
+pub fn load_dict(dict: &[u8]) -> Result<()> {
   assert_not_init()?;
-  let mut readable_dict: &[u8] = &dict;
+  let mut readable_dict: &[u8] = dict;
   JIEBA.get_or_init(|| {
     let mut jieba = Jieba::new();
     jieba
@@ -50,15 +50,13 @@ fn assert_not_init() -> Result<()> {
 }
 
 #[napi(ts_return_type = "string[]")]
-pub fn cut(env: Env, sentence: Either<String, Buffer>, hmm: Option<bool>) -> Result<Array> {
+pub fn cut(env: Env, sentence: Either<String, &[u8]>, hmm: Option<bool>) -> Result<Array> {
   let hmm = hmm.unwrap_or(false);
   let jieba = JIEBA.get_or_init(Jieba::new);
   let cutted = jieba.cut(
     match &sentence {
       Either::A(s) => s.as_str(),
-      Either::B(b) => {
-        str::from_utf8(b.as_ref()).map_err(|_| Error::from_status(Status::InvalidArg))?
-      }
+      Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
     },
     hmm,
   );
@@ -66,13 +64,11 @@ pub fn cut(env: Env, sentence: Either<String, Buffer>, hmm: Option<bool>) -> Res
 }
 
 #[napi(ts_return_type = "string[]")]
-pub fn cut_all(env: Env, sentence: Either<String, Buffer>) -> Result<Array> {
+pub fn cut_all(env: Env, sentence: Either<String, &[u8]>) -> Result<Array> {
   let jieba = JIEBA.get_or_init(Jieba::new);
   let cutted = jieba.cut_all(match &sentence {
     Either::A(s) => s.as_str(),
-    Either::B(b) => {
-      str::from_utf8(b.as_ref()).map_err(|_| Error::from_status(Status::InvalidArg))?
-    }
+    Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
   });
 
   Array::from_vec(&env, cutted)
@@ -81,7 +77,7 @@ pub fn cut_all(env: Env, sentence: Either<String, Buffer>) -> Result<Array> {
 #[napi(ts_return_type = "string[]")]
 pub fn cut_for_search(
   env: Env,
-  sentence: Either<String, Buffer>,
+  sentence: Either<String, &[u8]>,
   hmm: Option<bool>,
 ) -> Result<Array> {
   let hmm = hmm.unwrap_or(false);
@@ -89,9 +85,7 @@ pub fn cut_for_search(
   let cutted = jieba.cut_for_search(
     match &sentence {
       Either::A(s) => s.as_str(),
-      Either::B(b) => {
-        str::from_utf8(b.as_ref()).map_err(|_| Error::from_status(Status::InvalidArg))?
-      }
+      Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
     },
     hmm,
   );
@@ -106,14 +100,12 @@ pub struct TaggedWord {
 }
 
 #[napi]
-pub fn tag(sentence: Either<String, Buffer>, hmm: Option<bool>) -> Result<Vec<TaggedWord>> {
+pub fn tag(sentence: Either<String, &[u8]>, hmm: Option<bool>) -> Result<Vec<TaggedWord>> {
   let jieba = JIEBA.get_or_init(Jieba::new);
   let tagged = jieba.tag(
     match &sentence {
       Either::A(s) => s.as_str(),
-      Either::B(b) => {
-        str::from_utf8(b.as_ref()).map_err(|_| Error::from_status(Status::InvalidArg))?
-      }
+      Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
     },
     hmm.unwrap_or(false),
   );
@@ -137,7 +129,7 @@ pub struct Keyword {
 
 #[napi]
 pub fn extract(
-  sentence: Either<String, Buffer>,
+  sentence: Either<String, &[u8]>,
   topn: u32,
   allowed_pos: Option<String>,
 ) -> Result<Vec<Keyword>> {
@@ -160,9 +152,7 @@ pub fn extract(
   let tags = keyword_extractor.extract_tags(
     match &sentence {
       Either::A(s) => s.as_str(),
-      Either::B(b) => {
-        str::from_utf8(b.as_ref()).map_err(|_| Error::from_status(Status::InvalidArg))?
-      }
+      Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
     },
     topn as usize,
     allowed_pos,
@@ -180,8 +170,8 @@ pub fn extract(
 }
 
 #[napi(js_name = "loadTFIDFDict")]
-pub fn load_tfidf_dict(dict: Buffer) -> Result<()> {
-  let mut readable_dict: &[u8] = &dict;
+pub fn load_tfidf_dict(dict: &[u8]) -> Result<()> {
+  let mut readable_dict: &[u8] = dict;
   if TFIDF_INSTANCE.get().is_some() {
     return Err(Error::new(
       Status::GenericFailure,
