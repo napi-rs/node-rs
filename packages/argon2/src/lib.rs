@@ -125,11 +125,18 @@ impl Task for HashTask {
   type JsValue = String;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let salt = SaltString::generate(&mut OsRng);
+    let salt = if let Some(salt) = &self.options.salt {
+      SaltString::encode_b64(salt)
+        .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
+    } else {
+      SaltString::generate(&mut OsRng)
+    };
+    let hasher = self
+      .options
+      .to_argon()
+      .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?;
 
-    let hasher = self.options.to_argon();
     hasher
-      .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
       .hash_password(self.password.as_slice(), &salt)
       .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
       .map(|h| h.to_string())
@@ -263,8 +270,12 @@ impl Task for VerifyTask {
   type JsValue = bool;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let parsed_hash = argon2::PasswordHash::new(self.hashed.as_str())
-      .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?;
+    let parsed_hash = argon2::PasswordHash::new(self.hashed.as_str()).map_err(|err| {
+      Error::new(
+        Status::InvalidArg,
+        format!("Invalid hashed password: {err}"),
+      )
+    })?;
     let argon2 = self.options.to_argon();
     Ok(
       argon2

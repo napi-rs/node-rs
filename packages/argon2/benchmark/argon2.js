@@ -1,42 +1,38 @@
-const { cpus } = require('os')
+import { cpus } from 'node:os'
 
-const nodeArgon2 = require('argon2')
-const { Suite } = require('benchmark')
-const chalk = require('chalk')
+import nodeArgon2 from 'argon2'
+import { Bench } from 'tinybench'
 
-const { hash, verify, Algorithm } = require('../index')
+import { hash, verify, Algorithm } from '../index.js'
 
 const PASSWORD = '$v=19$m=4096,t=3,p=1$fyLYvmzgpBjDTP6QSypj3g$pb1Q3Urv1amxuFft0rGwKfEuZPhURRDV7TJqcBnwlGo'
 const CORES = cpus().length
 
-const suite = new Suite('Hash with all cores')
+const HASHED = await hash(PASSWORD, {
+  algorithm: Algorithm.Argon2id,
+  parallelism: CORES,
+})
 
-suite
-  .add(
-    '@node-rs/argon',
-    async (deferred) => {
-      await hash(PASSWORD, {
-        algorithm: Algorithm.Argon2id,
-        parallelism: CORES,
-      })
-      deferred.resolve()
-    },
-    { defer: true },
-  )
-  .add(
-    'node-argon',
-    async (deferred) => {
-      await nodeArgon2.hash(PASSWORD, { type: nodeArgon2.argon2id, parallelism: CORES })
-      deferred.resolve()
-    },
-    {
-      defer: true,
-    },
-  )
-  .on('cycle', function (event) {
-    console.info(String(event.target))
+const bench = new Bench('Hash with all cores')
+
+bench
+  .add('@node-rs/argon hash', async () => {
+    await hash(PASSWORD, {
+      algorithm: Algorithm.Argon2id,
+      parallelism: CORES,
+    })
   })
-  .on('complete', function () {
-    console.info(`${this.name} bench suite: Fastest is ${chalk.green(this.filter('fastest').map('name'))}`)
+  .add('node-argon hash', async () => {
+    await nodeArgon2.hash(PASSWORD, { type: nodeArgon2.argon2id, parallelism: CORES })
   })
-  .run()
+  .add('@node-rs/argon verify', async () => {
+    console.assert(await verify(HASHED, PASSWORD))
+  })
+  .add('node-argon verify', async () => {
+    console.assert(await nodeArgon2.verify(HASHED, PASSWORD))
+  })
+
+await bench.warmup()
+await bench.run()
+
+console.table(bench.table())
