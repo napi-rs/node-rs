@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jsonwebtoken-android-arm-eabi",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "cpu": [
     "arm"
   ],

@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/jieba-android-arm64",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "cpu": [
     "arm64"
   ],

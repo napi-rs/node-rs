@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt-win32-x64-msvc",
-  "version": "1.10.4",
+  "version": "1.10.5",
   "cpu": [
     "x64"
   ],
