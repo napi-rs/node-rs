@@ -15,7 +15,7 @@ resolver = "2"
   jieba-rs     = { version = "0.6", features = ["default-dict", "tfidf", "textrank"] }
   jsonwebtoken = { version = "9" }
   mimalloc     = "0.1"
-  napi         = { version = "3.0.0-alpha.13", default-features = false, features = ["napi3"] }
+  napi         = { version = "3.0.0-alpha", default-features = false, features = ["napi3"] }
   napi-build   = "2"
   napi-derive  = { version = "3.0.0-alpha.13", default-features = false, features = ["type-def"] }
   once_cell    = "1"
