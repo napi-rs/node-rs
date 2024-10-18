@@ -12,7 +12,7 @@ resolver = "2"
   getrandom    = "0.2"
   global_alloc = { path = "./crates/alloc" }
   indexmap     = { version = "2", features = ["serde"] }
-  jieba-rs     = { version = "0.6", features = ["default-dict", "tfidf", "textrank"] }
+  jieba-rs     = { version = "0.7", features = ["default-dict", "tfidf", "textrank"] }
   jsonwebtoken = { version = "9" }
   mimalloc     = "0.1"
   napi         = { version = "3.0.0-alpha", default-features = false, features = ["napi3"] }
