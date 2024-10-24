@@ -61,6 +61,8 @@ impl From<&Validation> for jsonwebtoken::Validation {
 
     if let Some(aud) = &value.aud {
       validation.set_audience(aud);
+    } else {
+      validation.validate_aud = false;
     }
     if let Some(required_spec_claims) = &value.required_spec_claims {
       validation.set_required_spec_claims(required_spec_claims);
