@@ -23,12 +23,7 @@ pub const DEFAULT_COST: u32 = 12;
 
 #[napi(ts_args_type = "round: number, version?: '2a' | '2x' | '2y' | '2b'")]
 pub fn gen_salt_sync(round: u32, version: Option<String>) -> Result<String> {
-  let salt = gen_salt().map_err(|err| {
-    Error::new(
-      Status::GenericFailure,
-      format!("Generate salt failed {err}"),
-    )
-  })?;
+  let salt = gen_salt();
   Ok(format_salt(round, &version_from_str(version)?, &salt))
 }
 
@@ -62,7 +57,7 @@ pub fn hash_sync(
     s[..copy_length].copy_from_slice(&buf[..copy_length]);
     s
   } else {
-    gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
+    gen_salt()
   };
   match input {
     Either::A(s) => HashTask::hash(s.as_bytes(), salt, cost.unwrap_or(DEFAULT_COST)),
@@ -85,7 +80,7 @@ pub fn hash(
     s[..copy_length].copy_from_slice(&buf[..copy_length]);
     s
   } else {
-    gen_salt().map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
+    gen_salt()
   };
   let task = HashTask::new(input, cost.unwrap_or(DEFAULT_COST), salt);
   Ok(AsyncTask::with_optional_signal(task, signal))

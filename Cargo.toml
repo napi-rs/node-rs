@@ -9,7 +9,6 @@ resolver = "2"
   blowfish     = { version = "0.9", features = ["bcrypt"] }
   crc32c       = { version = "0.6" }
   crc32fast    = { version = "1.4", features = ["nightly"] }
-  getrandom    = "0.2"
   global_alloc = { path = "./crates/alloc" }
   indexmap     = { version = "2", features = ["serde"] }
   jieba-rs     = { version = "0.7", default-features = false, features = ["tfidf", "textrank"] }
@@ -20,6 +19,7 @@ resolver = "2"
   napi-derive  = { version = "3.0.0-alpha", default-features = false, features = ["type-def"] }
   once_cell    = "1"
   quickcheck   = "1.0"
+  rand         = "0.8"
   rand_core    = { version = "0.6", features = ["getrandom"] }
   serde        = "1.0"
   serde_json   = "1.0"
