@@ -11,10 +11,10 @@ crate-type = ["cdylib"]
 base64       = { workspace = true }
 bcrypt       = { workspace = true }
 blowfish     = { workspace = true }
-getrandom    = { workspace = true }
 global_alloc = { workspace = true }
 napi         = { workspace = true, default-features = false, features = ["napi3"] }
 napi-derive  = { workspace = true }
+rand         = { workspace = true }
 
 [dev-dependencies]
 quickcheck = { workspace = true }
