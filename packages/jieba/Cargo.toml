@@ -12,7 +12,6 @@ global_alloc = { workspace = true }
 jieba-rs     = { workspace = true }
 napi         = { workspace = true, default-features = false, features = ["napi3"] }
 napi-derive  = { workspace = true }
-once_cell    = { workspace = true }
 
 [build-dependencies]
 napi-build = { workspace = true }

@@ -20,7 +20,11 @@
     "index.js",
     "index.d.ts",
     "browser.js",
-    "LICENSE"
+    "LICENSE",
+    "dict.txt",
+    "idf.txt",
+    "dict.js",
+    "dict.d.ts"
   ],
   "napi": {
     "binaryName": "jieba",
@@ -65,7 +69,9 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.0.0-alpha.63",
-    "nodejieba": "^3.0.0"
+    "cross-env": "^7.0.3",
+    "nodejieba": "^3.0.0",
+    "tinybench": "^2.9.0"
   },
   "funding": {
     "type": "github",

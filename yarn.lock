@@ -1068,7 +1068,9 @@ __metadata:
   resolution: "@node-rs/jieba@workspace:packages/jieba"
   dependencies:
     "@napi-rs/cli": "npm:^3.0.0-alpha.63"
+    cross-env: "npm:^7.0.3"
     nodejieba: "npm:^3.0.0"
+    tinybench: "npm:^2.9.0"
   languageName: unknown
   linkType: soft
 
