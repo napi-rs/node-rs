@@ -154,9 +154,6 @@ jobs:
       - name: 'Install dependencies'
         run: yarn install --immutable --mode=skip-build
 
-      - name: 'Build TypeScript'
-        run: yarn build:ts
-
       - name: Setup node x86
         uses: actions/setup-node@v4
         if: matrix.settings.target == 'i686-pc-windows-msvc'
@@ -224,7 +221,6 @@ jobs:
             env
             freebsd-version
             yarn install --immutable --mode=skip-build
-            yarn build:ts
             yarn build
             strip -x packages/*/*.node
             rm -rf node_modules
@@ -286,9 +282,6 @@ jobs:
         run: yarn artifacts
         shell: bash
 
-      - name: Build TypeScript
-        run: yarn build:ts
-
       - name: Test bindings
         run: yarn workspaces foreach -A -j 1 run test
 
@@ -330,9 +323,6 @@ jobs:
       - name: List packages
         run: ls -R packages
         shell: bash
-
-      - name: Build TypeScript
-        run: yarn build:ts
 
       - name: Test bindings
         uses: addnab/docker-run-action@v3
@@ -442,7 +432,6 @@ jobs:
           options: --platform linux/arm64 -v ${{ github.workspace }}:/build -w /build
           run: |
             set -e
-            yarn build:ts
             yarn test -s
             ls -la
 
@@ -496,7 +485,6 @@ jobs:
           options: --platform linux/arm64 -v ${{ github.workspace }}:/build -w /build
           run: |
             set -e
-            yarn build:ts
             yarn test -s
 
   test-linux-arm-gnueabihf-binding:
@@ -547,7 +535,6 @@ jobs:
           options: --platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build
           run: |
             set -e
-            yarn build:ts
             yarn test -s
             ls -la
 
@@ -582,7 +569,6 @@ jobs:
         run: ls -R .
       - name: Test
         run: |
-          yarn build:ts
           yarn test -s
         env:
           NAPI_RS_FORCE_WASI: 'true'
