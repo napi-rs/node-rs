@@ -1,16 +1,19 @@
-const fs = require('fs')
-const { join } = require('path')
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const { Suite } = require('benchmark')
-const chalk = require('chalk')
-const nodejieba = require('nodejieba')
+import { Bench } from 'tinybench'
+import chalk from 'chalk'
+import nodejieba from 'nodejieba'
 
-const { load, cut, tag } = require('../index')
+import { Jieba, TfIdf } from '../index.js'
+import { dict, idf } from '../dict.js'
 
-load()
-nodejieba.load()
+const { load, cut, tag } = nodejieba
 
-const fixture = fs.readFileSync(join(__dirname, 'weicheng.txt'), 'utf8')
+const __dirname = join(fileURLToPath(import.meta.url), '..')
+
+const fixture = readFileSync(join(__dirname, 'weicheng.txt'), 'utf8')
 
 const preface = `
 重印前记《围城》一九四七年在上海初版，一九四八年再版，一九四九年三版，以后国内没有重印过。偶然碰见它的新版，那都是香港的“盗印”本。没有看到台湾的“盗印”，据说在那里它是禁书。美国哥伦比亚大学夏志清教授的英文著作里对它作了过高的评价，导致了一些西方语言的译本。日本京都大学荒井健教授很久以前就通知我他要翻译，近年来也陆续在刊物上发表了译文。现在，人民文学出版社建议重新排印，以便原著在国内较易找着，我感到意外和忻辛。
@@ -23,30 +26,48 @@ const preface = `
 
 const prefaceLength = preface.length
 
-function createBench(suitename, transform, napi, jieba, input) {
-  const cutSuite = new Suite(suitename)
-  console.assert(transform(napi(input)) === transform(jieba(input)))
+async function createBench(suitename, transform, napi, jieba) {
+  const suite = new Bench()
+  console.assert(transform(napi()) === transform(jieba()))
 
-  cutSuite
-    .add('@node-rs/jieba', () => {
-      napi(input)
-    })
-    .add('nodejieba', () => {
-      jieba(input)
-    })
-    .on('cycle', function (event) {
-      console.info(String(event.target))
-    })
-    .on('complete', function () {
-      console.info(`${this.name} bench suite: Fastest is ${chalk.green(this.filter('fastest').map('name'))}`)
-    })
-    .run()
+  suite.add('@node-rs/jieba', napi).add('nodejieba', jieba)
+
+  await suite.warmup()
+
+  await suite.run()
+
+  console.info(chalk.green(`Benchmark ${suitename} result`))
+  console.table(suite.table())
 }
 
-createBench(`Cut ${prefaceLength} words`, (output) => output.join(''), cut, nodejieba.cut, preface)
+load()
+const jieba = Jieba.withDict(dict)
+const tfIdf = TfIdf.withDict(idf)
 
-createBench(`Cut ${fixture.toString().length} words`, (output) => output.join(''), cut, nodejieba.cut, fixture)
+await createBench(
+  `Cut ${prefaceLength} words`,
+  (output) => output.join(''),
+  () => jieba.cut(preface),
+  () => cut(preface),
+)
 
-createBench(`Tag ${prefaceLength} words`, (output) => typeof output, tag, nodejieba.tag, preface)
+await createBench(
+  `Cut ${fixture.toString().length} words`,
+  (output) => output.join(''),
+  () => jieba.cut(fixture),
+  () => cut(fixture),
+)
 
-createBench(`Tag ${fixture.toString().length} words`, (output) => typeof output, tag, nodejieba.tag, fixture)
+await createBench(
+  `Tag ${prefaceLength} words`,
+  (output) => typeof output,
+  () => jieba.tag(preface),
+  () => tag(preface),
+)
+
+await createBench(
+  `Tag ${fixture.toString().length} words`,
+  (output) => typeof output,
+  () => jieba.tag(fixture),
+  () => tag(fixture),
+)

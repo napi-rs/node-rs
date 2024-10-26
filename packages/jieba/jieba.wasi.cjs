@@ -82,22 +82,14 @@ const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule
 })
 
 function __napi_rs_initialize_modules(__napiInstance) {
-  __napiInstance.exports['__napi_register__load_0']?.()
-  __napiInstance.exports['__napi_register__load_dict_1']?.()
-  __napiInstance.exports['__napi_register__cut_2']?.()
-  __napiInstance.exports['__napi_register__cut_all_3']?.()
-  __napiInstance.exports['__napi_register__cut_for_search_4']?.()
-  __napiInstance.exports['__napi_register__TaggedWord_struct_5']?.()
-  __napiInstance.exports['__napi_register__tag_6']?.()
-  __napiInstance.exports['__napi_register__Keyword_struct_7']?.()
-  __napiInstance.exports['__napi_register__extract_8']?.()
-  __napiInstance.exports['__napi_register__load_tfidf_dict_9']?.()
+  __napiInstance.exports['__napi_register__TaggedWord_struct_0']?.()
+  __napiInstance.exports['__napi_register__Keyword_struct_1']?.()
+  __napiInstance.exports['__napi_register__KeywordExtractConfig_struct_2']?.()
+  __napiInstance.exports['__napi_register__TfIdf_struct_3']?.()
+  __napiInstance.exports['__napi_register__TfIdf_impl_9']?.()
+  __napiInstance.exports['__napi_register__Jieba_struct_10']?.()
+  __napiInstance.exports['__napi_register__Jieba_impl_19']?.()
+  __napiInstance.exports['__napi_register__CutTask_impl_20']?.()
 }
-module.exports.cut = __napiModule.exports.cut
-module.exports.cutAll = __napiModule.exports.cutAll
-module.exports.cutForSearch = __napiModule.exports.cutForSearch
-module.exports.extract = __napiModule.exports.extract
-module.exports.load = __napiModule.exports.load
-module.exports.loadDict = __napiModule.exports.loadDict
-module.exports.loadTFIDFDict = __napiModule.exports.loadTFIDFDict
-module.exports.tag = __napiModule.exports.tag
+module.exports.Jieba = __napiModule.exports.Jieba
+module.exports.TfIdf = __napiModule.exports.TfIdf

@@ -361,11 +361,5 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-module.exports.cut = nativeBinding.cut
-module.exports.cutAll = nativeBinding.cutAll
-module.exports.cutForSearch = nativeBinding.cutForSearch
-module.exports.extract = nativeBinding.extract
-module.exports.load = nativeBinding.load
-module.exports.loadDict = nativeBinding.loadDict
-module.exports.loadTFIDFDict = nativeBinding.loadTFIDFDict
-module.exports.tag = nativeBinding.tag
+module.exports.Jieba = nativeBinding.Jieba
+module.exports.TfIdf = nativeBinding.TfIdf
