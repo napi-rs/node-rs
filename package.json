@@ -11,30 +11,23 @@
   ],
   "scripts": {
     "artifacts": "yarn workspaces foreach -A --no-private run artifacts",
-    "bench": "lerna run bench --concurrency 1 --stream --no-prefix",
     "build": "yarn workspaces foreach -A --no-private -j 1 run build",
-    "build:ts": "tsc -b tsconfig.project.json -verbose",
+    "build:ts": "tsc -b tsconfig.json -verbose",
     "lint": "oxlint .",
     "test": "ava",
     "format": "run-p format:prettier format:rs format:toml",
     "format:prettier": "prettier --config ./package.json -w .",
     "format:rs": "cargo fmt --all",
     "format:toml": "taplo format",
-    "typecheck": "tsc -b tsconfig.project.json -verbose",
     "postinstall": "husky install"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.63",
+    "@napi-rs/cli": "^3.0.0-alpha.64",
     "@napi-rs/wasm-runtime": "^0.2.5",
-    "@swc-node/core": "^1.13.3",
-    "@swc-node/register": "^1.10.9",
-    "@swc/core": "^1.7.26",
     "@taplo/cli": "^0.7.0",
     "@tybys/wasm-util": "^0.9.0",
     "@types/node": "^22.7.4",
     "ava": "^6.1.3",
-    "benchmark": "^2.1.4",
-    "codecov": "^3.8.3",
     "cross-env": "^7.0.3",
     "husky": "^9.1.6",
     "lerna": "^8.1.8",
@@ -42,7 +35,6 @@
     "npm-run-all2": "^7.0.0",
     "oxlint": "^0.10.0",
     "prettier": "^3.3.3",
-    "ts-node": "^10.9.2",
     "tslib": "^2.7.0",
     "typescript": "^5.6.2"
   },
@@ -58,6 +50,20 @@
     ],
     "*.rs": [
       "cargo fmt --"
+    ]
+  },
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "nodeArguments": [
+      "--import",
+      "@oxc-node/core/register"
+    ],
+    "timeout": "1m",
+    "cache": false,
+    "files": [
+      "packages/*/__test__/**/*.spec.ts"
     ]
   },
   "prettier": {

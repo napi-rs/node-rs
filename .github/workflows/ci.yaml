@@ -42,13 +42,60 @@ jobs:
         run: yarn lint
 
       - name: TypeCheck
-        run: yarn typecheck
+        run: yarn build:ts
 
       - name: Cargo fmt
         run: cargo fmt -- --check
 
       - name: Clippy
         run: cargo clippy
+  bench:
+    name: Bench
+    runs-on: ${{ matrix.settings.host }}
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - target: 'x86_64-unknown-linux-gnu'
+            host: ubuntu-latest
+          - target: 'aarch64-apple-darwin'
+            host: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ~/.napi-rs
+            target
+          key: bench-cargo-registry-${{ matrix.settings.target }}
+
+      - name: Install
+        uses: ./.github/actions/setup-rust
+        with:
+          targets: ${{ matrix.settings.target }}
+
+      - name: Setup macos
+        if: ${{ matrix.settings.host == 'macos-latest' }}
+        run: brew install python-setuptools
+
+      - name: 'Install dependencies'
+        run: yarn install
+
+      - name: build
+        run: yarn build
+
+      - name: Bench
+        run: yarn workspaces foreach -A -j 1 --no-private run bench
+
   build:
     strategy:
       fail-fast: false
@@ -578,6 +625,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - lint
+      - bench
       - build-freebsd
       - test-linux-x64-gnu-binding
       - test-linux-x64-musl-binding
