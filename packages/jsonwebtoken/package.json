@@ -69,6 +69,6 @@
     "@types/jsonwebtoken": "^9.0.6",
     "cross-env": "^7.0.3",
     "jsonwebtoken": "^9.0.2",
-    "tinybench": "^2.9.0"
+    "tinybench": "^3.0.0"
   }
 }
