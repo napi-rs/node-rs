@@ -59,7 +59,7 @@
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish",
-    "version": "napi version && git add npm"
+    "version": "napi version"
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.0.0-alpha.64",

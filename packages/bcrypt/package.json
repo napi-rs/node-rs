@@ -64,7 +64,7 @@
     "build": "napi build --platform --release --js binding.js --dts binding.d.ts",
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish",
-    "version": "napi version && git add npm"
+    "version": "napi version"
   },
   "bugs": {
     "url": "https://github.com/napi-rs/node-rs/issues"
