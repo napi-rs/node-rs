@@ -1,10 +1,11 @@
 import test from 'ava'
-import { h64 } from 'xxhashjs'
+import xxhashjs from 'xxhashjs'
 
-import { xxh64, Xxh64 } from '../index'
+import { xxh64, Xxh64 } from '../index.js'
 
 const FX = Buffer.from('@node-rs/xxhash vs xxhashjs')
 const SEED = 0xabcdef01
+const { h64 } = xxhashjs
 
 test('xxh64 without seed', (t) => {
   t.is(xxh64(FX).toString(16), h64(FX, 0).toString(16))

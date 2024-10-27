@@ -1,7 +1,7 @@
 import test from 'ava'
 import { crc32 as nodeCrc32 } from 'crc'
 
-import { crc32c, crc32 } from '../index'
+import { crc32c, crc32 } from '../index.js'
 
 const fx = Buffer.from('crc32c - test')
 

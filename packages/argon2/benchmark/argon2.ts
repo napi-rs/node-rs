@@ -13,7 +13,7 @@ const HASHED = await hash(PASSWORD, {
   parallelism: CORES,
 })
 
-const bench = new Bench('Hash with all cores')
+const bench = new Bench()
 
 bench
   .add('@node-rs/argon hash', async () => {

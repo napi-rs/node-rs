@@ -58,7 +58,7 @@
   },
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
-    "bench": "cross-env NODE_ENV=production node benchmark/jieba.js",
+    "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/jieba.ts",
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish",
@@ -68,7 +68,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.63",
+    "@napi-rs/cli": "^3.0.0-alpha.64",
     "cross-env": "^7.0.3",
     "nodejieba": "^3.0.0",
     "tinybench": "^2.9.0"

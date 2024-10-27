@@ -44,37 +44,35 @@ pub fn gen_salt_js(
 }
 
 #[napi]
+#[inline]
 pub fn hash_sync(
-  input: Either<String, Buffer>,
+  input: Either<String, &[u8]>,
   cost: Option<u32>,
-  salt: Option<Either<String, Buffer>>,
+  salt: Option<Either<String, &[u8]>>,
 ) -> Result<String> {
   let salt = if let Some(salt) = salt {
     let mut s = [0u8; 16];
-    let buf = either_string_buffer_as_bytes(&salt);
+    let buf = salt.as_ref();
     // make sure salt buffer length should be 16
     let copy_length = cmp::min(buf.len(), s.len());
     s[..copy_length].copy_from_slice(&buf[..copy_length]);
     s
   } else {
-    gen_salt()
+    rand::random()
   };
-  match input {
-    Either::A(s) => HashTask::hash(s.as_bytes(), salt, cost.unwrap_or(DEFAULT_COST)),
-    Either::B(b) => HashTask::hash(b.as_ref(), salt, cost.unwrap_or(DEFAULT_COST)),
-  }
+  HashTask::hash(input.as_ref(), salt, cost.unwrap_or(DEFAULT_COST))
 }
 
 #[napi]
 pub fn hash(
   input: Either<Uint8Array, String>,
   cost: Option<u32>,
-  salt: Option<Either<String, Buffer>>,
+  salt: Option<Either<String, &[u8]>>,
   signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<HashTask>> {
   let salt = if let Some(salt) = salt {
     let mut s = [0u8; 16];
-    let buf = either_string_buffer_as_bytes(&salt);
+    let buf = salt.as_ref();
     // make sure salt buffer length should be 16
     let copy_length = cmp::min(buf.len(), s.len());
     s[..copy_length].copy_from_slice(&buf[..copy_length]);
@@ -87,18 +85,9 @@ pub fn hash(
 }
 
 #[napi]
-pub fn verify_sync(input: Either<String, Buffer>, hash: Either<String, Buffer>) -> Result<bool> {
-  let input = either_string_buffer_as_bytes(&input);
-  let hash = either_string_buffer_as_bytes(&hash);
+#[inline]
+pub fn verify_sync(input: Either<String, &[u8]>, hash: Either<String, &[u8]>) -> Result<bool> {
   VerifyTask::verify(input, hash)
-}
-
-#[inline(always)]
-fn either_string_buffer_as_bytes(input: &Either<String, Buffer>) -> &[u8] {
-  match input {
-    Either::A(s) => s.as_bytes(),
-    Either::B(b) => b.as_ref(),
-  }
 }
 
 #[napi]

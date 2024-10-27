@@ -60,7 +60,7 @@
   },
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
-    "bench": "cross-env NODE_ENV=production node --import @swc-node/register/esm-register benchmark/bcrypt.ts",
+    "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/bcrypt.ts",
     "build": "napi build --platform --release --js binding.js --dts binding.d.ts",
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish",
@@ -72,7 +72,7 @@
   "devDependencies": {
     "@cwasm/openbsd-bcrypt": "^0.1.0",
     "@cwasm/openwall-bcrypt": "^0.1.0",
-    "@napi-rs/cli": "^3.0.0-alpha.63",
+    "@napi-rs/cli": "^3.0.0-alpha.64",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "bcrypt": "^5.1.1",

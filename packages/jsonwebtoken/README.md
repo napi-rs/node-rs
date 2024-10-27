@@ -5,24 +5,6 @@
 
 🚀 Fastest jsonwebtoken in Node.js
 
-## Support matrix
-
-|                  | node14 | node16 | node18 | node20 |
-| ---------------- | ------ | ------ | ------ | ------ |
-| Windows x64      | ✓      | ✓      | ✓      | ✓      |
-| Windows x32      | ✓      | ✓      | ✓      | ✓      |
-| Windows arm64    | ✓      | ✓      | ✓      | ✓      |
-| macOS x64        | ✓      | ✓      | ✓      | ✓      |
-| macOS arm64      | ✓      | ✓      | ✓      | ✓      |
-| Linux x64 gnu    | ✓      | ✓      | ✓      | ✓      |
-| Linux x64 musl   | ✓      | ✓      | ✓      | ✓      |
-| Linux arm gnu    | ✓      | ✓      | ✓      | ✓      |
-| Linux arm64 gnu  | ✓      | ✓      | ✓      | ✓      |
-| Linux arm64 musl | ✓      | ✓      | ✓      | ✓      |
-| Android arm64    | ✓      | ✓      | ✓      | ✓      |
-| Android armv7    | ✓      | ✓      | ✓      | ✓      |
-| FreeBSD x64      | ✓      | ✓      | ✓      | ✓      |
-
 ## Usage
 
 See [tests](__tests__/jsonwebtoken.spec.ts) and [types](index.d.ts)
@@ -30,32 +12,44 @@ See [tests](__tests__/jsonwebtoken.spec.ts) and [types](index.d.ts)
 ## Bench
 
 ```
-Model Name: MacBook Pro
-Model Identifier: MacBookPro18,2
-Processor Name: Apple M1 Max
-Processor Speed: 2.6 GHz
-Number of Processors: 1
-Total Number of Cores: 8
-L2 Cache (per Core): 256 KB
-L3 Cache: 12 MB
-Hyper-Threading Technology: Disabled
-Memory: 64 GB
+                  ,MMMM.           Host        -  xxxxxxxxxxxxxxxxxxxxxxx
+                .MMMMMM            Machine     -  Mac15,9
+                MMMMM,             Kernel      -  24.0.0
+      .;MMMMM:' MMMMMMMMMM;.       OS          -  macOS 15.0.1 Sequoia
+    MMMMMMMMMMMMNWMMMMMMMMMMM:     DE          -  Aqua
+  .MMMMMMMMMMMMMMMMMMMMMMMMWM.     WM          -  Quartz Compositor
+  MMMMMMMMMMMMMMMMMMMMMMMMM.       Packages    -  194 (Homebrew), 32 (cargo)
+ ;MMMMMMMMMMMMMMMMMMMMMMMM:        Shell       -  zsh
+ :MMMMMMMMMMMMMMMMMMMMMMMM:        Terminal    -  warpterminal (Version v0.2024.10.23.14.49.stable_00)
+ .MMMMMMMMMMMMMMMMMMMMMMMMM.       Resolution  -  5120x2880@160fps (as 2560x1440)
+  MMMMMMMMMMMMMMMMMMMMMMMMMMM.                    2992x1934@120fps (as 1496x967)
+   .MMMMMMMMMMMMMMMMMMMMMMMMMM.                   2232x1512@60fps (as 1116x756)
+     MMMMMMMMMMMMMMMMMMMMMMMM      Uptime      -  1d 2h 32m
+      ;MMMMMMMMMMMMMMMMMMMM.       CPU         -  Apple M3 Max (16)
+        .MMMM,.    .MMMM,.         CPU Load    -  16%
+                                   Memory      -  50.1 GB / 134.2 GB
+                                   Battery     -  78% & Discharging
+                                   Disk Space  -  624.0 GB / 994.7 GB
 ```
 
 ```text
-@node-rs/jsonwebtoken x 17,491 ops/sec ±0.39% (92 runs sampled)
-node-jsonwebtoken x 6,899 ops/sec ±0.62% (88 runs sampled)
-Async sign bench suite: Fastest is @node-rs/jsonwebtoken
-
-@node-rs/jsonwebtoken x 17,393 ops/sec ±1.57% (87 runs sampled)
-node-jsonwebtoken x 5,256 ops/sec ±0.74% (85 runs sampled)
-Async verify bench suite: Fastest is @node-rs/jsonwebtoken
-
-@node-rs/jsonwebtoken x 264,001 ops/sec ±0.08% (101 runs sampled)
-node-jsonwebtoken x 71,785 ops/sec ±1.01% (97 runs sampled)
-Sync sign bench suite: Fastest is @node-rs/jsonwebtoken
-
-@node-rs/jsonwebtoken x 278,657 ops/sec ±0.08% (99 runs sampled)
-node-jsonwebtoken x 54,462 ops/sec ±0.53% (100 runs sampled)
-Sync verify bench suite: Fastest is @node-rs/jsonwebtoken
+❯ yarn workspace @node-rs/jsonwebtoken bench
+Sign token
+┌─────────┬──────────────────────────────┬───────────┬────────────────────┬──────────┬─────────┐
+│ (index) │ Task Name                    │ ops/sec   │ Average Time (ns)  │ Margin   │ Samples │
+├─────────┼──────────────────────────────┼───────────┼────────────────────┼──────────┼─────────┤
+│ 0       │ '@node-rs/jsonwebtoken'      │ '91,244'  │ 10959.520789952572 │ '±0.26%' │ 45623   │
+│ 1       │ '@node-rs/jsonwebtoken sync' │ '327,344' │ 3054.88582722852   │ '±0.27%' │ 163673  │
+│ 2       │ 'jsonwebtoken'               │ '59,972'  │ 16674.345716476044 │ '±1.26%' │ 29987   │
+│ 3       │ 'jsonwebtoken sync'          │ '70,192'  │ 14246.519901985555 │ '±1.50%' │ 35097   │
+└─────────┴──────────────────────────────┴───────────┴────────────────────┴──────────┴─────────┘
+Verify token
+┌─────────┬──────────────────────────────┬───────────┬────────────────────┬──────────┬─────────┐
+│ (index) │ Task Name                    │ ops/sec   │ Average Time (ns)  │ Margin   │ Samples │
+├─────────┼──────────────────────────────┼───────────┼────────────────────┼──────────┼─────────┤
+│ 0       │ '@node-rs/jsonwebtoken'      │ '99,215'  │ 10079.106313498452 │ '±0.20%' │ 49608   │
+│ 1       │ '@node-rs/jsonwebtoken sync' │ '299,184' │ 3342.421242972733  │ '±0.23%' │ 149593  │
+│ 2       │ 'jsonwebtoken'               │ '53,938'  │ 18539.495365223007 │ '±1.51%' │ 26970   │
+│ 3       │ 'jsonwebtoken sync'          │ '58,633'  │ 17055.03492853964  │ '±1.27%' │ 29317   │
+└─────────┴──────────────────────────────┴───────────┴────────────────────┴──────────┴─────────┘
 ```

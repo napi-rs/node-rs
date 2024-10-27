@@ -73,7 +73,7 @@
     "typanion": "^3.14.0"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.63",
+    "@napi-rs/cli": "^3.0.0-alpha.64",
     "@types/webpack": "^5.28.5"
   },
   "funding": {

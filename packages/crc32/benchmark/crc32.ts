@@ -1,9 +1,9 @@
-const { Suite } = require('benchmark')
-const chalk = require('chalk')
-const { crc32: crc32Node } = require('crc')
-const Sse4Crc32 = require('sse4_crc32')
+import { Bench } from 'tinybench'
+import chalk from 'chalk'
+import { crc32 as crc32Node } from 'crc'
+import Sse4Crc32 from 'sse4_crc32'
 
-const { crc32c, crc32 } = require('../index')
+import { crc32c, crc32 } from '../index.js'
 
 const TEST_BUFFER = Buffer.from(`Lorem ipsum dolor sit amet, consectetur
 adipiscing elit. Morbi mollis cursus metus vel tristique. Proin congue massa
@@ -26,70 +26,66 @@ const initialCrc32c = Sse4Crc32.calculate(TEST_BUFFER)
 console.assert(crc32(TEST_BUFFER) === initialCrc32)
 console.assert(crc32c(TEST_BUFFER) === initialCrc32c)
 
-const suite = new Suite('crc32c without initial crc')
+const suite = new Bench()
 
-suite
+await suite
   .add('@node/rs crc32c', () => {
     crc32c(TEST_BUFFER)
   })
   .add('sse4_crc32', () => {
     Sse4Crc32.calculate(TEST_BUFFER)
   })
-  .on('cycle', function (event) {
-    console.info(String(event.target))
-  })
-  .on('complete', function () {
-    console.info(`${this.name} bench suite: Fastest is ${chalk.green(this.filter('fastest').map('name'))}`)
-  })
-  .run()
+  .warmup()
 
-const suite2 = new Suite('crc32c with initial crc')
+await suite.run()
 
-suite2
+console.info(chalk.green('crc32c without initial crc'))
+console.table(suite.table())
+
+const suite2 = new Bench()
+
+await suite2
   .add('@node/rs crc32c', () => {
     crc32c(TEST_BUFFER, initialCrc32c)
   })
   .add('sse4_crc32', () => {
     Sse4Crc32.calculate(TEST_BUFFER, initialCrc32c)
   })
-  .on('cycle', function (event) {
-    console.info(String(event.target))
-  })
-  .on('complete', function () {
-    console.info(`${this.name} bench suite: Fastest is ${chalk.green(this.filter('fastest').map('name'))}`)
-  })
-  .run()
+  .warmup()
 
-const suite3 = new Suite('crc32 without initial crc')
+await suite2.run()
 
-suite3
+console.info(chalk.green('crc32c with initial crc'))
+console.table(suite2.table())
+
+const suite3 = new Bench()
+
+await suite3
   .add('@node/rs crc32', () => {
     crc32(TEST_BUFFER)
   })
   .add('Node crc', () => {
     crc32Node(TEST_BUFFER)
   })
-  .on('cycle', function (event) {
-    console.info(String(event.target))
-  })
-  .on('complete', function () {
-    console.info(`${this.name} bench suite: Fastest is ${chalk.green(this.filter('fastest').map('name'))}`)
-  })
-  .run()
+  .warmup()
 
-const suite4 = new Suite('crc32 with initial crc')
+await suite3.run()
 
-suite4
+console.info(chalk.green('crc32 without initial crc'))
+console.table(suite3.table())
+
+const suite4 = new Bench()
+
+await suite4
   .add('@node/rs crc32', () => {
     crc32(TEST_BUFFER, initialCrc32)
   })
   .add('Node crc32', () => {
     crc32Node(TEST_BUFFER, initialCrc32)
   })
-  .on('cycle', function (event) {
-    console.info(String(event.target))
-  })
-  .on('complete', function () {
-    console.info(`${this.name} bench suite: Fastest is ${chalk.green(this.filter('fastest').map('name'))}`)
-  })
-  .run()
+  .warmup()
+
+await suite4.run()
+
+console.info(chalk.green('crc32 with initial crc'))
+console.table(suite4.table())

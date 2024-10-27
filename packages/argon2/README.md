@@ -29,7 +29,7 @@ It has a simple design aimed at the highest memory filling rate and effective us
 
 # Benchmarks
 
-See [benchmark/](benchmark/argon2.js).
+See [benchmark/](benchmark/argon2.ts).
 
 ## API
 

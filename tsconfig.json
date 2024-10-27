@@ -21,13 +21,17 @@
     "inlineSourceMap": true,
     "esModuleInterop": true,
     "stripInternal": true,
-    "importsNotUsedAsValues": "remove",
-    "baseUrl": "./packages",
-    "paths": {
-      "jsonwebtoken": ["node_modules/*"],
-      "@node-rs/*": ["./*/src"]
-    },
-    "lib": ["dom", "ES5", "ES2015", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020", "esnext"]
+    "importsNotUsedAsValues": "remove"
   },
+  "include": [],
+  "references": [
+    { "path": "./packages/argon2" },
+    { "path": "./packages/bcrypt" },
+    { "path": "./packages/crc32" },
+    { "path": "./packages/helper" },
+    { "path": "./packages/jieba" },
+    { "path": "./packages/jsonwebtoken" },
+    { "path": "./packages/xxhash" }
+  ],
   "exclude": ["node_modules"]
 }

@@ -56,7 +56,7 @@
   },
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
-    "bench": "cross-env NODE_ENV=production node benchmark/xxhash.js",
+    "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/xxhash.ts",
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish",
@@ -66,8 +66,11 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.63",
+    "@napi-rs/cli": "^3.0.0-alpha.64",
+    "@oxc-node/core": "^0.0.15",
     "@types/xxhashjs": "^0.2.4",
+    "cross-env": "^7.0.3",
+    "tinybench": "^2.9.0",
     "webpack": "^5.92.1",
     "xxhash": "^0.3.0",
     "xxhashjs": "^0.2.2"

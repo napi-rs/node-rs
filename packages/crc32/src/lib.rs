@@ -9,23 +9,15 @@ use napi::bindgen_prelude::*;
 use napi_derive::*;
 
 #[napi(js_name = "crc32c")]
-pub fn crc32c(input: Either<String, &[u8]>, initial_state: Option<u32>) -> Result<u32> {
-  Ok(match input {
-    Either::A(s) => crc32c_append(initial_state.unwrap_or(0), s.as_bytes()),
-    Either::B(b) => crc32c_append(initial_state.unwrap_or(0), b),
-  })
+#[inline]
+pub fn crc32c(input: Either<&[u8], String>, initial_state: Option<u32>) -> u32 {
+  crc32c_append(initial_state.unwrap_or(0), input.as_ref())
 }
 
 #[napi]
-pub fn crc32(input: Either<String, &[u8]>, initial_state: Option<u32>) -> Result<u32> {
+#[inline]
+pub fn crc32(input: Either<&[u8], String>, initial_state: Option<u32>) -> u32 {
   let mut hasher = Hasher::new_with_initial(initial_state.unwrap_or(0));
-  match input {
-    Either::A(s) => {
-      hasher.update(s.as_bytes());
-    }
-    Either::B(b) => {
-      hasher.update(b);
-    }
-  };
-  Ok(hasher.finalize())
+  hasher.update(input.as_ref());
+  hasher.finalize()
 }

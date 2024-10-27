@@ -6,8 +6,8 @@ import { Bench } from 'tinybench'
 import chalk from 'chalk'
 import nodejieba from 'nodejieba'
 
-import { Jieba, TfIdf } from '../index.js'
-import { dict, idf } from '../dict.js'
+import { Jieba } from '../index.js'
+import { dict } from '../dict.js'
 
 const { load, cut, tag } = nodejieba
 
@@ -26,7 +26,12 @@ const preface = `
 
 const prefaceLength = preface.length
 
-async function createBench(suitename, transform, napi, jieba) {
+async function createBench(
+  suitename: string,
+  transform: (o: string[]) => string,
+  napi: () => any[],
+  jieba: () => any[],
+) {
   const suite = new Bench()
   console.assert(transform(napi()) === transform(jieba()))
 
@@ -42,7 +47,6 @@ async function createBench(suitename, transform, napi, jieba) {
 
 load()
 const jieba = Jieba.withDict(dict)
-const tfIdf = TfIdf.withDict(idf)
 
 await createBench(
   `Cut ${prefaceLength} words`,

@@ -6,10 +6,10 @@ export declare function genSalt(round: number, version?: '2a' | '2x' | '2y' | '2
 
 export declare function genSaltSync(round: number, version?: '2a' | '2x' | '2y' | '2b'): string
 
-export declare function hash(input: Uint8Array | string, cost?: number | undefined | null, salt?: string | Buffer | undefined | null, signal?: AbortSignal | undefined | null): Promise<string>
+export declare function hash(input: Uint8Array | string, cost?: number | undefined | null, salt?: string | Uint8Array | undefined | null, signal?: AbortSignal | undefined | null): Promise<string>
 
-export declare function hashSync(input: string | Buffer, cost?: number | undefined | null, salt?: string | Buffer | undefined | null): string
+export declare function hashSync(input: string | Uint8Array, cost?: number | undefined | null, salt?: string | Uint8Array | undefined | null): string
 
 export declare function verify(password: Uint8Array | string, hash: Uint8Array | string, signal?: AbortSignal | undefined | null): Promise<boolean>
 
-export declare function verifySync(input: string | Buffer, hash: string | Buffer): boolean
+export declare function verifySync(input: string | Uint8Array, hash: string | Uint8Array): boolean

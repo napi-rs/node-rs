@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "artifacts": "napi artifacts -d ../../artifacts",
-    "bench": "cross-env NODE_ENV=production node benchmark/jsonwebtoken.js",
+    "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/jsonwebtoken.ts",
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish",
@@ -64,8 +64,11 @@
     "node": ">= 10"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.63",
+    "@napi-rs/cli": "^3.0.0-alpha.64",
+    "@oxc-node/core": "^0.0.15",
     "@types/jsonwebtoken": "^9.0.6",
-    "jsonwebtoken": "^9.0.2"
+    "cross-env": "^7.0.3",
+    "jsonwebtoken": "^9.0.2",
+    "tinybench": "^2.9.0"
   }
 }
