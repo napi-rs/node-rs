@@ -32,7 +32,6 @@ bench
     console.assert(await nodeArgon2.verify(HASHED, PASSWORD))
   })
 
-await bench.warmup()
 await bench.run()
 
 console.table(bench.table())

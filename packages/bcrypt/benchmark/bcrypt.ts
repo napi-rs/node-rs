@@ -3,13 +3,15 @@ import openwall from '@cwasm/openwall-bcrypt'
 import { hashSync, compare, genSaltSync } from 'bcrypt'
 import bcryptjs from 'bcryptjs'
 import { Bench } from 'tinybench'
-import chalk from 'chalk'
 
 import { hashSync as napiHashSync, verifySync, genSaltSync as napiGenSaltSync } from '../binding.js'
 
 const password = 'node-rust-password'
 
-const syncHashSuite = new Bench()
+const syncHashSuite = new Bench({
+  name: 'Hash benchmark',
+})
+
 syncHashSuite
   .add('@node-rs/bcrypt', () => {
     napiHashSync(password, 10)
@@ -27,13 +29,13 @@ syncHashSuite
     openwall.hashSync(password, 10)
   })
 
-await syncHashSuite.warmup()
 await syncHashSuite.run()
 
-console.info(chalk.green('Hash benchmark'))
 console.table(syncHashSuite.table())
 
-const verifySuite = new Bench()
+const verifySuite = new Bench({
+  name: 'Verify benchmark`',
+})
 const hashed = napiHashSync(password, 12)
 verifySuite
   .add('@node-rs/bcrypt', () => {
@@ -46,13 +48,13 @@ verifySuite
     bcryptjs.compareSync(password, hashed)
   })
 
-await verifySuite.warmup()
 await verifySuite.run()
 
-console.info(chalk.green('Verify benchmark'))
 console.table(verifySuite.table())
 
-const genSaltSuite = new Bench()
+const genSaltSuite = new Bench({
+  name: 'GenSalt benchmark',
+})
 genSaltSuite
   .add('@node-rs/bcrypt', () => {
     napiGenSaltSync(12)
@@ -70,8 +72,6 @@ genSaltSuite
     openwall.genSaltSync(12)
   })
 
-await genSaltSuite.warmup()
 await genSaltSuite.run()
 
-console.info(chalk.green('GenSalt benchmark'))
 console.table(genSaltSuite.table())

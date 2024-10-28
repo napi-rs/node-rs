@@ -71,7 +71,7 @@
     "crc": "^4.3.2",
     "cross-env": "^7.0.3",
     "sse4_crc32": "^7.0.0",
-    "tinybench": "^2.9.0"
+    "tinybench": "^3.0.0"
   },
   "funding": {
     "type": "github",

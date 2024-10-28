@@ -1,5 +1,4 @@
 import { Bench } from 'tinybench'
-import chalk from 'chalk'
 import { crc32 as crc32Node } from 'crc'
 import Sse4Crc32 from 'sse4_crc32'
 
@@ -26,66 +25,66 @@ const initialCrc32c = Sse4Crc32.calculate(TEST_BUFFER)
 console.assert(crc32(TEST_BUFFER) === initialCrc32)
 console.assert(crc32c(TEST_BUFFER) === initialCrc32c)
 
-const suite = new Bench()
+const suite = new Bench({
+  name: 'crc32c without initial crc',
+})
 
-await suite
+suite
   .add('@node/rs crc32c', () => {
     crc32c(TEST_BUFFER)
   })
   .add('sse4_crc32', () => {
     Sse4Crc32.calculate(TEST_BUFFER)
   })
-  .warmup()
 
 await suite.run()
 
-console.info(chalk.green('crc32c without initial crc'))
 console.table(suite.table())
 
-const suite2 = new Bench()
+const suite2 = new Bench({
+  name: 'crc32c with initial crc',
+})
 
-await suite2
+suite2
   .add('@node/rs crc32c', () => {
     crc32c(TEST_BUFFER, initialCrc32c)
   })
   .add('sse4_crc32', () => {
     Sse4Crc32.calculate(TEST_BUFFER, initialCrc32c)
   })
-  .warmup()
 
 await suite2.run()
 
-console.info(chalk.green('crc32c with initial crc'))
 console.table(suite2.table())
 
-const suite3 = new Bench()
+const suite3 = new Bench({
+  name: 'crc32 without initial crc',
+})
 
-await suite3
+suite3
   .add('@node/rs crc32', () => {
     crc32(TEST_BUFFER)
   })
   .add('Node crc', () => {
     crc32Node(TEST_BUFFER)
   })
-  .warmup()
 
 await suite3.run()
 
-console.info(chalk.green('crc32 without initial crc'))
 console.table(suite3.table())
 
-const suite4 = new Bench()
+const suite4 = new Bench({
+  name: 'crc32 with initial crc',
+})
 
-await suite4
+suite4
   .add('@node/rs crc32', () => {
     crc32(TEST_BUFFER, initialCrc32)
   })
   .add('Node crc32', () => {
     crc32Node(TEST_BUFFER, initialCrc32)
   })
-  .warmup()
 
 await suite4.run()
 
-console.info(chalk.green('crc32 with initial crc'))
 console.table(suite4.table())
