@@ -3,7 +3,6 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { Bench } from 'tinybench'
-import chalk from 'chalk'
 // @ts-expect-error
 import createWasmHasher from 'webpack/lib/util/hash/xxhash64.js'
 // @ts-expect-error
@@ -16,9 +15,11 @@ const FX = readFileSync(join(fileURLToPath(import.meta.url), '..', '..', '..', '
 
 const wasmHasher = createWasmHasher()
 
-const suite = new Bench()
+const suite = new Bench({
+  name: 'xxh32 without initial seed',
+})
 
-await suite
+suite
   .add('@node-rs/xxhash h32', () => {
     xxh32(FX, 0)
   })
@@ -28,32 +29,31 @@ await suite
   .add('xxhashjs h32', () => {
     xxhashjs.h32(FX, 0).toNumber()
   })
-  .warmup()
-
-console.info(chalk.green('xxh32 without initial seed'))
 
 await suite.run()
 console.table(suite.table())
 
-const multiStepSuite = new Bench()
+const multiStepSuite = new Bench({
+  name: 'xxh32 without initial seed multi step',
+})
 
-await multiStepSuite
+multiStepSuite
   .add('@node-rs/xxhash h32', () => {
     new Xxh32().update(FX).digest()
   })
   .add('xxhashjs h32', () => {
     xxhashjs.h32().update(FX).digest().toNumber()
   })
-  .warmup()
 
 await multiStepSuite.run()
 
-console.info(chalk.green('xxh32 without initial seed multi step'))
 console.table(multiStepSuite.table())
 
-const xx64Suite = new Bench()
+const xx64Suite = new Bench({
+  name: 'xxh64 without initial seed',
+})
 
-await xx64Suite
+xx64Suite
   .add('@node-rs/xxhash 64', () => {
     xxh64(FX).toString(16)
   })
@@ -67,16 +67,16 @@ await xx64Suite
   .add('xxhashjs h64', () => {
     xxhashjs.h64(FX, 0).toString(16)
   })
-  .warmup()
 
 await xx64Suite.run()
 
-console.info(chalk.green('xxh64 without initial seed'))
 console.table(xx64Suite.table())
 
-const multiStepSuite64 = new Bench()
+const multiStepSuite64 = new Bench({
+  name: 'xxh64 without initial seed multi step',
+})
 
-await multiStepSuite64
+multiStepSuite64
   .add('@node-rs/xxhash 64', () => {
     new Xxh64().update(FX).digest().toString(16)
   })
@@ -87,9 +87,7 @@ await multiStepSuite64
   .add('xxhashjs h64', () => {
     xxhashjs.h64(0).update(FX).digest().toString(16)
   })
-  .warmup()
 
 await multiStepSuite64.run()
 
-console.info(chalk.green('xxh64 without initial seed multi step'))
 console.table(multiStepSuite64.table())

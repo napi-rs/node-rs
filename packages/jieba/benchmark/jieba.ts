@@ -3,7 +3,6 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { Bench } from 'tinybench'
-import chalk from 'chalk'
 import nodejieba from 'nodejieba'
 
 import { Jieba } from '../index.js'
@@ -32,16 +31,15 @@ async function createBench(
   napi: () => any[],
   jieba: () => any[],
 ) {
-  const suite = new Bench()
+  const suite = new Bench({
+    name: suitename,
+  })
   console.assert(transform(napi()) === transform(jieba()))
 
   suite.add('@node-rs/jieba', napi).add('nodejieba', jieba)
 
-  await suite.warmup()
-
   await suite.run()
 
-  console.info(chalk.green(`Benchmark ${suitename} result`))
   console.table(suite.table())
 }
 

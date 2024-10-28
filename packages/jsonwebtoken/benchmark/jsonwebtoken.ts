@@ -1,5 +1,4 @@
 import { Bench } from 'tinybench'
-import chalk from 'chalk'
 import nodeJsonwebtoken, { type PrivateKey, type Secret, type PublicKey, type GetPublicKeyOrSecret } from 'jsonwebtoken'
 
 import { sign, verify, verifySync, signSync } from '../index.js'
@@ -43,9 +42,11 @@ const jwtClaims = {
 }
 const token = nodeJwtSignSync(jwtClaims, secretKey)
 
-const suite = new Bench()
+const suite = new Bench({
+  name: 'Sign token',
+})
 
-await suite
+suite
   .add('@node-rs/jsonwebtoken', async () => {
     await sign(jwtClaims, secretKey)
   })
@@ -58,15 +59,15 @@ await suite
   .add('jsonwebtoken sync', () => {
     nodeJwtSignSync(jwtClaims, secretKey)
   })
-  .warmup()
 
 await suite.run()
-console.info(chalk.green('Sign token'))
 console.table(suite.table())
 
-const verifySuite = new Bench()
+const verifySuite = new Bench({
+  name: 'Verify token',
+})
 
-await verifySuite
+verifySuite
   .add('@node-rs/jsonwebtoken', async () => {
     await verify(token, secretKey)
   })
@@ -79,8 +80,6 @@ await verifySuite
   .add('jsonwebtoken sync', () => {
     nodeJwtVerifySync(token, secretKey)
   })
-  .warmup()
 
 await verifySuite.run()
-console.info(chalk.green('Verify token'))
 console.table(verifySuite.table())
