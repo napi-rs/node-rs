@@ -1055,7 +1055,7 @@ __metadata:
   resolution: "@node-rs/crc32@workspace:packages/crc32"
   dependencies:
     "@napi-rs/cli": "npm:^3.0.0-alpha.64"
-    "@types/crc": "npm:^3.8.3"
+    "@types/crc": "npm:^4.0.0"
     "@types/sse4_crc32": "npm:^7.0.3"
     buffer: "npm:^6.0.3"
     crc: "npm:^4.3.2"
@@ -2080,12 +2080,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/crc@npm:^3.8.3":
-  version: 3.8.3
-  resolution: "@types/crc@npm:3.8.3"
+"@types/crc@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@types/crc@npm:4.0.0"
   dependencies:
-    "@types/node": "npm:*"
-  checksum: 10c0/789f5147146c610c9a25ce79f535bf5b557120ed6d4808abce746880a796269286fd584234f39629ddfc7eb145e02e96b302f2f13d90b9134dd8c19ba960370b
+    crc: "npm:*"
+  checksum: 10c0/2f5ac37ec43fc1ab92f715a2a7f1c52015141a89aa4efbc51036a58210e923b29bd0ae7ddb6ba39f3db7fd9f13ed3071e778d3961d60c520991958c4c3634180
   languageName: node
   linkType: hard
 
@@ -3450,7 +3450,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crc@npm:^4.3.2":
+"crc@npm:*, crc@npm:^4.3.2":
   version: 4.3.2
   resolution: "crc@npm:4.3.2"
   peerDependencies:
