@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.0.0-alpha.64",
-    "@types/crc": "^3.8.3",
+    "@types/crc": "^4.0.0",
     "@types/sse4_crc32": "^7.0.3",
     "buffer": "^6.0.3",
     "crc": "^4.3.2",
