@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/argon2",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "RustCrypto: Argon2 binding for Node.js",
   "homepage": "https://github.com/napi-rs/node-rs",
   "main": "index.js",

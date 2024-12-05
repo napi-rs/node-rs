@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.7](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.10.6...@node-rs/bcrypt@1.10.7) (2024-12-05)
+
+**Note:** Version bump only for package @node-rs/bcrypt
+
 ## [1.10.4](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.10.3...@node-rs/bcrypt@1.10.4) (2024-04-23)
 
 **Note:** Version bump only for package @node-rs/bcrypt
