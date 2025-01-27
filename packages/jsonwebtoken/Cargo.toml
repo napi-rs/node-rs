@@ -13,7 +13,7 @@ indexmap     = { workspace = true, features = ["serde"] }
 jsonwebtoken = { workspace = true }
 napi         = { workspace = true, default-features = false, features = ["napi3", "serde-json-ordered", "object_indexmap"] }
 napi-derive  = { workspace = true }
-rand_core    = { version = "0.6", features = ["std"] }
+rand_core    = { version = "0.9", features = ["std"] }
 serde        = { workspace = true }
 serde_json   = { workspace = true }
 
