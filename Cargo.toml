@@ -5,7 +5,7 @@ resolver = "2"
   [workspace.dependencies]
   argon2       = { version = "0.5", features = ["rand"] }
   base64       = { version = "0.22" }
-  bcrypt       = "0.16"
+  bcrypt       = "0.17"
   blowfish     = { version = "0.9", features = ["bcrypt"] }
   crc32c       = { version = "0.6" }
   crc32fast    = { version = "1.4", features = ["nightly"] }
