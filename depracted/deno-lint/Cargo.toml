@@ -11,7 +11,7 @@ crate-type = ["cdylib"]
 annotate-snippets = { version = "0.11" }
 anyhow            = "1"
 deno_ast          = "=0.45.0"
-deno_lint         = "=0.72.1"
+deno_lint         = "=0.73.0"
 env_logger        = "0.11"
 global_alloc      = { path = "../../crates/alloc" }
 globwalk          = "0.9"
