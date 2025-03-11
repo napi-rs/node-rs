@@ -67,14 +67,14 @@ pub struct Options {
   ///
   /// Value is an integer in decimal (1 to 10 digits), between 1 and (2^32)-1.
   ///
-  /// The default value is 4096, meaning a pool of 4 MiB per thread.
+  /// The default value is 19456, meaning a pool of 19 MiB per thread.
   pub memory_cost: Option<u32>,
 
   /// The time cost is the amount of passes (iterations) used by the hash function. It increases hash strength at the cost of time required to compute.
   ///
   /// Value is an integer in decimal (1 to 10 digits), between 1 and (2^32)-1.
   ///
-  /// The default value is 3.
+  /// The default value is 2.
   pub time_cost: Option<u32>,
 
   /// The hash length is the length of the hash function output in bytes. Note that the resulting hash is encoded with Base 64, so the digest will be ~1/3 longer.
