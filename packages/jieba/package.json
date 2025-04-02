@@ -71,7 +71,7 @@
     "@napi-rs/cli": "^3.0.0-alpha.64",
     "cross-env": "^7.0.3",
     "nodejieba": "^3.0.0",
-    "tinybench": "^3.0.0"
+    "tinybench": "^4.0.0"
   },
   "funding": {
     "type": "github",
