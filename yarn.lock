@@ -1084,7 +1084,7 @@ __metadata:
   resolution: "@node-rs/argon2@workspace:packages/argon2"
   dependencies:
     "@napi-rs/cli": "npm:^3.0.0-alpha.64"
-    argon2: "npm:^0.41.0"
+    argon2: "npm:^0.43.0"
     cross-env: "npm:^7.0.3"
     tinybench: "npm:^3.0.0"
   languageName: unknown
@@ -2712,15 +2712,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"argon2@npm:^0.41.0":
-  version: 0.41.1
-  resolution: "argon2@npm:0.41.1"
+"argon2@npm:^0.43.0":
+  version: 0.43.0
+  resolution: "argon2@npm:0.43.0"
   dependencies:
     "@phc/format": "npm:^1.0.0"
-    node-addon-api: "npm:^8.1.0"
+    node-addon-api: "npm:^8.3.1"
     node-gyp: "npm:latest"
-    node-gyp-build: "npm:^4.8.1"
-  checksum: 10c0/69f8f7e00f3d487a2cd7b3151fee6f5feb13e627e8f0551bac18f5d2dba50b1a521245d9c55140b80d7bfde1416bace520277627eb2d57c9e71403af4a4977d7
+    node-gyp-build: "npm:^4.8.4"
+  checksum: 10c0/4dbfbb5b3e03bf690a81b9de326ac9cc5500bee20c4159349d37d05f7432fef5c97b4f3c2a6d827f2f7ac6387650aa4532b88fe66e17d76d115fe39b9071b905
   languageName: node
   linkType: hard
 
@@ -6251,12 +6251,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-addon-api@npm:^8.1.0":
-  version: 8.3.0
-  resolution: "node-addon-api@npm:8.3.0"
+"node-addon-api@npm:^8.3.1":
+  version: 8.3.1
+  resolution: "node-addon-api@npm:8.3.1"
   dependencies:
     node-gyp: "npm:latest"
-  checksum: 10c0/0ed4206cb68921b33fc637c6f7ffcb91fcde85aea88ea60fadb7b0537bf177226a5600584eac9db2aff93600041d42796fb20576b3299b9be6ff7539592b2180
+  checksum: 10c0/e28f1c5094130ecc3a0bf882e0385e74cac9c5112d35287dbce369959551ab7ca4d1f1a69af737107c894c14b4063dd5002e2b3c16a27035d025bb06eefee058
   languageName: node
   linkType: hard
 
@@ -6288,7 +6288,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp-build@npm:^4.2.2, node-gyp-build@npm:^4.8.1":
+"node-gyp-build@npm:^4.2.2, node-gyp-build@npm:^4.8.4":
   version: 4.8.4
   resolution: "node-gyp-build@npm:4.8.4"
   bin:
