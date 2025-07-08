@@ -2150,6 +2150,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tybys/wasm-util@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "@tybys/wasm-util@npm:0.10.0"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 10c0/044feba55c1e2af703aa4946139969badb183ce1a659a75ed60bc195a90e73a3f3fc53bcd643497c9954597763ddb051fec62f80962b2ca6fc716ba897dc696e
+  languageName: node
+  linkType: hard
+
 "@tybys/wasm-util@npm:^0.9.0":
   version: 0.9.0
   resolution: "@tybys/wasm-util@npm:0.9.0"
@@ -6361,7 +6370,7 @@ __metadata:
     "@napi-rs/cli": "npm:^3.0.0-alpha.64"
     "@napi-rs/wasm-runtime": "npm:^0.2.5"
     "@taplo/cli": "npm:^0.7.0"
-    "@tybys/wasm-util": "npm:^0.9.0"
+    "@tybys/wasm-util": "npm:^0.10.0"
     "@types/node": "npm:^22.7.4"
     ava: "npm:^6.1.3"
     cross-env: "npm:^7.0.3"
