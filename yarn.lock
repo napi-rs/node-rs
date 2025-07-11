@@ -1966,58 +1966,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxlint/darwin-arm64@npm:0.18.0":
-  version: 0.18.0
-  resolution: "@oxlint/darwin-arm64@npm:0.18.0"
+"@oxlint/darwin-arm64@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@oxlint/darwin-arm64@npm:1.6.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@oxlint/darwin-x64@npm:0.18.0":
-  version: 0.18.0
-  resolution: "@oxlint/darwin-x64@npm:0.18.0"
+"@oxlint/darwin-x64@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@oxlint/darwin-x64@npm:1.6.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@oxlint/linux-arm64-gnu@npm:0.18.0":
-  version: 0.18.0
-  resolution: "@oxlint/linux-arm64-gnu@npm:0.18.0"
+"@oxlint/linux-arm64-gnu@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@oxlint/linux-arm64-gnu@npm:1.6.0"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@oxlint/linux-arm64-musl@npm:0.18.0":
-  version: 0.18.0
-  resolution: "@oxlint/linux-arm64-musl@npm:0.18.0"
+"@oxlint/linux-arm64-musl@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@oxlint/linux-arm64-musl@npm:1.6.0"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@oxlint/linux-x64-gnu@npm:0.18.0":
-  version: 0.18.0
-  resolution: "@oxlint/linux-x64-gnu@npm:0.18.0"
+"@oxlint/linux-x64-gnu@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@oxlint/linux-x64-gnu@npm:1.6.0"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@oxlint/linux-x64-musl@npm:0.18.0":
-  version: 0.18.0
-  resolution: "@oxlint/linux-x64-musl@npm:0.18.0"
+"@oxlint/linux-x64-musl@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@oxlint/linux-x64-musl@npm:1.6.0"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@oxlint/win32-arm64@npm:0.18.0":
-  version: 0.18.0
-  resolution: "@oxlint/win32-arm64@npm:0.18.0"
+"@oxlint/win32-arm64@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@oxlint/win32-arm64@npm:1.6.0"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@oxlint/win32-x64@npm:0.18.0":
-  version: 0.18.0
-  resolution: "@oxlint/win32-x64@npm:0.18.0"
+"@oxlint/win32-x64@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@oxlint/win32-x64@npm:1.6.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -6378,7 +6378,7 @@ __metadata:
     lerna: "npm:^8.1.8"
     lint-staged: "npm:^15.2.10"
     npm-run-all2: "npm:^7.0.0"
-    oxlint: "npm:^0.18.0"
+    oxlint: "npm:^1.0.0"
     prettier: "npm:^3.3.3"
     tslib: "npm:^2.7.0"
     typescript: "npm:^5.6.2"
@@ -6792,18 +6792,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"oxlint@npm:^0.18.0":
-  version: 0.18.0
-  resolution: "oxlint@npm:0.18.0"
+"oxlint@npm:^1.0.0":
+  version: 1.6.0
+  resolution: "oxlint@npm:1.6.0"
   dependencies:
-    "@oxlint/darwin-arm64": "npm:0.18.0"
-    "@oxlint/darwin-x64": "npm:0.18.0"
-    "@oxlint/linux-arm64-gnu": "npm:0.18.0"
-    "@oxlint/linux-arm64-musl": "npm:0.18.0"
-    "@oxlint/linux-x64-gnu": "npm:0.18.0"
-    "@oxlint/linux-x64-musl": "npm:0.18.0"
-    "@oxlint/win32-arm64": "npm:0.18.0"
-    "@oxlint/win32-x64": "npm:0.18.0"
+    "@oxlint/darwin-arm64": "npm:1.6.0"
+    "@oxlint/darwin-x64": "npm:1.6.0"
+    "@oxlint/linux-arm64-gnu": "npm:1.6.0"
+    "@oxlint/linux-arm64-musl": "npm:1.6.0"
+    "@oxlint/linux-x64-gnu": "npm:1.6.0"
+    "@oxlint/linux-x64-musl": "npm:1.6.0"
+    "@oxlint/win32-arm64": "npm:1.6.0"
+    "@oxlint/win32-x64": "npm:1.6.0"
   dependenciesMeta:
     "@oxlint/darwin-arm64":
       optional: true
@@ -6824,7 +6824,7 @@ __metadata:
   bin:
     oxc_language_server: bin/oxc_language_server
     oxlint: bin/oxlint
-  checksum: 10c0/e6542e03500816b2ee9b6cbe026fa051c44aa7662c45cbb82709103589e6a3ebb33f98a7e6e1e3357074b78741875fb4b8b9dd24b513c38fa351150d4487b3db
+  checksum: 10c0/a3a7ade49bf2a05c2d9e7ca848ee355dbebd66a18c946037ae81f458b4c853b1fe2a3917b7d93e46ec73406ebaf3e33a9dfa3e1665dc14276fe6f8ea84aad30a
   languageName: node
   linkType: hard
 
