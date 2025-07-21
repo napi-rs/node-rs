@@ -57,6 +57,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emnapi/core@npm:^1.4.5":
+  version: 1.4.5
+  resolution: "@emnapi/core@npm:1.4.5"
+  dependencies:
+    "@emnapi/wasi-threads": "npm:1.0.4"
+    tslib: "npm:^2.4.0"
+  checksum: 10c0/da4a57f65f325d720d0e0d1a9c6618b90c4c43a5027834a110476984e1d47c95ebaed4d316b5dddb9c0ed9a493ffeb97d1934f9677035f336d8a36c1f3b2818f
+  languageName: node
+  linkType: hard
+
 "@emnapi/runtime@npm:^1.1.0, @emnapi/runtime@npm:^1.3.1":
   version: 1.3.1
   resolution: "@emnapi/runtime@npm:1.3.1"
@@ -75,6 +85,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emnapi/runtime@npm:^1.4.5":
+  version: 1.4.5
+  resolution: "@emnapi/runtime@npm:1.4.5"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 10c0/37a0278be5ac81e918efe36f1449875cbafba947039c53c65a1f8fc238001b866446fc66041513b286baaff5d6f9bec667f5164b3ca481373a8d9cb65bfc984b
+  languageName: node
+  linkType: hard
+
 "@emnapi/wasi-threads@npm:1.0.1":
   version: 1.0.1
   resolution: "@emnapi/wasi-threads@npm:1.0.1"
@@ -90,6 +109,15 @@ __metadata:
   dependencies:
     tslib: "npm:^2.4.0"
   checksum: 10c0/f0621b1fc715221bd2d8332c0ca922617bcd77cdb3050eae50a124eb8923c54fa425d23982dc8f29d505c8798a62d1049bace8b0686098ff9dd82270e06d772e
+  languageName: node
+  linkType: hard
+
+"@emnapi/wasi-threads@npm:1.0.4":
+  version: 1.0.4
+  resolution: "@emnapi/wasi-threads@npm:1.0.4"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 10c0/2c91a53e62f875800baf035c4d42c9c0d18e5afd9a31ca2aac8b435aeaeaeaac386b5b3d0d0e70aa7a5a9852bbe05106b1f680cd82cce03145c703b423d41313
   languageName: node
   linkType: hard
 
@@ -936,7 +964,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/wasm-runtime@npm:^0.2.3, @napi-rs/wasm-runtime@npm:^0.2.4, @napi-rs/wasm-runtime@npm:^0.2.5":
+"@napi-rs/wasm-runtime@npm:^0.2.3, @napi-rs/wasm-runtime@npm:^0.2.4":
   version: 0.2.6
   resolution: "@napi-rs/wasm-runtime@npm:0.2.6"
   dependencies:
@@ -944,6 +972,17 @@ __metadata:
     "@emnapi/runtime": "npm:^1.3.1"
     "@tybys/wasm-util": "npm:^0.9.0"
   checksum: 10c0/f921676c1d5c75494bd704c6c0837fd05fe95f5d1cb7373e32987ef5e00c3a1e90b5052352bd4b60ee20c3fe592af2dbba3b0de0c637218c25590828dbc4067e
+  languageName: node
+  linkType: hard
+
+"@napi-rs/wasm-runtime@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@napi-rs/wasm-runtime@npm:1.0.1"
+  dependencies:
+    "@emnapi/core": "npm:^1.4.5"
+    "@emnapi/runtime": "npm:^1.4.5"
+    "@tybys/wasm-util": "npm:^0.10.0"
+  checksum: 10c0/3244105b75637d8d39e76782921fe46e48105bcd390db01a10dc7b596ee99af0f06b7f2b841d7632e756bd3220a5d595b9d426a5453da1ccc895900b894d098f
   languageName: node
   linkType: hard
 
@@ -6368,7 +6407,7 @@ __metadata:
   resolution: "node-rs@workspace:."
   dependencies:
     "@napi-rs/cli": "npm:^3.0.0-alpha.64"
-    "@napi-rs/wasm-runtime": "npm:^0.2.5"
+    "@napi-rs/wasm-runtime": "npm:^1.0.0"
     "@taplo/cli": "npm:^0.7.0"
     "@tybys/wasm-util": "npm:^0.10.0"
     "@types/node": "npm:^22.7.4"
