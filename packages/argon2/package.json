@@ -65,6 +65,6 @@
     "@napi-rs/cli": "^3.0.0-alpha.64",
     "argon2": "^0.43.0",
     "cross-env": "^7.0.3",
-    "tinybench": "^3.0.0"
+    "tinybench": "^4.0.0"
   }
 }

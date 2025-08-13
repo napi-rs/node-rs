@@ -78,7 +78,7 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.3",
-    "tinybench": "^3.0.0"
+    "tinybench": "^4.0.0"
   },
   "funding": {
     "type": "github",

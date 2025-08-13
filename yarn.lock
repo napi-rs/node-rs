@@ -1095,7 +1095,7 @@ __metadata:
     "@napi-rs/cli": "npm:^3.0.0-alpha.64"
     argon2: "npm:^0.43.0"
     cross-env: "npm:^7.0.3"
-    tinybench: "npm:^3.0.0"
+    tinybench: "npm:^4.0.0"
   languageName: unknown
   linkType: soft
 
@@ -1111,7 +1111,7 @@ __metadata:
     bcrypt: "npm:^5.1.1"
     bcryptjs: "npm:^2.4.3"
     cross-env: "npm:^7.0.3"
-    tinybench: "npm:^3.0.0"
+    tinybench: "npm:^4.0.0"
   languageName: unknown
   linkType: soft
 
@@ -1126,7 +1126,7 @@ __metadata:
     crc: "npm:^4.3.2"
     cross-env: "npm:^7.0.3"
     sse4_crc32: "npm:^7.0.0"
-    tinybench: "npm:^3.0.0"
+    tinybench: "npm:^4.0.0"
   languageName: unknown
   linkType: soft
 
@@ -1145,7 +1145,7 @@ __metadata:
     "@napi-rs/cli": "npm:^3.0.0-alpha.64"
     cross-env: "npm:^7.0.3"
     nodejieba: "npm:^3.0.0"
-    tinybench: "npm:^3.0.0"
+    tinybench: "npm:^4.0.0"
   languageName: unknown
   linkType: soft
 
@@ -1158,7 +1158,7 @@ __metadata:
     "@types/jsonwebtoken": "npm:^9.0.6"
     cross-env: "npm:^7.0.3"
     jsonwebtoken: "npm:^9.0.2"
-    tinybench: "npm:^3.0.0"
+    tinybench: "npm:^4.0.0"
   languageName: unknown
   linkType: soft
 
@@ -1170,7 +1170,7 @@ __metadata:
     "@oxc-node/core": "npm:^0.0.29"
     "@types/xxhashjs": "npm:^0.2.4"
     cross-env: "npm:^7.0.3"
-    tinybench: "npm:^3.0.0"
+    tinybench: "npm:^4.0.0"
     webpack: "npm:^5.92.1"
     xxhash: "npm:^0.3.0"
     xxhashjs: "npm:^0.2.2"
@@ -8302,10 +8302,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinybench@npm:^3.0.0":
-  version: 3.1.0
-  resolution: "tinybench@npm:3.1.0"
-  checksum: 10c0/0e0d683f7e6208d7a182bd171f9fd82596eee7d8047b31a29321b386998c1ff851674ec2d5f68a4666b8bfd89dcb9db19f0498aef2951dfe80108ed0cd40d2ff
+"tinybench@npm:^4.0.0":
+  version: 4.1.0
+  resolution: "tinybench@npm:4.1.0"
+  checksum: 10c0/0c30ec05303aface62c5e120d531be8efc725d171fef4cdd8bde7cb08b2e7a1125b6d23be559361b5747b50544bff582b5b3799d2ed49699b278ee83ad4f74cf
   languageName: node
   linkType: hard
 
