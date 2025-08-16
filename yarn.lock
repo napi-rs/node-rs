@@ -932,7 +932,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/wasm-runtime@npm:^0.2.3, @napi-rs/wasm-runtime@npm:^0.2.4, @napi-rs/wasm-runtime@npm:^0.2.5":
+"@napi-rs/wasm-runtime@npm:^0.2.3, @napi-rs/wasm-runtime@npm:^0.2.4":
   version: 0.2.6
   resolution: "@napi-rs/wasm-runtime@npm:0.2.6"
   dependencies:
@@ -943,7 +943,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/wasm-runtime@npm:^1.0.3":
+"@napi-rs/wasm-runtime@npm:^1.0.0, @napi-rs/wasm-runtime@npm:^1.0.3":
   version: 1.0.3
   resolution: "@napi-rs/wasm-runtime@npm:1.0.3"
   dependencies:
@@ -6399,7 +6399,7 @@ __metadata:
   resolution: "node-rs@workspace:."
   dependencies:
     "@napi-rs/cli": "npm:^3.0.0-alpha.64"
-    "@napi-rs/wasm-runtime": "npm:^0.2.5"
+    "@napi-rs/wasm-runtime": "npm:^1.0.0"
     "@taplo/cli": "npm:^0.7.0"
     "@tybys/wasm-util": "npm:^0.10.0"
     "@types/node": "npm:^22.7.4"
