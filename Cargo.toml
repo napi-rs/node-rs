@@ -11,7 +11,7 @@ resolver = "2"
   crc32fast    = { version = "1.4", features = ["nightly"] }
   global_alloc = { path = "./crates/alloc" }
   indexmap     = { version = "2", features = ["serde"] }
-  jieba-rs     = { version = "0.7", default-features = false, features = ["tfidf", "textrank"] }
+  jieba-rs     = { version = "0.8", default-features = false, features = ["tfidf", "textrank"] }
   jsonwebtoken = { version = "9" }
   mimalloc     = "0.1"
   napi         = { version = "3.0.0-alpha", default-features = false, features = ["napi3"] }
