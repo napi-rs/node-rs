@@ -74,9 +74,9 @@
     "@cwasm/openwall-bcrypt": "^0.1.0",
     "@napi-rs/cli": "^3.0.0-alpha.64",
     "@types/bcrypt": "^5.0.2",
-    "@types/bcryptjs": "^2.4.6",
+    "@types/bcryptjs": "^3.0.0",
     "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
+    "bcryptjs": "^3.0.0",
     "cross-env": "^7.0.3",
     "tinybench": "^3.0.0"
   },
