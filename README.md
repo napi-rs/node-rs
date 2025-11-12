@@ -1,6 +1,6 @@
 # node-rs
 
-![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
+[![CI](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)](https://github.com/napi-rs/node-rs/actions/workflows/ci.yaml)
 
 When `Node.js` meet `Rust` = 🚀
 
