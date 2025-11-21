@@ -1,6 +1,6 @@
 {
   "name": "node-rs",
-  "packageManager": "yarn@4.9.2",
+  "packageManager": "yarn@4.11.0",
   "version": "0.0.0",
   "description": "Node & Rust bindings monorepo",
   "author": "LongYinan <lynweklm@gmail.com>",
