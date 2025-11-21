@@ -8,7 +8,7 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-annotate-snippets = { version = "0.11" }
+annotate-snippets = { version = "0.12" }
 anyhow            = "1"
 deno_ast          = "=0.49.0"
 deno_lint         = "=0.77.0"
