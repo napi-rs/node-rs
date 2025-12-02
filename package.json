@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.0.0-alpha.64",
-    "@napi-rs/wasm-runtime": "^0.2.5",
+    "@napi-rs/wasm-runtime": "^1.0.0",
     "@taplo/cli": "^0.7.0",
     "@tybys/wasm-util": "^0.10.0",
     "@types/node": "^22.7.4",
