@@ -72,7 +72,7 @@
   "devDependencies": {
     "@cwasm/openbsd-bcrypt": "^0.1.0",
     "@cwasm/openwall-bcrypt": "^0.1.0",
-    "@napi-rs/cli": "^3.0.0-alpha.64",
+    "@napi-rs/cli": "^3.5.0",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "bcrypt": "^5.1.1",

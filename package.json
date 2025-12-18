@@ -22,7 +22,7 @@
     "postinstall": "husky install"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.64",
+    "@napi-rs/cli": "^3.5.0",
     "@napi-rs/wasm-runtime": "^0.2.5",
     "@taplo/cli": "^0.7.0",
     "@tybys/wasm-util": "^0.10.0",

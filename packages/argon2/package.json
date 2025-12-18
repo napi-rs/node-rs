@@ -62,7 +62,7 @@
     "version": "napi version"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.64",
+    "@napi-rs/cli": "^3.5.0",
     "argon2": "^0.44.0",
     "cross-env": "^7.0.3",
     "tinybench": "^3.0.0"

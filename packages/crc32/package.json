@@ -64,7 +64,7 @@
     "url": "https://github.com/napi-rs/node-rs/issues"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.64",
+    "@napi-rs/cli": "^3.5.0",
     "@types/crc": "^4.0.0",
     "@types/sse4_crc32": "^7.0.3",
     "buffer": "^6.0.3",

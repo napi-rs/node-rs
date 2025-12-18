@@ -1,16 +1,15 @@
 import {
-  instantiateNapiModuleSync as __emnapiInstantiateNapiModuleSync,
-  getDefaultContext as __emnapiGetDefaultContext,
-  WASI as __WASI,
   createOnMessage as __wasmCreateOnMessageForFsProxy,
+  getDefaultContext as __emnapiGetDefaultContext,
+  instantiateNapiModuleSync as __emnapiInstantiateNapiModuleSync,
+  WASI as __WASI,
 } from '@napi-rs/wasm-runtime'
-
-import __wasmUrl from './argon2.wasm32-wasi.wasm?url'
 
 const __wasi = new __WASI({
   version: 'preview1',
 })
 
+const __wasmUrl = new URL('./argon2.wasm32-wasi.wasm', import.meta.url).href
 const __emnapiContext = __emnapiGetDefaultContext()
 
 const __sharedMemory = new WebAssembly.Memory({
@@ -46,24 +45,14 @@ const {
     return importObject
   },
   beforeInit({ instance }) {
-    __napi_rs_initialize_modules(instance)
+    for (const name of Object.keys(instance.exports)) {
+      if (name.startsWith('__napi_register__')) {
+        instance.exports[name]()
+      }
+    }
   },
 })
-
-function __napi_rs_initialize_modules(__napiInstance) {
-  __napiInstance.exports['__napi_register__Algorithm_0']?.()
-  __napiInstance.exports['__napi_register__Version_1']?.()
-  __napiInstance.exports['__napi_register__Options_struct_2']?.()
-  __napiInstance.exports['__napi_register__HashTask_impl_3']?.()
-  __napiInstance.exports['__napi_register__hash_4']?.()
-  __napiInstance.exports['__napi_register__hash_sync_5']?.()
-  __napiInstance.exports['__napi_register__RawHashTask_impl_6']?.()
-  __napiInstance.exports['__napi_register__hash_raw_7']?.()
-  __napiInstance.exports['__napi_register__hash_raw_sync_8']?.()
-  __napiInstance.exports['__napi_register__VerifyTask_impl_9']?.()
-  __napiInstance.exports['__napi_register__verify_10']?.()
-  __napiInstance.exports['__napi_register__verify_sync_11']?.()
-}
+export default __napiModule.exports
 export const Algorithm = __napiModule.exports.Algorithm
 export const hash = __napiModule.exports.hash
 export const hashRaw = __napiModule.exports.hashRaw

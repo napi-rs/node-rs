@@ -29,19 +29,19 @@ pub struct Keyword {
 /// Creates a KeywordExtractConfig state that contains filter criteria as
 /// well as segmentation configuration for use by keyword extraction
 /// implementations.
-pub struct KeywordExtractConfig {
+pub struct KeywordExtractConfig<'a> {
   #[napi(ts_type = "Set<string> | undefined")]
-  pub stop_words: Option<Object>,
+  pub stop_words: Option<Object<'a>>,
   /// Any segments less than this length will not be considered a Keyword
   pub min_keyword_length: Option<u32>,
   /// If true, fall back to hmm model if segment cannot be found in the dictionary
   pub use_hmm: Option<bool>,
 }
 
-impl TryFrom<KeywordExtractConfig> for jieba_rs::KeywordExtractConfig {
+impl TryFrom<KeywordExtractConfig<'_>> for jieba_rs::KeywordExtractConfig {
   type Error = Error;
 
-  fn try_from(config: KeywordExtractConfig) -> Result<Self> {
+  fn try_from(config: KeywordExtractConfig<'_>) -> Result<Self> {
     let mut stop_words = BTreeSet::new();
     if let Some(sw) = config.stop_words.as_ref() {
       let iter_func: Function<'_, (), Object> = sw.get_named_property_unchecked("values")?;
