@@ -914,10 +914,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/triples@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@napi-rs/triples@npm:1.2.0"
-  checksum: 10c0/e8294cc63d36fe0b062dc5293a0a2c72ae9318676dd76168e969a8f47b95180e7fe80a301fc0d9c6688399494744bfe21275b58f247f2981b558898743389e0f
+"@napi-rs/triples@npm:^2.0.0":
+  version: 2.1.6
+  resolution: "@napi-rs/triples@npm:2.1.6"
+  checksum: 10c0/4e13b7fec7b4fde23eacfe612eb27b4c7faad9dfc0562be338f28544f7866a9d412b371dfd20eb1880ecffb9b927c7e0bed97753b157cea483c637ea6d7a0135
   languageName: node
   linkType: hard
 
@@ -1141,7 +1141,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-rs/helper@workspace:packages/helper"
   dependencies:
-    "@napi-rs/triples": "npm:^1.2.0"
+    "@napi-rs/triples": "npm:^2.0.0"
   languageName: unknown
   linkType: soft
 
