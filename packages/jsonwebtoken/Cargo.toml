@@ -1,7 +1,7 @@
 [package]
 authors = ["Francesco Benedetto"]
 edition = "2021"
-name    = "node-rs-jsonwebtoken"
+name = "node-rs-jsonwebtoken"
 version = "0.1.0"
 
 [lib]
@@ -9,13 +9,13 @@ crate-type = ["cdylib"]
 
 [dependencies]
 global_alloc = { workspace = true }
-indexmap     = { workspace = true, features = ["serde"] }
+indexmap = { workspace = true, features = ["serde"] }
 jsonwebtoken = { workspace = true }
-napi         = { workspace = true, default-features = false, features = ["napi3", "serde-json-ordered", "object_indexmap"] }
-napi-derive  = { workspace = true }
-rand_core    = { version = "0.9", features = ["std"] }
-serde        = { workspace = true }
-serde_json   = { workspace = true }
+napi = { workspace = true, default-features = false, features = ["napi3", "serde-json-ordered", "object_indexmap"] }
+napi-derive = { workspace = true }
+rand_core = { version = "0.9", features = ["std"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
 
 [build-dependencies]
 napi-build = { workspace = true }

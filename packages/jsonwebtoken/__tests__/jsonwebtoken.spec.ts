@@ -95,7 +95,11 @@ test('verify should throw in case the token is expired', async (t) => {
     set: ['KL', 'TV', 'JI'],
     nest: { id: 'poly' },
   }
-  const claims = { data, iat: getUtcTimestamp() - oneDayInSeconds * 2, exp: getUtcTimestamp() - oneDayInSeconds }
+  const claims = {
+    data,
+    iat: getUtcTimestamp() - oneDayInSeconds * 2,
+    exp: getUtcTimestamp() - oneDayInSeconds,
+  }
   const secretKey = 'secret'
   const headers = { algorithm: Algorithm.HS256 }
 

@@ -4,28 +4,57 @@
   "description": "Fastest Chinese word segmentation in Node.js",
   "keywords": [
     "Jieba",
+    "N-API",
     "Rust",
-    "node-rs",
     "napi",
     "napi-rs",
-    "N-API"
+    "node-rs"
   ],
-  "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
+  "bugs": {
+    "url": "https://github.com/napi-rs/node-rs/issues"
+  },
   "license": "MIT",
-  "main": "index.js",
-  "typings": "index.d.ts",
-  "browser": "browser.js",
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/Brooooooklyn"
+  },
   "files": [
-    "index.js",
-    "index.d.ts",
     "browser.js",
-    "LICENSE",
+    "dict.d.ts",
+    "dict.js",
     "dict.txt",
     "idf.txt",
-    "dict.js",
-    "dict.d.ts"
+    "index.d.ts",
+    "index.js",
+    "LICENSE"
   ],
+  "main": "index.js",
+  "browser": "browser.js",
+  "typings": "index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "artifacts": "napi artifacts -d ../../artifacts",
+    "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/jieba.ts",
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform",
+    "prepublishOnly": "napi prepublish",
+    "version": "napi version"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.5.1",
+    "cross-env": "^10.1.0",
+    "nodejieba": "^3.5.2",
+    "tinybench": "^6.0.0"
+  },
   "napi": {
     "binaryName": "jieba",
     "targets": [
@@ -47,34 +76,5 @@
   },
   "engines": {
     "node": ">= 10"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/napi-rs/node-rs.git"
-  },
-  "scripts": {
-    "artifacts": "napi artifacts -d ../../artifacts",
-    "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/jieba.ts",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
-    "prepublishOnly": "napi prepublish",
-    "version": "napi version"
-  },
-  "bugs": {
-    "url": "https://github.com/napi-rs/node-rs/issues"
-  },
-  "devDependencies": {
-    "@napi-rs/cli": "^3.5.0",
-    "cross-env": "^7.0.3",
-    "nodejieba": "^3.0.0",
-    "tinybench": "^3.0.0"
-  },
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/Brooooooklyn"
   }
 }

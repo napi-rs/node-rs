@@ -39,7 +39,7 @@ if (__nodeFs.existsSync(__wasmDebugFilePath)) {
   __wasmFilePath = __wasmDebugFilePath
 } else if (!__nodeFs.existsSync(__wasmFilePath)) {
   try {
-    __wasmFilePath = __nodePath.resolve('@node-rs/crc32-wasm32-wasi')
+    __wasmFilePath = require.resolve('@node-rs/crc32-wasm32-wasi/crc32.wasm32-wasi.wasm')
   } catch {
     throw new Error('Cannot find crc32.wasm32-wasi.wasm file, and @node-rs/crc32-wasm32-wasi package is not installed.')
   }

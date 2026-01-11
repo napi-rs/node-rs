@@ -39,7 +39,7 @@ if (__nodeFs.existsSync(__wasmDebugFilePath)) {
   __wasmFilePath = __wasmDebugFilePath
 } else if (!__nodeFs.existsSync(__wasmFilePath)) {
   try {
-    __wasmFilePath = __nodePath.resolve('@node-rs/jieba-wasm32-wasi')
+    __wasmFilePath = require.resolve('@node-rs/jieba-wasm32-wasi/jieba.wasm32-wasi.wasm')
   } catch {
     throw new Error('Cannot find jieba.wasm32-wasi.wasm file, and @node-rs/jieba-wasm32-wasi package is not installed.')
   }

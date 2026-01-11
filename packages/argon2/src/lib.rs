@@ -97,7 +97,7 @@ pub struct Options {
 
 impl Options {
   #[inline]
-  fn to_argon(&self) -> std::result::Result<Argon2, argon2::Error> {
+  fn to_argon<'a>(&'a self) -> std::result::Result<Argon2<'a>, argon2::Error> {
     let algorithm = self.algorithm.map(|a| a.to_argon()).unwrap_or_default();
     let version = self.version.map(|v| v.to_argon()).unwrap_or_default();
     let params = argon2::Params::new(

@@ -48,7 +48,7 @@ impl TryFrom<KeywordExtractConfig<'_>> for jieba_rs::KeywordExtractConfig {
       let iter = iter_func.apply(sw, ())?;
       while {
         let next_fn: Function<'_, (), Object> = iter.get_named_property_unchecked("next")?;
-        let next = next_fn.apply(&iter, ())?;
+        let next = next_fn.apply(iter, ())?;
         let done: bool = next.get_named_property_unchecked("done")?;
         if !done {
           let value: String = iter.get_named_property_unchecked("value")?;
@@ -225,12 +225,12 @@ impl Jieba {
   /// `sentence`: input text
   ///
   /// `hmm`: enable HMM or not
-  pub fn cut(
+  pub fn cut<'a>(
     &self,
-    env: &Env,
+    env: &'a Env,
     sentence: Either<String, &[u8]>,
     hmm: Option<bool>,
-  ) -> Result<Array> {
+  ) -> Result<Array<'a>> {
     let hmm = hmm.unwrap_or(false);
     let cutted = self.0.cut(
       match &sentence {
@@ -266,7 +266,7 @@ impl Jieba {
   /// ## Params
   ///
   /// `sentence`: input text
-  pub fn cut_all(&self, env: &Env, sentence: Either<String, &[u8]>) -> Result<Array> {
+  pub fn cut_all<'a>(&self, env: &'a Env, sentence: Either<String, &[u8]>) -> Result<Array<'a>> {
     let cutted = self.0.cut_all(match &sentence {
       Either::A(s) => s.as_str(),
       Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
@@ -283,12 +283,12 @@ impl Jieba {
   /// `sentence`: input text
   ///
   /// `hmm`: enable HMM or not
-  pub fn cut_for_search(
+  pub fn cut_for_search<'a>(
     &self,
-    env: &Env,
+    env: &'a Env,
     sentence: Either<String, &[u8]>,
     hmm: Option<bool>,
-  ) -> Result<Array> {
+  ) -> Result<Array<'a>> {
     let hmm = hmm.unwrap_or(false);
     let cutted = self.0.cut_for_search(
       match &sentence {

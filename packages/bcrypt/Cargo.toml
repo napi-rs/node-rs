@@ -1,20 +1,20 @@
 [package]
 authors = ["LongYinan <lynweklm@gmail.com>"]
 edition = "2021"
-name    = "node-rs-bcrypt"
+name = "node-rs-bcrypt"
 version = "0.1.0"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-base64       = { workspace = true }
-bcrypt       = { workspace = true }
-blowfish     = { workspace = true }
+base64 = { workspace = true }
+bcrypt = { workspace = true }
+blowfish = { workspace = true }
 global_alloc = { workspace = true }
-napi         = { workspace = true, default-features = false, features = ["napi3"] }
-napi-derive  = { workspace = true }
-rand         = { workspace = true }
+napi = { workspace = true, default-features = false, features = ["napi3"] }
+napi-derive = { workspace = true }
+rand = { workspace = true }
 
 [dev-dependencies]
 quickcheck = { workspace = true }
