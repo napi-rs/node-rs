@@ -1,6 +1,6 @@
 use napi::{
-  bindgen_prelude::{Either, Uint8Array},
   Env, Error, Result, Status, Task,
+  bindgen_prelude::{Either, Uint8Array},
 };
 use napi_derive::napi;
 

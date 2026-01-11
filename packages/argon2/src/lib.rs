@@ -7,10 +7,9 @@ use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
 use argon2::{
-  password_hash::{PasswordHasher, PasswordVerifier, SaltString},
   Argon2, Params,
+  password_hash::{PasswordHasher, PasswordVerifier, phc::Salt},
 };
-use rand_core::OsRng;
 
 #[napi]
 #[derive(Clone, Copy)]
@@ -126,10 +125,9 @@ impl Task for HashTask {
 
   fn compute(&mut self) -> Result<Self::Output> {
     let salt = if let Some(salt) = &self.options.salt {
-      SaltString::encode_b64(salt)
-        .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
+      Salt::new(salt).map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
     } else {
-      SaltString::generate(&mut OsRng)
+      Salt::generate()
     };
     let hasher = self
       .options
@@ -137,7 +135,7 @@ impl Task for HashTask {
       .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?;
 
     hasher
-      .hash_password(self.password.as_slice(), &salt)
+      .hash_password_with_salt(self.password.as_slice(), &salt)
       .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
       .map(|h| h.to_string())
   }
@@ -206,10 +204,10 @@ impl Task for RawHashTask {
     match &self.options.salt {
       Some(buf) => hasher.hash_password_into(self.password.as_slice(), buf.as_ref(), &mut output),
       None => {
-        let generated_salt = SaltString::generate(&mut OsRng);
+        let generated_salt = Salt::generate();
         hasher.hash_password_into(
           self.password.as_slice(),
-          generated_salt.as_str().as_bytes(),
+          generated_salt.as_ref(),
           &mut output,
         )
       }

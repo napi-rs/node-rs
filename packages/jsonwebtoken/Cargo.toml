@@ -1,6 +1,6 @@
 [package]
 authors = ["Francesco Benedetto"]
-edition = "2021"
+edition = "2024"
 name = "node-rs-jsonwebtoken"
 version = "0.1.0"
 

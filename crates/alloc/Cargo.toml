@@ -1,12 +1,12 @@
 [package]
-edition = "2021"
+edition = "2024"
 name = "global_alloc"
 version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[target.'cfg(all(not(target_os = "linux"), not(target_family = "wasm")))'.dependencies]
-mimalloc = { workspace = true }
+[target.'cfg(all(not(target_os = "linux"), not(target_os = "freebsd"), not(target_family = "wasm")))'.dependencies]
+mimalloc-safe = { workspace = true, features = ["skip_collect_on_exit"] }
 
-[target.'cfg(target_os = "linux")'.dependencies]
-mimalloc = { workspace = true, features = ["local_dynamic_tls"] }
+[target.'cfg(any(target_os = "linux", target_os = "freebsd"))'.dependencies]
+mimalloc-safe = { workspace = true, features = ["skip_collect_on_exit", "local_dynamic_tls"] }

@@ -11,7 +11,7 @@ members = [
 resolver = "2"
 
 [workspace.dependencies]
-argon2 = { version = "0.5", features = ["rand", "std"] }
+argon2 = { version = "=0.6.0-rc.5", default-features = false, features = ["alloc", "getrandom", "parallel", "zeroize"] }
 base64 = { version = "0.22" }
 bcrypt = "0.17"
 blowfish = { version = "0.9", features = ["bcrypt"] }
@@ -20,8 +20,8 @@ crc32fast = { version = "1.4", features = ["nightly"] }
 global_alloc = { path = "./crates/alloc" }
 indexmap = { version = "2", features = ["serde"] }
 jieba-rs = { version = "0.8", default-features = false, features = ["tfidf", "textrank"] }
-jsonwebtoken = { version = "9" }
-mimalloc = "0.1"
+jsonwebtoken = { version = "10", features = ["rust_crypto"] }
+mimalloc-safe = "0.1"
 napi = { version = "3.0.0-alpha", default-features = false, features = ["napi3"] }
 napi-build = "2"
 napi-derive = { version = "3.0.0-alpha", default-features = false, features = ["type-def"] }
