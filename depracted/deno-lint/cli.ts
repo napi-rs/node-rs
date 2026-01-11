@@ -8,9 +8,13 @@ class LintCommand extends Command {
 
   private readonly cwd = Option.String({ required: false })
 
-  private readonly configPath = Option.String('-c,--config', { required: false })
+  private readonly configPath = Option.String('-c,--config', {
+    required: false,
+  })
 
-  private readonly checkOnly = Option.Boolean('--check-only', { required: false })
+  private readonly checkOnly = Option.Boolean('--check-only', {
+    required: false,
+  })
 
   execute() {
     const hasError = denolint(this.cwd ?? __dirname, this.configPath ?? '.denolint.json')

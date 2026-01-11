@@ -14,7 +14,11 @@ export function loadBinding(dirname: string, filename = 'index', packageName?: s
     // resolve in node_modules
     if (packageName) {
       try {
-        return require(require.resolve(`${packageName}-${triple.platformArchABI}`, { paths: [dirname] }))
+        return require(
+          require.resolve(`${packageName}-${triple.platformArchABI}`, {
+            paths: [dirname],
+          }),
+        )
       } catch (e: any) {
         if (e?.code !== 'MODULE_NOT_FOUND') {
           try {

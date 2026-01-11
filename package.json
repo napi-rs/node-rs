@@ -14,8 +14,8 @@
     "build:ts": "tsc -b tsconfig.json -verbose",
     "lint": "oxlint .",
     "test": "ava",
-    "format": "run-p format:prettier format:rs format:toml",
-    "format:prettier": "prettier --config ./package.json -w .",
+    "format": "run-p format:oxfmt format:rs format:toml",
+    "format:oxfmt": "oxfmt --write .",
     "format:rs": "cargo fmt --all",
     "format:toml": "taplo format",
     "postinstall": "husky install"

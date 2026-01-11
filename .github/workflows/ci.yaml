@@ -145,6 +145,7 @@ jobs:
               wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-29/wasi-sdk-29.0-x86_64-linux.tar.gz
               tar -xvf wasi-sdk-29.0-x86_64-linux.tar.gz
               export WASI_SDK_PATH="$(pwd)/wasi-sdk-29.0"
+              export CC="$(pwd)/wasi-sdk-29.0/bin/clang"
               yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/deno-lint" run build --target wasm32-wasip1-threads
 
     name: stable - ${{ matrix.settings.target }} - node@24
