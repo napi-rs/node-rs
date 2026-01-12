@@ -194,7 +194,7 @@ jobs:
         uses: actions/setup-node@v6
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
-          node-version: 22
+          node-version: 24
           architecture: x86
 
       - name: 'Build'
