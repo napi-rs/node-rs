@@ -65,15 +65,22 @@ pub struct VerifyTask {
 
 impl VerifyTask {
   pub fn verify(token: &str, key: &[u8], validation: &Validation) -> Result<Claims> {
-    let validation: &jsonwebtoken::Validation = &validation.into();
+    // Use insecure_decode when signature validation is disabled
+    if let Some(false) = validation.validate_signature {
+      return jsonwebtoken::dangerous::insecure_decode(token)
+        .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
+        .map(|token_data| token_data.claims);
+    }
 
-    let first_alg = validation.algorithms.first().ok_or(Error::new(
+    let jwt_validation: &jsonwebtoken::Validation = &validation.into();
+
+    let first_alg = jwt_validation.algorithms.first().ok_or(Error::new(
       Status::InvalidArg,
       "Validation `algorithms` should contain at least one valid algorithm".to_string(),
     ))?;
     let verify_key = &into_decoding_key(key, first_alg)?;
 
-    jsonwebtoken::decode(token, verify_key, validation)
+    jsonwebtoken::decode(token, verify_key, jwt_validation)
       .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
       .map(|token_data| token_data.claims)
   }

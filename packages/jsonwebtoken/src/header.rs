@@ -67,8 +67,7 @@ impl From<&Header> for jsonwebtoken::Header {
       x5c: value.x5_cert_chain.clone(),
       x5t: value.x5_cert_thumbprint.clone(),
       x5t_s256: value.x5t_s256_cert_thumbprint.clone(),
-      // TODO: support jwk
-      jwk: None,
+      ..Default::default()
     }
   }
 }

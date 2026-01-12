@@ -1,6 +1,7 @@
 import { Bench } from 'tinybench'
 import { crc32 as crc32Node } from 'crc'
 import Sse4Crc32 from 'sse4_crc32'
+import { crc32 as crc32NodeZlib } from 'node:zlib'
 
 import { crc32c, crc32 } from '../index.js'
 
@@ -24,6 +25,7 @@ const initialCrc32c = Sse4Crc32.calculate(TEST_BUFFER)
 
 console.assert(crc32(TEST_BUFFER) === initialCrc32)
 console.assert(crc32c(TEST_BUFFER) === initialCrc32c)
+console.assert(crc32NodeZlib(TEST_BUFFER) === initialCrc32)
 
 const suite = new Bench({
   name: 'crc32c without initial crc',
@@ -88,3 +90,35 @@ suite4
 await suite4.run()
 
 console.table(suite4.table())
+
+const suite5 = new Bench({
+  name: 'node:zlib crc32 without initial crc',
+})
+
+suite5
+  .add('@node/rs crc32', () => {
+    crc32(TEST_BUFFER)
+  })
+  .add('node:zlib crc32', () => {
+    crc32NodeZlib(TEST_BUFFER)
+  })
+
+await suite5.run()
+
+console.table(suite5.table())
+
+const suite6 = new Bench({
+  name: 'node:zlib crc32 with initial crc',
+})
+
+suite6
+  .add('@node/rs crc32', () => {
+    crc32(TEST_BUFFER, initialCrc32)
+  })
+  .add('node:zlib crc32', () => {
+    crc32NodeZlib(TEST_BUFFER, initialCrc32)
+  })
+
+await suite6.run()
+
+console.table(suite6.table())

@@ -29,26 +29,26 @@ pub struct Keyword {
 /// Creates a KeywordExtractConfig state that contains filter criteria as
 /// well as segmentation configuration for use by keyword extraction
 /// implementations.
-pub struct KeywordExtractConfig {
+pub struct KeywordExtractConfig<'a> {
   #[napi(ts_type = "Set<string> | undefined")]
-  pub stop_words: Option<Object>,
+  pub stop_words: Option<Object<'a>>,
   /// Any segments less than this length will not be considered a Keyword
   pub min_keyword_length: Option<u32>,
   /// If true, fall back to hmm model if segment cannot be found in the dictionary
   pub use_hmm: Option<bool>,
 }
 
-impl TryFrom<KeywordExtractConfig> for jieba_rs::KeywordExtractConfig {
+impl TryFrom<KeywordExtractConfig<'_>> for jieba_rs::KeywordExtractConfig {
   type Error = Error;
 
-  fn try_from(config: KeywordExtractConfig) -> Result<Self> {
+  fn try_from(config: KeywordExtractConfig<'_>) -> Result<Self> {
     let mut stop_words = BTreeSet::new();
     if let Some(sw) = config.stop_words.as_ref() {
       let iter_func: Function<'_, (), Object> = sw.get_named_property_unchecked("values")?;
       let iter = iter_func.apply(sw, ())?;
       while {
         let next_fn: Function<'_, (), Object> = iter.get_named_property_unchecked("next")?;
-        let next = next_fn.apply(&iter, ())?;
+        let next = next_fn.apply(iter, ())?;
         let done: bool = next.get_named_property_unchecked("done")?;
         if !done {
           let value: String = iter.get_named_property_unchecked("value")?;
@@ -225,12 +225,12 @@ impl Jieba {
   /// `sentence`: input text
   ///
   /// `hmm`: enable HMM or not
-  pub fn cut(
+  pub fn cut<'a>(
     &self,
-    env: &Env,
+    env: &'a Env,
     sentence: Either<String, &[u8]>,
     hmm: Option<bool>,
-  ) -> Result<Array> {
+  ) -> Result<Array<'a>> {
     let hmm = hmm.unwrap_or(false);
     let cutted = self.0.cut(
       match &sentence {
@@ -266,7 +266,7 @@ impl Jieba {
   /// ## Params
   ///
   /// `sentence`: input text
-  pub fn cut_all(&self, env: &Env, sentence: Either<String, &[u8]>) -> Result<Array> {
+  pub fn cut_all<'a>(&self, env: &'a Env, sentence: Either<String, &[u8]>) -> Result<Array<'a>> {
     let cutted = self.0.cut_all(match &sentence {
       Either::A(s) => s.as_str(),
       Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
@@ -283,12 +283,12 @@ impl Jieba {
   /// `sentence`: input text
   ///
   /// `hmm`: enable HMM or not
-  pub fn cut_for_search(
+  pub fn cut_for_search<'a>(
     &self,
-    env: &Env,
+    env: &'a Env,
     sentence: Either<String, &[u8]>,
     hmm: Option<bool>,
-  ) -> Result<Array> {
+  ) -> Result<Array<'a>> {
     let hmm = hmm.unwrap_or(false);
     let cutted = self.0.cut_for_search(
       match &sentence {

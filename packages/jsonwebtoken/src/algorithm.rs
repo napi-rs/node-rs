@@ -1,9 +1,10 @@
 use napi_derive::napi;
 
 #[napi(string_enum)]
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Default)]
 pub enum Algorithm {
   /// HMAC using SHA-256
+  #[default]
   HS256,
   /// HMAC using SHA-384
   HS384,
@@ -66,11 +67,5 @@ impl From<jsonwebtoken::Algorithm> for Algorithm {
       jsonwebtoken::Algorithm::RS384 => Algorithm::RS384,
       jsonwebtoken::Algorithm::RS512 => Algorithm::RS512,
     }
-  }
-}
-
-impl Default for Algorithm {
-  fn default() -> Self {
-    Self::HS256
   }
 }

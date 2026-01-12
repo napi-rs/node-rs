@@ -1,18 +1,18 @@
 [package]
 authors = ["LongYinan <lynweklm@gmail.com>"]
-edition = "2021"
-name    = "node-rs-crc32"
+edition = "2024"
+name = "node-rs-crc32"
 version = "0.1.0"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-crc32c       = { workspace = true }
-crc32fast    = { workspace = true }
+crc32c = { workspace = true }
+crc32fast = { workspace = true }
 global_alloc = { workspace = true }
-napi         = { workspace = true, default-features = false, features = ["napi3"] }
-napi-derive  = { workspace = true }
+napi = { workspace = true, default-features = false, features = ["napi3"] }
+napi-derive = { workspace = true }
 
 [build-dependencies]
 napi-build = { workspace = true }

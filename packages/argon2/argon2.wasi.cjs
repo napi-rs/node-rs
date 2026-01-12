@@ -9,9 +9,9 @@ const { WASI: __nodeWASI } = require('node:wasi')
 const { Worker } = require('node:worker_threads')
 
 const {
-  instantiateNapiModuleSync: __emnapiInstantiateNapiModuleSync,
-  getDefaultContext: __emnapiGetDefaultContext,
   createOnMessage: __wasmCreateOnMessageForFsProxy,
+  getDefaultContext: __emnapiGetDefaultContext,
+  instantiateNapiModuleSync: __emnapiInstantiateNapiModuleSync,
 } = require('@napi-rs/wasm-runtime')
 
 const __rootDir = __nodePath.parse(process.cwd()).root
@@ -39,7 +39,7 @@ if (__nodeFs.existsSync(__wasmDebugFilePath)) {
   __wasmFilePath = __wasmDebugFilePath
 } else if (!__nodeFs.existsSync(__wasmFilePath)) {
   try {
-    __wasmFilePath = __nodePath.resolve('@node-rs/argon2-wasm32-wasi')
+    __wasmFilePath = require.resolve('@node-rs/argon2-wasm32-wasi/argon2.wasm32-wasi.wasm')
   } catch {
     throw new Error('Cannot find argon2.wasm32-wasi.wasm file, and @node-rs/argon2-wasm32-wasi package is not installed.')
   }
@@ -56,14 +56,37 @@ const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule
       return 4
     }
   })(),
+  reuseWorker: true,
   wasi: __wasi,
   onCreateWorker() {
     const worker = new Worker(__nodePath.join(__dirname, 'wasi-worker.mjs'), {
       env: process.env,
-      execArgv: ['--experimental-wasi-unstable-preview1'],
     })
     worker.onmessage = ({ data }) => {
       __wasmCreateOnMessageForFsProxy(__nodeFs)(data)
+    }
+
+    // The main thread of Node.js waits for all the active handles before exiting.
+    // But Rust threads are never waited without `thread::join`.
+    // So here we hack the code of Node.js to prevent the workers from being referenced (active).
+    // According to https://github.com/nodejs/node/blob/19e0d472728c79d418b74bddff588bea70a403d0/lib/internal/worker.js#L415,
+    // a worker is consist of two handles: kPublicPort and kHandle.
+    {
+      const kPublicPort = Object.getOwnPropertySymbols(worker).find(s =>
+        s.toString().includes("kPublicPort")
+      );
+      if (kPublicPort) {
+        worker[kPublicPort].ref = () => {};
+      }
+
+      const kHandle = Object.getOwnPropertySymbols(worker).find(s =>
+        s.toString().includes("kHandle")
+      );
+      if (kHandle) {
+        worker[kHandle].ref = () => {};
+      }
+
+      worker.unref();
     }
     return worker
   },
@@ -77,24 +100,14 @@ const { instance: __napiInstance, module: __wasiModule, napiModule: __napiModule
     return importObject
   },
   beforeInit({ instance }) {
-    __napi_rs_initialize_modules(instance)
-  }
+    for (const name of Object.keys(instance.exports)) {
+      if (name.startsWith('__napi_register__')) {
+        instance.exports[name]()
+      }
+    }
+  },
 })
-
-function __napi_rs_initialize_modules(__napiInstance) {
-  __napiInstance.exports['__napi_register__Algorithm_0']?.()
-  __napiInstance.exports['__napi_register__Version_1']?.()
-  __napiInstance.exports['__napi_register__Options_struct_2']?.()
-  __napiInstance.exports['__napi_register__HashTask_impl_3']?.()
-  __napiInstance.exports['__napi_register__hash_4']?.()
-  __napiInstance.exports['__napi_register__hash_sync_5']?.()
-  __napiInstance.exports['__napi_register__RawHashTask_impl_6']?.()
-  __napiInstance.exports['__napi_register__hash_raw_7']?.()
-  __napiInstance.exports['__napi_register__hash_raw_sync_8']?.()
-  __napiInstance.exports['__napi_register__VerifyTask_impl_9']?.()
-  __napiInstance.exports['__napi_register__verify_10']?.()
-  __napiInstance.exports['__napi_register__verify_sync_11']?.()
-}
+module.exports = __napiModule.exports
 module.exports.Algorithm = __napiModule.exports.Algorithm
 module.exports.hash = __napiModule.exports.hash
 module.exports.hashRaw = __napiModule.exports.hashRaw

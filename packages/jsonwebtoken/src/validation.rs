@@ -85,9 +85,8 @@ impl From<&Validation> for jsonwebtoken::Validation {
     if let Some(iss) = &value.iss {
       validation.set_issuer(iss);
     }
-    if let Some(false) = value.validate_signature {
-      validation.insecure_disable_signature_validation()
-    }
+    // Note: validate_signature is handled separately in verify.rs
+    // using jsonwebtoken::dangerous::insecure_decode
 
     validation
   }

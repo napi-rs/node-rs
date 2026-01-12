@@ -23,7 +23,10 @@ bench
     })
   })
   .add('node-argon hash', async () => {
-    await nodeArgon2.hash(PASSWORD, { type: nodeArgon2.argon2id, parallelism: CORES })
+    await nodeArgon2.hash(PASSWORD, {
+      type: nodeArgon2.argon2id,
+      parallelism: CORES,
+    })
   })
   .add('@node-rs/argon verify', async () => {
     console.assert(await verify(HASHED, PASSWORD))

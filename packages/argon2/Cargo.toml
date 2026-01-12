@@ -1,17 +1,19 @@
 [package]
-edition = "2021"
-name    = "node-rs_argon2"
+edition = "2024"
+name = "node-rs_argon2"
 version = "0.0.0"
 
 [lib]
 crate-type = ["cdylib"]
 
+[features]
+parallel = ["argon2/parallel"]
+
 [dependencies]
-argon2       = { workspace = true }
+argon2 = { workspace = true }
 global_alloc = { workspace = true }
-napi         = { workspace = true, features = ["napi3"] }
-napi-derive  = { workspace = true, default-features = false, features = ["type-def"] }
-rand_core    = { workspace = true }
+napi = { workspace = true, features = ["napi3"] }
+napi-derive = { workspace = true, default-features = false, features = ["type-def"] }
 
 [build-dependencies]
 napi-build = { workspace = true }

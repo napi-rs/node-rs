@@ -14,11 +14,17 @@ export function loadBinding(dirname: string, filename = 'index', packageName?: s
     // resolve in node_modules
     if (packageName) {
       try {
-        return require(require.resolve(`${packageName}-${triple.platformArchABI}`, { paths: [dirname] }))
+        return require(
+          require.resolve(`${packageName}-${triple.platformArchABI}`, {
+            paths: [dirname],
+          }),
+        )
       } catch (e: any) {
         if (e?.code !== 'MODULE_NOT_FOUND') {
           try {
-            const pkgPath = require.resolve(`${packageName}-${triple.platformArchABI}`, { paths: [dirname] })
+            const pkgPath = require.resolve(`${packageName}-${triple.platformArchABI}`, {
+              paths: [dirname],
+            })
             additionalErrorMsg += `file: ${pkgPath} existed but error occurred while require it: ${e.message ?? e} \n`
             // eslint-disable-next-line no-empty
           } catch {}

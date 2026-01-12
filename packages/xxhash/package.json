@@ -3,27 +3,60 @@
   "version": "1.7.6",
   "description": "Fastest xxhash implementation in Node.js",
   "keywords": [
-    "hash",
-    "xxhash",
-    "xxhashjs",
+    "N-API",
+    "Node-API",
     "Rust",
-    "node-rs",
+    "hash",
     "napi",
     "napi-rs",
-    "N-API",
-    "Node-API"
+    "node-rs",
+    "xxhash",
+    "xxhashjs"
   ],
-  "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
+  "bugs": {
+    "url": "https://github.com/napi-rs/node-rs/issues"
+  },
   "license": "MIT",
-  "main": "index.js",
-  "typings": "index.d.ts",
-  "browser": "browser.js",
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/Brooooooklyn"
+  },
   "files": [
-    "index.js",
+    "browser.js",
     "index.d.ts",
-    "browser.js"
+    "index.js"
   ],
+  "main": "index.js",
+  "browser": "browser.js",
+  "typings": "index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "artifacts": "napi artifacts -d ../../artifacts",
+    "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/xxhash.ts",
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform",
+    "prepublishOnly": "napi prepublish",
+    "version": "napi version"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.5.1",
+    "@oxc-node/core": "^0.0.35",
+    "@types/xxhashjs": "^0.2.4",
+    "cross-env": "^10.1.0",
+    "tinybench": "^6.0.0",
+    "webpack": "^5.104.1",
+    "xxhash": "^0.3.0",
+    "xxhashjs": "^0.2.2"
+  },
   "napi": {
     "binaryName": "xxhash",
     "targets": [
@@ -45,38 +78,5 @@
   },
   "engines": {
     "node": ">= 12"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/napi-rs/node-rs.git"
-  },
-  "scripts": {
-    "artifacts": "napi artifacts -d ../../artifacts",
-    "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/xxhash.ts",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
-    "prepublishOnly": "napi prepublish",
-    "version": "napi version"
-  },
-  "bugs": {
-    "url": "https://github.com/napi-rs/node-rs/issues"
-  },
-  "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.64",
-    "@oxc-node/core": "^0.0.34",
-    "@types/xxhashjs": "^0.2.4",
-    "cross-env": "^7.0.3",
-    "tinybench": "^3.0.0",
-    "webpack": "^5.92.1",
-    "xxhash": "^0.3.0",
-    "xxhashjs": "^0.2.2"
-  },
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/Brooooooklyn"
   }
 }

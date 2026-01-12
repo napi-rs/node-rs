@@ -3,31 +3,65 @@
   "version": "1.10.7",
   "description": "Rust bcrypt binding",
   "keywords": [
-    "bcrypt",
-    "auth",
-    "password",
-    "authentication",
-    "encryption",
-    "crypto",
     "N-API",
+    "auth",
+    "authentication",
+    "bcrypt",
+    "crypto",
+    "encryption",
     "napi-rs",
-    "node-rs"
+    "node-rs",
+    "password"
   ],
-  "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
+  "bugs": {
+    "url": "https://github.com/napi-rs/node-rs/issues"
+  },
   "license": "MIT",
-  "main": "index.js",
-  "typings": "index.d.ts",
-  "browser": "browser.js",
+  "author": "LongYinan <lynweklm@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/napi-rs/node-rs.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/Brooooooklyn"
+  },
   "files": [
-    "index.js",
-    "index.d.ts",
-    "binding.js",
     "binding.d.ts",
+    "binding.js",
     "browser.js",
+    "index.d.ts",
+    "index.js",
     "LICENSE",
     "LICENSE.rust-bcrypt"
   ],
+  "main": "index.js",
+  "browser": "browser.js",
+  "typings": "index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "artifacts": "napi artifacts -d ../../artifacts",
+    "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/bcrypt.ts",
+    "build": "napi build --platform --release --js binding.js --dts binding.d.ts",
+    "build:debug": "napi build --platform",
+    "prepublishOnly": "napi prepublish",
+    "version": "napi version"
+  },
+  "devDependencies": {
+    "@cwasm/openbsd-bcrypt": "^0.1.0",
+    "@cwasm/openwall-bcrypt": "^0.1.0",
+    "@napi-rs/cli": "^3.5.1",
+    "@types/bcrypt": "^6.0.0",
+    "@types/bcryptjs": "^3.0.0",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "cross-env": "^10.1.0",
+    "tinybench": "^6.0.0"
+  },
   "napi": {
     "binaryName": "bcrypt",
     "targets": [
@@ -49,39 +83,5 @@
   },
   "engines": {
     "node": ">= 10"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/napi-rs/node-rs.git"
-  },
-  "scripts": {
-    "artifacts": "napi artifacts -d ../../artifacts",
-    "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/bcrypt.ts",
-    "build": "napi build --platform --release --js binding.js --dts binding.d.ts",
-    "build:debug": "napi build --platform",
-    "prepublishOnly": "napi prepublish",
-    "version": "napi version"
-  },
-  "bugs": {
-    "url": "https://github.com/napi-rs/node-rs/issues"
-  },
-  "devDependencies": {
-    "@cwasm/openbsd-bcrypt": "^0.1.0",
-    "@cwasm/openwall-bcrypt": "^0.1.0",
-    "@napi-rs/cli": "^3.0.0-alpha.64",
-    "@types/bcrypt": "^5.0.2",
-    "@types/bcryptjs": "^2.4.6",
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
-    "cross-env": "^7.0.3",
-    "tinybench": "^3.0.0"
-  },
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/Brooooooklyn"
   }
 }

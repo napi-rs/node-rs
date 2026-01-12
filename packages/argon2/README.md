@@ -18,7 +18,6 @@ It has a simple design aimed at the highest memory filling rate and effective us
 - Cross-platform support, including [Apple M1](https://www.apple.com/newsroom/2020/11/apple-unleashes-m1/).
 - Smaller file size after npm installation(476K vs [node-argon2](https://github.com/ranisalt/node-argon2) 3.7M).
 - `@node-rs/argon2` supports all three algorithms:
-
   - Argon2i: Optimizes against GPU cracking attacks but vulnerable to side-channels.
     Accesses the memory array in a password dependent order, reducing the possibility of time–memory tradeoff (TMTO) attacks.
   - Argon2d: Optimized to resist side-channel attacks.

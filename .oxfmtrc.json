@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "arrowParens": "always",
+  "printWidth": 120,
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "ignorePatterns": [
+    "target",
+    "node_modules",
+    "lib",
+    ".yarn",
+    "yarn.lock",
+    "packages/*/*.wasi.cjs",
+    "packages/*/index.js",
+    "packages/*/browser.js",
+    "packages/*/wasi-worker*",
+    "packages/*/index.d.ts",
+    "packages/*/binding.js",
+    "packages/*/binding.d.ts"
+  ]
+}

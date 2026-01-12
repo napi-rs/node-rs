@@ -1,16 +1,15 @@
 import {
-  instantiateNapiModuleSync as __emnapiInstantiateNapiModuleSync,
-  getDefaultContext as __emnapiGetDefaultContext,
-  WASI as __WASI,
   createOnMessage as __wasmCreateOnMessageForFsProxy,
+  getDefaultContext as __emnapiGetDefaultContext,
+  instantiateNapiModuleSync as __emnapiInstantiateNapiModuleSync,
+  WASI as __WASI,
 } from '@napi-rs/wasm-runtime'
-
-import __wasmUrl from './jsonwebtoken.wasm32-wasi.wasm?url'
 
 const __wasi = new __WASI({
   version: 'preview1',
 })
 
+const __wasmUrl = new URL('./jsonwebtoken.wasm32-wasi.wasm', import.meta.url).href
 const __emnapiContext = __emnapiGetDefaultContext()
 
 const __sharedMemory = new WebAssembly.Memory({
@@ -46,22 +45,14 @@ const {
     return importObject
   },
   beforeInit({ instance }) {
-    __napi_rs_initialize_modules(instance)
+    for (const name of Object.keys(instance.exports)) {
+      if (name.startsWith('__napi_register__')) {
+        instance.exports[name]()
+      }
+    }
   },
 })
-
-function __napi_rs_initialize_modules(__napiInstance) {
-  __napiInstance.exports['__napi_register__Algorithm_0']?.()
-  __napiInstance.exports['__napi_register__decode_header_1']?.()
-  __napiInstance.exports['__napi_register__Header_struct_2']?.()
-  __napiInstance.exports['__napi_register__SignTask_impl_3']?.()
-  __napiInstance.exports['__napi_register__sign_4']?.()
-  __napiInstance.exports['__napi_register__sign_sync_5']?.()
-  __napiInstance.exports['__napi_register__Validation_struct_6']?.()
-  __napiInstance.exports['__napi_register__VerifyTask_impl_7']?.()
-  __napiInstance.exports['__napi_register__verify_8']?.()
-  __napiInstance.exports['__napi_register__verify_sync_9']?.()
-}
+export default __napiModule.exports
 export const Algorithm = __napiModule.exports.Algorithm
 export const decodeHeader = __napiModule.exports.decodeHeader
 export const sign = __napiModule.exports.sign

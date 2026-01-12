@@ -1,11 +1,10 @@
 {
   "name": "node-rs",
-  "packageManager": "yarn@4.11.0",
   "version": "0.0.0",
-  "description": "Node & Rust bindings monorepo",
-  "author": "LongYinan <lynweklm@gmail.com>",
-  "license": "MIT",
   "private": true,
+  "description": "Node & Rust bindings monorepo",
+  "license": "MIT",
+  "author": "LongYinan <lynweklm@gmail.com>",
   "workspaces": [
     "packages/*"
   ],
@@ -15,62 +14,53 @@
     "build:ts": "tsc -b tsconfig.json -verbose",
     "lint": "oxlint .",
     "test": "ava",
-    "format": "run-p format:prettier format:rs format:toml",
-    "format:prettier": "prettier --config ./package.json -w .",
+    "format": "run-p format:oxfmt format:rs format:toml",
+    "format:oxfmt": "oxfmt --write .",
     "format:rs": "cargo fmt --all",
     "format:toml": "taplo format",
     "postinstall": "husky install"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.0.0-alpha.64",
-    "@napi-rs/wasm-runtime": "^0.2.5",
-    "@taplo/cli": "^0.7.0",
-    "@tybys/wasm-util": "^0.10.0",
-    "@types/node": "^22.7.4",
-    "ava": "^6.1.3",
-    "cross-env": "^7.0.3",
-    "husky": "^9.1.6",
-    "lerna": "^8.1.8",
-    "lint-staged": "^15.2.10",
-    "npm-run-all2": "^7.0.0",
-    "oxlint": "^0.18.0",
-    "prettier": "^3.3.3",
-    "tslib": "^2.7.0",
-    "typescript": "^5.6.2"
+    "@napi-rs/cli": "^3.5.1",
+    "@napi-rs/wasm-runtime": "^1.1.1",
+    "@tybys/wasm-util": "^0.10.1",
+    "@types/node": "^25.0.6",
+    "ava": "^6.4.1",
+    "cross-env": "^10.1.0",
+    "husky": "^9.1.7",
+    "lerna": "^9.0.3",
+    "lint-staged": "^16.2.7",
+    "npm-run-all2": "^8.0.4",
+    "oxfmt": "^0.23.0",
+    "oxlint": "^1.38.0",
+    "prettier": "^3.7.4",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3"
   },
   "lint-staged": {
     "*.@(js|ts|tsx)": [
       "oxlint --fix"
     ],
-    "*.@(js|ts|tsx|yml|yaml|json|md)": [
-      "prettier --write"
-    ],
-    "*.toml": [
-      "taplo format"
+    "*.@(js|ts|tsx|yml|yaml|json|md|toml)": [
+      "oxfmt --write"
     ],
     "*.rs": [
       "cargo fmt --"
     ]
   },
   "ava": {
+    "cache": false,
     "extensions": {
       "ts": "module"
     },
+    "files": [
+      "packages/*/__test__/**/*.spec.ts"
+    ],
     "nodeArguments": [
       "--import",
       "@oxc-node/core/register"
     ],
-    "timeout": "1m",
-    "cache": false,
-    "files": [
-      "packages/*/__test__/**/*.spec.ts"
-    ]
+    "timeout": "1m"
   },
-  "prettier": {
-    "printWidth": 120,
-    "semi": false,
-    "trailingComma": "all",
-    "singleQuote": true,
-    "arrowParens": "always"
-  }
+  "packageManager": "yarn@4.12.0"
 }

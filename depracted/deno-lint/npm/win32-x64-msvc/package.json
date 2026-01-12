@@ -1,42 +1,42 @@
 {
   "name": "@node-rs/deno-lint-win32-x64-msvc",
   "version": "1.20.4",
-  "cpu": [
-    "x64"
-  ],
-  "main": "deno-lint.win32-x64-msvc.node",
-  "files": [
-    "deno-lint.win32-x64-msvc.node"
-  ],
   "description": "Deno lint binding for Node.js",
   "keywords": [
     "Deno",
-    "Lint",
     "ESLint",
-    "node-rs",
-    "napi",
+    "Lint",
     "N-API",
     "Rust",
-    "napi-rs"
+    "napi",
+    "napi-rs",
+    "node-rs"
   ],
-  "author": "LongYinan <lynweklm@gmail.com>",
   "homepage": "https://github.com/napi-rs/node-rs",
+  "bugs": {
+    "url": "https://github.com/napi-rs/node-rs/issues"
+  },
   "license": "MIT",
-  "engines": {
-    "node": ">= 10"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
-  },
+  "author": "LongYinan <lynweklm@gmail.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/napi-rs/node-rs.git"
   },
-  "bugs": {
-    "url": "https://github.com/napi-rs/node-rs/issues"
-  },
+  "files": [
+    "deno-lint.win32-x64-msvc.node"
+  ],
   "os": [
     "win32"
-  ]
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "deno-lint.win32-x64-msvc.node",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">= 10"
+  }
 }
