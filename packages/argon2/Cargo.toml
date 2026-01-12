@@ -6,6 +6,9 @@ version = "0.0.0"
 [lib]
 crate-type = ["cdylib"]
 
+[features]
+parallel = ["argon2/parallel"]
+
 [dependencies]
 argon2 = { workspace = true }
 global_alloc = { workspace = true }

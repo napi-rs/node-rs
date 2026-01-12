@@ -426,8 +426,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['20']
-    runs-on: ubuntu-latest
+        node: ['20', '22', '24']
+    runs-on: ubuntu-24.04-arm
 
     steps:
       - uses: actions/checkout@v6
@@ -455,12 +455,6 @@ jobs:
         run: ls -R packages
         shell: bash
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: arm64
-      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
@@ -480,7 +474,7 @@ jobs:
       fail-fast: false
       matrix:
         node: ['20', '22', '24']
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
 
     steps:
       - uses: actions/checkout@v6
@@ -507,12 +501,6 @@ jobs:
       - name: List packages
         run: ls -R packages
         shell: bash
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: arm64
-      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3

@@ -1389,6 +1389,8 @@ __metadata:
   resolution: "@node-rs/argon2@workspace:packages/argon2"
   dependencies:
     "@napi-rs/cli": "npm:^3.5.1"
+    "@oxc-node/cli": "npm:^0.0.35"
+    "@oxc-node/core": "npm:^0.0.35"
     argon2: "npm:^0.44.0"
     cross-env: "npm:^10.1.0"
     tinybench: "npm:^6.0.0"
@@ -2138,6 +2140,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@oxc-node/cli@npm:^0.0.35":
+  version: 0.0.35
+  resolution: "@oxc-node/cli@npm:0.0.35"
+  dependencies:
+    "@oxc-node/core": "npm:0.0.35"
+  bin:
+    oxnode: dist/index.js
+  checksum: 10c0/3d2732a3ca888ac80344b1e99a99d6fbd0832bbc42d5f2c7f458bedb63127bd3864a580f1f2d027cab47e14386f0731392ba3075db1fc2a54f505c4a8aa8c9f6
+  languageName: node
+  linkType: hard
+
 "@oxc-node/core-android-arm-eabi@npm:0.0.35":
   version: 0.0.35
   resolution: "@oxc-node/core-android-arm-eabi@npm:0.0.35"
@@ -2259,7 +2272,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxc-node/core@npm:^0.0.35":
+"@oxc-node/core@npm:0.0.35, @oxc-node/core@npm:^0.0.35":
   version: 0.0.35
   resolution: "@oxc-node/core@npm:0.0.35"
   dependencies:
