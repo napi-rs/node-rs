@@ -53,7 +53,7 @@ export interface Options {
    *
    * Value is an integer in decimal (1 to 10 digits), between 1 and (2^32)-1.
    *
-   * The default value is 4096, meaning a pool of 4 MiB per thread.
+   * The default value is 19456, meaning a pool of 19 MiB per thread.
    */
   memoryCost?: number | undefined | null
   /**
@@ -61,7 +61,7 @@ export interface Options {
    *
    * Value is an integer in decimal (1 to 10 digits), between 1 and (2^32)-1.
    *
-   * The default value is 3.
+   * The default value is 2.
    */
   timeCost?: number | undefined | null
   /**
