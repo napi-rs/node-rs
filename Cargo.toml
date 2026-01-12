@@ -13,7 +13,7 @@ resolver = "2"
 [workspace.dependencies]
 argon2 = { version = "=0.6.0-rc.5", default-features = false, features = ["alloc", "getrandom", "zeroize"] }
 base64 = { version = "0.22" }
-bcrypt = "0.17"
+bcrypt = "0.18"
 blowfish = { version = "0.9", features = ["bcrypt"] }
 crc32c = { version = "0.6" }
 crc32fast = { version = "1.4", features = ["nightly"] }
