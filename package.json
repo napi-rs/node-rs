@@ -14,10 +14,9 @@
     "build:ts": "tsc -b tsconfig.json -verbose",
     "lint": "oxlint .",
     "test": "ava",
-    "format": "run-p format:oxfmt format:rs format:toml",
+    "format": "run-p format:oxfmt format:rs",
     "format:oxfmt": "oxfmt --write .",
     "format:rs": "cargo fmt --all",
-    "format:toml": "taplo format",
     "postinstall": "husky install"
   },
   "devDependencies": {
