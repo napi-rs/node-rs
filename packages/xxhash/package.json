@@ -55,6 +55,7 @@
     "tinybench": "^6.0.0",
     "webpack": "^5.104.1",
     "xxhash": "^0.3.0",
+    "xxhash-addon": "^2.0.3",
     "xxhashjs": "^0.2.2"
   },
   "napi": {

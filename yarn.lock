@@ -1471,6 +1471,7 @@ __metadata:
     tinybench: "npm:^6.0.0"
     webpack: "npm:^5.104.1"
     xxhash: "npm:^0.3.0"
+    xxhash-addon: "npm:^2.0.3"
     xxhashjs: "npm:^0.2.2"
   languageName: unknown
   linkType: soft
@@ -9363,6 +9364,15 @@ __metadata:
   version: 4.0.2
   resolution: "xtend@npm:4.0.2"
   checksum: 10c0/366ae4783eec6100f8a02dff02ac907bf29f9a00b82ac0264b4d8b832ead18306797e283cf19de776538babfdcb2101375ec5646b59f08c52128ac4ab812ed0e
+  languageName: node
+  linkType: hard
+
+"xxhash-addon@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "xxhash-addon@npm:2.0.3"
+  dependencies:
+    node-gyp: "npm:latest"
+  checksum: 10c0/076081b30d4312acddefd46bc8caede1c115125c46bb4e9db7b1cdce7fd4f9f019ae3de1f4e289bab92c9d70855e9793c678b16eeabcbed8b3b0e6893955dded
   languageName: node
   linkType: hard
 
