@@ -30,7 +30,7 @@
     "lerna": "^9.0.3",
     "lint-staged": "^16.2.7",
     "npm-run-all2": "^8.0.4",
-    "oxfmt": "^0.28.0",
+    "oxfmt": "^0.31.0",
     "oxlint": "^1.38.0",
     "prettier": "^3.7.4",
     "tslib": "^2.8.1",
