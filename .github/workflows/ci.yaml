@@ -463,10 +463,7 @@ jobs:
           image: node:${{ matrix.node }}-slim
           name: test-linux-aarch64-gnu-${{ matrix.node }}
           options: --platform linux/arm64 -v ${{ github.workspace }}:/build -w /build
-          args: |
-            set -e
-            yarn test -s
-            ls -la
+          args: sh -c "set -e && yarn test -s && ls -la"
 
   test-linux-aarch64-musl-binding:
     name: Test bindings on aarch64-unknown-linux-musl - node@${{ matrix.node }}
@@ -511,9 +508,7 @@ jobs:
           image: node:lts-alpine
           name: test-linux-aarch64-musl-${{ matrix.node }}
           options: --platform linux/arm64 -v ${{ github.workspace }}:/build -w /build
-          args: |
-            set -e
-            yarn test -s
+          args: sh -c "set -e && yarn test -s"
 
   test-linux-arm-gnueabihf-binding:
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -562,10 +557,7 @@ jobs:
           image: node:${{ matrix.node }}-bullseye-slim
           name: test-linux-arm-gnueabihf-${{ matrix.node }}
           options: --platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build
-          args: |
-            set -e
-            yarn test -s
-            ls -la
+          args: sh -c "set -e && yarn test -s && ls -la"
 
   test-wasi-nodejs:
     name: Test bindings on wasi - node@${{ matrix.node }}
