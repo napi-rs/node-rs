@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.5.1",
-    "@oxc-node/cli": "^0.0.35",
+    "@oxc-node/cli": "^0.1.0",
     "@oxc-node/core": "^0.0.35",
     "argon2": "^0.44.0",
     "cross-env": "^10.1.0",
