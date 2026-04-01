@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.5.1",
-    "@oxc-node/core": "^0.0.35",
+    "@oxc-node/core": "^0.1.0",
     "@types/jsonwebtoken": "^9.0.10",
     "cross-env": "^10.1.0",
     "jsonwebtoken": "^9.0.3",

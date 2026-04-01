@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.5.1",
-    "@oxc-node/core": "^0.0.35",
+    "@oxc-node/core": "^0.1.0",
     "@types/xxhashjs": "^0.2.4",
     "cross-env": "^10.1.0",
     "tinybench": "^6.0.0",
