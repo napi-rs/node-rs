@@ -19,7 +19,7 @@ crc32c = { version = "0.6" }
 crc32fast = { version = "1.4", features = ["nightly"] }
 global_alloc = { path = "./crates/alloc" }
 indexmap = { version = "2", features = ["serde"] }
-jieba-rs = { version = "0.8", default-features = false, features = ["tfidf", "textrank"] }
+jieba-rs = { version = "0.9", default-features = false, features = ["tfidf", "textrank"] }
 jsonwebtoken = { version = "10", features = ["rust_crypto"] }
 mimalloc-safe = "0.1"
 napi = { version = "3", default-features = false, features = ["napi3"] }
