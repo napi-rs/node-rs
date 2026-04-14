@@ -59,17 +59,13 @@ impl TryFrom<KeywordExtractConfig<'_>> for jieba_rs::KeywordExtractConfig {
       {}
     }
 
-    jieba_rs::KeywordExtractConfig::builder()
-      .set_stop_words(stop_words)
-      .min_keyword_length(config.min_keyword_length.unwrap_or(2) as usize)
-      .use_hmm(config.use_hmm.unwrap_or(false))
-      .build()
-      .map_err(|err| {
-        Error::new(
-          Status::InvalidArg,
-          format!("Failed to create KeywordExtractConfig from JavaScript value: {err}"),
-        )
-      })
+    Ok(
+      jieba_rs::KeywordExtractConfig::builder()
+        .set_stop_words(stop_words)
+        .min_keyword_length(config.min_keyword_length.unwrap_or(2) as usize)
+        .use_hmm(config.use_hmm.unwrap_or(false))
+        .build(),
+    )
   }
 }
 
