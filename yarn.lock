@@ -1357,11 +1357,9 @@ __metadata:
   dependencies:
     "@napi-rs/cli": "npm:^3.5.1"
     "@types/crc": "npm:^4.0.0"
-    "@types/sse4_crc32": "npm:^7.0.4"
     buffer: "npm:^6.0.3"
     crc: "npm:^4.3.2"
     cross-env: "npm:^10.1.0"
-    sse4_crc32: "npm:^7.0.0"
     tinybench: "npm:^6.0.0"
   languageName: unknown
   linkType: soft
@@ -2758,15 +2756,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sse4_crc32@npm:^7.0.4":
-  version: 7.0.4
-  resolution: "@types/sse4_crc32@npm:7.0.4"
-  dependencies:
-    "@types/node": "npm:*"
-  checksum: 10c0/51897ce3bdccd5467f7c502b7eb6b43f60ec2a4fc727a947884265ab0e8a47a5b622134fe6f5fc1866f7c832c2715cc7cdc3ea83848cf2963b80f1b5adeeb110
-  languageName: node
-  linkType: hard
-
 "@types/xxhashjs@npm:^0.2.4":
   version: 0.2.4
   resolution: "@types/xxhashjs@npm:0.2.4"
@@ -3442,7 +3431,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bindings@npm:^1.3.0, bindings@npm:^1.4.0":
+"bindings@npm:^1.4.0":
   version: 1.5.0
   resolution: "bindings@npm:1.5.0"
   dependencies:
@@ -6629,15 +6618,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-addon-api@npm:^1.3.0":
-  version: 1.7.2
-  resolution: "node-addon-api@npm:1.7.2"
-  dependencies:
-    node-gyp: "npm:latest"
-  checksum: 10c0/bcf526f2ce788182730d3c3df5206585873d1e837a6e1378ff84abccf2f19cf3f93a8274f9c1245af0de63a0dbd1bb95ca2f767ecf5c678d6930326aaf396c4e
-  languageName: node
-  linkType: hard
-
 "node-addon-api@npm:^5.1.0":
   version: 5.1.0
   resolution: "node-addon-api@npm:5.1.0"
@@ -8382,17 +8362,6 @@ __metadata:
   version: 1.0.3
   resolution: "sprintf-js@npm:1.0.3"
   checksum: 10c0/ecadcfe4c771890140da5023d43e190b7566d9cf8b2d238600f31bec0fc653f328da4450eb04bd59a431771a8e9cc0e118f0aa3974b683a4981b4e07abc2a5bb
-  languageName: node
-  linkType: hard
-
-"sse4_crc32@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "sse4_crc32@npm:7.0.0"
-  dependencies:
-    bindings: "npm:^1.3.0"
-    node-addon-api: "npm:^1.3.0"
-    node-gyp: "npm:latest"
-  checksum: 10c0/814ce34251c9f0d7aa7bb1d3417a6fac39b063f5bda2e82f874fead8386f78e6b884fd5e28c84e7e66aa1fc05a797ba30b9395eaf7fcdf66aa286142fc96e471
   languageName: node
   linkType: hard
 

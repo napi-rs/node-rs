@@ -48,11 +48,9 @@
   "devDependencies": {
     "@napi-rs/cli": "^3.5.1",
     "@types/crc": "^4.0.0",
-    "@types/sse4_crc32": "^7.0.4",
     "buffer": "^6.0.3",
     "crc": "^4.3.2",
     "cross-env": "^10.1.0",
-    "sse4_crc32": "^7.0.0",
     "tinybench": "^6.0.0"
   },
   "napi": {

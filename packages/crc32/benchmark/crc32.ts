@@ -1,6 +1,5 @@
 import { Bench } from 'tinybench'
 import { crc32 as crc32Node } from 'crc'
-import Sse4Crc32 from 'sse4_crc32'
 import { crc32 as crc32NodeZlib } from 'node:zlib'
 
 import { crc32c, crc32 } from '../index.js'
@@ -21,23 +20,18 @@ eleifend felis viverra. Suspendisse elit neque, semper aliquet neque sed,
 egestas tempus leo. Duis condimentum turpis duis.`)
 
 const initialCrc32 = crc32Node(TEST_BUFFER)
-const initialCrc32c = Sse4Crc32.calculate(TEST_BUFFER)
+const initialCrc32c = crc32c(TEST_BUFFER)
 
 console.assert(crc32(TEST_BUFFER) === initialCrc32)
-console.assert(crc32c(TEST_BUFFER) === initialCrc32c)
 console.assert(crc32NodeZlib(TEST_BUFFER) === initialCrc32)
 
 const suite = new Bench({
   name: 'crc32c without initial crc',
 })
 
-suite
-  .add('@node/rs crc32c', () => {
-    crc32c(TEST_BUFFER)
-  })
-  .add('sse4_crc32', () => {
-    Sse4Crc32.calculate(TEST_BUFFER)
-  })
+suite.add('@node/rs crc32c', () => {
+  crc32c(TEST_BUFFER)
+})
 
 await suite.run()
 
@@ -47,13 +41,9 @@ const suite2 = new Bench({
   name: 'crc32c with initial crc',
 })
 
-suite2
-  .add('@node/rs crc32c', () => {
-    crc32c(TEST_BUFFER, initialCrc32c)
-  })
-  .add('sse4_crc32', () => {
-    Sse4Crc32.calculate(TEST_BUFFER, initialCrc32c)
-  })
+suite2.add('@node/rs crc32c', () => {
+  crc32c(TEST_BUFFER, initialCrc32c)
+})
 
 await suite2.run()
 
