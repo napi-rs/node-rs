@@ -52,7 +52,6 @@
   "devDependencies": {
     "@napi-rs/cli": "^3.5.1",
     "cross-env": "^10.1.0",
-    "nodejieba": "^3.5.2",
     "tinybench": "^6.0.0"
   },
   "napi": {

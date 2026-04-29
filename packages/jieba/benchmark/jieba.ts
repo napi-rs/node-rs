@@ -3,12 +3,9 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { Bench } from 'tinybench'
-import nodejieba from 'nodejieba'
 
 import { Jieba } from '../index.js'
 import { dict } from '../dict.js'
-
-const { load, cut, tag } = nodejieba
 
 const __dirname = join(fileURLToPath(import.meta.url), '..')
 
@@ -25,51 +22,24 @@ const preface = `
 
 const prefaceLength = preface.length
 
-async function createBench(
-  suitename: string,
-  transform: (o: string[]) => string,
-  napi: () => any[],
-  jieba: () => any[],
-) {
+async function createBench(suitename: string, napi: () => any[]) {
   const suite = new Bench({
     name: suitename,
   })
-  console.assert(transform(napi()) === transform(jieba()))
 
-  suite.add('@node-rs/jieba', napi).add('nodejieba', jieba)
+  suite.add('@node-rs/jieba', napi)
 
   await suite.run()
 
   console.table(suite.table())
 }
 
-load()
 const jieba = Jieba.withDict(dict)
 
-await createBench(
-  `Cut ${prefaceLength} words`,
-  (output) => output.join(''),
-  () => jieba.cut(preface),
-  () => cut(preface),
-)
+await createBench(`Cut ${prefaceLength} words`, () => jieba.cut(preface))
 
-await createBench(
-  `Cut ${fixture.toString().length} words`,
-  (output) => output.join(''),
-  () => jieba.cut(fixture),
-  () => cut(fixture),
-)
+await createBench(`Cut ${fixture.toString().length} words`, () => jieba.cut(fixture))
 
-await createBench(
-  `Tag ${prefaceLength} words`,
-  (output) => typeof output,
-  () => jieba.tag(preface),
-  () => tag(preface),
-)
+await createBench(`Tag ${prefaceLength} words`, () => jieba.tag(preface))
 
-await createBench(
-  `Tag ${fixture.toString().length} words`,
-  (output) => typeof output,
-  () => jieba.tag(fixture),
-  () => tag(fixture),
-)
+await createBench(`Tag ${fixture.toString().length} words`, () => jieba.tag(fixture))
