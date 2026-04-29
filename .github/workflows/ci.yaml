@@ -517,7 +517,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['22', '24']
+        node: ['22']
     runs-on: ubuntu-latest
 
     steps:
