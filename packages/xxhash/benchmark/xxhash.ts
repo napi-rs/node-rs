@@ -5,8 +5,6 @@ import { fileURLToPath } from 'node:url'
 import { Bench } from 'tinybench'
 // @ts-expect-error
 import createWasmHasher from 'webpack/lib/util/hash/xxhash64.js'
-// @ts-expect-error
-import xxhash from 'xxhash'
 import xxhashAddon from 'xxhash-addon'
 import xxhashjs from 'xxhashjs'
 
@@ -24,9 +22,6 @@ const suite = new Bench({
 suite
   .add('@node-rs/xxhash h32', () => {
     xxh32(FX, 0)
-  })
-  .add('xxhash c++', () => {
-    xxhash.hash(FX, 0)
   })
   .add('xxhash-addon', () => {
     XXHash32.hash(FX)
@@ -68,9 +63,6 @@ const xx64Suite = new Bench({
 xx64Suite
   .add('@node-rs/xxhash 64', () => {
     xxh64(FX).toString(16)
-  })
-  .add('xxhash C++', () => {
-    xxhash.hash64(FX, 0)
   })
   .add('xxhash-addon', () => {
     XXHash64.hash(FX)

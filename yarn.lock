@@ -1386,7 +1386,6 @@ __metadata:
     cross-env: "npm:^10.1.0"
     tinybench: "npm:^6.0.0"
     webpack: "npm:^5.104.1"
-    xxhash: "npm:^0.3.0"
     xxhash-addon: "npm:^2.0.3"
     xxhashjs: "npm:^0.2.2"
   languageName: unknown
@@ -6417,15 +6416,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nan@npm:^2.13.2":
-  version: 2.26.2
-  resolution: "nan@npm:2.26.2"
-  dependencies:
-    node-gyp: "npm:latest"
-  checksum: 10c0/ff204c964729279cf3abb8b170c77753ed36092e2235f11bfb0204dfd3e8cc2d5a3bcfdfd3b677f06a0743d7f835d873dce59f23a2dbf6fb671d9351cc655d73
-  languageName: node
-  linkType: hard
-
 "negotiator@npm:^1.0.0":
   version: 1.0.0
   resolution: "negotiator@npm:1.0.0"
@@ -8892,16 +8882,6 @@ __metadata:
     node-gyp: "npm:latest"
     node-gyp-build: "npm:^4.8.0"
   checksum: 10c0/26606f6a2e3cb0aedba3963b7b2f3f1883e31969a076b7271ea6eabe8890d16875da1082ee6010d9ca7458f82049f1639699e9fb26c9aac063ac91443e51bc9f
-  languageName: node
-  linkType: hard
-
-"xxhash@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "xxhash@npm:0.3.0"
-  dependencies:
-    nan: "npm:^2.13.2"
-    node-gyp: "npm:latest"
-  checksum: 10c0/12b2a52ec2bd175e60dc45f399ad0048877634d4f256624533a7dc6a8180a2c81f91dbdeb2b479f704848dfce179ae992dfe8b8f649c6c0ad7df44881c59d031
   languageName: node
   linkType: hard
 
