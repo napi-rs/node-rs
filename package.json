@@ -49,9 +49,9 @@
   },
   "ava": {
     "cache": false,
-    "extensions": {
-      "ts": "module"
-    },
+    "extensions": [
+      "ts"
+    ],
     "files": [
       "packages/*/__test__/**/*.spec.ts"
     ],
