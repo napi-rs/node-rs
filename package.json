@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.5.1",
-    "@napi-rs/wasm-runtime": "^1.1.1",
+    "@napi-rs/wasm-runtime": "^1.1.4",
     "@tybys/wasm-util": "^0.10.1",
     "@types/node": "^25.0.6",
     "ava": "^8.0.0",
@@ -35,6 +35,12 @@
     "prettier": "^3.7.4",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3"
+  },
+  "resolutions": {
+    "@emnapi/core": "^1.10.0",
+    "@emnapi/runtime": "^1.10.0",
+    "@emnapi/wasi-threads": "^1.2.1",
+    "emnapi": "^1.10.0"
   },
   "lint-staged": {
     "*.@(js|ts|tsx)": [
