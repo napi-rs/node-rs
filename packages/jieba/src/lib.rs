@@ -228,13 +228,18 @@ impl Jieba {
     hmm: Option<bool>,
   ) -> Result<Array<'a>> {
     let hmm = hmm.unwrap_or(false);
-    let cutted = self.0.cut(
-      match &sentence {
-        Either::A(s) => s.as_str(),
-        Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
-      },
-      hmm,
-    );
+    let cutted: Vec<&str> = self
+      .0
+      .cut(
+        match &sentence {
+          Either::A(s) => s.as_str(),
+          Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
+        },
+        hmm,
+      )
+      .into_iter()
+      .map(|t| t.word)
+      .collect();
     Array::from_vec(env, cutted)
   }
 
@@ -263,10 +268,15 @@ impl Jieba {
   ///
   /// `sentence`: input text
   pub fn cut_all<'a>(&self, env: &'a Env, sentence: Either<String, &[u8]>) -> Result<Array<'a>> {
-    let cutted = self.0.cut_all(match &sentence {
-      Either::A(s) => s.as_str(),
-      Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
-    });
+    let cutted: Vec<&str> = self
+      .0
+      .cut_all(match &sentence {
+        Either::A(s) => s.as_str(),
+        Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
+      })
+      .into_iter()
+      .map(|t| t.word)
+      .collect();
 
     Array::from_vec(env, cutted)
   }
@@ -286,13 +296,18 @@ impl Jieba {
     hmm: Option<bool>,
   ) -> Result<Array<'a>> {
     let hmm = hmm.unwrap_or(false);
-    let cutted = self.0.cut_for_search(
-      match &sentence {
-        Either::A(s) => s.as_str(),
-        Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
-      },
-      hmm,
-    );
+    let cutted: Vec<&str> = self
+      .0
+      .cut_for_search(
+        match &sentence {
+          Either::A(s) => s.as_str(),
+          Either::B(b) => str::from_utf8(b).map_err(|_| Error::from_status(Status::InvalidArg))?,
+        },
+        hmm,
+      )
+      .into_iter()
+      .map(|t| t.word)
+      .collect();
 
     Array::from_vec(env, cutted)
   }
@@ -350,7 +365,7 @@ impl Task for CutTask {
           hmm,
         )
         .iter()
-        .map(|s| s.to_string())
+        .map(|t| t.word.to_string())
         .collect(),
     )
   }
