@@ -39,7 +39,7 @@
   "resolutions": {
     "@emnapi/core": "^1.10.0",
     "@emnapi/runtime": "^1.10.0",
-    "@emnapi/wasi-threads": "^1.2.1",
+    "@emnapi/wasi-threads": "^2.0.0",
     "emnapi": "^1.10.0"
   },
   "lint-staged": {
