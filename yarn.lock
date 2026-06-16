@@ -63,12 +63,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emnapi/wasi-threads@npm:^1.2.1":
-  version: 1.2.2
-  resolution: "@emnapi/wasi-threads@npm:1.2.2"
+"@emnapi/wasi-threads@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@emnapi/wasi-threads@npm:2.0.0"
   dependencies:
     tslib: "npm:^2.4.0"
-  checksum: 10c0/f0dc8269d6b20ae5a7c7b36e7a6a333452009d461038ef4febb29da2f3f78c1e2b1576d7e8970a5c5789ed3caedc1f80f5b0c2a5373bdaf8d03b20432bb55747
+  checksum: 10c0/1b1dbd18719f8102accd6142457e530fc0f67796aa755f861b5a052fcaeab2422a7b6ab987b461a0afda5be9e89f8d390c91ece546330434bd7217bf58bc2c79
   languageName: node
   linkType: hard
 
