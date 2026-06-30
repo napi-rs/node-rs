@@ -566,7 +566,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['22', '24']
+        node: ['12', '14', '16', '18', '20', '22', '24']
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
