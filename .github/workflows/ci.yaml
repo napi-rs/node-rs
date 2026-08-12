@@ -214,14 +214,7 @@ jobs:
         if: ${{ matrix.settings.target == 'wasm32-wasip1-threads' }}
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: |
-            packages/*/*.wasm
-            packages/*/*.wasi.cjs
-            packages/*/*.wasi.d.cts
-            packages/*/*.wasi-browser.js
-            packages/*/wasi-worker.mjs
-            packages/*/wasi-worker-browser.mjs
-            packages/*/browser.js
+          path: packages/*/*.wasm
           if-no-files-found: error
 
   build-freebsd:
