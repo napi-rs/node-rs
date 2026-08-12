@@ -3,7 +3,6 @@
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "declaration": true,
-    "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": false,
@@ -21,7 +20,7 @@
     "inlineSourceMap": true,
     "esModuleInterop": true,
     "stripInternal": true,
-    "importsNotUsedAsValues": "remove"
+    "types": ["node"]
   },
   "include": [],
   "references": [
