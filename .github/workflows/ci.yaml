@@ -309,14 +309,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: artifacts
-
-      - name: create-npm-dirs
-        run: yarn workspaces foreach -A -j 1 run napi create-npm-dirs
-
-      - name: Move artifacts
-        run: yarn artifacts
-        shell: bash
+          path: packages
 
       - name: Test bindings
         run: yarn workspaces foreach -A -j 1 run test
@@ -347,14 +340,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-x86_64-unknown-linux-gnu
-          path: artifacts
-
-      - name: create-npm-dirs
-        run: yarn workspaces foreach -A -j 1 run napi create-npm-dirs
-
-      - name: Move artifacts
-        run: yarn artifacts
-        shell: bash
+          path: packages
 
       - name: List packages
         run: ls -R packages
@@ -395,18 +381,11 @@ jobs:
       - name: Build TypeScript
         run: yarn build:ts
 
-      - name: create-npm-dirs
-        run: yarn workspaces foreach -A -j 1 run napi create-npm-dirs
-
       - name: Download artifacts
         uses: actions/download-artifact@v8
         with:
           name: bindings-x86_64-unknown-linux-musl
-          path: artifacts
-
-      - name: Move artifacts
-        run: yarn artifacts
-        shell: bash
+          path: packages
 
       - name: List packages
         run: ls -R packages
@@ -438,20 +417,13 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-aarch64-unknown-linux-gnu
-          path: artifacts
+          path: packages
 
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.cpu "arm64"
           yarn config set supportedArchitectures.libc "glibc"
           yarn install --immutable --mode=skip-build
-
-      - name: create-npm-dirs
-        run: yarn workspaces foreach -A -j 1 run napi create-npm-dirs
-
-      - name: Move artifacts
-        run: yarn artifacts
-        shell: bash
 
       - name: List packages
         run: ls -R packages
@@ -489,14 +461,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-aarch64-unknown-linux-musl
-          path: artifacts
-
-      - name: create-npm-dirs
-        run: yarn workspaces foreach -A -j 1 run napi create-npm-dirs
-
-      - name: Move artifacts
-        run: yarn artifacts
-        shell: bash
+          path: packages
 
       - name: List packages
         run: ls -R packages
@@ -532,14 +497,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-armv7-unknown-linux-gnueabihf
-          path: artifacts
-
-      - name: create-npm-dirs
-        run: yarn workspaces foreach -A -j 1 run napi create-npm-dirs
-
-      - name: Move artifacts
-        run: yarn artifacts
-        shell: bash
+          path: packages
 
       - name: List packages
         run: ls -R ./packages
@@ -580,12 +538,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-wasm32-wasip1-threads
-          path: artifacts
-      - name: create-npm-dirs
-        run: yarn workspaces foreach -A -j 1 run napi create-npm-dirs
-      - name: Move artifacts
-        run: yarn artifacts
-        shell: bash
+          path: packages
       - name: List packages
         run: ls -R .
       - name: Test

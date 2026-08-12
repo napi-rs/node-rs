@@ -32,6 +32,6 @@
     "build": "exit 0;"
   },
   "dependencies": {
-    "@napi-rs/triples": "^2.1.6"
+    "@napi-rs/triples": "^2.1.21"
   }
 }
