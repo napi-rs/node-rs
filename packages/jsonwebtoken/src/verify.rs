@@ -52,6 +52,12 @@ fn into_decoding_key(
 
     // ED family
     jsonwebtoken::Algorithm::EdDSA => jsonwebtoken::DecodingKey::from_ed_pem(value),
+    other => {
+      return Err(Error::new(
+        Status::InvalidArg,
+        format!("Unsupported algorithm: {other:?}"),
+      ));
+    }
   };
 
   encoding_key.map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))

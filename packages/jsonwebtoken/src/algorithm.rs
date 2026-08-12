@@ -66,6 +66,7 @@ impl From<jsonwebtoken::Algorithm> for Algorithm {
       jsonwebtoken::Algorithm::RS256 => Algorithm::RS256,
       jsonwebtoken::Algorithm::RS384 => Algorithm::RS384,
       jsonwebtoken::Algorithm::RS512 => Algorithm::RS512,
+      other => unreachable!("unsupported jsonwebtoken Algorithm variant: {other:?}"),
     }
   }
 }
