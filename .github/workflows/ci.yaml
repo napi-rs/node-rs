@@ -309,7 +309,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: .
+          path: packages
 
       - name: Test bindings
         run: yarn workspaces foreach -A -j 1 run test
@@ -340,7 +340,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-x86_64-unknown-linux-gnu
-          path: .
+          path: packages
 
       - name: List packages
         run: ls -R packages
@@ -385,7 +385,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-x86_64-unknown-linux-musl
-          path: .
+          path: packages
 
       - name: List packages
         run: ls -R packages
@@ -417,7 +417,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-aarch64-unknown-linux-gnu
-          path: .
+          path: packages
 
       - name: Install dependencies
         run: |
@@ -461,7 +461,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-aarch64-unknown-linux-musl
-          path: .
+          path: packages
 
       - name: List packages
         run: ls -R packages
@@ -497,7 +497,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-armv7-unknown-linux-gnueabihf
-          path: .
+          path: packages
 
       - name: List packages
         run: ls -R ./packages
@@ -538,7 +538,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: bindings-wasm32-wasip1-threads
-          path: .
+          path: packages
       - name: List packages
         run: ls -R .
       - name: Test
