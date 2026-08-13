@@ -130,7 +130,9 @@ impl Options {
       builder = builder.passes(time_cost);
     }
     if let Some(parallelism) = self.parallelism {
-      builder = builder.lanes(parallelism);
+      builder = builder
+        .lanes(parallelism)
+        .threads(thread_budget(parallelism));
     }
     if let Some(output_len) = self.output_len {
       builder = builder.tag_len(TagLen::bytes(output_len as u64));
@@ -145,6 +147,23 @@ impl Options {
       self.params()?,
     ))
   }
+}
+
+fn thread_budget(lanes: u32) -> u32 {
+  let available = std::thread::available_parallelism()
+    .map(|n| n.get() as u32)
+    .unwrap_or(1)
+    .max(1);
+  lanes.min(available)
+}
+
+fn try_zeroed(len: usize) -> Result<Vec<u8>> {
+  let mut tag = Vec::new();
+  tag
+    .try_reserve_exact(len)
+    .map_err(|_| map_error(Argon2Error::MemoryAllocationError))?;
+  tag.resize(len, 0);
+  Ok(tag)
 }
 
 fn map_error(err: Argon2Error) -> Error {
@@ -196,7 +215,7 @@ fn hash_encoded(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) ->
   if secret.is_empty() {
     return argon2.hash_encoded(password, salt).map_err(map_error);
   }
-  let mut tag = vec![0u8; argon2.params().tag_len_bytes()];
+  let mut tag = try_zeroed(argon2.params().tag_len_bytes())?;
   argon2
     .hash_into_with_ad(password, salt, secret, &[], &mut tag)
     .map_err(map_error)?;
@@ -204,7 +223,7 @@ fn hash_encoded(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) ->
 }
 
 fn hash_raw_bytes(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) -> Result<Vec<u8>> {
-  let mut tag = vec![0u8; argon2.params().tag_len_bytes()];
+  let mut tag = try_zeroed(argon2.params().tag_len_bytes())?;
   argon2
     .hash_into_with_ad(password, salt, secret, &[], &mut tag)
     .map_err(map_error)?;
@@ -316,6 +335,7 @@ fn decode_phc(encoded: &str) -> Result<DecodedPhc> {
     .memory(Memory::kib(memory as u64))
     .passes(passes)
     .lanes(lanes)
+    .threads(thread_budget(lanes))
     .tag_len(TagLen::bytes(hash.len() as u64))
     .build()
     .map_err(map_error)?;
@@ -468,7 +488,7 @@ impl Task for VerifyTask {
     let decoded = decode_phc(&self.hashed)?;
     let argon2 = Argon2::new(decoded.algorithm, decoded.version, decoded.params);
     let secret = self.options.secret();
-    let mut computed = vec![0u8; decoded.hash.len()];
+    let mut computed = try_zeroed(decoded.hash.len())?;
     argon2
       .hash_into_with_ad(
         self.password.as_bytes(),

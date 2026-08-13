@@ -1,4 +1,5 @@
-import { argon2Sync, randomBytes } from 'node:crypto'
+import * as nodeCrypto from 'node:crypto'
+import { randomBytes } from 'node:crypto'
 
 import test from 'ava'
 
@@ -189,19 +190,22 @@ test('should match node-argon2 on the same params and salt', async (t) => {
   t.true(await nodeArgon2.verify(encoded, password))
   t.is(hashSync(password, options), encoded)
   t.deepEqual(hashRawSync(password, options), raw)
-  t.deepEqual(
-    raw,
-    Buffer.from(
-      argon2Sync('argon2id', {
-        message: Buffer.from(password),
-        nonce: salt,
-        parallelism: options.parallelism,
-        tagLength: options.outputLen,
-        memory: options.memoryCost,
-        passes: options.timeCost,
-      }),
-    ),
-  )
+  // `crypto.argon2Sync` landed in Node 24.7. CI still runs Node 22.
+  if (typeof nodeCrypto.argon2Sync === 'function') {
+    t.deepEqual(
+      raw,
+      Buffer.from(
+        nodeCrypto.argon2Sync('argon2id', {
+          message: Buffer.from(password),
+          nonce: salt,
+          parallelism: options.parallelism,
+          tagLength: options.outputLen,
+          memory: options.memoryCost,
+          passes: options.timeCost,
+        }),
+      ),
+    )
+  }
 })
 
 test('should verify node-argon2 hashes that carry associatedData', async (t) => {
