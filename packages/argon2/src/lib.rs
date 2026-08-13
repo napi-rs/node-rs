@@ -7,7 +7,6 @@ use argon2_rust::{
   Algorithm as Argon2Algorithm, Argon2, Error as Argon2Error, Params, Version as Argon2Version,
   params::{Memory, TagLen},
 };
-use base64::Engine;
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
@@ -201,6 +200,57 @@ fn generate_salt() -> [u8; argon2_rust::RANDOM_SALT_LEN] {
   rand::random()
 }
 
+const B64_ENCODE: &[u8; 64] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+const B64_DECODE: [u8; 256] = {
+  let mut table = [0xFFu8; 256];
+  let mut i = 0;
+  while i < 26 {
+    table[(b'A' + i) as usize] = i;
+    table[(b'a' + i) as usize] = 26 + i;
+    i += 1;
+  }
+  i = 0;
+  while i < 10 {
+    table[(b'0' + i) as usize] = 52 + i;
+    i += 1;
+  }
+  table[b'+' as usize] = 62;
+  table[b'/' as usize] = 63;
+  table
+};
+
+fn encode_b64(src: &[u8]) -> String {
+  let n = src.len();
+  let out_len = n / 3 * 4 + [0, 2, 3][n % 3];
+  let mut out = Vec::with_capacity(out_len);
+  let mut i = 0;
+  while i + 3 <= n {
+    let triple = ((src[i] as u32) << 16) | ((src[i + 1] as u32) << 8) | src[i + 2] as u32;
+    out.push(B64_ENCODE[((triple >> 18) & 63) as usize]);
+    out.push(B64_ENCODE[((triple >> 12) & 63) as usize]);
+    out.push(B64_ENCODE[((triple >> 6) & 63) as usize]);
+    out.push(B64_ENCODE[(triple & 63) as usize]);
+    i += 3;
+  }
+  match n - i {
+    1 => {
+      let rem = (src[i] as u32) << 16;
+      out.push(B64_ENCODE[((rem >> 18) & 63) as usize]);
+      out.push(B64_ENCODE[((rem >> 12) & 63) as usize]);
+    }
+    2 => {
+      let rem = ((src[i] as u32) << 16) | ((src[i + 1] as u32) << 8);
+      out.push(B64_ENCODE[((rem >> 18) & 63) as usize]);
+      out.push(B64_ENCODE[((rem >> 12) & 63) as usize]);
+      out.push(B64_ENCODE[((rem >> 6) & 63) as usize]);
+    }
+    _ => {}
+  }
+  // SAFETY: every byte is from the ASCII Base64 alphabet.
+  unsafe { String::from_utf8_unchecked(out) }
+}
+
 fn encode_phc(argon2: &Argon2, salt: &[u8], tag: &[u8]) -> String {
   format!(
     "${}$v={}$m={},t={},p={}${}${}",
@@ -209,8 +259,8 @@ fn encode_phc(argon2: &Argon2, salt: &[u8], tag: &[u8]) -> String {
     argon2.params().memory_kib(),
     argon2.params().passes(),
     argon2.params().lanes(),
-    base64::engine::general_purpose::STANDARD_NO_PAD.encode(salt),
-    base64::engine::general_purpose::STANDARD_NO_PAD.encode(tag),
+    encode_b64(salt),
+    encode_b64(tag),
   )
 }
 
@@ -245,14 +295,54 @@ fn parse_phc_u32(value: &str) -> Result<u32> {
 }
 
 fn decode_b64(input: &str) -> Result<Vec<u8>> {
-  base64::engine::general_purpose::STANDARD_NO_PAD
-    .decode(input)
-    .map_err(|_| {
-      Error::new(
-        Status::InvalidArg,
-        format!("Invalid hashed password: {}", Argon2Error::DecodingFail),
-      )
-    })
+  let src = input.as_bytes();
+  let n = src.len();
+  let out_len = match n % 4 {
+    0 => n / 4 * 3,
+    2 => n / 4 * 3 + 1,
+    3 => n / 4 * 3 + 2,
+    _ => return decode_fail(),
+  };
+  let mut out = try_zeroed(out_len)?;
+  let mut i = 0;
+  let mut o = 0;
+  while i + 4 <= n {
+    let a = B64_DECODE[src[i] as usize];
+    let b = B64_DECODE[src[i + 1] as usize];
+    let c = B64_DECODE[src[i + 2] as usize];
+    let d = B64_DECODE[src[i + 3] as usize];
+    if a | b | c | d == 0xFF {
+      return decode_fail();
+    }
+    out[o] = (a << 2) | (b >> 4);
+    out[o + 1] = (b << 4) | (c >> 2);
+    out[o + 2] = (c << 6) | d;
+    i += 4;
+    o += 3;
+  }
+  match n - i {
+    0 => {}
+    2 => {
+      let a = B64_DECODE[src[i] as usize];
+      let b = B64_DECODE[src[i + 1] as usize];
+      if a == 0xFF || b == 0xFF || b & 0x0F != 0 {
+        return decode_fail();
+      }
+      out[o] = (a << 2) | (b >> 4);
+    }
+    3 => {
+      let a = B64_DECODE[src[i] as usize];
+      let b = B64_DECODE[src[i + 1] as usize];
+      let c = B64_DECODE[src[i + 2] as usize];
+      if a == 0xFF || b == 0xFF || c == 0xFF || c & 0x03 != 0 {
+        return decode_fail();
+      }
+      out[o] = (a << 2) | (b >> 4);
+      out[o + 1] = (b << 4) | (c >> 2);
+    }
+    _ => return decode_fail(),
+  }
+  Ok(out)
 }
 
 struct DecodedPhc {
@@ -540,4 +630,30 @@ pub fn verify_sync(
   };
   let output = verify_task.compute()?;
   verify_task.resolve(env, output)
+}
+
+#[cfg(test)]
+mod tests {
+  use super::{decode_b64, encode_b64};
+
+  #[test]
+  fn phc_base64_round_trips_salt_and_tag_sizes() {
+    for n in [8usize, 16, 32, 33] {
+      let src: Vec<u8> = (0..n).map(|i| i as u8).collect();
+      let encoded = encode_b64(&src);
+      assert_eq!(decode_b64(&encoded).unwrap(), src);
+    }
+  }
+
+  #[test]
+  fn phc_base64_matches_known_unpadded() {
+    assert_eq!(encode_b64(b"somesalt"), "c29tZXNhbHQ");
+    assert_eq!(decode_b64("c29tZXNhbHQ").unwrap(), b"somesalt");
+  }
+
+  #[test]
+  fn phc_base64_rejects_bad_length_and_bits() {
+    assert!(decode_b64("A").is_err());
+    assert!(decode_b64("????").is_err());
+  }
 }
