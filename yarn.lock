@@ -1437,15 +1437,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noble/hashes@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@noble/hashes@npm:2.3.0"
+  checksum: 10c0/85651da4c1ea1db15fcacac7f38e4c4e6d60154cd116200b1002c198893bfad2733b31108352fde307126bab789f82f47b5bee8a12462b12f25fd0703aed7dce
+  languageName: node
+  linkType: hard
+
 "@node-rs/argon2@workspace:packages/argon2":
   version: 0.0.0-use.local
   resolution: "@node-rs/argon2@workspace:packages/argon2"
   dependencies:
     "@napi-rs/cli": "npm:^3.8.6"
+    "@noble/hashes": "npm:^2.3.0"
     "@oxc-node/cli": "npm:^0.1.0"
     "@oxc-node/core": "npm:^0.1.0"
     argon2: "npm:^0.45.1"
     cross-env: "npm:^10.1.0"
+    hash-wasm: "npm:^4.12.0"
     tinybench: "npm:^6.1.3"
   languageName: unknown
   linkType: soft
@@ -5124,6 +5133,13 @@ __metadata:
   dependencies:
     has-symbols: "npm:^1.0.3"
   checksum: 10c0/a8b166462192bafe3d9b6e420a1d581d93dd867adb61be223a17a8d6dad147aa77a8be32c961bb2f27b3ef893cae8d36f564ab651f5e9b7938ae86f74027c48c
+  languageName: node
+  linkType: hard
+
+"hash-wasm@npm:^4.12.0":
+  version: 4.12.0
+  resolution: "hash-wasm@npm:4.12.0"
+  checksum: 10c0/6cb95055319810b6f673de755289960683a9831807690795f0e8918b2fd7e6ae5b82a9dc47cbace171cf2814b412ef68c315a0ead0b4d96bd3e56a05e4bde136
   languageName: node
   linkType: hard
 
