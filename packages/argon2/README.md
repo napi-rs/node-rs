@@ -3,7 +3,7 @@
 ![](https://github.com/napi-rs/node-rs/workflows/CI/badge.svg)
 ![](https://img.shields.io/npm/dm/@node-rs/argon2.svg?sanitize=true)
 
-[RustCrypto: Argon2](https://crates.io/crates/argon2) binding for Node.js.
+[argon2-rust](https://crates.io/crates/argon2-rust) binding for Node.js.
 
 Argon2 is a [key derivation function](https://en.wikipedia.org/wiki/Key_derivation_function) that was selected as the winner of the [Password Hashing Competition(PHC)](https://password-hashing.net) in July 2015.
 
@@ -13,7 +13,7 @@ It has a simple design aimed at the highest memory filling rate and effective us
 
 ## Features
 
-- Faster performance.
+- Faster than node-argon2 and `node:crypto.argon2` at the same m/t/p (see Benchmarks).
 - No node-gyp and postinstall.
 - Cross-platform support, including [Apple M1](https://www.apple.com/newsroom/2020/11/apple-unleashes-m1/).
 - Smaller file size after npm installation(476K vs [node-argon2](https://github.com/ranisalt/node-argon2) 3.7M).
@@ -28,7 +28,29 @@ It has a simple design aimed at the highest memory filling rate and effective us
 
 # Benchmarks
 
-See [benchmark/](benchmark/argon2.ts).
+Comparing each library's **defaults** is not 1:1. `@node-rs/argon2` defaults to `m=19456,t=2,p=1`; `argon2` (node-argon2) defaults to `m=65536,t=3,p=4`. See [#841](https://github.com/napi-rs/node-rs/issues/841).
+
+This bench pins the same password, salt, Argon2id v=19, m, t, p, and 32-byte tag. Only the **raw** KDF is timed. The tag is asserted equal on every run. Native impls are interleaved with each other; JS/wasm are a separate group so a 7 ms hash is not timed after a 400 ms JS loop.
+
+Apple M5 Max / arm64 / Node 24 / [argon2-rust 1.0.0](https://crates.io/crates/argon2-rust). Median ms. See [benchmark/](benchmark/argon2.ts).
+
+**Native async raw** — same calling shape as node-argon2 (no sync API there):
+
+| params                | @node-rs/argon2 | node-argon2 | node:crypto |
+| --------------------- | --------------: | ----------: | ----------: |
+| m=19456 KiB, t=2, p=1 |        **7.58** |       15.41 |       13.05 |
+| m=65536 KiB, t=3, p=1 |       **49.35** |       84.57 |       71.71 |
+| m=65536 KiB, t=3, p=4 |       **13.62** |       22.54 |       20.83 |
+
+**JS / wasm raw** — same params, same tags:
+
+| params                | hash-wasm | @noble/hashes |
+| --------------------- | --------: | ------------: |
+| m=19456 KiB, t=2, p=1 |     19.79 |         86.14 |
+| m=65536 KiB, t=3, p=1 |    104.09 |        433.07 |
+| m=65536 KiB, t=3, p=4 |    106.06 |        435.39 |
+
+hash-wasm and `@noble/hashes` do not run lanes in parallel, so their p=4 row is the p=1 work.
 
 ## API
 

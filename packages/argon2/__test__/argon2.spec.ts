@@ -1,8 +1,14 @@
+import * as nodeCrypto from 'node:crypto'
 import { randomBytes } from 'node:crypto'
 
 import test from 'ava'
 
-import { Algorithm, hash, hashRaw, verify, Version } from '../index.js'
+import { Algorithm, hash, hashRaw, hashRawSync, hashSync, verify, Version } from '../index.js'
+
+const argon2Sync = typeof nodeCrypto.argon2Sync === 'function' ? nodeCrypto.argon2Sync.bind(nodeCrypto) : undefined
+const interop = argon2Sync ? test : test.skip
+
+const b64 = (value: Uint8Array) => Buffer.from(value).toString('base64').replace(/=+$/, '')
 
 const passwordString = 'some_string123'
 const passwordBuffer = Buffer.from(passwordString)
@@ -122,7 +128,7 @@ test('should return memoryCost error', async (t) => {
     }),
   )
 
-  t.is(error?.message, 'memory cost is too small')
+  t.is(error?.message, 'Memory cost is too small')
 })
 
 test('should return timeCost error', async (t) => {
@@ -132,7 +138,7 @@ test('should return timeCost error', async (t) => {
     }),
   )
 
-  t.is(error?.message, 'time cost is too small')
+  t.is(error?.message, 'Time cost is too small')
 })
 
 test('should return parallelism error', async (t) => {
@@ -143,5 +149,62 @@ test('should return parallelism error', async (t) => {
     }),
   )
 
-  t.is(error?.message, 'not enough threads')
+  t.is(error?.message, 'Too few lanes')
+})
+
+interop('should match node:crypto argon2 on the same params and salt', async (t) => {
+  const password = '1:1-compare-password'
+  const salt = Buffer.from('somesaltforsure!')
+  const options = {
+    algorithm: Algorithm.Argon2id,
+    memoryCost: 4096,
+    timeCost: 1,
+    parallelism: 1,
+    outputLen: 32,
+    salt,
+  }
+
+  const encoded = await hash(password, options)
+  const raw = await hashRaw(password, options)
+  const builtin = Buffer.from(
+    argon2Sync!('argon2id', {
+      message: Buffer.from(password),
+      nonce: salt,
+      parallelism: options.parallelism,
+      tagLength: options.outputLen,
+      memory: options.memoryCost,
+      passes: options.timeCost,
+    }),
+  )
+
+  t.deepEqual(raw, builtin)
+  t.true(await verify(encoded, password))
+  t.is(hashSync(password, options), encoded)
+  t.deepEqual(hashRawSync(password, options), raw)
+})
+
+interop('should verify PHC strings that carry associatedData', async (t) => {
+  const password = '1:1-compare-password'
+  const salt = Buffer.from('somesaltforsure!')
+  const associatedData = Buffer.from('phc-associated-data')
+  const secret = randomBytes(16)
+  const shared = {
+    message: Buffer.from(password),
+    nonce: salt,
+    parallelism: 1,
+    tagLength: 32,
+    memory: 4096,
+    passes: 1,
+    associatedData,
+  }
+
+  const withAd = Buffer.from(argon2Sync!('argon2id', shared))
+  const phc = `$argon2id$v=19$m=4096,t=1,p=1,data=${b64(associatedData)}$${b64(salt)}$${b64(withAd)}`
+  t.true(await verify(phc, password))
+  t.false(await verify(phc, 'wrong-password'))
+
+  const withAdAndSecret = Buffer.from(argon2Sync!('argon2id', { ...shared, secret }))
+  const phcKeyed = `$argon2id$v=19$m=4096,t=1,p=1,data=${b64(associatedData)}$${b64(salt)}$${b64(withAdAndSecret)}`
+  t.true(await verify(phcKeyed, password, { secret }))
+  t.false(await verify(phcKeyed, password))
 })

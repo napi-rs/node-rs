@@ -3,13 +3,13 @@
 /// Explicit extern crate to use allocator.
 extern crate global_alloc;
 
+use argon2_rust::{
+  Algorithm as Argon2Algorithm, Argon2, Error as Argon2Error, Params, Version as Argon2Version,
+  params::{Memory, TagLen},
+};
+use base64::Engine;
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
-
-use argon2::{
-  Argon2, Params,
-  password_hash::{PasswordHasher, PasswordVerifier, phc::Salt},
-};
 
 #[napi]
 #[derive(Clone, Copy)]
@@ -30,11 +30,11 @@ pub enum Algorithm {
 
 impl Algorithm {
   #[inline]
-  fn to_argon(self) -> argon2::Algorithm {
+  fn to_argon(self) -> Argon2Algorithm {
     match self {
-      Self::Argon2d => argon2::Algorithm::Argon2d,
-      Self::Argon2i => argon2::Algorithm::Argon2i,
-      Self::Argon2id => argon2::Algorithm::Argon2id,
+      Self::Argon2d => Argon2Algorithm::Argon2d,
+      Self::Argon2i => Argon2Algorithm::Argon2i,
+      Self::Argon2id => Argon2Algorithm::Argon2id,
     }
   }
 }
@@ -52,10 +52,10 @@ pub enum Version {
 
 impl Version {
   #[inline]
-  fn to_argon(self) -> argon2::Version {
+  fn to_argon(self) -> Argon2Version {
     match self {
-      Self::V0x10 => argon2::Version::V0x10,
-      Self::V0x13 => argon2::Version::V0x13,
+      Self::V0x10 => Argon2Version::V0x10,
+      Self::V0x13 => Argon2Version::V0x13,
     }
   }
 }
@@ -95,22 +95,270 @@ pub struct Options {
 }
 
 impl Options {
-  #[inline]
-  fn to_argon<'a>(&'a self) -> std::result::Result<Argon2<'a>, argon2::Error> {
-    let algorithm = self.algorithm.map(|a| a.to_argon()).unwrap_or_default();
-    let version = self.version.map(|v| v.to_argon()).unwrap_or_default();
-    let params = argon2::Params::new(
-      self.memory_cost.unwrap_or(argon2::Params::DEFAULT_M_COST),
-      self.time_cost.unwrap_or(argon2::Params::DEFAULT_T_COST),
-      self.parallelism.unwrap_or(argon2::Params::DEFAULT_P_COST),
-      self.output_len.map(|o| o as usize),
-    )?;
-    if let Some(sec) = &self.secret {
-      Argon2::new_with_secret(sec.as_ref(), algorithm, version, params)
-    } else {
-      Ok(Argon2::new(algorithm, version, params))
+  fn algorithm(&self) -> Argon2Algorithm {
+    self
+      .algorithm
+      .map(|algorithm| algorithm.to_argon())
+      .unwrap_or_default()
+  }
+
+  fn version(&self) -> Argon2Version {
+    self
+      .version
+      .map(|version| version.to_argon())
+      .unwrap_or_default()
+  }
+
+  fn secret(&self) -> &[u8] {
+    self
+      .secret
+      .as_ref()
+      .map(|secret| secret.as_ref())
+      .unwrap_or(&[])
+  }
+
+  fn salt(&self) -> Option<&[u8]> {
+    self.salt.as_ref().map(|salt| salt.as_ref())
+  }
+
+  fn params(&self) -> Result<Params> {
+    let mut builder = Params::builder();
+    if let Some(memory_cost) = self.memory_cost {
+      builder = builder.memory(Memory::kib(memory_cost as u64));
+    }
+    if let Some(time_cost) = self.time_cost {
+      builder = builder.passes(time_cost);
+    }
+    if let Some(parallelism) = self.parallelism {
+      builder = builder
+        .lanes(parallelism)
+        .threads(thread_budget(parallelism));
+    }
+    if let Some(output_len) = self.output_len {
+      builder = builder.tag_len(TagLen::bytes(output_len as u64));
+    }
+    builder.build().map_err(map_error)
+  }
+
+  fn hasher(&self) -> Result<Argon2> {
+    Ok(Argon2::new(
+      self.algorithm(),
+      self.version(),
+      self.params()?,
+    ))
+  }
+}
+
+fn thread_budget(lanes: u32) -> u32 {
+  let available = std::thread::available_parallelism()
+    .map(|n| n.get() as u32)
+    .unwrap_or(1)
+    .max(1);
+  lanes.min(available)
+}
+
+fn try_zeroed(len: usize) -> Result<Vec<u8>> {
+  let mut tag = Vec::new();
+  tag
+    .try_reserve_exact(len)
+    .map_err(|_| map_error(Argon2Error::MemoryAllocationError))?;
+  tag.resize(len, 0);
+  Ok(tag)
+}
+
+fn map_error(err: Argon2Error) -> Error {
+  let status = match err {
+    Argon2Error::DecodingFail | Argon2Error::EncodingFail => Status::InvalidArg,
+    Argon2Error::MemoryAllocationError
+    | Argon2Error::ThreadFail
+    | Argon2Error::OsRandom
+    | Argon2Error::VerifyMismatch => Status::GenericFailure,
+    _ => Status::InvalidArg,
+  };
+  Error::new(status, err.to_string())
+}
+
+fn password_bytes(password: Either<String, &[u8]>) -> Vec<u8> {
+  match password {
+    Either::A(s) => s.into_bytes(),
+    Either::B(b) => b.to_vec(),
+  }
+}
+
+fn utf8_input(value: Either<String, &[u8]>) -> Result<String> {
+  match value {
+    Either::A(s) => Ok(s),
+    Either::B(b) => {
+      String::from_utf8(b.to_vec()).map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))
     }
   }
+}
+
+fn generate_salt() -> [u8; argon2_rust::RANDOM_SALT_LEN] {
+  rand::random()
+}
+
+fn encode_phc(argon2: &Argon2, salt: &[u8], tag: &[u8]) -> String {
+  format!(
+    "${}$v={}$m={},t={},p={}${}${}",
+    argon2.algorithm().as_str(),
+    argon2.version().as_u32(),
+    argon2.params().memory_kib(),
+    argon2.params().passes(),
+    argon2.params().lanes(),
+    base64::engine::general_purpose::STANDARD_NO_PAD.encode(salt),
+    base64::engine::general_purpose::STANDARD_NO_PAD.encode(tag),
+  )
+}
+
+fn hash_encoded(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) -> Result<String> {
+  if secret.is_empty() {
+    return argon2.hash_encoded(password, salt).map_err(map_error);
+  }
+  let mut tag = try_zeroed(argon2.params().tag_len_bytes())?;
+  argon2
+    .hash_into_with_ad(password, salt, secret, &[], &mut tag)
+    .map_err(map_error)?;
+  Ok(encode_phc(argon2, salt, &tag))
+}
+
+fn hash_raw_bytes(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) -> Result<Vec<u8>> {
+  let mut tag = try_zeroed(argon2.params().tag_len_bytes())?;
+  argon2
+    .hash_into_with_ad(password, salt, secret, &[], &mut tag)
+    .map_err(map_error)?;
+  Ok(tag)
+}
+
+fn decode_fail<T>() -> Result<T> {
+  Err(Error::new(
+    Status::InvalidArg,
+    format!("Invalid hashed password: {}", Argon2Error::DecodingFail),
+  ))
+}
+
+fn parse_phc_u32(value: &str) -> Result<u32> {
+  value.parse().or_else(|_| decode_fail())
+}
+
+fn decode_b64(input: &str) -> Result<Vec<u8>> {
+  base64::engine::general_purpose::STANDARD_NO_PAD
+    .decode(input)
+    .map_err(|_| {
+      Error::new(
+        Status::InvalidArg,
+        format!("Invalid hashed password: {}", Argon2Error::DecodingFail),
+      )
+    })
+}
+
+struct DecodedPhc {
+  algorithm: Argon2Algorithm,
+  version: Argon2Version,
+  params: Params,
+  salt: Vec<u8>,
+  hash: Vec<u8>,
+  ad: Vec<u8>,
+}
+
+/// PHC strings from the C reference / argon2-rust use `m,t,p`.
+/// `@phc/format` (node-argon2) serializes object insertion order `m,p,t`.
+/// Accept either, plus a missing `$v=` (version 16).
+fn decode_phc(encoded: &str) -> Result<DecodedPhc> {
+  let mut parts = encoded.split('$');
+  if parts.next() != Some("") {
+    return decode_fail();
+  }
+
+  let algorithm = match parts.next() {
+    Some("argon2id") => Argon2Algorithm::Argon2id,
+    Some("argon2i") => Argon2Algorithm::Argon2i,
+    Some("argon2d") => Argon2Algorithm::Argon2d,
+    _ => return decode_fail(),
+  };
+
+  let mut next = match parts.next() {
+    Some(part) => part,
+    None => return decode_fail(),
+  };
+
+  let version = if let Some(raw) = next.strip_prefix("v=") {
+    next = match parts.next() {
+      Some(part) => part,
+      None => return decode_fail(),
+    };
+    match raw.parse::<u32>() {
+      Ok(0x10) => Argon2Version::V0x10,
+      Ok(0x13) => Argon2Version::V0x13,
+      _ => return decode_fail(),
+    }
+  } else {
+    Argon2Version::V0x10
+  };
+
+  let mut memory = None;
+  let mut passes = None;
+  let mut lanes = None;
+  let mut ad = Vec::new();
+  for field in next.split(',') {
+    let Some((key, value)) = field.split_once('=') else {
+      return decode_fail();
+    };
+    match key {
+      "m" => memory = Some(parse_phc_u32(value)?),
+      "t" => passes = Some(parse_phc_u32(value)?),
+      "p" => lanes = Some(parse_phc_u32(value)?),
+      // node-argon2 / @phc/format stores associated data here. It is not
+      // produced by this binding, but verify must honour it.
+      "data" => ad = decode_b64(value)?,
+      _ => {}
+    }
+  }
+
+  let (Some(memory), Some(passes), Some(lanes)) = (memory, passes, lanes) else {
+    return decode_fail();
+  };
+
+  let salt = decode_b64(match parts.next() {
+    Some(part) => part,
+    None => return decode_fail(),
+  })?;
+  let hash = decode_b64(match parts.next() {
+    Some(part) => part,
+    None => return decode_fail(),
+  })?;
+  if parts.next().is_some() {
+    return decode_fail();
+  }
+
+  let params = Params::builder()
+    .memory(Memory::kib(memory as u64))
+    .passes(passes)
+    .lanes(lanes)
+    .threads(thread_budget(lanes))
+    .tag_len(TagLen::bytes(hash.len() as u64))
+    .build()
+    .map_err(map_error)?;
+
+  Ok(DecodedPhc {
+    algorithm,
+    version,
+    params,
+    salt,
+    hash,
+    ad,
+  })
+}
+
+fn constant_time_eq(a: &[u8], b: &[u8]) -> bool {
+  if a.len() != b.len() {
+    return false;
+  }
+  let mut diff = 0u8;
+  for (left, right) in a.iter().zip(b) {
+    diff |= left ^ right;
+  }
+  diff == 0
 }
 
 pub struct HashTask {
@@ -124,20 +372,15 @@ impl Task for HashTask {
   type JsValue = String;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let salt = if let Some(salt) = &self.options.salt {
-      Salt::new(salt).map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
-    } else {
-      Salt::generate()
-    };
-    let hasher = self
-      .options
-      .to_argon()
-      .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?;
-
-    hasher
-      .hash_password_with_salt(self.password.as_slice(), &salt)
-      .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
-      .map(|h| h.to_string())
+    let hasher = self.options.hasher()?;
+    let secret = self.options.secret();
+    match self.options.salt() {
+      Some(salt) => hash_encoded(&hasher, &self.password, salt, secret),
+      None => {
+        let salt = generate_salt();
+        hash_encoded(&hasher, &self.password, &salt, secret)
+      }
+    }
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
@@ -153,10 +396,7 @@ pub fn hash(
 ) -> AsyncTask<HashTask> {
   AsyncTask::with_optional_signal(
     HashTask {
-      password: match password {
-        Either::A(s) => s.as_bytes().to_vec(),
-        Either::B(b) => b.to_vec(),
-      },
+      password: password_bytes(password),
       options: options.unwrap_or_default(),
     },
     abort_signal,
@@ -170,10 +410,7 @@ pub fn hash_sync(
   options: Option<Options>,
 ) -> Result<String> {
   let mut hash_task = HashTask {
-    password: match password {
-      Either::A(s) => s.as_bytes().to_vec(),
-      Either::B(b) => b.to_vec(),
-    },
+    password: password_bytes(password),
     options: options.unwrap_or_default(),
   };
   let output = hash_task.compute()?;
@@ -191,29 +428,15 @@ impl Task for RawHashTask {
   type JsValue = Buffer;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let hasher = self
-      .options
-      .to_argon()
-      .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?;
-    let output_len = hasher
-      .params()
-      .output_len()
-      .unwrap_or(Params::DEFAULT_OUTPUT_LEN);
-    let mut output = vec![0; output_len];
-
-    match &self.options.salt {
-      Some(buf) => hasher.hash_password_into(self.password.as_slice(), buf.as_ref(), &mut output),
+    let hasher = self.options.hasher()?;
+    let secret = self.options.secret();
+    match self.options.salt() {
+      Some(salt) => hash_raw_bytes(&hasher, &self.password, salt, secret),
       None => {
-        let generated_salt = Salt::generate();
-        hasher.hash_password_into(
-          self.password.as_slice(),
-          generated_salt.as_ref(),
-          &mut output,
-        )
+        let salt = generate_salt();
+        hash_raw_bytes(&hasher, &self.password, &salt, secret)
       }
     }
-    .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
-    .map(|_| output)
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
@@ -229,10 +452,7 @@ pub fn hash_raw(
 ) -> AsyncTask<RawHashTask> {
   AsyncTask::with_optional_signal(
     RawHashTask {
-      password: match password {
-        Either::A(s) => s.as_bytes().to_vec(),
-        Either::B(b) => b.to_vec(),
-      },
+      password: password_bytes(password),
       options: options.unwrap_or_default(),
     },
     abort_signal,
@@ -246,10 +466,7 @@ pub fn hash_raw_sync(
   options: Option<Options>,
 ) -> Result<Buffer> {
   let mut hash_task = RawHashTask {
-    password: match password {
-      Either::A(s) => s.as_bytes().to_vec(),
-      Either::B(b) => b.to_vec(),
-    },
+    password: password_bytes(password),
     options: options.unwrap_or_default(),
   };
   let output = hash_task.compute()?;
@@ -268,19 +485,20 @@ impl Task for VerifyTask {
   type JsValue = bool;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let parsed_hash = argon2::PasswordHash::new(self.hashed.as_str()).map_err(|err| {
-      Error::new(
-        Status::InvalidArg,
-        format!("Invalid hashed password: {err}"),
+    let decoded = decode_phc(&self.hashed)?;
+    let argon2 = Argon2::new(decoded.algorithm, decoded.version, decoded.params);
+    let secret = self.options.secret();
+    let mut computed = try_zeroed(decoded.hash.len())?;
+    argon2
+      .hash_into_with_ad(
+        self.password.as_bytes(),
+        &decoded.salt,
+        secret,
+        &decoded.ad,
+        &mut computed,
       )
-    })?;
-    let argon2 = self.options.to_argon();
-    Ok(
-      argon2
-        .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?
-        .verify_password(self.password.as_bytes(), &parsed_hash)
-        .is_ok(),
-    )
+      .map_err(map_error)?;
+    Ok(constant_time_eq(&computed, &decoded.hash))
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
@@ -297,16 +515,8 @@ pub fn verify(
 ) -> Result<AsyncTask<VerifyTask>> {
   Ok(AsyncTask::with_optional_signal(
     VerifyTask {
-      password: match password {
-        Either::A(s) => s,
-        Either::B(b) => String::from_utf8(b.to_vec())
-          .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?,
-      },
-      hashed: match hashed {
-        Either::A(s) => s,
-        Either::B(b) => String::from_utf8(b.to_vec())
-          .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?,
-      },
+      password: utf8_input(password)?,
+      hashed: utf8_input(hashed)?,
       options: options.unwrap_or_default(),
     },
     abort_signal,
@@ -321,16 +531,8 @@ pub fn verify_sync(
   options: Option<Options>,
 ) -> Result<bool> {
   let mut verify_task = VerifyTask {
-    password: match password {
-      Either::A(s) => s,
-      Either::B(b) => String::from_utf8(b.to_vec())
-        .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?,
-    },
-    hashed: match hashed {
-      Either::A(s) => s,
-      Either::B(b) => String::from_utf8(b.to_vec())
-        .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?,
-    },
+    password: utf8_input(password)?,
+    hashed: utf8_input(hashed)?,
     options: options.unwrap_or_default(),
   };
   let output = verify_task.compute()?;
