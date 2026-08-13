@@ -200,68 +200,17 @@ fn generate_salt() -> [u8; argon2_rust::RANDOM_SALT_LEN] {
   rand::random()
 }
 
-const B64_ENCODE: &[u8; 64] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-const B64_DECODE: [u8; 256] = {
-  let mut table = [0xFFu8; 256];
-  let mut i = 0;
-  while i < 26 {
-    table[(b'A' + i) as usize] = i;
-    table[(b'a' + i) as usize] = 26 + i;
-    i += 1;
-  }
-  i = 0;
-  while i < 10 {
-    table[(b'0' + i) as usize] = 52 + i;
-    i += 1;
-  }
-  table[b'+' as usize] = 62;
-  table[b'/' as usize] = 63;
-  table
-};
-
-fn encode_b64(src: &[u8]) -> String {
-  let n = src.len();
-  let out_len = n / 3 * 4 + [0, 2, 3][n % 3];
-  let mut out = Vec::with_capacity(out_len);
-  let mut i = 0;
-  while i + 3 <= n {
-    let triple = ((src[i] as u32) << 16) | ((src[i + 1] as u32) << 8) | src[i + 2] as u32;
-    out.push(B64_ENCODE[((triple >> 18) & 63) as usize]);
-    out.push(B64_ENCODE[((triple >> 12) & 63) as usize]);
-    out.push(B64_ENCODE[((triple >> 6) & 63) as usize]);
-    out.push(B64_ENCODE[(triple & 63) as usize]);
-    i += 3;
-  }
-  match n - i {
-    1 => {
-      let rem = (src[i] as u32) << 16;
-      out.push(B64_ENCODE[((rem >> 18) & 63) as usize]);
-      out.push(B64_ENCODE[((rem >> 12) & 63) as usize]);
-    }
-    2 => {
-      let rem = ((src[i] as u32) << 16) | ((src[i + 1] as u32) << 8);
-      out.push(B64_ENCODE[((rem >> 18) & 63) as usize]);
-      out.push(B64_ENCODE[((rem >> 12) & 63) as usize]);
-      out.push(B64_ENCODE[((rem >> 6) & 63) as usize]);
-    }
-    _ => {}
-  }
-  // SAFETY: every byte is from the ASCII Base64 alphabet.
-  unsafe { String::from_utf8_unchecked(out) }
-}
-
-fn encode_phc(argon2: &Argon2, salt: &[u8], tag: &[u8]) -> String {
-  format!(
+fn encode_phc(argon2: &Argon2, salt: &[u8], tag: &[u8]) -> Result<String> {
+  Ok(format!(
     "${}$v={}$m={},t={},p={}${}${}",
     argon2.algorithm().as_str(),
     argon2.version().as_u32(),
     argon2.params().memory_kib(),
     argon2.params().passes(),
     argon2.params().lanes(),
-    encode_b64(salt),
-    encode_b64(tag),
-  )
+    argon2_rust::encode_base64(salt).map_err(map_error)?,
+    argon2_rust::encode_base64(tag).map_err(map_error)?,
+  ))
 }
 
 fn hash_encoded(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) -> Result<String> {
@@ -272,7 +221,7 @@ fn hash_encoded(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) ->
   argon2
     .hash_into_with_ad(password, salt, secret, &[], &mut tag)
     .map_err(map_error)?;
-  Ok(encode_phc(argon2, salt, &tag))
+  encode_phc(argon2, salt, &tag)
 }
 
 fn hash_raw_bytes(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) -> Result<Vec<u8>> {
@@ -295,54 +244,7 @@ fn parse_phc_u32(value: &str) -> Result<u32> {
 }
 
 fn decode_b64(input: &str) -> Result<Vec<u8>> {
-  let src = input.as_bytes();
-  let n = src.len();
-  let out_len = match n % 4 {
-    0 => n / 4 * 3,
-    2 => n / 4 * 3 + 1,
-    3 => n / 4 * 3 + 2,
-    _ => return decode_fail(),
-  };
-  let mut out = try_zeroed(out_len)?;
-  let mut i = 0;
-  let mut o = 0;
-  while i + 4 <= n {
-    let a = B64_DECODE[src[i] as usize];
-    let b = B64_DECODE[src[i + 1] as usize];
-    let c = B64_DECODE[src[i + 2] as usize];
-    let d = B64_DECODE[src[i + 3] as usize];
-    if a | b | c | d == 0xFF {
-      return decode_fail();
-    }
-    out[o] = (a << 2) | (b >> 4);
-    out[o + 1] = (b << 4) | (c >> 2);
-    out[o + 2] = (c << 6) | d;
-    i += 4;
-    o += 3;
-  }
-  match n - i {
-    0 => {}
-    2 => {
-      let a = B64_DECODE[src[i] as usize];
-      let b = B64_DECODE[src[i + 1] as usize];
-      if a == 0xFF || b == 0xFF || b & 0x0F != 0 {
-        return decode_fail();
-      }
-      out[o] = (a << 2) | (b >> 4);
-    }
-    3 => {
-      let a = B64_DECODE[src[i] as usize];
-      let b = B64_DECODE[src[i + 1] as usize];
-      let c = B64_DECODE[src[i + 2] as usize];
-      if a == 0xFF || b == 0xFF || c == 0xFF || c & 0x03 != 0 {
-        return decode_fail();
-      }
-      out[o] = (a << 2) | (b >> 4);
-      out[o + 1] = (b << 4) | (c >> 2);
-    }
-    _ => return decode_fail(),
-  }
-  Ok(out)
+  argon2_rust::decode_base64(input.as_bytes()).map_err(map_error)
 }
 
 struct DecodedPhc {
