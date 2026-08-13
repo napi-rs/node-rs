@@ -32,7 +32,7 @@ Comparing each library's **defaults** is not 1:1. `@node-rs/argon2` defaults to 
 
 This bench pins the same password, salt, Argon2id v=19, m, t, p, and 32-byte tag. Only the **raw** KDF is timed. The tag is asserted equal on every run. Native impls are interleaved with each other; JS/wasm are a separate group so a 7 ms hash is not timed after a 400 ms JS loop.
 
-Apple M5 Max / arm64 / Node 24 / [argon2-rust 1.0.0](https://crates.io/crates/argon2-rust). Median ms. See [benchmark/](benchmark/argon2.ts).
+Apple M5 Max / arm64 / Node 24 / [argon2-rust 1.1.0](https://crates.io/crates/argon2-rust). Median ms. See [benchmark/](benchmark/argon2.ts).
 
 **Native async raw** — same calling shape as node-argon2 (no sync API there):
 

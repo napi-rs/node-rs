@@ -156,15 +156,6 @@ fn thread_budget(lanes: u32) -> u32 {
   lanes.min(available)
 }
 
-fn try_zeroed(len: usize) -> Result<Vec<u8>> {
-  let mut tag = Vec::new();
-  tag
-    .try_reserve_exact(len)
-    .map_err(|_| map_error(Argon2Error::MemoryAllocationError))?;
-  tag.resize(len, 0);
-  Ok(tag)
-}
-
 fn map_error(err: Argon2Error) -> Error {
   let status = match err {
     Argon2Error::DecodingFail | Argon2Error::EncodingFail => Status::InvalidArg,
@@ -200,160 +191,27 @@ fn generate_salt() -> [u8; argon2_rust::RANDOM_SALT_LEN] {
   rand::random()
 }
 
-fn encode_phc(argon2: &Argon2, salt: &[u8], tag: &[u8]) -> Result<String> {
-  Ok(format!(
-    "${}$v={}$m={},t={},p={}${}${}",
-    argon2.algorithm().as_str(),
-    argon2.version().as_u32(),
-    argon2.params().memory_kib(),
-    argon2.params().passes(),
-    argon2.params().lanes(),
-    argon2_rust::encode_base64(salt).map_err(map_error)?,
-    argon2_rust::encode_base64(tag).map_err(map_error)?,
-  ))
-}
-
 fn hash_encoded(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) -> Result<String> {
-  if secret.is_empty() {
-    return argon2.hash_encoded(password, salt).map_err(map_error);
-  }
-  let mut tag = try_zeroed(argon2.params().tag_len_bytes())?;
   argon2
-    .hash_into_with_ad(password, salt, secret, &[], &mut tag)
-    .map_err(map_error)?;
-  encode_phc(argon2, salt, &tag)
+    .hash_encoded_with_ad(password, salt, secret, &[])
+    .map_err(map_error)
 }
 
 fn hash_raw_bytes(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) -> Result<Vec<u8>> {
-  let mut tag = try_zeroed(argon2.params().tag_len_bytes())?;
   argon2
-    .hash_into_with_ad(password, salt, secret, &[], &mut tag)
-    .map_err(map_error)?;
-  Ok(tag)
+    .hash_with_ad(password, salt, secret, &[])
+    .map_err(map_error)
 }
 
-fn decode_fail<T>() -> Result<T> {
-  Err(Error::new(
-    Status::InvalidArg,
-    format!("Invalid hashed password: {}", Argon2Error::DecodingFail),
-  ))
-}
-
-fn parse_phc_u32(value: &str) -> Result<u32> {
-  value.parse().or_else(|_| decode_fail())
-}
-
-fn decode_b64(input: &str) -> Result<Vec<u8>> {
-  argon2_rust::decode_base64(input.as_bytes()).map_err(map_error)
-}
-
-struct DecodedPhc {
-  algorithm: Argon2Algorithm,
-  version: Argon2Version,
-  params: Params,
-  salt: Vec<u8>,
-  hash: Vec<u8>,
-  ad: Vec<u8>,
-}
-
-/// PHC strings from the C reference / argon2-rust use `m,t,p`.
-/// `@phc/format` (node-argon2) serializes object insertion order `m,p,t`.
-/// Accept either, plus a missing `$v=` (version 16).
-fn decode_phc(encoded: &str) -> Result<DecodedPhc> {
-  let mut parts = encoded.split('$');
-  if parts.next() != Some("") {
-    return decode_fail();
-  }
-
-  let algorithm = match parts.next() {
-    Some("argon2id") => Argon2Algorithm::Argon2id,
-    Some("argon2i") => Argon2Algorithm::Argon2i,
-    Some("argon2d") => Argon2Algorithm::Argon2d,
-    _ => return decode_fail(),
-  };
-
-  let mut next = match parts.next() {
-    Some(part) => part,
-    None => return decode_fail(),
-  };
-
-  let version = if let Some(raw) = next.strip_prefix("v=") {
-    next = match parts.next() {
-      Some(part) => part,
-      None => return decode_fail(),
-    };
-    match raw.parse::<u32>() {
-      Ok(0x10) => Argon2Version::V0x10,
-      Ok(0x13) => Argon2Version::V0x13,
-      _ => return decode_fail(),
-    }
-  } else {
-    Argon2Version::V0x10
-  };
-
-  let mut memory = None;
-  let mut passes = None;
-  let mut lanes = None;
-  let mut ad = Vec::new();
-  for field in next.split(',') {
-    let Some((key, value)) = field.split_once('=') else {
-      return decode_fail();
-    };
-    match key {
-      "m" => memory = Some(parse_phc_u32(value)?),
-      "t" => passes = Some(parse_phc_u32(value)?),
-      "p" => lanes = Some(parse_phc_u32(value)?),
-      // node-argon2 / @phc/format stores associated data here. It is not
-      // produced by this binding, but verify must honour it.
-      "data" => ad = decode_b64(value)?,
-      _ => {}
-    }
-  }
-
-  let (Some(memory), Some(passes), Some(lanes)) = (memory, passes, lanes) else {
-    return decode_fail();
-  };
-
-  let salt = decode_b64(match parts.next() {
-    Some(part) => part,
-    None => return decode_fail(),
-  })?;
-  let hash = decode_b64(match parts.next() {
-    Some(part) => part,
-    None => return decode_fail(),
-  })?;
-  if parts.next().is_some() {
-    return decode_fail();
-  }
-
-  let params = Params::builder()
-    .memory(Memory::kib(memory as u64))
-    .passes(passes)
-    .lanes(lanes)
-    .threads(thread_budget(lanes))
-    .tag_len(TagLen::bytes(hash.len() as u64))
+fn decode_hashed(encoded: &str) -> Result<argon2_rust::Decoded> {
+  let mut decoded = argon2_rust::decode_phc(encoded).map_err(map_error)?;
+  decoded.params = decoded
+    .params
+    .to_builder()
+    .threads(thread_budget(decoded.params.lanes()))
     .build()
     .map_err(map_error)?;
-
-  Ok(DecodedPhc {
-    algorithm,
-    version,
-    params,
-    salt,
-    hash,
-    ad,
-  })
-}
-
-fn constant_time_eq(a: &[u8], b: &[u8]) -> bool {
-  if a.len() != b.len() {
-    return false;
-  }
-  let mut diff = 0u8;
-  for (left, right) in a.iter().zip(b) {
-    diff |= left ^ right;
-  }
-  diff == 0
+  Ok(decoded)
 }
 
 pub struct HashTask {
@@ -480,20 +338,19 @@ impl Task for VerifyTask {
   type JsValue = bool;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let decoded = decode_phc(&self.hashed)?;
+    let decoded = decode_hashed(&self.hashed)?;
     let argon2 = Argon2::new(decoded.algorithm, decoded.version, decoded.params);
-    let secret = self.options.secret();
-    let mut computed = try_zeroed(decoded.hash.len())?;
-    argon2
-      .hash_into_with_ad(
-        self.password.as_bytes(),
-        &decoded.salt,
-        secret,
-        &decoded.ad,
-        &mut computed,
-      )
-      .map_err(map_error)?;
-    Ok(constant_time_eq(&computed, &decoded.hash))
+    match argon2.verify_with_ad(
+      self.password.as_bytes(),
+      &decoded.salt,
+      self.options.secret(),
+      &decoded.ad,
+      &decoded.hash,
+    ) {
+      Ok(()) => Ok(true),
+      Err(Argon2Error::VerifyMismatch) => Ok(false),
+      Err(err) => Err(map_error(err)),
+    }
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
@@ -532,30 +389,4 @@ pub fn verify_sync(
   };
   let output = verify_task.compute()?;
   verify_task.resolve(env, output)
-}
-
-#[cfg(test)]
-mod tests {
-  use super::{decode_b64, encode_b64};
-
-  #[test]
-  fn phc_base64_round_trips_salt_and_tag_sizes() {
-    for n in [8usize, 16, 32, 33] {
-      let src: Vec<u8> = (0..n).map(|i| i as u8).collect();
-      let encoded = encode_b64(&src);
-      assert_eq!(decode_b64(&encoded).unwrap(), src);
-    }
-  }
-
-  #[test]
-  fn phc_base64_matches_known_unpadded() {
-    assert_eq!(encode_b64(b"somesalt"), "c29tZXNhbHQ");
-    assert_eq!(decode_b64("c29tZXNhbHQ").unwrap(), b"somesalt");
-  }
-
-  #[test]
-  fn phc_base64_rejects_bad_length_and_bits() {
-    assert!(decode_b64("A").is_err());
-    assert!(decode_b64("????").is_err());
-  }
 }
