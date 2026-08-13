@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.8](https://github.com/napi-rs/node-rs/compare/%40node-rs%2Fbcrypt%401.10.7...%40node-rs%2Fbcrypt%401.10.8) (2026-08-13)
+
+### Bug Fixes
+
+- **deps:** upgrade napi-rs/cli and fix build errors ([#1048](https://github.com/napi-rs/node-rs/issues/1048)) ([d85d35a](https://github.com/napi-rs/node-rs/commit/d85d35a23e9573a0bb8bde433b783c4a9c094af9))
+
 ## [1.10.7](https://github.com/napi-rs/node-rs/compare/@node-rs/bcrypt@1.10.6...@node-rs/bcrypt@1.10.7) (2024-12-05)
 
 **Note:** Version bump only for package @node-rs/bcrypt

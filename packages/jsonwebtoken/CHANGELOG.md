@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.10](https://github.com/napi-rs/node-rs/compare/%40node-rs%2Fjsonwebtoken%400.5.9...%40node-rs%2Fjsonwebtoken%400.5.10) (2026-08-13)
+
+### Bug Fixes
+
+- **deps:** update rand_core ([#1069](https://github.com/napi-rs/node-rs/issues/1069)) ([9764f3c](https://github.com/napi-rs/node-rs/commit/9764f3cf634ede47cfc435646346f469228ca623))
+- **deps:** update rust crate rand_core to 0.10 ([#1067](https://github.com/napi-rs/node-rs/issues/1067)) ([2386a45](https://github.com/napi-rs/node-rs/commit/2386a451f18b1776765bfeca18891ad76af6ccb7))
+- **deps:** update rust crate rand_core to 0.9 ([#963](https://github.com/napi-rs/node-rs/issues/963)) ([3029a99](https://github.com/napi-rs/node-rs/commit/3029a99f12925e3aad086124424241a1a1ad0638))
+- **deps:** upgrade napi-rs/cli and fix build errors ([#1048](https://github.com/napi-rs/node-rs/issues/1048)) ([d85d35a](https://github.com/napi-rs/node-rs/commit/d85d35a23e9573a0bb8bde433b783c4a9c094af9))
+
 ## [0.5.9](https://github.com/napi-rs/node-rs/compare/@node-rs/jsonwebtoken@0.5.8...@node-rs/jsonwebtoken@0.5.9) (2024-12-05)
 
 **Note:** Version bump only for package @node-rs/jsonwebtoken

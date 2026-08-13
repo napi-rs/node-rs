@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/napi-rs/node-rs/compare/%40node-rs%2Fargon2%402.0.2...%40node-rs%2Fargon2%402.1.0) (2026-08-13)
+
+### Bug Fixes
+
+- **deps:** upgrade napi-rs/cli and fix build errors ([#1048](https://github.com/napi-rs/node-rs/issues/1048)) ([d85d35a](https://github.com/napi-rs/node-rs/commit/d85d35a23e9573a0bb8bde433b783c4a9c094af9))
+
+### Features
+
+- **argon2:** switch backend to argon2-rust ([#1188](https://github.com/napi-rs/node-rs/issues/1188)) ([2b8b617](https://github.com/napi-rs/node-rs/commit/2b8b617be0c72aef68ed0aa44dfe41b272586e70))
+
+### Performance Improvements
+
+- **argon2:** simdutf8, crate PHC decode, argon2-rust 1.1 ([#1189](https://github.com/napi-rs/node-rs/issues/1189)) ([b0ea4a0](https://github.com/napi-rs/node-rs/commit/b0ea4a01b8bf512ccae5c8002c1ed178c73c9033))
+
 ## [2.0.2](https://github.com/napi-rs/node-rs/compare/@node-rs/argon2@2.0.1...@node-rs/argon2@2.0.2) (2024-12-05)
 
 **Note:** Version bump only for package @node-rs/argon2

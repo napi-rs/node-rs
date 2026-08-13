@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/napi-rs/node-rs/compare/%40node-rs%2Fhelper%401.6.0...%40node-rs%2Fhelper%401.6.1) (2026-08-13)
+
+### Bug Fixes
+
+- **deps:** upgrade napi-rs/cli and fix build errors ([#1048](https://github.com/napi-rs/node-rs/issues/1048)) ([d85d35a](https://github.com/napi-rs/node-rs/commit/d85d35a23e9573a0bb8bde433b783c4a9c094af9))
+
 # [1.6.0](https://github.com/napi-rs/node-rs/compare/@node-rs/helper@1.3.3...@node-rs/helper@1.6.0) (2024-04-20)
 
 ### Bug Fixes

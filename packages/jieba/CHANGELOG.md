@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/napi-rs/node-rs/compare/%40node-rs%2Fjieba%402.0.1...%40node-rs%2Fjieba%402.0.2) (2026-08-13)
+
+### Bug Fixes
+
+- **deps:** upgrade napi-rs/cli and fix build errors ([#1048](https://github.com/napi-rs/node-rs/issues/1048)) ([d85d35a](https://github.com/napi-rs/node-rs/commit/d85d35a23e9573a0bb8bde433b783c4a9c094af9))
+- **jieba:** compile error: adapt to jieba-rs 0.10.1 Token API ([#1152](https://github.com/napi-rs/node-rs/issues/1152)) ([20873f3](https://github.com/napi-rs/node-rs/commit/20873f3352a4406006063c9b2631eb761c4bcdbf))
+
 ## [2.0.1](https://github.com/napi-rs/node-rs/compare/@node-rs/jieba@2.0.0...@node-rs/jieba@2.0.1) (2024-12-05)
 
 **Note:** Version bump only for package @node-rs/jieba
