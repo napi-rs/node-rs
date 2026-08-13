@@ -11,11 +11,11 @@ parallel = ["argon2-rust/parallel"]
 
 [dependencies]
 argon2-rust = { workspace = true, features = ["std", "zeroize-memory"] }
-base64 = { workspace = true }
 global_alloc = { workspace = true }
 napi = { workspace = true, features = ["napi3"] }
 napi-derive = { workspace = true, default-features = false, features = ["type-def"] }
 rand = { workspace = true }
+simdutf8 = { workspace = true }
 
 [build-dependencies]
 napi-build = { workspace = true }
