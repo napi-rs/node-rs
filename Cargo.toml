@@ -31,6 +31,7 @@ rand = "0.10"
 rand_core = { version = "0.10" }
 serde = "1.0"
 serde_json = "1.0"
+simdutf8 = "0.1"
 xxhash-rust = { version = "0.8", features = ["xxh32", "const_xxh32", "xxh64", "const_xxh64", "xxh3", "const_xxh3"] }
 [profile.release]
 codegen-units = 1

@@ -189,7 +189,10 @@ fn utf8_input(value: Either<String, &[u8]>) -> Result<String> {
   match value {
     Either::A(s) => Ok(s),
     Either::B(b) => {
-      String::from_utf8(b.to_vec()).map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))
+      simdutf8::basic::from_utf8(b)
+        .map_err(|err| Error::new(Status::InvalidArg, format!("{err}")))?;
+      // SAFETY: `from_utf8` just accepted these bytes as UTF-8.
+      Ok(unsafe { String::from_utf8_unchecked(b.to_vec()) })
     }
   }
 }
