@@ -64,6 +64,26 @@ export interface Options {
   salt?: Uint8Array
 }
 
+export interface ParsedHashOptions {
+  algorithm: Algorithm
+  version: Version
+  /** Memory cost in kibibytes (`m=` in the PHC string). */
+  memoryCost: number
+  /** Time cost / number of passes (`t=` in the PHC string). */
+  timeCost: number
+  /** Degree of parallelism (`p=` in the PHC string). */
+  parallelism: number
+  /** Length of the raw hash output in bytes. */
+  outputLen: number
+}
+
+/**
+ * Parses an encoded argon2 hash string (PHC format) and returns the parameters
+ * it was created with. Useful for "needs rehash" checks: compare the returned
+ * parameters against your current policy and rehash when they differ.
+ */
+export declare function parseOptions(hashed: string | Uint8Array): ParsedHashOptions
+
 export declare function verify(hashed: string | Uint8Array, password: string | Uint8Array, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<boolean>
 
 export declare function verifySync(hashed: string | Uint8Array, password: string | Uint8Array, options?: Options | undefined | null): boolean

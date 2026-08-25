@@ -36,6 +36,15 @@ impl Algorithm {
       Self::Argon2id => Argon2Algorithm::Argon2id,
     }
   }
+
+  #[inline]
+  fn from_argon(algorithm: Argon2Algorithm) -> Self {
+    match algorithm {
+      Argon2Algorithm::Argon2d => Self::Argon2d,
+      Argon2Algorithm::Argon2i => Self::Argon2i,
+      Argon2Algorithm::Argon2id => Self::Argon2id,
+    }
+  }
 }
 
 #[napi]
@@ -55,6 +64,14 @@ impl Version {
     match self {
       Self::V0x10 => Argon2Version::V0x10,
       Self::V0x13 => Argon2Version::V0x13,
+    }
+  }
+
+  #[inline]
+  fn from_argon(version: Argon2Version) -> Self {
+    match version {
+      Argon2Version::V0x10 => Self::V0x10,
+      Argon2Version::V0x13 => Self::V0x13,
     }
   }
 }
@@ -91,6 +108,20 @@ pub struct Options {
   pub version: Option<Version>,
   pub secret: Option<Uint8Array>,
   pub salt: Option<Uint8Array>,
+}
+
+#[napi(object)]
+pub struct ParsedHashOptions {
+  pub algorithm: Algorithm,
+  pub version: Version,
+  /// Memory cost in kibibytes (`m=` in the PHC string).
+  pub memory_cost: u32,
+  /// Time cost / number of passes (`t=` in the PHC string).
+  pub time_cost: u32,
+  /// Degree of parallelism (`p=` in the PHC string).
+  pub parallelism: u32,
+  /// Length of the raw hash output in bytes.
+  pub output_len: u32,
 }
 
 impl Options {
@@ -389,4 +420,21 @@ pub fn verify_sync(
   };
   let output = verify_task.compute()?;
   verify_task.resolve(env, output)
+}
+
+/// Parses an encoded argon2 hash string (PHC format) and returns the parameters
+/// it was created with. Useful for "needs rehash" checks: compare the returned
+/// parameters against your current policy and rehash when they differ.
+#[napi]
+pub fn parse_options(hashed: Either<String, &[u8]>) -> Result<ParsedHashOptions> {
+  let encoded = utf8_input(hashed)?;
+  let decoded = argon2_rust::decode_phc(&encoded).map_err(map_error)?;
+  Ok(ParsedHashOptions {
+    algorithm: Algorithm::from_argon(decoded.algorithm),
+    version: Version::from_argon(decoded.version),
+    memory_cost: decoded.params.memory_kib(),
+    time_cost: decoded.params.passes(),
+    parallelism: decoded.params.lanes(),
+    output_len: decoded.params.tag_len_bytes() as u32,
+  })
 }

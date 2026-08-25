@@ -3,7 +3,7 @@ import { randomBytes } from 'node:crypto'
 
 import test from 'ava'
 
-import { Algorithm, hash, hashRaw, hashRawSync, hashSync, verify, Version } from '../index.js'
+import { Algorithm, hash, hashRaw, hashRawSync, hashSync, parseOptions, verify, Version } from '../index.js'
 
 const argon2Sync = typeof nodeCrypto.argon2Sync === 'function' ? nodeCrypto.argon2Sync.bind(nodeCrypto) : undefined
 const interop = argon2Sync ? test : test.skip
@@ -207,4 +207,67 @@ interop('should verify PHC strings that carry associatedData', async (t) => {
   const phcKeyed = `$argon2id$v=19$m=4096,t=1,p=1,data=${b64(associatedData)}$${b64(salt)}$${b64(withAdAndSecret)}`
   t.true(await verify(phcKeyed, password, { secret }))
   t.false(await verify(phcKeyed, password))
+})
+
+test('parseOptions should round-trip default hash parameters', async (t) => {
+  const hashed = await hash(passwordString)
+  t.deepEqual(parseOptions(hashed), {
+    algorithm: Algorithm.Argon2id,
+    version: Version.V0x13,
+    memoryCost: 19456,
+    timeCost: 2,
+    parallelism: 1,
+    outputLen: 32,
+  })
+})
+
+test('parseOptions should round-trip custom hash parameters', async (t) => {
+  const hashed = await hash(passwordString, {
+    memoryCost: 4096,
+    timeCost: 3,
+    parallelism: 2,
+    outputLen: 64,
+  })
+  t.deepEqual(parseOptions(hashed), {
+    algorithm: Algorithm.Argon2id,
+    version: Version.V0x13,
+    memoryCost: 4096,
+    timeCost: 3,
+    parallelism: 2,
+    outputLen: 64,
+  })
+})
+
+test('parseOptions should round-trip argon2d v0x10 hashes', async (t) => {
+  const hashed = await hash(passwordString, {
+    algorithm: Algorithm.Argon2d,
+    version: Version.V0x10,
+  })
+  const parsed = parseOptions(hashed)
+  t.is(parsed.algorithm, Algorithm.Argon2d)
+  t.is(parsed.version, Version.V0x10)
+})
+
+test('parseOptions should parse PHC strings that carry associatedData', (t) => {
+  const associatedData = Buffer.from('phc-associated-data')
+  const hashBytes = randomBytes(32)
+  const phc = `$argon2id$v=19$m=4096,t=1,p=1,data=${b64(associatedData)}$${b64(Buffer.from('somesaltforsure!'))}$${b64(hashBytes)}`
+  t.deepEqual(parseOptions(phc), {
+    algorithm: Algorithm.Argon2id,
+    version: Version.V0x13,
+    memoryCost: 4096,
+    timeCost: 1,
+    parallelism: 1,
+    outputLen: 32,
+  })
+})
+
+test('parseOptions should throw on garbage input', (t) => {
+  t.throws(() => parseOptions('not-a-hash'))
+  t.throws(() => parseOptions('$2b$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy'))
+})
+
+test('parseOptions should accept buffer input', async (t) => {
+  const hashed = await hash(passwordString)
+  t.deepEqual(parseOptions(Buffer.from(hashed)), parseOptions(hashed))
 })
