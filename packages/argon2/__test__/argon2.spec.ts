@@ -218,6 +218,7 @@ test('parseOptions should round-trip default hash parameters', async (t) => {
     timeCost: 2,
     parallelism: 1,
     outputLen: 32,
+    saltLen: 16,
   })
 })
 
@@ -235,6 +236,7 @@ test('parseOptions should round-trip custom hash parameters', async (t) => {
     timeCost: 3,
     parallelism: 2,
     outputLen: 64,
+    saltLen: 16,
   })
 })
 
@@ -259,7 +261,32 @@ test('parseOptions should parse PHC strings that carry associatedData', (t) => {
     timeCost: 1,
     parallelism: 1,
     outputLen: 32,
+    saltLen: 16,
   })
+})
+
+test('parseOptions should report saltLen of custom salts', async (t) => {
+  const hashed = await hash(passwordString, { salt: Buffer.alloc(8, 1) })
+  t.is(parseOptions(hashed).saltLen, 8)
+  t.is(parseOptions(await hash(passwordString)).saltLen, 16)
+})
+
+test('parseOptions should default to v0x10 when the PHC string omits v=', (t) => {
+  const phc = `$argon2id$m=4096,t=1,p=1$${b64(randomBytes(16))}$${b64(randomBytes(32))}`
+  const parsed = parseOptions(phc)
+  t.is(parsed.version, Version.V0x10)
+  t.is(parsed.algorithm, Algorithm.Argon2id)
+})
+
+test('parseOptions should report outputLen of truncated tags', (t) => {
+  const phc = `$argon2id$v=19$m=4096,t=1,p=1$${b64(randomBytes(16))}$${b64(randomBytes(16))}`
+  t.is(parseOptions(phc).outputLen, 16)
+})
+
+test('parseOptions should throw on oversized input', (t) => {
+  const oversized = `$argon2id$v=19$m=4096,t=1,p=1,${'x'.repeat(5000)}`
+  const error = t.throws(() => parseOptions(oversized))
+  t.is(error?.message, 'Encoded hash is too long (max 4096 bytes)')
 })
 
 test('parseOptions should throw on garbage input', (t) => {

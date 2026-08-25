@@ -141,7 +141,8 @@ function needsRehash(hashed: string): boolean {
     parsed.memoryCost !== POLICY.memoryCost ||
     parsed.timeCost !== POLICY.timeCost ||
     parsed.parallelism !== POLICY.parallelism ||
-    parsed.outputLen !== POLICY.outputLen
+    parsed.outputLen !== POLICY.outputLen ||
+    parsed.saltLen < 16
   )
 }
 ```
@@ -158,6 +159,8 @@ export interface ParsedHashOptions {
   parallelism: number
   /** Length of the raw hash output in bytes. */
   outputLen: number
+  /** Byte length of the decoded salt. This package generates 16-byte salts; older hashes may carry shorter ones. */
+  saltLen: number
 }
 export function parseOptions(hashed: string | Buffer): ParsedHashOptions
 ```

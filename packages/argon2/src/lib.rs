@@ -122,6 +122,9 @@ pub struct ParsedHashOptions {
   pub parallelism: u32,
   /// Length of the raw hash output in bytes.
   pub output_len: u32,
+  /// Byte length of the decoded salt. This package generates 16-byte salts;
+  /// older hashes may carry shorter ones.
+  pub salt_len: u32,
 }
 
 impl Options {
@@ -422,11 +425,25 @@ pub fn verify_sync(
   verify_task.resolve(env, output)
 }
 
+/// Encoded argon2 hash strings are ~100 bytes in practice; this bound is far
+/// above any legitimate hash while keeping sync parsing cheap.
+const MAX_ENCODED_LEN: usize = 4096;
+
 /// Parses an encoded argon2 hash string (PHC format) and returns the parameters
 /// it was created with. Useful for "needs rehash" checks: compare the returned
 /// parameters against your current policy and rehash when they differ.
 #[napi]
 pub fn parse_options(hashed: Either<String, &[u8]>) -> Result<ParsedHashOptions> {
+  let raw_len = match &hashed {
+    Either::A(s) => s.len(),
+    Either::B(b) => b.len(),
+  };
+  if raw_len > MAX_ENCODED_LEN {
+    return Err(Error::new(
+      Status::InvalidArg,
+      format!("Encoded hash is too long (max {MAX_ENCODED_LEN} bytes)"),
+    ));
+  }
   let encoded = utf8_input(hashed)?;
   let decoded = argon2_rust::decode_phc(&encoded).map_err(map_error)?;
   Ok(ParsedHashOptions {
@@ -436,5 +453,6 @@ pub fn parse_options(hashed: Either<String, &[u8]>) -> Result<ParsedHashOptions>
     time_cost: decoded.params.passes(),
     parallelism: decoded.params.lanes(),
     output_len: decoded.params.tag_len_bytes() as u32,
+    salt_len: decoded.salt.len() as u32,
   })
 }

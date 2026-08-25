@@ -75,6 +75,11 @@ export interface ParsedHashOptions {
   parallelism: number
   /** Length of the raw hash output in bytes. */
   outputLen: number
+  /**
+   * Byte length of the decoded salt. This package generates 16-byte salts;
+   * older hashes may carry shorter ones.
+   */
+  saltLen: number
 }
 
 /**
