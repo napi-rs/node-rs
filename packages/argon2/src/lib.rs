@@ -425,9 +425,11 @@ pub fn verify_sync(
   verify_task.resolve(env, output)
 }
 
-/// Encoded argon2 hash strings are ~100 bytes in practice; this bound is far
-/// above any legitimate hash while keeping sync parsing cheap.
-const MAX_ENCODED_LEN: usize = 4096;
+/// Legitimate argon2 hash strings are ~100 bytes, and even a 48 KiB raw hash
+/// output stays under 64 KiB of PHC text. 1 MiB covers output lengths up to
+/// ~700 KiB — far beyond anything this package realistically produces — while
+/// keeping worst-case sync decode around 10ms for pathological input.
+const MAX_ENCODED_LEN: usize = 1024 * 1024;
 
 /// Parses an encoded argon2 hash string (PHC format) and returns the parameters
 /// it was created with. Useful for "needs rehash" checks: compare the returned

@@ -283,10 +283,20 @@ test('parseOptions should report outputLen of truncated tags', (t) => {
   t.is(parseOptions(phc).outputLen, 16)
 })
 
+test('parseOptions should accept valid hashes larger than 4096 bytes', (t) => {
+  const hashed = hashSync(passwordString, {
+    memoryCost: 8,
+    timeCost: 1,
+    outputLen: 3040,
+  })
+  t.true(hashed.length > 4096)
+  t.is(parseOptions(hashed).outputLen, 3040)
+})
+
 test('parseOptions should throw on oversized input', (t) => {
-  const oversized = `$argon2id$v=19$m=4096,t=1,p=1,${'x'.repeat(5000)}`
+  const oversized = `$argon2id$v=19$m=4096,t=1,p=1,${'x'.repeat(1_100_000)}`
   const error = t.throws(() => parseOptions(oversized))
-  t.is(error?.message, 'Encoded hash is too long (max 4096 bytes)')
+  t.is(error?.message, 'Encoded hash is too long (max 1048576 bytes)')
 })
 
 test('parseOptions should throw on garbage input', (t) => {
