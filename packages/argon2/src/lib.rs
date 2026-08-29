@@ -434,6 +434,10 @@ const MAX_ENCODED_LEN: usize = 1024 * 1024;
 /// Parses an encoded argon2 hash string (PHC format) and returns the parameters
 /// it was created with. Useful for "needs rehash" checks: compare the returned
 /// parameters against your current policy and rehash when they differ.
+///
+/// Encoded input longer than 1 MiB is rejected. `hash` and `verify` do not
+/// apply this cap, so a hash with a very large `outputLen` can verify and still
+/// fail here.
 #[napi]
 pub fn parse_options(hashed: Either<String, &[u8]>) -> Result<ParsedHashOptions> {
   let raw_len = match &hashed {

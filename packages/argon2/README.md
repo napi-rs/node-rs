@@ -119,7 +119,7 @@ export function verify(
 
 ## `parseOptions` — needs-rehash checks
 
-`parseOptions` parses an encoded PHC hash string and returns the parameters it was created with. Compare them against your current policy to decide whether a stored hash should be rehashed at next login:
+`parseOptions` parses an encoded PHC hash string and returns the parameters it was created with. Compare them against your current policy to decide whether a stored hash should be rehashed at next login. Encoded input longer than 1 MiB is rejected; `hash` / `verify` do not apply this cap.
 
 ```typescript
 import { Algorithm, parseOptions, Version } from '@node-rs/argon2'
@@ -162,5 +162,5 @@ export interface ParsedHashOptions {
   /** Byte length of the decoded salt. This package generates 16-byte salts; older hashes may carry shorter ones. */
   saltLen: number
 }
-export function parseOptions(hashed: string | Buffer): ParsedHashOptions
+export function parseOptions(hashed: string | Uint8Array): ParsedHashOptions
 ```

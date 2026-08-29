@@ -86,6 +86,10 @@ export interface ParsedHashOptions {
  * Parses an encoded argon2 hash string (PHC format) and returns the parameters
  * it was created with. Useful for "needs rehash" checks: compare the returned
  * parameters against your current policy and rehash when they differ.
+ *
+ * Encoded input longer than 1 MiB is rejected. `hash` and `verify` do not
+ * apply this cap, so a hash with a very large `outputLen` can verify and still
+ * fail here.
  */
 export declare function parseOptions(hashed: string | Uint8Array): ParsedHashOptions
 
