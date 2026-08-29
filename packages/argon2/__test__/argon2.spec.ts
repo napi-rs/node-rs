@@ -3,7 +3,7 @@ import { randomBytes } from 'node:crypto'
 
 import test from 'ava'
 
-import { Algorithm, hash, hashRaw, hashRawSync, hashSync, parseOptions, verify, Version } from '../index.js'
+import { Algorithm, hash, hashRaw, hashRawSync, hashSync, parseOptions, verify, verifySync, Version } from '../index.js'
 
 const argon2Sync = typeof nodeCrypto.argon2Sync === 'function' ? nodeCrypto.argon2Sync.bind(nodeCrypto) : undefined
 const interop = argon2Sync ? test : test.skip
@@ -293,10 +293,15 @@ test('parseOptions should accept valid hashes larger than 4096 bytes', (t) => {
   t.is(parseOptions(hashed).outputLen, 3040)
 })
 
-test('parseOptions should throw on oversized input', (t) => {
-  const oversized = `$argon2id$v=19$m=4096,t=1,p=1,${'x'.repeat(1_100_000)}`
-  const error = t.throws(() => parseOptions(oversized))
-  t.is(error?.message, 'Encoded hash is too long (max 1048576 bytes)')
+test('parseOptions should parse hashes larger than 1 MiB that verify accepts', (t) => {
+  const hashed = hashSync(passwordString, {
+    memoryCost: 8,
+    timeCost: 1,
+    outputLen: 800_000,
+  })
+  t.true(hashed.length > 1024 * 1024)
+  t.true(verifySync(hashed, passwordString))
+  t.is(parseOptions(hashed).outputLen, 800_000)
 })
 
 test('parseOptions should throw on garbage input', (t) => {
