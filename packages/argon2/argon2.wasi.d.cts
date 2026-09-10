@@ -16,20 +16,12 @@ export declare const enum Algorithm {
    * Hybrid that mixes Argon2i and Argon2d passes.
    * Uses the Argon2i approach for the first half pass over memory and Argon2d approach for subsequent passes. This effectively places it in the “middle” between the other two: it doesn’t provide as good TMTO/GPU cracking resistance as Argon2d, nor as good of side-channel resistance as Argon2i, but overall provides the most well-rounded approach to both classes of attacks.
    */
-  Argon2id = 2,
+  Argon2id = 2
 }
 
-export declare function hash(
-  password: string | Uint8Array,
-  options?: Options | undefined | null,
-  abortSignal?: AbortSignal | undefined | null,
-): Promise<string>
+export declare function hash(password: string | Uint8Array, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<string>
 
-export declare function hashRaw(
-  password: string | Uint8Array,
-  options?: Options | undefined | null,
-  abortSignal?: AbortSignal | undefined | null,
-): Promise<Buffer>
+export declare function hashRaw(password: string | Uint8Array, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<Buffer>
 
 export declare function hashRawSync(password: string | Uint8Array, options?: Options | undefined | null): Buffer
 
@@ -97,23 +89,9 @@ export interface ParsedHashOptions {
  */
 export declare function parseOptions(hashed: string | Uint8Array): ParsedHashOptions
 
-export declare function verify(
-  hashed: string | Uint8Array,
-  password: string | Uint8Array,
-  options?: VerifyOptions | undefined | null,
-  abortSignal?: AbortSignal | undefined | null,
-): Promise<boolean>
+export declare function verify(hashed: string | Uint8Array, password: string | Uint8Array, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<boolean>
 
-/** Cryptographic inputs not already contained in the stored PHC string. */
-export interface VerifyOptions {
-  secret?: Uint8Array
-}
-
-export declare function verifySync(
-  hashed: string | Uint8Array,
-  password: string | Uint8Array,
-  options?: VerifyOptions | undefined | null,
-): boolean
+export declare function verifySync(hashed: string | Uint8Array, password: string | Uint8Array, options?: Options | undefined | null): boolean
 
 export declare const enum Version {
   /** Version 16 (0x10 in hex) */
@@ -122,5 +100,5 @@ export declare const enum Version {
    * Default value
    * Version 19 (0x13 in hex)
    */
-  V0x13 = 1,
+  V0x13 = 1
 }

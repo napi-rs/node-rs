@@ -360,17 +360,10 @@ pub fn hash_raw_sync(
   hash_task.resolve(env, output)
 }
 
-/// Cryptographic inputs not already contained in the stored PHC string.
-#[napi(object)]
-#[derive(Default)]
-pub struct VerifyOptions {
-  pub secret: Option<Uint8Array>,
-}
-
 pub struct VerifyTask {
   password: String,
   hashed: String,
-  options: VerifyOptions,
+  options: Options,
 }
 
 #[napi]
@@ -384,12 +377,7 @@ impl Task for VerifyTask {
     match argon2.verify_with_ad(
       self.password.as_bytes(),
       &decoded.salt,
-      self
-        .options
-        .secret
-        .as_ref()
-        .map(|secret| secret.as_ref())
-        .unwrap_or(&[]),
+      self.options.secret(),
       &decoded.ad,
       &decoded.hash,
     ) {
@@ -408,7 +396,7 @@ impl Task for VerifyTask {
 pub fn verify(
   hashed: Either<String, &[u8]>,
   password: Either<String, &[u8]>,
-  options: Option<VerifyOptions>,
+  options: Option<Options>,
   abort_signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<VerifyTask>> {
   Ok(AsyncTask::with_optional_signal(
@@ -426,7 +414,7 @@ pub fn verify_sync(
   env: Env,
   hashed: Either<String, &[u8]>,
   password: Either<String, &[u8]>,
-  options: Option<VerifyOptions>,
+  options: Option<Options>,
 ) -> Result<bool> {
   let mut verify_task = VerifyTask {
     password: utf8_input(password)?,
