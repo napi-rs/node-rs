@@ -5,5 +5,5 @@
     "composite": true
   },
   "exclude": ["dist"],
-  "include": ["benchmark", "__tests__"]
+  "include": ["benchmark", "__test__", "__tests__"]
 }

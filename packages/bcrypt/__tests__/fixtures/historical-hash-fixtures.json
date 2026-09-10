@@ -1,0 +1,1327 @@
+{
+  "node": "v24.20.0",
+  "arch": "arm64",
+  "syntheticOnly": true,
+  "fixtures": [
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "automatic salt",
+      "costInput": 4,
+      "saltInput": null,
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$pevbhWH91mTdVRUnH6qFn.Xv5wqqy9vNBg19iCegwsiCCGdVGynwC"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "automatic salt",
+      "costInput": 4,
+      "saltInput": null,
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$RJ1c.ewclIbEK2BSA3iKm.zBFlZ2yu7p6Ifs8sNL9..iNlNr9h1SK"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "raw 16-byte salt",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "raw 16-byte salt",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "71-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXecEcm5teoM3t82pnGlBmdnf0LIM4LTCS"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "71-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXecEcm5teoM3t82pnGlBmdnf0LIM4LTCS"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "72-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "72-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "73-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaX",
+      "passwordHex": "61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616158",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "73-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaX",
+      "passwordHex": "61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616158",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "NUL beyond 72 bytes",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000tail",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161007461696c",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "NUL beyond 72 bytes",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000tail",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161007461696c",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "UTF-8 across truncation boundary",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaé",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161c3a9",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXebNO28mWJtvf85WUCI4G1pYIqqN2YCGW"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "UTF-8 across truncation boundary",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaé",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161c3a9",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXebNO28mWJtvf85WUCI4G1pYIqqN2YCGW"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "embedded NUL",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "a\u0000b",
+      "passwordHex": "610062",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeosN6pUItK875OWp7V79DHGzccSxfJry"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "embedded NUL",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "a\u0000b",
+      "passwordHex": "610062",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeosN6pUItK875OWp7V79DHGzccSxfJry"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "empty password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "",
+      "passwordHex": "",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeg/oaNzVlQFb3jg.67P.r1snBL8ZffHa"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "empty password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "",
+      "passwordHex": "",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeg/oaNzVlQFb3jg.67P.r1snBL8ZffHa"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "binary password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordHex": "ffa30080",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXe2Kk.nYQJmuXk/gg9kg4tabiXCFscQRG"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "binary password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordHex": "ffa30080",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXe2Kk.nYQJmuXk/gg9kg4tabiXCFscQRG"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "fractional creation cost",
+      "costInput": 4.9,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "fractional creation cost",
+      "costInput": 4.9,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hashSync",
+      "name": "overflowing creation cost",
+      "costInput": 4294967300,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.7.3",
+      "method": "hash",
+      "name": "overflowing creation cost",
+      "costInput": 4294967300,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "automatic salt",
+      "costInput": 4,
+      "saltInput": null,
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$1Crl6Byzte9nDDNPbtuxkOmDpy.5s.AG0hToghnZLAeq7uf.WxO3y"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "automatic salt",
+      "costInput": 4,
+      "saltInput": null,
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$PiSUlXuoPFOykK5MMFAkJupen/zjsCLuaCkmnIOMnXHOSPR5.K3ga"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "raw 16-byte salt",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "raw 16-byte salt",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "71-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXecEcm5teoM3t82pnGlBmdnf0LIM4LTCS"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "71-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXecEcm5teoM3t82pnGlBmdnf0LIM4LTCS"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "72-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "72-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "73-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaX",
+      "passwordHex": "61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616158",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "73-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaX",
+      "passwordHex": "61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616158",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "NUL beyond 72 bytes",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000tail",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161007461696c",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "NUL beyond 72 bytes",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000tail",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161007461696c",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "UTF-8 across truncation boundary",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaé",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161c3a9",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXebNO28mWJtvf85WUCI4G1pYIqqN2YCGW"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "UTF-8 across truncation boundary",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaé",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161c3a9",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXebNO28mWJtvf85WUCI4G1pYIqqN2YCGW"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "embedded NUL",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "a\u0000b",
+      "passwordHex": "610062",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeosN6pUItK875OWp7V79DHGzccSxfJry"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "embedded NUL",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "a\u0000b",
+      "passwordHex": "610062",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeosN6pUItK875OWp7V79DHGzccSxfJry"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "empty password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "",
+      "passwordHex": "",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeg/oaNzVlQFb3jg.67P.r1snBL8ZffHa"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "empty password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "",
+      "passwordHex": "",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeg/oaNzVlQFb3jg.67P.r1snBL8ZffHa"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "binary password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordHex": "ffa30080",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXe2Kk.nYQJmuXk/gg9kg4tabiXCFscQRG"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "binary password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordHex": "ffa30080",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXe2Kk.nYQJmuXk/gg9kg4tabiXCFscQRG"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "fractional creation cost",
+      "costInput": 4.9,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "fractional creation cost",
+      "costInput": 4.9,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hashSync",
+      "name": "overflowing creation cost",
+      "costInput": 4294967300,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.9.2",
+      "method": "hash",
+      "name": "overflowing creation cost",
+      "costInput": 4294967300,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "automatic salt",
+      "costInput": 4,
+      "saltInput": null,
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$xN8ntGq2E6zYnCZqoVqeNOpUCdfIKZ22gWD64eLHfqD8y3S7UkA.e"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "automatic salt",
+      "costInput": 4,
+      "saltInput": null,
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$6P3x1cWoSsXO15Q9cv/wluHITH1WWkWN.kSJvKI4UMrJKs.g.OpiC"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "raw 16-byte salt",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "raw 16-byte salt",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "71-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXecEcm5teoM3t82pnGlBmdnf0LIM4LTCS"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "71-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXecEcm5teoM3t82pnGlBmdnf0LIM4LTCS"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "72-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "72-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "73-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaX",
+      "passwordHex": "61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616158",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "73-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaX",
+      "passwordHex": "61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616158",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "NUL beyond 72 bytes",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000tail",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161007461696c",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "NUL beyond 72 bytes",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000tail",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161007461696c",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "UTF-8 across truncation boundary",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaé",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161c3a9",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXebNO28mWJtvf85WUCI4G1pYIqqN2YCGW"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "UTF-8 across truncation boundary",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaé",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161c3a9",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXebNO28mWJtvf85WUCI4G1pYIqqN2YCGW"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "embedded NUL",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "a\u0000b",
+      "passwordHex": "610062",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeosN6pUItK875OWp7V79DHGzccSxfJry"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "embedded NUL",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "a\u0000b",
+      "passwordHex": "610062",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeosN6pUItK875OWp7V79DHGzccSxfJry"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "empty password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "",
+      "passwordHex": "",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeg/oaNzVlQFb3jg.67P.r1snBL8ZffHa"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "empty password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "",
+      "passwordHex": "",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeg/oaNzVlQFb3jg.67P.r1snBL8ZffHa"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "binary password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordHex": "ffa30080",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXe2Kk.nYQJmuXk/gg9kg4tabiXCFscQRG"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "binary password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordHex": "ffa30080",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXe2Kk.nYQJmuXk/gg9kg4tabiXCFscQRG"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "fractional creation cost",
+      "costInput": 4.9,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "fractional creation cost",
+      "costInput": 4.9,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "overflowing creation cost",
+      "costInput": 4294967300,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "overflowing creation cost",
+      "costInput": 4294967300,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "empty text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": ""
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$......................2VBaBohsKe8kgA1pDEkLBJ7N/fpMWfC"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "empty text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": ""
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$......................2VBaBohsKe8kgA1pDEkLBJ7N/fpMWfC"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "short text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "hello"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$YETqZE6................ZE13Qk.UWq4DgW87g6gkU0fTPEFRKC"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "short text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "hello"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$YETqZE6................ZE13Qk.UWq4DgW87g6gkU0fTPEFRKC"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "long text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "0123456789abcdef-extra"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "long text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "0123456789abcdef-extra"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hashSync",
+      "name": "old padded encoded text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "$2b$04$KBCwKxOzLha2MUDgW0PjXe=="
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$HBHgHB.yHCrAO1bJcC74R.Vr6Jf.PDm7M7k.onMahIMklf4LmZ7SC"
+    },
+    {
+      "generatorVersion": "1.10.5",
+      "method": "hash",
+      "name": "old padded encoded text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "$2b$04$KBCwKxOzLha2MUDgW0PjXe=="
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$HBHgHB.yHCrAO1bJcC74R.Vr6Jf.PDm7M7k.onMahIMklf4LmZ7SC"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "automatic salt",
+      "costInput": 4,
+      "saltInput": null,
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$Gyciqo0KI2YnbLlgNobWhu2F8.eI6WXpAqfISfG9NbgTmyEbQSAKq"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "automatic salt",
+      "costInput": 4,
+      "saltInput": null,
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$xbdcBNvcCiSeUQuCanDL/uuq4tPwIkQr9tDrRYL4PzeMloI9Hoo8e"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "raw 16-byte salt",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "raw 16-byte salt",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "71-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXecEcm5teoM3t82pnGlBmdnf0LIM4LTCS"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "71-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXecEcm5teoM3t82pnGlBmdnf0LIM4LTCS"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "72-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "72-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "73-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaX",
+      "passwordHex": "61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616158",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "73-byte password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaX",
+      "passwordHex": "61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616158",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "NUL beyond 72 bytes",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000tail",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161007461696c",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "NUL beyond 72 bytes",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u0000tail",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161007461696c",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "UTF-8 across truncation boundary",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaé",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161c3a9",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXebNO28mWJtvf85WUCI4G1pYIqqN2YCGW"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "UTF-8 across truncation boundary",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaé",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161c3a9",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXebNO28mWJtvf85WUCI4G1pYIqqN2YCGW"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "embedded NUL",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "a\u0000b",
+      "passwordHex": "610062",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeosN6pUItK875OWp7V79DHGzccSxfJry"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "embedded NUL",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "a\u0000b",
+      "passwordHex": "610062",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeosN6pUItK875OWp7V79DHGzccSxfJry"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "empty password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "",
+      "passwordHex": "",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeg/oaNzVlQFb3jg.67P.r1snBL8ZffHa"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "empty password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "",
+      "passwordHex": "",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeg/oaNzVlQFb3jg.67P.r1snBL8ZffHa"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "binary password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordHex": "ffa30080",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXe2Kk.nYQJmuXk/gg9kg4tabiXCFscQRG"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "binary password",
+      "costInput": 4,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordHex": "ffa30080",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXe2Kk.nYQJmuXk/gg9kg4tabiXCFscQRG"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "fractional creation cost",
+      "costInput": 4.9,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "fractional creation cost",
+      "costInput": 4.9,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "overflowing creation cost",
+      "costInput": 4294967300,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "overflowing creation cost",
+      "costInput": 4294967300,
+      "saltInput": {
+        "hex": "30313233343536373839616263646566"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "empty text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": ""
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$......................2VBaBohsKe8kgA1pDEkLBJ7N/fpMWfC"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "empty text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": ""
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$......................2VBaBohsKe8kgA1pDEkLBJ7N/fpMWfC"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "short text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "hello"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$YETqZE6................ZE13Qk.UWq4DgW87g6gkU0fTPEFRKC"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "short text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "hello"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$YETqZE6................ZE13Qk.UWq4DgW87g6gkU0fTPEFRKC"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "long text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "0123456789abcdef-extra"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "long text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "0123456789abcdef-extra"
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hashSync",
+      "name": "old padded encoded text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "$2b$04$KBCwKxOzLha2MUDgW0PjXe=="
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$HBHgHB.yHCrAO1bJcC74R.Vr6Jf.PDm7M7k.onMahIMklf4LmZ7SC"
+    },
+    {
+      "generatorVersion": "1.10.9",
+      "method": "hash",
+      "name": "old padded encoded text salt",
+      "costInput": 4,
+      "saltInput": {
+        "text": "$2b$04$KBCwKxOzLha2MUDgW0PjXe=="
+      },
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$HBHgHB.yHCrAO1bJcC74R.Vr6Jf.PDm7M7k.onMahIMklf4LmZ7SC"
+    }
+  ]
+}
