@@ -4,112 +4,96 @@
 /// Explicit extern crate to use allocator.
 extern crate global_alloc;
 
-use std::cmp;
-
-use bcrypt::Version;
 use napi::bindgen_prelude::*;
 use napi_derive::*;
 
 use crate::hash_task::HashTask;
+use crate::options::{hash_options, validate_cost, version_from_str};
 use crate::salt_task::{format_salt, gen_salt};
 use crate::verify_task::VerifyTask;
 
 mod hash_task;
+mod options;
 mod salt_task;
 mod verify_task;
 
 #[napi]
 pub const DEFAULT_COST: u32 = 12;
 
-#[napi(ts_args_type = "round: number, version?: '2a' | '2x' | '2y' | '2b'")]
-pub fn gen_salt_sync(round: u32, version: Option<String>) -> Result<String> {
-  let salt = gen_salt();
-  Ok(format_salt(round, &version_from_str(version)?, &salt))
+/// Internal binding contract, checked by the public JavaScript wrapper.
+#[napi]
+pub const BCRYPT_API_VERSION: u32 = 2;
+
+#[napi]
+pub fn gen_salt_sync(round: f64, version: Option<String>) -> Result<String> {
+  let round = validate_cost(round)?;
+  Ok(format_salt(
+    round,
+    &version_from_str(version.as_deref())?,
+    &gen_salt(),
+  ))
 }
 
-#[napi(
-  js_name = "genSalt",
-  ts_args_type = "round: number, version?: '2a' | '2x' | '2y' | '2b', signal?: AbortSignal"
-)]
+#[napi(js_name = "genSalt")]
 pub fn gen_salt_js(
-  round: u32,
+  round: f64,
   version: Option<String>,
   signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<salt_task::SaltTask>> {
   let task = salt_task::SaltTask {
-    round,
-    version: version_from_str(version)?,
+    round: validate_cost(round)?,
+    version: version_from_str(version.as_deref())?,
   };
   Ok(AsyncTask::with_optional_signal(task, signal))
 }
 
 #[napi]
-#[inline]
 pub fn hash_sync(
   input: Either<String, &[u8]>,
-  cost: Option<u32>,
+  cost: Option<f64>,
   salt: Option<Either<String, &[u8]>>,
+  version: Option<String>,
+  reject_long_passwords: bool,
 ) -> Result<String> {
-  let salt = if let Some(salt) = salt {
-    let mut s = [0u8; 16];
-    let buf = salt.as_ref();
-    // make sure salt buffer length should be 16
-    let copy_length = cmp::min(buf.len(), s.len());
-    s[..copy_length].copy_from_slice(&buf[..copy_length]);
-    s
-  } else {
-    rand::random()
-  };
-  HashTask::hash(input.as_ref(), salt, cost.unwrap_or(DEFAULT_COST))
+  let options = hash_options(cost, salt, version)?;
+  HashTask::validate_password(input.as_ref(), reject_long_passwords)?;
+  HashTask::hash(input.as_ref(), options.cost, options.salt, options.version)
 }
 
 #[napi]
 pub fn hash(
-  input: Either<Uint8Array, String>,
-  cost: Option<u32>,
+  input: Either<String, &[u8]>,
+  cost: Option<f64>,
   salt: Option<Either<String, &[u8]>>,
+  version: Option<String>,
+  reject_long_passwords: bool,
   signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<HashTask>> {
-  let salt = if let Some(salt) = salt {
-    let mut s = [0u8; 16];
-    let buf = salt.as_ref();
-    // make sure salt buffer length should be 16
-    let copy_length = cmp::min(buf.len(), s.len());
-    s[..copy_length].copy_from_slice(&buf[..copy_length]);
-    s
-  } else {
-    gen_salt()
+  let options = hash_options(cost, salt, version)?;
+  HashTask::validate_password(input.as_ref(), reject_long_passwords)?;
+  let task = HashTask {
+    password: input.as_ref().to_vec(),
+    cost: options.cost,
+    salt: options.salt,
+    version: options.version,
   };
-  let task = HashTask::new(input, cost.unwrap_or(DEFAULT_COST), salt);
   Ok(AsyncTask::with_optional_signal(task, signal))
 }
 
 #[napi]
-#[inline]
-pub fn verify_sync(input: Either<String, &[u8]>, hash: Either<String, &[u8]>) -> Result<bool> {
-  VerifyTask::verify(input, hash)
+pub fn verify_sync(input: Either<String, &[u8]>, hash: Either<String, &[u8]>) -> bool {
+  VerifyTask::verify(input.as_ref(), hash.as_ref())
 }
 
 #[napi]
 pub fn verify(
-  password: Either<Uint8Array, String>,
-  hash: Either<Uint8Array, String>,
+  password: Either<String, &[u8]>,
+  hash: Either<String, &[u8]>,
   signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<VerifyTask>> {
-  let task = VerifyTask::new(password, hash);
+  let task = VerifyTask {
+    password: password.as_ref().to_vec(),
+    hash: hash.as_ref().to_vec(),
+  };
   Ok(AsyncTask::with_optional_signal(task, signal))
-}
-
-#[inline]
-fn version_from_str(version: Option<String>) -> Result<Version> {
-  match version.as_deref() {
-    Some("2a") => Ok(Version::TwoA),
-    Some("2b") | None => Ok(Version::TwoB),
-    Some("2x") => Ok(Version::TwoX),
-    Some("2y") => Ok(Version::TwoY),
-    Some(version) => Err(Error::new(
-      Status::InvalidArg,
-      format!("{version} is not a valid version"),
-    )),
-  }
 }
