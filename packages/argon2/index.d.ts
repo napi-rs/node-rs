@@ -89,9 +89,14 @@ export interface ParsedHashOptions {
  */
 export declare function parseOptions(hashed: string | Uint8Array): ParsedHashOptions
 
-export declare function verify(hashed: string | Uint8Array, password: string | Uint8Array, options?: Options | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<boolean>
+export declare function verify(hashed: string | Uint8Array, password: string | Uint8Array, options?: VerifyOptions | undefined | null, abortSignal?: AbortSignal | undefined | null): Promise<boolean>
 
-export declare function verifySync(hashed: string | Uint8Array, password: string | Uint8Array, options?: Options | undefined | null): boolean
+/** Cryptographic inputs not already contained in the stored PHC string. */
+export interface VerifyOptions {
+  secret?: Uint8Array
+}
+
+export declare function verifySync(hashed: string | Uint8Array, password: string | Uint8Array, options?: VerifyOptions | undefined | null): boolean
 
 export declare const enum Version {
   /** Version 16 (0x10 in hex) */

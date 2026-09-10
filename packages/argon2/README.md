@@ -102,20 +102,37 @@ export interface Options {
   parallelism?: number | undefined | null
   algorithm?: Algorithm | undefined | null
   version?: Version | undefined | null
-  secret?: Buffer | undefined | null
+  secret?: Uint8Array
+  salt?: Uint8Array
 }
 export function hash(
   password: string | Buffer,
   options?: Options | undefined | null,
   abortSignal?: AbortSignal | undefined | null,
 ): Promise<string>
+export interface VerifyOptions {
+  secret?: Uint8Array
+}
 export function verify(
-  hashed: string | Buffer,
-  password: string | Buffer,
-  options?: Options | undefined | null,
-  abortSignal?: AbortSignal | undefined | null,
+  hashed: string | Uint8Array,
+  password: string | Uint8Array,
+  options?: VerifyOptions | null,
+  abortSignal?: AbortSignal | null,
 ): Promise<boolean>
+export function verifySync(
+  hashed: string | Uint8Array,
+  password: string | Uint8Array,
+  options?: VerifyOptions | null,
+): boolean
 ```
+
+## Migrating to 3.x
+
+`verify` and `verifySync` now use `VerifyOptions`, containing only `secret`. Remove hashing-only fields such as `salt`, `memoryCost`, `timeCost`, `parallelism`, `algorithm`, and `version` from verification options. Those values come from the stored PHC string. Hashing `Options` still supports explicit salts.
+
+Existing stored hashes remain verifiable with the same password and, where used, the same external secret. This includes hashes created before the explicit-salt fix; verification uses the actual salt embedded in the stored hash. No database rewrite or password reset is required.
+
+Hash-first argument order, the fourth-position async signal, and existing error behavior are unchanged. Bcrypt's options/signals redesign does not apply to Argon2. This change also does not alter the existing requirement that verification byte passwords contain valid UTF-8.
 
 ## `parseOptions` — needs-rehash checks
 

@@ -8,31 +8,35 @@
 ## Usage
 
 ```typescript
-export const DEFAULT_COST: 12
+import { hash, hashSync, verify, verifySync, genSalt, compare } from '@node-rs/bcrypt'
 
-export function hashSync(password: string | Buffer, round?: number): string
-export function hash(password: string | Buffer, round?: number): Promise<string>
-export function verifySync(password: string | Buffer, hash: string | Buffer): boolean
-export function verify(password: string | Buffer, hash: string | Buffer): Promise<boolean>
-/**
- * The same with `verifySync`
- */
-export function compareSync(password: string | Buffer, hash: string | Buffer): boolean
-/**
- * The same with `verify`
- */
-export function compare(password: string | Buffer, hash: string | Buffer): Promise<boolean>
+const storedHash = await hash('password', { cost: 12 })
+await verify('password', storedHash) // true
 
-export type Version = '2a' | '2x' | '2y' | '2b'
-/**
- * @param version default '2b'
- */
-export function genSaltSync(round: number, version?: Version): string
-/**
- * @param version default '2b'
- */
-export function genSalt(round: number, version?: Version): Promise<string>
+const salt = await genSalt({ cost: 12 })
+const withExplicitSalt = hashSync('password', { salt })
+verifySync('password', withExplicitSalt) // true
+await compare('password', storedHash) // alias of verify
 ```
+
+`hash` and `hashSync` accept a string or `Uint8Array` password and an options object. `cost` defaults to 12 and must be an integer from 4 through 31. Omitted salts use 16 random bytes. `salt` can be exactly 16 raw bytes or a canonical 29-character encoded bcrypt salt; an encoded salt supplies its own cost and version, so overrides are rejected. Creation supports `2a`, `2b` (default), and `2y`.
+
+`genSalt` and `genSaltSync` accept `{ cost?, version? }`. `verify` and `verifySync` take the password first and the complete stored hash second. Both password and hash accept `Uint8Array`, including `Buffer`. `compare` and `compareSync` are exact aliases. See [the declarations](index.d.ts) for the complete API.
+
+Bcrypt uses at most 72 password bytes. That default is unchanged for hashing and verification, including existing database hashes. To reject longer passwords when creating a hash, explicitly set `rejectLongPasswords: true`. This checks bytes, not JavaScript string length, and accepts exactly 72 bytes. Verification has no length-policy option.
+
+Async functions accept `signal` inside their options object and report errors through Promise rejection. Synchronous functions throw. Invalid call shapes use `TypeError`; invalid creation values use `RangeError`. Wrong passwords and malformed stored hashes return `false`. Verification retains existing accepted encodings independently of the stricter creation parser.
+
+```typescript
+await hash('password', { cost: 12, signal: controller.signal })
+await verify('password', storedHash, { signal: controller.signal })
+```
+
+An already-aborted signal prevents queueing. Aborting a pending operation rejects with `name: 'AbortError'`; native work that has already started may finish in the background. Shared and reused signals are supported without replacing existing handlers. The first observed completion or abort determines the result.
+
+The browser entry uses the same public wrapper and aliases over WASI. Published packages include the matching WASI backend as an optional dependency. Platform-specific backend packages and `binding.js` are internal interfaces; import the public package entry.
+
+Upgrading from 1.x requires call-site changes. **Existing stored hashes do not require rewriting or password resets.** See [migration instructions](MIGRATION.md).
 
 ## Bench
 

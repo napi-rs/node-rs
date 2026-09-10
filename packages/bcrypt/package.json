@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt",
-  "version": "1.10.9",
+  "version": "2.0.0",
   "description": "Rust bcrypt binding",
   "keywords": [
     "N-API",
@@ -30,14 +30,16 @@
   "files": [
     "binding.d.ts",
     "binding.js",
-    "browser.js",
+    "browser-entry.js",
     "index.d.ts",
     "index.js",
     "LICENSE",
-    "LICENSE.rust-bcrypt"
+    "LICENSE.rust-bcrypt",
+    "api.cjs",
+    "MIGRATION.md"
   ],
   "main": "index.js",
-  "browser": "browser.js",
+  "browser": "browser-entry.js",
   "typings": "index.d.ts",
   "publishConfig": {
     "access": "public",
@@ -47,7 +49,7 @@
     "artifacts": "napi artifacts -d ../../artifacts",
     "bench": "cross-env NODE_ENV=production node --import @oxc-node/core/register benchmark/bcrypt.ts",
     "build": "napi build --platform --release --js binding.js --dts binding.d.ts",
-    "build:debug": "napi build --platform",
+    "build:debug": "napi build --platform --js binding.js --dts binding.d.ts",
     "prepublishOnly": "napi prepublish",
     "version": "napi version"
   },
@@ -55,9 +57,11 @@
     "@cwasm/openbsd-bcrypt": "^0.1.0",
     "@cwasm/openwall-bcrypt": "^0.1.0",
     "@napi-rs/cli": "^3.8.6",
+    "@node-rs/bcrypt-wasm32-wasi": "1.10.9",
     "@types/bcrypt": "^6.0.0",
     "@types/bcryptjs": "^3.0.0",
     "bcrypt": "^6.0.0",
+    "bcrypt-previous": "npm:@node-rs/bcrypt@1.10.9",
     "bcryptjs": "^3.0.3",
     "cross-env": "^10.1.0",
     "tinybench": "^6.1.3"
@@ -79,7 +83,13 @@
       "i686-pc-windows-msvc",
       "armv7-linux-androideabi",
       "wasm32-wasip1-threads"
-    ]
+    ],
+    "wasm": {
+      "optionalDependency": true,
+      "browser": {
+        "fs": false
+      }
+    }
   },
   "engines": {
     "node": ">= 10"

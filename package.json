@@ -56,7 +56,8 @@
       "ts"
     ],
     "files": [
-      "packages/*/__test__/**/*.spec.ts"
+      "packages/*/__test__/**/*.spec.ts",
+      "packages/bcrypt/__tests__/**/*.spec.ts"
     ],
     "nodeArguments": [
       "--import",
