@@ -46,7 +46,7 @@ jobs:
         run: cargo fmt -- --check
 
       - name: Clippy
-        run: cargo clippy
+        run: cargo clippy --locked
   bench:
     name: Bench
     runs-on: ${{ matrix.settings.host }}
@@ -89,7 +89,7 @@ jobs:
         run: yarn install
 
       - name: build
-        run: yarn build
+        run: yarn build -- --locked
 
       - name: Bench
         run: yarn workspaces foreach -A -j 1 --no-private run bench
@@ -101,49 +101,49 @@ jobs:
         settings:
           - host: macos-latest
             target: 'x86_64-apple-darwin'
-            build: yarn build --target x86_64-apple-darwin
+            build: yarn build --target x86_64-apple-darwin -- --locked
           - host: windows-latest
-            build: yarn build
+            build: yarn build -- --locked
             target: 'x86_64-pc-windows-msvc'
           - host: windows-latest
-            build: yarn build --target i686-pc-windows-msvc
+            build: yarn build --target i686-pc-windows-msvc -- --locked
             target: 'i686-pc-windows-msvc'
           - host: ubuntu-latest
             target: 'x86_64-unknown-linux-gnu'
-            build: TARGET_CC=clang yarn build --target x86_64-unknown-linux-gnu --use-napi-cross
+            build: TARGET_CC=clang yarn build --target x86_64-unknown-linux-gnu --use-napi-cross -- --locked
           - host: ubuntu-latest
             target: 'x86_64-unknown-linux-musl'
-            build: yarn build --target x86_64-unknown-linux-musl -x
+            build: yarn build --target x86_64-unknown-linux-musl -x -- --locked
           - host: macos-latest
             target: 'aarch64-apple-darwin'
-            build: yarn build --target aarch64-apple-darwin
+            build: yarn build --target aarch64-apple-darwin -- --locked
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
-            build: TARGET_CC=clang yarn build --target aarch64-unknown-linux-gnu --use-napi-cross
+            build: TARGET_CC=clang yarn build --target aarch64-unknown-linux-gnu --use-napi-cross -- --locked
           - host: ubuntu-latest
             target: 'armv7-unknown-linux-gnueabihf'
-            build: TARGET_CC=clang yarn build --target armv7-unknown-linux-gnueabihf --use-napi-cross
+            build: TARGET_CC=clang yarn build --target armv7-unknown-linux-gnueabihf --use-napi-cross -- --locked
           - host: ubuntu-latest
             target: aarch64-linux-android
-            build: yarn build --target aarch64-linux-android
+            build: yarn build --target aarch64-linux-android -- --locked
           - host: ubuntu-latest
             architecture: x64
             target: armv7-linux-androideabi
-            build: yarn build --target armv7-linux-androideabi
+            build: yarn build --target armv7-linux-androideabi -- --locked
           - host: ubuntu-latest
             target: 'aarch64-unknown-linux-musl'
             downloadTarget: 'aarch64-unknown-linux-musl'
-            build: yarn build --target aarch64-unknown-linux-musl -x
+            build: yarn build --target aarch64-unknown-linux-musl -x -- --locked
           - host: windows-latest
             target: 'aarch64-pc-windows-msvc'
-            build: yarn build --target aarch64-pc-windows-msvc
+            build: yarn build --target aarch64-pc-windows-msvc -- --locked
           - host: ubuntu-latest
             target: 'wasm32-wasip1-threads'
             build: |
               wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-29/wasi-sdk-29.0-x86_64-linux.tar.gz
               tar -xvf wasi-sdk-29.0-x86_64-linux.tar.gz
               export WASI_SDK_PATH="$(pwd)/wasi-sdk-29.0-x86_64-linux"
-              yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/deno-lint" run build --target wasm32-wasip1-threads
+              yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/deno-lint" run build --target wasm32-wasip1-threads -- --locked
 
     name: stable - ${{ matrix.settings.target }} - node@24
     runs-on: ${{ matrix.settings.host }}
@@ -171,11 +171,6 @@ jobs:
             ~/.napi-rs
             target
           key: ${{ matrix.settings.target }}-cargo-registry
-
-      - name: Setup toolchain
-        run: ${{ matrix.settings.setup }}
-        if: ${{ matrix.settings.setup }}
-        shell: bash
 
       - uses: mlugg/setup-zig@v2
         if: ${{ contains(matrix.settings.target, 'musl') }}
@@ -257,7 +252,7 @@ jobs:
             env
             freebsd-version
             yarn install --immutable --mode=skip-build
-            yarn build
+            yarn build -- --locked
             strip -x packages/*/*.node
             rm -rf node_modules
             rm -rf target

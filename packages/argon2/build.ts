@@ -9,6 +9,9 @@ if (options.target !== 'wasm32-wasip1-threads') {
   options.features.push('parallel')
 }
 
-const { task } = await cli.build(options)
+const { task } = await cli.build({
+  ...options,
+  cargoOptions: build.cargoOptions,
+})
 
 await task
