@@ -10,3 +10,7 @@ mimalloc-safe = { workspace = true, features = ["skip_collect_on_exit"] }
 
 [target.'cfg(any(target_os = "linux", target_os = "freebsd"))'.dependencies]
 mimalloc-safe = { workspace = true, features = ["skip_collect_on_exit", "local_dynamic_tls"] }
+
+# Keep Linux ARM64 compatible with CPUs without ARMv8.1 LSE atomics.
+[target.'cfg(all(target_os = "linux", target_arch = "aarch64"))'.dependencies]
+mimalloc-safe = { workspace = true, features = ["no_opt_arch"] }
