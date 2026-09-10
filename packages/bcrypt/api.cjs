@@ -1,4 +1,5 @@
 // Shared by the Node entry (including WASI fallback) and the browser entry.
+// Keep this adapter parseable on Node 10, before any runtime feature checks.
 module.exports = function createBcrypt(binding) {
   if (binding.BCRYPT_API_VERSION !== 2) {
     throw new Error('Incompatible bcrypt binary: rebuild or reinstall the matching @node-rs/bcrypt backend')
@@ -54,10 +55,9 @@ module.exports = function createBcrypt(binding) {
 
   function signal(value) {
     if (value === undefined) return value
-    const getter =
-      typeof AbortSignal === 'undefined'
-        ? undefined
-        : Object.getOwnPropertyDescriptor(AbortSignal.prototype, 'aborted')?.get
+    const descriptor =
+      typeof AbortSignal === 'undefined' ? undefined : Object.getOwnPropertyDescriptor(AbortSignal.prototype, 'aborted')
+    const getter = descriptor && descriptor.get
     try {
       if (!getter) throw new TypeError()
       getter.call(value)
@@ -68,7 +68,7 @@ module.exports = function createBcrypt(binding) {
   }
 
   function nativeError(error) {
-    return error?.code === 'InvalidArg' ? new RangeError(error.message) : error
+    return error && error.code === 'InvalidArg' ? new RangeError(error.message) : error
   }
 
   function sync(start) {
@@ -88,7 +88,7 @@ module.exports = function createBcrypt(binding) {
       const finish = (callback, value) => {
         if (settled) return
         settled = true
-        userSignal?.removeEventListener('abort', abort)
+        if (userSignal !== undefined) userSignal.removeEventListener('abort', abort)
         callback(value)
       }
       const abort = () => {
@@ -107,7 +107,7 @@ module.exports = function createBcrypt(binding) {
       }
       try {
         // The binding copies all byte inputs before returning this Promise.
-        const task = start(controller?.signal)
+        const task = start(controller === undefined ? undefined : controller.signal)
         Promise.resolve(task).then(
           (value) => finish(resolve, value),
           (error) => finish(reject, nativeError(error)),
@@ -121,14 +121,14 @@ module.exports = function createBcrypt(binding) {
   function genSaltSync(value) {
     arity(arguments, 1)
     const opts = creation(options(value, ['cost', 'version']))
-    return sync(() => binding.genSaltSync(opts.cost ?? binding.DEFAULT_COST, opts.version))
+    return sync(() => binding.genSaltSync(opts.cost === undefined ? binding.DEFAULT_COST : opts.cost, opts.version))
   }
 
   async function genSalt(value) {
     arity(arguments, 1)
     const opts = creation(options(value, ['cost', 'version', 'signal']))
     return run(signal(opts.signal), (internal) =>
-      binding.genSalt(opts.cost ?? binding.DEFAULT_COST, opts.version, internal),
+      binding.genSalt(opts.cost === undefined ? binding.DEFAULT_COST : opts.cost, opts.version, internal),
     )
   }
 
@@ -136,7 +136,7 @@ module.exports = function createBcrypt(binding) {
     arity(arguments, 2)
     bytes(password, 'password')
     const opts = creation(options(value, ['cost', 'salt', 'version', 'rejectLongPasswords']))
-    return sync(() => binding.hashSync(password, opts.cost, opts.salt, opts.version, opts.rejectLongPasswords ?? false))
+    return sync(() => binding.hashSync(password, opts.cost, opts.salt, opts.version, opts.rejectLongPasswords === true))
   }
 
   async function hash(password, value) {
@@ -144,7 +144,7 @@ module.exports = function createBcrypt(binding) {
     bytes(password, 'password')
     const opts = creation(options(value, ['cost', 'salt', 'version', 'rejectLongPasswords', 'signal']))
     return run(signal(opts.signal), (internal) =>
-      binding.hash(password, opts.cost, opts.salt, opts.version, opts.rejectLongPasswords ?? false, internal),
+      binding.hash(password, opts.cost, opts.salt, opts.version, opts.rejectLongPasswords === true, internal),
     )
   }
 
