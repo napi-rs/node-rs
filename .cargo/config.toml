@@ -1,6 +1,3 @@
-[target.x86_64-unknown-linux-gnu]
-rustflags = ["-C", "target-feature=+sse4.2"]
-[target.x86_64-pc-windows-msvc]
-rustflags = ["-C", "target-feature=+sse4.2"]
+# Keep the default x86 CPU baseline; CRC implementations detect SIMD support at runtime.
 [target.aarch64-unknown-linux-musl]
 rustflags = ["-C", "target-feature=-crt-static"]
