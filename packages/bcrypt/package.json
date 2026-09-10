@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt",
-  "version": "1.10.8",
+  "version": "1.10.9",
   "description": "Rust bcrypt binding",
   "keywords": [
     "N-API",

@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/helper",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Helper library for node-rs",
   "keywords": [
     "N-API",

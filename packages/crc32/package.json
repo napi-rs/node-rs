@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/crc32",
-  "version": "1.10.7",
+  "version": "1.10.8",
   "description": "SIMD crc32",
   "keywords": [
     "NAPI",
