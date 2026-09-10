@@ -3,14 +3,22 @@ export type Password = string | Uint8Array
 export type Version = '2a' | '2b' | '2y'
 export declare const DEFAULT_COST: number // Remains 12.
 
+/** The cancellation interface used from native AbortSignals and compatible polyfills. */
+export interface AbortSignalLike {
+  readonly aborted: boolean
+  addEventListener(type: 'abort', listener: () => void, options?: { once?: boolean }): void
+  removeEventListener(type: 'abort', listener: () => void): void
+}
+
 export interface AsyncOptions {
   /**
    * For a valid call: pre-aborted signals reject with name AbortError before queueing.
    * Later abort rejects the pending public Promise with AbortError; running native work
    * may finish in the background. First observed settlement wins. Signal handlers
    * are preserved; shared/reused signals work independently for each operation.
+   * Locally imported polyfills work without installing global constructors.
    */
-  signal?: AbortSignal
+  signal?: AbortSignalLike
 }
 
 export interface SaltOptions {

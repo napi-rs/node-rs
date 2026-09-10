@@ -34,6 +34,8 @@ await verify('password', storedHash, { signal: controller.signal })
 
 An already-aborted signal prevents queueing. Aborting a pending operation rejects with `name: 'AbortError'`; native work that has already started may finish in the background. Shared and reused signals are supported without replacing existing handlers. The first observed completion or abort determines the result.
 
+On Node versions without built-in cancellation, pass a signal from a locally imported `AbortController` polyfill. No global installation is required. Signals must provide a boolean `aborted` property and `addEventListener`/`removeEventListener` methods for the `abort` event; see `AbortSignalLike` in the declarations.
+
 The browser entry uses the same public wrapper and aliases over WASI. Published packages include the matching WASI backend as an optional dependency. Platform-specific backend packages and `binding.js` are internal interfaces; import the public package entry.
 
 Upgrading from 1.x requires call-site changes. **Existing stored hashes do not require rewriting or password resets.** See [migration instructions](MIGRATION.md).
