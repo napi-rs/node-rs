@@ -321,6 +321,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Setup node for test dependencies
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install test dependencies
+        run: yarn install --immutable --mode=skip-build
+
       - name: Setup node
         uses: actions/setup-node@v7
         with:
@@ -335,6 +344,9 @@ jobs:
       # Avoid the modern development toolchain when testing the published API.
       - name: Test bcrypt public API and stored hashes
         run: node packages/bcrypt/__tests__/supported-node.cjs
+
+      - name: Test locally imported cancellation polyfill
+        run: node packages/bcrypt/__tests__/polyfill-cancellation.cjs
 
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
