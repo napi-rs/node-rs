@@ -55,14 +55,14 @@ module.exports = function createBcrypt(binding) {
 
   function signal(value) {
     if (value === undefined) return value
-    const descriptor =
-      typeof AbortSignal === 'undefined' ? undefined : Object.getOwnPropertyDescriptor(AbortSignal.prototype, 'aborted')
-    const getter = descriptor && descriptor.get
-    try {
-      if (!getter) throw new TypeError()
-      getter.call(value)
-    } catch {
-      throw new TypeError('signal must be an AbortSignal')
+    if (
+      value === null ||
+      typeof value !== 'object' ||
+      typeof value.aborted !== 'boolean' ||
+      typeof value.addEventListener !== 'function' ||
+      typeof value.removeEventListener !== 'function'
+    ) {
+      throw new TypeError('signal must provide aborted, addEventListener, and removeEventListener')
     }
     return value
   }
@@ -81,9 +81,9 @@ module.exports = function createBcrypt(binding) {
 
   function run(userSignal, start) {
     return new Promise((resolve, reject) => {
-      // One private signal per task avoids the native adapter's shared-signal state
-      // and prevents it from overwriting userSignal.onabort.
-      const controller = userSignal === undefined ? undefined : new AbortController()
+      // The native binding installs an onabort callback on the object it receives.
+      // Give each task a private bridge, independent of the caller's signal implementation.
+      const nativeSignal = userSignal === undefined ? undefined : { aborted: false, onabort: undefined }
       let settled = false
       const finish = (callback, value) => {
         if (settled) return
@@ -96,18 +96,19 @@ module.exports = function createBcrypt(binding) {
         const error = new Error('The operation was aborted')
         error.name = 'AbortError'
         finish(reject, error)
-        controller.abort()
+        nativeSignal.aborted = true
+        if (typeof nativeSignal.onabort === 'function') nativeSignal.onabort()
       }
       if (userSignal !== undefined) {
         userSignal.addEventListener('abort', abort, { once: true })
-        if (userSignal.aborted) {
+        if (settled || userSignal.aborted) {
           abort()
           return
         }
       }
       try {
         // The binding copies all byte inputs before returning this Promise.
-        const task = start(controller === undefined ? undefined : controller.signal)
+        const task = start(nativeSignal)
         Promise.resolve(task).then(
           (value) => finish(resolve, value),
           (error) => finish(reject, nativeError(error)),

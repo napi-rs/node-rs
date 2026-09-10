@@ -39,4 +39,6 @@ Async calls copy mutable byte inputs before returning. Changing a password, raw 
 
 Put `signal` in async options. A pre-aborted signal rejects before native work is queued. Later abort rejects the pending public Promise with `AbortError`; queued work is cancelled where possible, while running native computation may finish with its result discarded. Existing signal handlers are preserved, shared/reused signals work independently, and abort after observed completion has no effect.
 
+Native signals and compatible signals from locally imported polyfills are accepted. On Node 10 and 12, import an `AbortController` polyfill and pass `controller.signal`; neither constructor needs to be installed globally.
+
 Install the matching 2.x platform packages together with the root package. A backend contract check rejects stale binaries rather than silently interpreting new calls with old native arguments.

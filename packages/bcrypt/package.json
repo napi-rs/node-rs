@@ -60,6 +60,7 @@
     "@node-rs/bcrypt-wasm32-wasi": "1.10.9",
     "@types/bcrypt": "^6.0.0",
     "@types/bcryptjs": "^3.0.0",
+    "abort-controller": "3.0.0",
     "bcrypt": "^6.0.0",
     "bcrypt-previous": "npm:@node-rs/bcrypt@1.10.9",
     "bcryptjs": "^3.0.3",
