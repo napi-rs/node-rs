@@ -1,0 +1,254 @@
+{
+  "baseline": {
+    "package": "@node-rs/bcrypt",
+    "version": "1.10.9",
+    "date": "2026-09-10",
+    "node": "v25.2.1",
+    "syntheticOnly": true,
+    "arch": "x64",
+    "backend": "published wasm32-wasi 1.10.9 fallback, confirmed from loaded module paths"
+  },
+  "fixtures": [
+    {
+      "name": "ordinary internally generated salt",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$Iyx27HXZSB0TGLctKQvknumvyrTUQHhNLhs/Lp9QAkP5GzS/.CYeu",
+      "expected": true
+    },
+    {
+      "name": "ordinary internally generated salt: wrong prefix",
+      "passwordHex": "2173796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$Iyx27HXZSB0TGLctKQvknumvyrTUQHhNLhs/Lp9QAkP5GzS/.CYeu",
+      "expected": false
+    },
+    {
+      "name": "exact raw salt",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S",
+      "expected": true
+    },
+    {
+      "name": "exact raw salt: wrong prefix",
+      "passwordHex": "2173796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S",
+      "expected": false
+    },
+    {
+      "name": "empty positional salt",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$......................2VBaBohsKe8kgA1pDEkLBJ7N/fpMWfC",
+      "expected": true
+    },
+    {
+      "name": "empty positional salt: wrong prefix",
+      "passwordHex": "2173796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$......................2VBaBohsKe8kgA1pDEkLBJ7N/fpMWfC",
+      "expected": false
+    },
+    {
+      "name": "short positional text salt",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$YETqZE6................ZE13Qk.UWq4DgW87g6gkU0fTPEFRKC",
+      "expected": true
+    },
+    {
+      "name": "short positional text salt: wrong prefix",
+      "passwordHex": "2173796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$YETqZE6................ZE13Qk.UWq4DgW87g6gkU0fTPEFRKC",
+      "expected": false
+    },
+    {
+      "name": "long positional text salt",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S",
+      "expected": true
+    },
+    {
+      "name": "long positional text salt: wrong prefix",
+      "passwordHex": "2173796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S",
+      "expected": false
+    },
+    {
+      "name": "encoded positional salt with old padding",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$HBHgHB.yHCrAO1bJcC74R.Vr6Jf.PDm7M7k.onMahIMklf4LmZ7SC",
+      "expected": true
+    },
+    {
+      "name": "encoded positional salt with old padding: wrong prefix",
+      "passwordHex": "2173796e7468657469632d70617373776f7264",
+      "hash": "$2b$04$HBHgHB.yHCrAO1bJcC74R.Vr6Jf.PDm7M7k.onMahIMklf4LmZ7SC",
+      "expected": false
+    },
+    {
+      "name": "71-byte password",
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXecEcm5teoM3t82pnGlBmdnf0LIM4LTCS",
+      "expected": true
+    },
+    {
+      "name": "71-byte password: wrong prefix",
+      "passwordHex": "216161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXecEcm5teoM3t82pnGlBmdnf0LIM4LTCS",
+      "expected": false
+    },
+    {
+      "name": "72-byte password",
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "passwordHex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci",
+      "expected": true
+    },
+    {
+      "name": "72-byte password: wrong prefix",
+      "passwordHex": "21616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci",
+      "expected": false
+    },
+    {
+      "name": "73-byte password",
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaX",
+      "passwordHex": "61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616158",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci",
+      "expected": true
+    },
+    {
+      "name": "73-byte password: wrong prefix",
+      "passwordHex": "2161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616158",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci",
+      "expected": false
+    },
+    {
+      "name": "different ignored suffix still accepted",
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaY",
+      "passwordHex": "61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616159",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeGsVs.sqS00XPrwbGRaMzHFG3UAzw0Ci",
+      "expected": true
+    },
+    {
+      "name": "UTF-8 character across 72-byte boundary",
+      "passwordText": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaé",
+      "passwordHex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161c3a9",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXebNO28mWJtvf85WUCI4G1pYIqqN2YCGW",
+      "expected": true
+    },
+    {
+      "name": "UTF-8 character across 72-byte boundary: wrong prefix",
+      "passwordHex": "216161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161c3a9",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXebNO28mWJtvf85WUCI4G1pYIqqN2YCGW",
+      "expected": false
+    },
+    {
+      "name": "multibyte long password",
+      "passwordText": "éééééééééééééééééééééééééééééééééééééééé",
+      "passwordHex": "c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXei6Hb7SlfT6nGWjyM/STFV23fOIxuXcK",
+      "expected": true
+    },
+    {
+      "name": "multibyte long password: wrong prefix",
+      "passwordHex": "21c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXei6Hb7SlfT6nGWjyM/STFV23fOIxuXcK",
+      "expected": false
+    },
+    {
+      "name": "embedded NUL",
+      "passwordText": "a\u0000b",
+      "passwordHex": "610062",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeosN6pUItK875OWp7V79DHGzccSxfJry",
+      "expected": true
+    },
+    {
+      "name": "embedded NUL: wrong prefix",
+      "passwordHex": "21610062",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeosN6pUItK875OWp7V79DHGzccSxfJry",
+      "expected": false
+    },
+    {
+      "name": "empty password",
+      "passwordText": "",
+      "passwordHex": "",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeg/oaNzVlQFb3jg.67P.r1snBL8ZffHa",
+      "expected": true
+    },
+    {
+      "name": "empty password: wrong prefix",
+      "passwordHex": "21",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXeg/oaNzVlQFb3jg.67P.r1snBL8ZffHa",
+      "expected": false
+    },
+    {
+      "name": "raw non-UTF-8 password bytes",
+      "passwordHex": "ffa30080",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXe2Kk.nYQJmuXk/gg9kg4tabiXCFscQRG",
+      "expected": true
+    },
+    {
+      "name": "raw non-UTF-8 password bytes: wrong prefix",
+      "passwordHex": "21ffa30080",
+      "hash": "$2b$04$KBCwKxOzLha2MUDgW0PjXe2Kk.nYQJmuXk/gg9kg4tabiXCFscQRG",
+      "expected": false
+    },
+    {
+      "name": "cost 5",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2b$05$KBCwKxOzLha2MUDgW0PjXeE7YXZXjTMz/ShaHBN92.DKFo9RcxxMO",
+      "expected": true
+    },
+    {
+      "name": "cost 5: wrong prefix",
+      "passwordHex": "2173796e7468657469632d70617373776f7264",
+      "hash": "$2b$05$KBCwKxOzLha2MUDgW0PjXeE7YXZXjTMz/ShaHBN92.DKFo9RcxxMO",
+      "expected": false
+    },
+    {
+      "name": "accepted imported 2a label",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2a$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S",
+      "expected": true
+    },
+    {
+      "name": "accepted imported 2x label",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2x$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S",
+      "expected": true
+    },
+    {
+      "name": "accepted imported 2y label",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "$2y$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S",
+      "expected": true
+    },
+    {
+      "name": "genuine historical 2x remains rejected",
+      "passwordHex": "a3",
+      "hash": "$2x$05$/OK.fbVrR/bpIqNJ5ianF.CE5elHaaO4EbggVDjb8P19RukzXSM3e",
+      "expected": false
+    },
+    {
+      "name": "corrected value labeled 2x remains accepted",
+      "passwordHex": "a3",
+      "hash": "$2x$05$/OK.fbVrR/bpIqNJ5ianF.Sa7shbm4.OzKpvFnX1pQLmQW96oUlCq",
+      "expected": true
+    },
+    {
+      "name": "malformed text remains rejected",
+      "passwordText": "synthetic-password",
+      "passwordHex": "73796e7468657469632d70617373776f7264",
+      "hash": "not-a-hash",
+      "expected": false
+    }
+  ]
+}

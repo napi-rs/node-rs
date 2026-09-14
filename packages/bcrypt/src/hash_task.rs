@@ -1,25 +1,28 @@
-use napi::{
-  Env, Error, Result, Status, Task,
-  bindgen_prelude::{Either, Uint8Array},
-};
+use bcrypt::Version;
+use napi::{Env, Error, Result, Status, Task};
 use napi_derive::napi;
 
 pub struct HashTask {
-  buf: Either<Uint8Array, String>,
-  cost: u32,
-  salt: [u8; 16],
+  pub(crate) password: Vec<u8>,
+  pub(crate) cost: u32,
+  pub(crate) salt: [u8; 16],
+  pub(crate) version: Version,
 }
 
 impl HashTask {
-  #[inline]
-  pub fn new(buf: Either<Uint8Array, String>, cost: u32, salt: [u8; 16]) -> HashTask {
-    HashTask { buf, cost, salt }
+  pub fn validate_password(password: &[u8], reject_long_passwords: bool) -> Result<()> {
+    if reject_long_passwords && password.len() > 72 {
+      return Err(Error::new(
+        Status::InvalidArg,
+        "password must not exceed 72 bytes",
+      ));
+    }
+    Ok(())
   }
 
-  #[inline]
-  pub fn hash(buf: &[u8], salt: [u8; 16], cost: u32) -> Result<String> {
-    bcrypt::hash_with_salt(buf, cost, salt)
-      .map(|hash_part| hash_part.to_string())
+  pub fn hash(password: &[u8], cost: u32, salt: [u8; 16], version: Version) -> Result<String> {
+    bcrypt::hash_with_salt(password, cost, salt)
+      .map(|parts| parts.format_for_version(version))
       .map_err(|err| Error::new(Status::GenericFailure, format!("{err}")))
   }
 }
@@ -30,7 +33,7 @@ impl Task for HashTask {
   type JsValue = String;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    Self::hash(self.buf.as_ref(), self.salt, self.cost)
+    Self::hash(&self.password, self.cost, self.salt, self.version.clone())
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {

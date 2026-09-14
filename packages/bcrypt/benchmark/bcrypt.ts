@@ -4,7 +4,7 @@ import { hashSync, compare, genSaltSync } from 'bcrypt'
 import bcryptjs from 'bcryptjs'
 import { Bench } from 'tinybench'
 
-import { hashSync as napiHashSync, verifySync, genSaltSync as napiGenSaltSync } from '../binding.js'
+import { hashSync as napiHashSync, verifySync, genSaltSync as napiGenSaltSync } from '../index.js'
 
 const password = 'node-rust-password'
 
@@ -14,7 +14,7 @@ const syncHashSuite = new Bench({
 
 syncHashSuite
   .add('@node-rs/bcrypt', () => {
-    napiHashSync(password, 10)
+    napiHashSync(password, { cost: 10 })
   })
   .add('node bcrypt', () => {
     hashSync(password, 10)
@@ -36,7 +36,7 @@ console.table(syncHashSuite.table())
 const verifySuite = new Bench({
   name: 'Verify benchmark`',
 })
-const hashed = napiHashSync(password, 12)
+const hashed = napiHashSync(password, { cost: 12 })
 verifySuite
   .add('@node-rs/bcrypt', () => {
     verifySync(password, hashed)
@@ -57,7 +57,7 @@ const genSaltSuite = new Bench({
 })
 genSaltSuite
   .add('@node-rs/bcrypt', () => {
-    napiGenSaltSync(12)
+    napiGenSaltSync({ cost: 12 })
   })
   .add('node bcrypt', () => {
     genSaltSync(12)
