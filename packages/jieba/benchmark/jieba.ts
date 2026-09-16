@@ -31,6 +31,7 @@ async function createBench(suitename: string, napi: () => any[]) {
 
   await suite.run()
 
+  console.info(`Benchmark ${suitename} result`)
   console.table(suite.table())
 }
 
