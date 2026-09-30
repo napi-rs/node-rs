@@ -157,7 +157,11 @@ test('AbortError keeps the signal reason as a non-enumerable cause', async (t) =
   plain.abort()
   t.is((await t.throwsAsync(defaulted, { name: 'AbortError' }))!.cause, plain.signal.reason)
 
+  // AbortSignal.timeout() does not keep the event loop alive, and the controlled backend
+  // has no native work that would; hold the loop open until the timeout fires.
+  const keepAlive = setTimeout(() => {}, 10_000)
   const timedOut = await t.throwsAsync(api.hash('password', { signal: AbortSignal.timeout(1) }), { name: 'AbortError' })
+  clearTimeout(keepAlive)
   t.is((timedOut!.cause as Error).name, 'TimeoutError')
 
   const preAborted = await t.throwsAsync(bcrypt.verify('password', 'hash', { signal: AbortSignal.abort(reason) }), {
