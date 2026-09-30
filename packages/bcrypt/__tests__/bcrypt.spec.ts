@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import test from 'ava'
 import bcryptjs from 'bcryptjs'
 import previous from 'bcrypt-previous'
@@ -34,6 +35,25 @@ test('generated salts compose with hashing and independent implementations', asy
     }
   }
   t.is(hashSync('password', { cost: 4, salt: rawSalt }), bcryptjs.hashSync('password', '$2b$04$KBCwKxOzLha2MUDgW0PjXe'))
+})
+
+test('raw salts use the requested version', async (t) => {
+  for (const version of ['2a', '2b', '2y'] as const) {
+    const expected = bcryptjs.hashSync('password', `$${version}$04$KBCwKxOzLha2MUDgW0PjXe`)
+    t.is(hashSync('password', { cost: 4, salt: rawSalt, version }), expected)
+    t.is(await hash('password', { cost: 4, salt: rawSalt, version }), expected)
+  }
+})
+
+test('wrong option types throw TypeError while bad values throw RangeError', async (t) => {
+  for (const options of [{ cost: '10' }, { cost: null }, { version: 2 }, { version: null }]) {
+    t.throws(() => genSaltSync(options as never), { instanceOf: TypeError })
+    t.throws(() => hashSync('password', options as never), { instanceOf: TypeError })
+    await t.throwsAsync(genSalt(options as never), { instanceOf: TypeError })
+    await t.throwsAsync(hash('password', options as never), { instanceOf: TypeError })
+  }
+  // @ts-expect-error Exercise an unsupported version string.
+  t.throws(() => hashSync('password', { version: '2c' }), { instanceOf: RangeError })
 })
 
 test('creation validates costs before integer conversion', async (t) => {
@@ -108,6 +128,17 @@ test('default truncation is preserved; strict creation accepts exactly 72 bytes'
   }
   const result = hashSync('a'.repeat(72), { cost: 4 })
   t.true(await verify('a'.repeat(72) + 'different suffix', result))
+})
+
+test('async work keeps only the password bytes bcrypt reads', async (t) => {
+  const long = Buffer.alloc(200, 'a')
+  long[150] = 0x62
+  const expected = hashSync(long, { cost: 4, salt: rawSalt })
+  t.is(expected, bcryptjs.hashSync('a'.repeat(72), '$2b$04$KBCwKxOzLha2MUDgW0PjXe'))
+  t.is(await hash(view(long), { cost: 4, salt: rawSalt }), expected)
+  t.true(await verify(view(long), expected))
+  t.true(await verify(Buffer.alloc(72, 'a'), expected))
+  t.false(await verify(Buffer.alloc(71, 'a'), expected))
 })
 
 test('published historical hashes retain authentication and byte view handling', async (t) => {
@@ -190,4 +221,13 @@ test('pre-aborted and reused signals reject without overwriting handlers', async
 test('comparison aliases and public exports remain consistent', (t) => {
   t.is(compare, verify)
   t.is(compareSync, verifySync)
+})
+
+test('only the package root and package.json are exported', (t) => {
+  const require = createRequire(import.meta.url)
+  t.is(require('@node-rs/bcrypt').verify, verify)
+  t.is(require('@node-rs/bcrypt/package.json').name, '@node-rs/bcrypt')
+  for (const internal of ['@node-rs/bcrypt/binding', '@node-rs/bcrypt/binding.js', '@node-rs/bcrypt/api.cjs']) {
+    t.throws(() => require(internal), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' })
+  }
 })

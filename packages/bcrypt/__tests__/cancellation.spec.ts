@@ -34,6 +34,26 @@ function controlled() {
   return { api, pending }
 }
 
+// An older EventTarget style: the third argument is only a capture flag, and there is no reason.
+function legacySignal() {
+  const entries: { listener: () => void; capture: boolean }[] = []
+  return {
+    aborted: false,
+    entries,
+    addEventListener(_type: 'abort', listener: () => void, capture?: unknown) {
+      entries.push({ listener, capture: Boolean(capture) })
+    },
+    removeEventListener(_type: 'abort', listener: () => void, capture?: unknown) {
+      const index = entries.findIndex((entry) => entry.listener === listener && entry.capture === Boolean(capture))
+      if (index !== -1) entries.splice(index, 1)
+    },
+    abort() {
+      this.aborted = true
+      for (const { listener } of entries.slice()) listener()
+    },
+  }
+}
+
 test('a mismatched backend cannot silently interpret major-version calls', (t) => {
   t.throws(() => createBcrypt({ DEFAULT_COST: 12 }), { message: /Incompatible bcrypt binary/ })
 })
@@ -94,4 +114,54 @@ test('incomplete signal interfaces reject before calling the native backend', as
     await t.throwsAsync(api.hash('password', { signal }), { instanceOf: TypeError })
   }
   t.is(pending.length, 0)
+})
+
+test('listeners are removed with the options they were added with', async (t) => {
+  const { api, pending } = controlled()
+  const signal = legacySignal()
+  const completed = api.hash('first', { signal })
+  t.is(signal.entries.length, 1)
+  pending[0].resolve('done')
+  t.is(await completed, 'done')
+  t.is(signal.entries.length, 0)
+  const aborted = api.hash('second', { signal })
+  signal.abort()
+  const error = await t.throwsAsync(aborted, { name: 'AbortError' })
+  t.false('cause' in error!)
+  t.is(signal.entries.length, 0)
+})
+
+test('abort settles even if removing the listener throws', async (t) => {
+  const { api } = controlled()
+  const signal = legacySignal()
+  signal.removeEventListener = () => {
+    throw new Error('remove failed')
+  }
+  const operation = api.hash('password', { signal })
+  t.throws(() => signal.abort(), { message: 'remove failed' })
+  await t.throwsAsync(operation, { name: 'AbortError' })
+})
+
+test('AbortError keeps the signal reason as a non-enumerable cause', async (t) => {
+  const { api } = controlled()
+  const reason = new Error('stop')
+  const controller = new AbortController()
+  const custom = api.hash('password', { signal: controller.signal })
+  controller.abort(reason)
+  const error = await t.throwsAsync(custom, { name: 'AbortError' })
+  t.is(error!.cause, reason)
+  t.false(Object.getOwnPropertyDescriptor(error, 'cause')!.enumerable)
+
+  const plain = new AbortController()
+  const defaulted = api.hash('password', { signal: plain.signal })
+  plain.abort()
+  t.is((await t.throwsAsync(defaulted, { name: 'AbortError' }))!.cause, plain.signal.reason)
+
+  const timedOut = await t.throwsAsync(api.hash('password', { signal: AbortSignal.timeout(1) }), { name: 'AbortError' })
+  t.is((timedOut!.cause as Error).name, 'TimeoutError')
+
+  const preAborted = await t.throwsAsync(bcrypt.verify('password', 'hash', { signal: AbortSignal.abort(reason) }), {
+    name: 'AbortError',
+  })
+  t.is(preAborted!.cause, reason)
 })

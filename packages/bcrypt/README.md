@@ -25,18 +25,18 @@ await compare('password', storedHash) // alias of verify
 
 Bcrypt uses at most 72 password bytes. That default is unchanged for hashing and verification, including existing database hashes. To reject longer passwords when creating a hash, explicitly set `rejectLongPasswords: true`. This checks bytes, not JavaScript string length, and accepts exactly 72 bytes. Verification has no length-policy option.
 
-Async functions accept `signal` inside their options object and report errors through Promise rejection. Synchronous functions throw. Invalid call shapes use `TypeError`; invalid creation values use `RangeError`. Wrong passwords and malformed stored hashes return `false`. Verification retains existing accepted encodings independently of the stricter creation parser.
+Async functions accept `signal` inside their options object and report errors through Promise rejection. Synchronous functions throw. Invalid call shapes and option values of the wrong type use `TypeError`; values of the right type that are out of range or malformed use `RangeError`. Wrong passwords and malformed stored hashes return `false`. Verification retains existing accepted encodings independently of the stricter creation parser.
 
 ```typescript
 await hash('password', { cost: 12, signal: controller.signal })
 await verify('password', storedHash, { signal: controller.signal })
 ```
 
-An already-aborted signal prevents queueing. Aborting a pending operation rejects with `name: 'AbortError'`; native work that has already started may finish in the background. Shared and reused signals are supported without replacing existing handlers. The first observed completion or abort determines the result.
+An already-aborted signal prevents queueing. Aborting a pending operation rejects with `name: 'AbortError'`, whose `cause` is `signal.reason` when the signal provides one (for example the `TimeoutError` from `AbortSignal.timeout()`); native work that has already started may finish in the background. Shared and reused signals are supported without replacing existing handlers. The first observed completion or abort determines the result.
 
 On Node versions without built-in cancellation, pass a signal from a locally imported `AbortController` polyfill. No global installation is required. Signals must provide a boolean `aborted` property and `addEventListener`/`removeEventListener` methods for the `abort` event; see `AbortSignalLike` in the declarations.
 
-The browser entry uses the same public wrapper and aliases over WASI. Published packages include the matching WASI backend as an optional dependency. Platform-specific backend packages and `binding.js` are internal interfaces; import the public package entry.
+The browser entry uses the same public wrapper and aliases over WASI. The WASI backend is not installed by default; for browser builds, add `@node-rs/bcrypt-wasm32-wasi` at the same version as `@node-rs/bcrypt`. Only the package root is exported. Platform-specific backend packages and `binding.js` are internal interfaces.
 
 Upgrading from 1.x requires call-site changes. **Existing stored hashes do not require rewriting or password resets.** See [migration instructions](MIGRATION.md).
 

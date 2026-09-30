@@ -2,9 +2,10 @@ use std::str;
 
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
+use zeroize::Zeroizing;
 
 pub struct VerifyTask {
-  pub(crate) password: Vec<u8>,
+  pub(crate) password: Zeroizing<Vec<u8>>,
   pub(crate) hash: Vec<u8>,
 }
 

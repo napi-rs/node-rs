@@ -29,14 +29,15 @@ module.exports = function createBcrypt(binding) {
   }
 
   function creation(value) {
-    if (
-      value.cost !== undefined &&
-      (typeof value.cost !== 'number' || !Number.isInteger(value.cost) || value.cost < 4 || value.cost > 31)
-    ) {
-      throw new RangeError('cost must be an integer between 4 and 31')
+    if (value.cost !== undefined) {
+      if (typeof value.cost !== 'number') throw new TypeError('cost must be a number')
+      if (!Number.isInteger(value.cost) || value.cost < 4 || value.cost > 31) {
+        throw new RangeError('cost must be an integer between 4 and 31')
+      }
     }
-    if (value.version !== undefined && !['2a', '2b', '2y'].includes(value.version)) {
-      throw new RangeError('version must be 2a, 2b, or 2y')
+    if (value.version !== undefined) {
+      if (typeof value.version !== 'string') throw new TypeError('version must be a string')
+      if (!['2a', '2b', '2y'].includes(value.version)) throw new RangeError('version must be 2a, 2b, or 2y')
     }
     if (value.salt !== undefined) {
       bytes(value.salt, 'salt')
@@ -84,23 +85,30 @@ module.exports = function createBcrypt(binding) {
       // The native binding installs an onabort callback on the object it receives.
       // Give each task a private bridge, independent of the caller's signal implementation.
       const nativeSignal = userSignal === undefined ? undefined : { aborted: false, onabort: undefined }
+      // Pass the same options when removing, for EventTargets that read them as a capture flag.
+      const listenerOptions = { once: true }
       let settled = false
       const finish = (callback, value) => {
         if (settled) return
         settled = true
-        if (userSignal !== undefined) userSignal.removeEventListener('abort', abort)
+        // Settle first, so a throwing removeEventListener cannot leave the Promise pending.
         callback(value)
+        if (userSignal !== undefined) userSignal.removeEventListener('abort', abort, listenerOptions)
       }
       const abort = () => {
         if (settled) return
         const error = new Error('The operation was aborted')
         error.name = 'AbortError'
+        // Matches the native Error cause option, which Node < 16.9 ignores.
+        if (userSignal.reason !== undefined) {
+          Object.defineProperty(error, 'cause', { configurable: true, writable: true, value: userSignal.reason })
+        }
         finish(reject, error)
         nativeSignal.aborted = true
         if (typeof nativeSignal.onabort === 'function') nativeSignal.onabort()
       }
       if (userSignal !== undefined) {
-        userSignal.addEventListener('abort', abort, { once: true })
+        userSignal.addEventListener('abort', abort, listenerOptions)
         if (settled || userSignal.aborted) {
           abort()
           return
