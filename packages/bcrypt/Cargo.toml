@@ -15,6 +15,7 @@ global_alloc = { workspace = true }
 napi = { workspace = true, default-features = false, features = ["napi3"] }
 napi-derive = { workspace = true }
 rand = { workspace = true }
+zeroize = { workspace = true }
 
 [dev-dependencies]
 quickcheck = { workspace = true }

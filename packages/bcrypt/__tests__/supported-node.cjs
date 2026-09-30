@@ -9,6 +9,8 @@ async function main() {
   assert.strictEqual(bcrypt.DEFAULT_COST, 12)
   assert.strictEqual(bcrypt.compare, bcrypt.verify)
   assert.strictEqual(bcrypt.compareSync, bcrypt.verifySync)
+  // Resolves through "exports" on Node 12 and through "main" on Node 10.
+  assert.strictEqual(require('@node-rs/bcrypt').verify, bcrypt.verify)
   assert.ok(bcrypt.genSaltSync().startsWith('$2b$12$'))
   assert.ok((await bcrypt.genSalt()).startsWith('$2b$12$'))
 
@@ -36,6 +38,7 @@ async function main() {
   assert.throws(() => bcrypt.hashSync(longPassword, { cost: 4, rejectLongPasswords: true }), RangeError)
   await assert.rejects(bcrypt.hash('password', { salt: 'invalid' }), RangeError)
   await assert.rejects(bcrypt.genSalt({ cost: 3 }), RangeError)
+  await assert.rejects(bcrypt.genSalt({ cost: '4' }), TypeError)
   const invalid = bcrypt.hash('password', 4)
   assert.ok(invalid instanceof Promise)
   await assert.rejects(invalid, TypeError)

@@ -39,53 +39,60 @@ pub(crate) fn hash_options(
   salt: Option<Either<String, &[u8]>>,
   version: Option<String>,
 ) -> Result<HashOptions> {
-  if let Some(Either::A(encoded)) = salt.as_ref() {
-    if cost.is_some() || version.is_some() {
-      return Err(Error::new(
-        Status::InvalidArg,
-        "an encoded salt already supplies cost and version",
-      ));
+  let raw_salt = match salt {
+    Some(Either::A(encoded)) => {
+      if cost.is_some() || version.is_some() {
+        return Err(Error::new(
+          Status::InvalidArg,
+          "an encoded salt already supplies cost and version",
+        ));
+      }
+      return parse_encoded_salt(&encoded);
     }
-    let invalid = || {
-      Error::new(
-        Status::InvalidArg,
-        "salt must be a canonical 29-character bcrypt salt",
-      )
-    };
-    if encoded.len() != 29 || !encoded.is_ascii() {
-      return Err(invalid());
-    }
-    let bytes = encoded.as_bytes();
-    if bytes[0] != b'$'
-      || bytes[3] != b'$'
-      || bytes[6] != b'$'
-      || !bytes[4].is_ascii_digit()
-      || !bytes[5].is_ascii_digit()
-    {
-      return Err(invalid());
-    }
-    let version = version_from_str(Some(&encoded[1..3]))?;
-    let cost = validate_cost(((bytes[4] - b'0') * 10 + bytes[5] - b'0') as f64)?;
-    let decoded = salt_engine().decode(&encoded[7..]).map_err(|_| invalid())?;
-    let salt: [u8; 16] = decoded.try_into().map_err(|_| invalid())?;
-    if salt_engine().encode(salt) != encoded[7..] {
-      return Err(invalid());
-    }
-    return Ok(HashOptions {
-      cost,
-      salt,
-      version,
-    });
-  }
+    Some(Either::B(bytes)) => Some(bytes),
+    None => None,
+  };
   let cost = validate_cost(cost.unwrap_or(DEFAULT_COST as f64))?;
   let version = version_from_str(version.as_deref())?;
-  let salt = match salt {
-    Some(Either::B(bytes)) => bytes
+  let salt: [u8; 16] = match raw_salt {
+    Some(bytes) => bytes
       .try_into()
       .map_err(|_| Error::new(Status::InvalidArg, "raw salt must contain exactly 16 bytes"))?,
     None => gen_salt(),
-    Some(Either::A(_)) => unreachable!(),
   };
+  Ok(HashOptions {
+    cost,
+    salt,
+    version,
+  })
+}
+
+fn parse_encoded_salt(encoded: &str) -> Result<HashOptions> {
+  let invalid = || {
+    Error::new(
+      Status::InvalidArg,
+      "salt must be a canonical 29-character bcrypt salt",
+    )
+  };
+  if encoded.len() != 29 || !encoded.is_ascii() {
+    return Err(invalid());
+  }
+  let bytes = encoded.as_bytes();
+  if bytes[0] != b'$'
+    || bytes[3] != b'$'
+    || bytes[6] != b'$'
+    || !bytes[4].is_ascii_digit()
+    || !bytes[5].is_ascii_digit()
+  {
+    return Err(invalid());
+  }
+  let version = version_from_str(Some(&encoded[1..3]))?;
+  let cost = validate_cost(((bytes[4] - b'0') * 10 + bytes[5] - b'0') as f64)?;
+  let decoded = salt_engine().decode(&encoded[7..]).map_err(|_| invalid())?;
+  let salt: [u8; 16] = decoded.try_into().map_err(|_| invalid())?;
+  if salt_engine().encode(salt) != encoded[7..] {
+    return Err(invalid());
+  }
   Ok(HashOptions {
     cost,
     salt,

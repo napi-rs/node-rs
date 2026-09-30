@@ -907,6 +907,7 @@ dependencies = [
  "napi-derive",
  "quickcheck",
  "rand 0.10.2",
+ "zeroize",
 ]
 
 [[package]]

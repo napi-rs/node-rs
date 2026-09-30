@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.0 (Unreleased)
+
+Existing stored hashes keep their verification results; no rewrite or password reset is needed. See [MIGRATION.md](./MIGRATION.md).
+
+### BREAKING CHANGES
+
+- Calls take an options object instead of positional arguments: `hash(password, { cost, salt, version, rejectLongPasswords, signal })`, `genSalt({ cost, version, signal })` and `verify(password, hash, { signal })`. Positional arguments and unknown options throw `TypeError`.
+- String salts must be canonical 29-character bcrypt salts, which supply their own cost and version. Raw salts must be exactly 16 bytes. 1.x clipped or padded string salts as raw text.
+- `genSalt` returns 29-character salts without `==` padding, and `2x` can no longer be generated.
+- Costs must be integers from 4 to 31. Fractional and overflowing values are rejected instead of truncated.
+- Async validation errors reject the returned Promise. Wrong option types throw `TypeError`; out-of-range or malformed values throw `RangeError`.
+- Aborting rejects with an `AbortError` whose `cause` is `signal.reason`, also when native work is already running. The 1.x `code: 'Cancelled'` is gone.
+- Stored hashes that are not valid UTF-8 make verification return `false` instead of throwing.
+- The package declares `exports`; only the package root and `package.json` can be imported.
+
+### Features
+
+- `rejectLongPasswords: true` rejects passwords longer than 72 bytes when creating a hash.
+- Async calls copy byte inputs before returning. Signals keep their existing handlers and can be shared between calls.
+- Signals from locally imported `AbortController` polyfills are accepted on Node 10 and 12.
+- The browser entry uses the same public API as Node.
+
 ## [1.10.8](https://github.com/napi-rs/node-rs/compare/%40node-rs%2Fbcrypt%401.10.7...%40node-rs%2Fbcrypt%401.10.8) (2026-08-13)
 
 ### Bug Fixes

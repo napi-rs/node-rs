@@ -37,8 +37,12 @@ Invalid UTF-8 bytes supplied as the stored hash now return `false`, consistently
 
 Async calls copy mutable byte inputs before returning. Changing a password, raw salt, or stored-hash array afterward no longer changes the queued operation.
 
-Put `signal` in async options. A pre-aborted signal rejects before native work is queued. Later abort rejects the pending public Promise with `AbortError`; queued work is cancelled where possible, while running native computation may finish with its result discarded. Existing signal handlers are preserved, shared/reused signals work independently, and abort after observed completion has no effect.
+Put `signal` in async options. A pre-aborted signal rejects before native work is queued. Later abort rejects the pending public Promise with `AbortError`, whose `cause` is the signal's `reason` when it has one; queued work is cancelled where possible, while running native computation may finish with its result discarded. Existing signal handlers are preserved, shared/reused signals work independently, and abort after observed completion has no effect.
 
 Native signals and compatible signals from locally imported polyfills are accepted. On Node 10 and 12, import an `AbortController` polyfill and pass `controller.signal`; neither constructor needs to be installed globally.
 
 Install the matching 2.x platform packages together with the root package. A backend contract check rejects stale binaries rather than silently interpreting new calls with old native arguments.
+
+## Package entry points
+
+The package now declares `exports`, so only `@node-rs/bcrypt` itself (and its `package.json`) can be imported. Deep imports such as `@node-rs/bcrypt/binding` or `@node-rs/bcrypt/index.js` fail; import the package root instead.

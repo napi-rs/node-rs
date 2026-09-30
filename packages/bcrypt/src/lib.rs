@@ -7,7 +7,7 @@ extern crate global_alloc;
 use napi::bindgen_prelude::*;
 use napi_derive::*;
 
-use crate::hash_task::HashTask;
+use crate::hash_task::{HashTask, owned_password};
 use crate::options::{hash_options, validate_cost, version_from_str};
 use crate::salt_task::{format_salt, gen_salt};
 use crate::verify_task::VerifyTask;
@@ -72,7 +72,7 @@ pub fn hash(
   let options = hash_options(cost, salt, version)?;
   HashTask::validate_password(input.as_ref(), reject_long_passwords)?;
   let task = HashTask {
-    password: input.as_ref().to_vec(),
+    password: owned_password(input.as_ref()),
     cost: options.cost,
     salt: options.salt,
     version: options.version,
@@ -92,7 +92,7 @@ pub fn verify(
   signal: Option<AbortSignal>,
 ) -> Result<AsyncTask<VerifyTask>> {
   let task = VerifyTask {
-    password: password.as_ref().to_vec(),
+    password: owned_password(password.as_ref()),
     hash: hash.as_ref().to_vec(),
   };
   Ok(AsyncTask::with_optional_signal(task, signal))

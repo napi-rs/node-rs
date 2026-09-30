@@ -1,6 +1,6 @@
 {
   "name": "@node-rs/bcrypt",
-  "version": "2.0.0",
+  "version": "1.10.9",
   "description": "Rust bcrypt binding",
   "keywords": [
     "N-API",
@@ -41,6 +41,14 @@
   "main": "index.js",
   "browser": "browser-entry.js",
   "typings": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "browser": "./browser-entry.js",
+      "default": "./index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -86,7 +94,6 @@
       "wasm32-wasip1-threads"
     ],
     "wasm": {
-      "optionalDependency": true,
       "browser": {
         "fs": false
       }
