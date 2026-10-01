@@ -91,17 +91,27 @@ module.exports = function createBcrypt(binding) {
       const finish = (callback, value) => {
         if (settled) return
         settled = true
-        // Settle first, so a throwing removeEventListener cannot leave the Promise pending.
         callback(value)
-        if (userSignal !== undefined) userSignal.removeEventListener('abort', abort, listenerOptions)
+        if (userSignal === undefined) return
+        try {
+          userSignal.removeEventListener('abort', abort, listenerOptions)
+        } catch {
+          // The call has settled; a listener that cannot be removed is left as a no-op.
+        }
       }
       const abort = () => {
         if (settled) return
         const error = new Error('The operation was aborted')
         error.name = 'AbortError'
+        let reason
+        try {
+          reason = userSignal.reason
+        } catch {
+          // An unreadable reason must not stop the abort.
+        }
         // Matches the native Error cause option, which Node < 16.9 ignores.
-        if (userSignal.reason !== undefined) {
-          Object.defineProperty(error, 'cause', { configurable: true, writable: true, value: userSignal.reason })
+        if (reason !== undefined) {
+          Object.defineProperty(error, 'cause', { configurable: true, writable: true, value: reason })
         }
         finish(reject, error)
         nativeSignal.aborted = true
