@@ -18,7 +18,7 @@ export interface AbortSignalLike {
   readonly aborted: boolean
   /** When defined at abort time, becomes the `cause` of the AbortError. */
   readonly reason?: unknown
-  addEventListener(type: 'abort', listener: () => void, options?: { once?: boolean }): void
+  addEventListener(type: 'abort', listener: () => void, options?: { once?: boolean; capture?: boolean }): void
   /** Receives the same options object the listener was added with. */
   removeEventListener(type: 'abort', listener: () => void, options?: { once?: boolean; capture?: boolean }): void
 }
