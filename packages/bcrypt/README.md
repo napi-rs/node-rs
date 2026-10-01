@@ -25,7 +25,7 @@ parseOptions(storedHash) // { version: '2b', cost: 12 }
 
 `genSalt` and `genSaltSync` accept `{ cost?, version? }`. `verify` and `verifySync` take the password first and the complete stored hash second. Both password and hash accept `Uint8Array`, including `Buffer`. `compare` and `compareSync` are exact aliases. See [the declarations](index.d.ts) for the complete API.
 
-`parseOptions` reads the `version` and `cost` of a stored hash with the same parser `verify` uses, so every hash `verify` can accept is parseable, including imported `2x` labels. Use it to decide whether a hash should be recomputed after a successful login:
+`parseOptions` reads the `version` and `cost` of a stored hash with the same parser `verify` uses, so every hash `verify` can accept is parseable, including imported `2x` labels; hashes `verify` always rejects throw `RangeError`. Use it to decide whether a hash should be recomputed after a successful login:
 
 ```typescript
 if (await verify(password, storedHash)) {

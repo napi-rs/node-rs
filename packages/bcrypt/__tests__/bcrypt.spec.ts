@@ -199,10 +199,6 @@ test('parseOptions reads stored hashes with the verifier parser, never the creat
   // Noncanonical spellings the verifier accepts are reported as their effective values.
   t.deepEqual(parseOptions('$2b$+4$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S'), { version: '2b', cost: 4 })
   t.deepEqual(parseOptions('$2x$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S'), { version: '2x', cost: 4 })
-  // A rehash-on-login policy check reads like this.
-  const policy = { cost: 12, version: '2b' }
-  const stored = parseOptions(encoded)
-  t.true(stored.cost < policy.cost || stored.version !== policy.version)
   // Hashes verify can never accept are errors rather than unusable parameters.
   for (const invalid of [
     '',
@@ -212,7 +208,8 @@ test('parseOptions reads stored hashes with the verifier parser, never the creat
     `$2c${encoded.slice(3)}`,
     `$2b$03${encoded.slice(6)}`,
     `$2b$32${encoded.slice(6)}`,
-    `${encoded.slice(0, 59)}é`,
+    // 60 bytes, but not ASCII.
+    `${encoded.slice(0, 58)}é`,
     Buffer.from([255]),
   ]) {
     t.throws(() => parseOptions(invalid), outOfRange)
@@ -221,7 +218,7 @@ test('parseOptions reads stored hashes with the verifier parser, never the creat
   // @ts-expect-error Wrong input types are TypeErrors, like everywhere else.
   t.throws(() => parseOptions(42), invalidType)
   // @ts-expect-error There are no options to pass.
-  t.throws(() => parseOptions(encoded, {}), invalidType)
+  t.throws(() => parseOptions(encoded, {}), { ...invalidType, message: /single hash argument/ })
 })
 
 test('async calls own password, salt, and stored-hash bytes before returning', async (t) => {

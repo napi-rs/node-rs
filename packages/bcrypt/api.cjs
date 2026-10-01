@@ -13,8 +13,8 @@ module.exports = function createBcrypt(binding) {
   const invalidType = (message) => withCode(new TypeError(message), 'ERR_INVALID_ARG_TYPE')
   const outOfRange = (message) => withCode(new RangeError(message), 'ERR_OUT_OF_RANGE')
 
-  function arity(args, maximum) {
-    if (args.length > maximum) throw invalidType('Positional bcrypt options are no longer supported')
+  function arity(args, maximum, message = 'Positional bcrypt options are no longer supported') {
+    if (args.length > maximum) throw invalidType(message)
   }
 
   function options(value, keys) {
@@ -192,7 +192,7 @@ module.exports = function createBcrypt(binding) {
   }
 
   function parseOptions(encoded) {
-    arity(arguments, 1)
+    arity(arguments, 1, 'parseOptions accepts a single hash argument')
     bytes(encoded, 'hash')
     return sync(() => binding.parseOptions(encoded))
   }
