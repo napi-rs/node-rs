@@ -5,18 +5,26 @@ module.exports = function createBcrypt(binding) {
     throw new Error('Incompatible bcrypt binary: rebuild or reinstall the matching @node-rs/bcrypt backend')
   }
 
+  // Error codes follow Node's conventions so callers can branch without matching messages.
+  function withCode(error, code) {
+    error.code = code
+    return error
+  }
+  const invalidType = (message) => withCode(new TypeError(message), 'ERR_INVALID_ARG_TYPE')
+  const outOfRange = (message) => withCode(new RangeError(message), 'ERR_OUT_OF_RANGE')
+
   function arity(args, maximum) {
-    if (args.length > maximum) throw new TypeError('Positional bcrypt options are no longer supported')
+    if (args.length > maximum) throw invalidType('Positional bcrypt options are no longer supported')
   }
 
   function options(value, keys) {
     if (value === undefined) return Object.create(null)
-    if (value === null || typeof value !== 'object') throw new TypeError('options must be an object')
+    if (value === null || typeof value !== 'object') throw invalidType('options must be an object')
     const prototype = Object.getPrototypeOf(value)
-    if (prototype !== null && prototype !== Object.prototype) throw new TypeError('options must be a plain object')
+    if (prototype !== null && prototype !== Object.prototype) throw invalidType('options must be a plain object')
     const result = Object.create(null)
     for (const key of Reflect.ownKeys(value)) {
-      if (!keys.includes(key)) throw new TypeError(`Unknown bcrypt option: ${String(key)}`)
+      if (!keys.includes(key)) throw invalidType(`Unknown bcrypt option: ${String(key)}`)
       result[key] = value[key]
     }
     return result
@@ -25,31 +33,31 @@ module.exports = function createBcrypt(binding) {
   function bytes(value, name) {
     if (typeof value === 'string') return value
     if (ArrayBuffer.isView(value) && Object.prototype.toString.call(value) === '[object Uint8Array]') return value
-    throw new TypeError(`${name} must be a string or Uint8Array`)
+    throw invalidType(`${name} must be a string or Uint8Array`)
   }
 
   function creation(value) {
     if (value.cost !== undefined) {
-      if (typeof value.cost !== 'number') throw new TypeError('cost must be a number')
+      if (typeof value.cost !== 'number') throw invalidType('cost must be a number')
       if (!Number.isInteger(value.cost) || value.cost < 4 || value.cost > 31) {
-        throw new RangeError('cost must be an integer between 4 and 31')
+        throw outOfRange('cost must be an integer between 4 and 31')
       }
     }
     if (value.version !== undefined) {
-      if (typeof value.version !== 'string') throw new TypeError('version must be a string')
-      if (!['2a', '2b', '2y'].includes(value.version)) throw new RangeError('version must be 2a, 2b, or 2y')
+      if (typeof value.version !== 'string') throw invalidType('version must be a string')
+      if (!['2a', '2b', '2y'].includes(value.version)) throw outOfRange('version must be 2a, 2b, or 2y')
     }
     if (value.salt !== undefined) {
       bytes(value.salt, 'salt')
       if (typeof value.salt === 'string') {
         if (value.cost !== undefined || value.version !== undefined)
-          throw new RangeError('an encoded salt already supplies cost and version')
+          throw outOfRange('an encoded salt already supplies cost and version')
       } else if (value.salt.byteLength !== 16) {
-        throw new RangeError('raw salt must contain exactly 16 bytes')
+        throw outOfRange('raw salt must contain exactly 16 bytes')
       }
     }
     if (value.rejectLongPasswords !== undefined && typeof value.rejectLongPasswords !== 'boolean') {
-      throw new TypeError('rejectLongPasswords must be a boolean')
+      throw invalidType('rejectLongPasswords must be a boolean')
     }
     return value
   }
@@ -63,13 +71,13 @@ module.exports = function createBcrypt(binding) {
       typeof value.addEventListener !== 'function' ||
       typeof value.removeEventListener !== 'function'
     ) {
-      throw new TypeError('signal must provide aborted, addEventListener, and removeEventListener')
+      throw invalidType('signal must provide aborted, addEventListener, and removeEventListener')
     }
     return value
   }
 
   function nativeError(error) {
-    return error && error.code === 'InvalidArg' ? new RangeError(error.message) : error
+    return error && error.code === 'InvalidArg' ? outOfRange(error.message) : error
   }
 
   function sync(start) {
@@ -101,7 +109,8 @@ module.exports = function createBcrypt(binding) {
       }
       const abort = () => {
         if (settled) return
-        const error = new Error('The operation was aborted')
+        // Same name and code as Node's AbortError.
+        const error = withCode(new Error('The operation was aborted'), 'ABORT_ERR')
         error.name = 'AbortError'
         let reason
         try {
@@ -182,6 +191,12 @@ module.exports = function createBcrypt(binding) {
     return run(signal(opts.signal), (internal) => binding.verify(password, encoded, internal))
   }
 
+  function parseOptions(encoded) {
+    arity(arguments, 1)
+    bytes(encoded, 'hash')
+    return sync(() => binding.parseOptions(encoded))
+  }
+
   return {
     DEFAULT_COST: binding.DEFAULT_COST,
     genSalt,
@@ -192,5 +207,6 @@ module.exports = function createBcrypt(binding) {
     verifySync,
     compare: verify,
     compareSync: verifySync,
+    parseOptions,
   }
 }

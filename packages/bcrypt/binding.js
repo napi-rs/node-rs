@@ -784,5 +784,6 @@ module.exports.genSalt = nativeBinding.genSalt
 module.exports.genSaltSync = nativeBinding.genSaltSync
 module.exports.hash = nativeBinding.hash
 module.exports.hashSync = nativeBinding.hashSync
+module.exports.parseOptions = nativeBinding.parseOptions
 module.exports.verify = nativeBinding.verify
 module.exports.verifySync = nativeBinding.verifySync

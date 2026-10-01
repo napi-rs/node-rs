@@ -13,12 +13,17 @@ import {
   verifySync,
   compare,
   compareSync,
+  parseOptions,
 } from '../index.js'
 
 const rawSalt = Buffer.from('0123456789abcdef')
 const fixture = <T>(name: string): T =>
   JSON.parse(readFileSync(new URL(`./fixtures/${name}.json`, import.meta.url), 'utf8'))
 const view = (bytes: Uint8Array) => Uint8Array.from([99, ...bytes, 100]).subarray(1, bytes.length + 1)
+const invalidType = { instanceOf: TypeError, code: 'ERR_INVALID_ARG_TYPE' }
+const outOfRange = { instanceOf: RangeError, code: 'ERR_OUT_OF_RANGE' }
+// What the encoded text itself says, to compare against the parser's reading.
+const spelled = (encoded: string) => ({ version: encoded.slice(1, 3), cost: Number(encoded.slice(4, 6)) })
 
 test('generated salts compose with hashing and independent implementations', async (t) => {
   t.is(DEFAULT_COST, 12)
@@ -47,21 +52,21 @@ test('raw salts use the requested version', async (t) => {
 
 test('wrong option types throw TypeError while bad values throw RangeError', async (t) => {
   for (const options of [{ cost: '10' }, { cost: null }, { version: 2 }, { version: null }]) {
-    t.throws(() => genSaltSync(options as never), { instanceOf: TypeError })
-    t.throws(() => hashSync('password', options as never), { instanceOf: TypeError })
-    await t.throwsAsync(genSalt(options as never), { instanceOf: TypeError })
-    await t.throwsAsync(hash('password', options as never), { instanceOf: TypeError })
+    t.throws(() => genSaltSync(options as never), invalidType)
+    t.throws(() => hashSync('password', options as never), invalidType)
+    await t.throwsAsync(genSalt(options as never), invalidType)
+    await t.throwsAsync(hash('password', options as never), invalidType)
   }
   // @ts-expect-error Exercise an unsupported version string.
-  t.throws(() => hashSync('password', { version: '2c' }), { instanceOf: RangeError })
+  t.throws(() => hashSync('password', { version: '2c' }), outOfRange)
 })
 
 test('creation validates costs before integer conversion', async (t) => {
   for (const cost of [3, 32, 4.9, 4294967300, -4294967292, NaN, Infinity, -Infinity]) {
-    t.throws(() => genSaltSync({ cost }), { instanceOf: RangeError })
-    t.throws(() => hashSync('password', { cost }), { instanceOf: RangeError })
-    await t.throwsAsync(genSalt({ cost }), { instanceOf: RangeError })
-    await t.throwsAsync(hash('password', { cost }), { instanceOf: RangeError })
+    t.throws(() => genSaltSync({ cost }), outOfRange)
+    t.throws(() => hashSync('password', { cost }), outOfRange)
+    await t.throwsAsync(genSalt({ cost }), outOfRange)
+    await t.throwsAsync(hash('password', { cost }), outOfRange)
   }
   // Validate the upper mathematical bound without computing a cost-31 hash.
   t.true(genSaltSync({ cost: 31 }).startsWith('$2b$31$'))
@@ -69,7 +74,7 @@ test('creation validates costs before integer conversion', async (t) => {
 
 test('creation requires exact raw or canonical encoded salts', async (t) => {
   for (const length of [0, 15, 17]) {
-    t.throws(() => hashSync('password', { cost: 4, salt: new Uint8Array(length) }), { instanceOf: RangeError })
+    t.throws(() => hashSync('password', { cost: 4, salt: new Uint8Array(length) }), outOfRange)
   }
   const salt = '$2b$04$KBCwKxOzLha2MUDgW0PjXe'
   for (const invalid of [
@@ -81,34 +86,35 @@ test('creation requires exact raw or canonical encoded salts', async (t) => {
     salt.slice(0, -1) + 'f',
     salt.replace('K', 'é'),
   ]) {
-    t.throws(() => hashSync('password', { salt: invalid }), { instanceOf: RangeError })
-    await t.throwsAsync(hash('password', { salt: invalid }), { instanceOf: RangeError })
+    // Native argument errors surface with the same class and code as JavaScript validation.
+    t.throws(() => hashSync('password', { salt: invalid }), outOfRange)
+    await t.throwsAsync(hash('password', { salt: invalid }), outOfRange)
   }
   // @ts-expect-error Encoded salts cannot be combined with cost overrides.
-  t.throws(() => hashSync('password', { salt, cost: 4 }), { instanceOf: RangeError })
+  t.throws(() => hashSync('password', { salt, cost: 4 }), outOfRange)
   // @ts-expect-error Encoded salts cannot be combined with version overrides.
-  await t.throwsAsync(hash('password', { salt, version: '2b' }), { instanceOf: RangeError })
+  await t.throwsAsync(hash('password', { salt, version: '2b' }), outOfRange)
   // @ts-expect-error 2x generation is removed.
-  await t.throwsAsync(genSalt({ version: '2x' }), { instanceOf: RangeError })
+  await t.throwsAsync(genSalt({ version: '2x' }), outOfRange)
 })
 
 test('removed call shapes fail clearly and async validation always rejects', async (t) => {
   // @ts-expect-error Positional calls are intentionally removed.
-  t.throws(() => hashSync('password', 4, rawSalt), { instanceOf: TypeError })
+  t.throws(() => hashSync('password', 4, rawSalt), invalidType)
   // @ts-expect-error Positional calls are intentionally removed.
   const invalid = hash('password', 4, rawSalt)
   t.true(invalid instanceof Promise)
-  await t.throwsAsync(invalid, { instanceOf: TypeError })
+  await t.throwsAsync(invalid, invalidType)
   // @ts-expect-error Positional generator arguments are removed.
-  await t.throwsAsync(genSalt(4), { instanceOf: TypeError })
+  await t.throwsAsync(genSalt(4), invalidType)
   // @ts-expect-error A bare signal must not silently become empty options.
-  await t.throwsAsync(verify('password', 'hash', new AbortController().signal), { instanceOf: TypeError })
+  await t.throwsAsync(verify('password', 'hash', new AbortController().signal), invalidType)
   // @ts-expect-error No verification salt override.
-  await t.throwsAsync(verify('password', 'hash', { salt: rawSalt }), { instanceOf: TypeError })
+  await t.throwsAsync(verify('password', 'hash', { salt: rawSalt }), invalidType)
   // @ts-expect-error Invalid runtime input must reject instead of throwing before a Promise.
-  await t.throwsAsync(hash(null), { instanceOf: TypeError })
+  await t.throwsAsync(hash(null), invalidType)
   // @ts-expect-error Unknown keys must not silently choose the default cost.
-  await t.throwsAsync(hash('password', { rounds: 4 }), { instanceOf: TypeError })
+  await t.throwsAsync(hash('password', { rounds: 4 }), invalidType)
 })
 
 test('default truncation is preserved; strict creation accepts exactly 72 bytes', async (t) => {
@@ -118,8 +124,8 @@ test('default truncation is preserved; strict creation accepts exactly 72 bytes'
     t.is(await hash(password, { cost: 4, salt: rawSalt, rejectLongPasswords: true }), result)
   }
   for (const password of ['a'.repeat(73), 'é'.repeat(37)]) {
-    t.throws(() => hashSync(password, { cost: 4, rejectLongPasswords: true }), { instanceOf: RangeError })
-    await t.throwsAsync(hash(password, { cost: 4, rejectLongPasswords: true }), { instanceOf: RangeError })
+    t.throws(() => hashSync(password, { cost: 4, rejectLongPasswords: true }), outOfRange)
+    await t.throwsAsync(hash(password, { cost: 4, rejectLongPasswords: true }), outOfRange)
     const old = previous.hashSync(password, 4)
     t.true(await verify(password, old))
     const rehashed = await hash(password, { cost: 4 })
@@ -154,6 +160,7 @@ test('published historical hashes retain authentication and byte view handling',
     t.true(verifySync(view(bytes), view(Buffer.from(row.hash))), label)
     t.true(await verify(view(bytes), view(Buffer.from(row.hash))), label)
     t.false(await verify(Buffer.concat([Buffer.from('!'), bytes]), row.hash), label)
+    t.deepEqual(parseOptions(row.hash), spelled(row.hash), label)
   }
 })
 
@@ -165,6 +172,8 @@ test('previous-release acceptance and rejection outcomes stay frozen', async (t)
     const password = Buffer.from(row.passwordHex, 'hex')
     t.is(verifySync(password, row.hash), row.expected, row.name)
     t.is(await verify(password, row.hash), row.expected, row.name)
+    // Every hash the verifier accepts is parseable; this includes imported 2x labels.
+    if (row.expected) t.deepEqual(parseOptions(row.hash), spelled(row.hash), row.name)
   }
   const parser = fixture<{ fixtures: { name: string; password: string; hash: string; expected: boolean }[] }>(
     'verification-parser-fixtures',
@@ -172,9 +181,47 @@ test('previous-release acceptance and rejection outcomes stay frozen', async (t)
   for (const row of parser.fixtures) {
     t.is(verifySync(row.password, row.hash), row.expected, row.name)
     t.is(await verify(row.password, Buffer.from(row.hash)), row.expected, row.name)
+    t.deepEqual(parseOptions(row.hash), { version: '2b', cost: 4 }, row.name)
   }
   t.false(verifySync('password', Buffer.from([255])))
   t.false(await verify('password', Buffer.from([255])))
+})
+
+test('parseOptions reads stored hashes with the verifier parser, never the creation parser', async (t) => {
+  for (const version of ['2a', '2b', '2y'] as const) {
+    for (const cost of [4, 5]) {
+      t.deepEqual(parseOptions(hashSync('password', { cost, version })), { version, cost })
+    }
+  }
+  const encoded = await hash('password', { cost: 4 })
+  t.deepEqual(parseOptions(Buffer.from(encoded)), { version: '2b', cost: 4 })
+  t.deepEqual(parseOptions(view(Buffer.from(encoded))), { version: '2b', cost: 4 })
+  // Noncanonical spellings the verifier accepts are reported as their effective values.
+  t.deepEqual(parseOptions('$2b$+4$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S'), { version: '2b', cost: 4 })
+  t.deepEqual(parseOptions('$2x$04$KBCwKxOzLha2MUDgW0PjXeXFrSeJ6fhvcoWu3XdffwQs4TbDlPt/S'), { version: '2x', cost: 4 })
+  // A rehash-on-login policy check reads like this.
+  const policy = { cost: 12, version: '2b' }
+  const stored = parseOptions(encoded)
+  t.true(stored.cost < policy.cost || stored.version !== policy.version)
+  // Hashes verify can never accept are errors rather than unusable parameters.
+  for (const invalid of [
+    '',
+    'not-a-hash',
+    encoded.slice(0, 59),
+    `${encoded}a`,
+    `$2c${encoded.slice(3)}`,
+    `$2b$03${encoded.slice(6)}`,
+    `$2b$32${encoded.slice(6)}`,
+    `${encoded.slice(0, 59)}é`,
+    Buffer.from([255]),
+  ]) {
+    t.throws(() => parseOptions(invalid), outOfRange)
+    t.false(verifySync('password', invalid))
+  }
+  // @ts-expect-error Wrong input types are TypeErrors, like everywhere else.
+  t.throws(() => parseOptions(42), invalidType)
+  // @ts-expect-error There are no options to pass.
+  t.throws(() => parseOptions(encoded, {}), invalidType)
 })
 
 test('async calls own password, salt, and stored-hash bytes before returning', async (t) => {
@@ -201,7 +248,7 @@ test('pre-aborted and reused signals reject without overwriting handlers', async
     () => hash('password', { cost: 4, signal: stopped.signal }),
     () => verify('password', 'hash', { signal: stopped.signal }),
   ]) {
-    await t.throwsAsync(operation(), { name: 'AbortError' })
+    await t.throwsAsync(operation(), { name: 'AbortError', code: 'ABORT_ERR' })
   }
   const controller = new AbortController()
   let propertyCalls = 0
@@ -226,6 +273,7 @@ test('comparison aliases and public exports remain consistent', (t) => {
 test('only the package root and package.json are exported', (t) => {
   const require = createRequire(import.meta.url)
   t.is(require('@node-rs/bcrypt').verify, verify)
+  t.is(require('@node-rs/bcrypt').parseOptions, parseOptions)
   t.is(require('@node-rs/bcrypt/package.json').name, '@node-rs/bcrypt')
   for (const internal of ['@node-rs/bcrypt/binding', '@node-rs/bcrypt/binding.js', '@node-rs/bcrypt/api.cjs']) {
     t.throws(() => require(internal), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' })

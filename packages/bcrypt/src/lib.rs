@@ -10,7 +10,7 @@ use napi_derive::*;
 use crate::hash_task::{HashTask, owned_password};
 use crate::options::{hash_options, validate_cost, version_from_str};
 use crate::salt_task::{format_salt, gen_salt};
-use crate::verify_task::VerifyTask;
+use crate::verify_task::{ParsedHashOptions, VerifyTask, parse_stored_hash};
 
 mod hash_task;
 mod options;
@@ -96,4 +96,9 @@ pub fn verify(
     hash: hash.as_ref().to_vec(),
   };
   Ok(AsyncTask::with_optional_signal(task, signal))
+}
+
+#[napi]
+pub fn parse_options(hash: Either<String, &[u8]>) -> Result<ParsedHashOptions> {
+  parse_stored_hash(hash.as_ref())
 }

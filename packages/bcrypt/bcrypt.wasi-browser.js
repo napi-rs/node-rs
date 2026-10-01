@@ -1368,5 +1368,6 @@ export const genSalt = __napiModule.exports.genSalt
 export const genSaltSync = __napiModule.exports.genSaltSync
 export const hash = __napiModule.exports.hash
 export const hashSync = __napiModule.exports.hashSync
+export const parseOptions = __napiModule.exports.parseOptions
 export const verify = __napiModule.exports.verify
 export const verifySync = __napiModule.exports.verifySync

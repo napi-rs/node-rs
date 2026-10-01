@@ -1,7 +1,17 @@
 export type Password = string | Uint8Array
 /** Creation versions only; verification retains existing prefix handling independently. */
 export type Version = '2a' | '2b' | '2y'
+/** Prefixes the retained verifier accepts; imported `2x` labels are verified with the standard algorithm. */
+export type StoredVersion = Version | '2x'
 export declare const DEFAULT_COST: number // Remains 12.
+
+/**
+ * Error contract. Wrong argument or option types throw `TypeError` with
+ * `code: 'ERR_INVALID_ARG_TYPE'`; values of the right type that are out of range
+ * or malformed throw `RangeError` with `code: 'ERR_OUT_OF_RANGE'`; cancellation
+ * rejects with `name: 'AbortError'` and `code: 'ABORT_ERR'`, like Node's AbortError.
+ */
+export type ErrorCode = 'ERR_INVALID_ARG_TYPE' | 'ERR_OUT_OF_RANGE' | 'ABORT_ERR'
 
 /** The cancellation interface used from native AbortSignals and compatible polyfills. */
 export interface AbortSignalLike {
@@ -9,7 +19,8 @@ export interface AbortSignalLike {
   /** When defined at abort time, becomes the `cause` of the AbortError. */
   readonly reason?: unknown
   addEventListener(type: 'abort', listener: () => void, options?: { once?: boolean }): void
-  removeEventListener(type: 'abort', listener: () => void): void
+  /** Receives the same options object the listener was added with. */
+  removeEventListener(type: 'abort', listener: () => void, options?: { once?: boolean; capture?: boolean }): void
 }
 
 export interface AsyncOptions {
@@ -68,3 +79,19 @@ export declare function verify(password: Password, encodedHash: string | Uint8Ar
 export declare function verifySync(password: Password, encodedHash: string | Uint8Array): boolean
 export declare const compare: typeof verify
 export declare const compareSync: typeof verifySync
+
+/** Parameters a stored hash was created with, as read by the verifier's parser. */
+export interface ParsedHashOptions {
+  version: StoredVersion
+  /** Effective cost, 4..31. Noncanonical spellings such as `+4` are reported as their value. */
+  cost: number
+}
+
+/**
+ * Reads the version and cost of a stored hash with the same parser `verify` uses, so every hash
+ * `verify` can accept is parseable. Compare the result against your current policy for
+ * rehash-on-login checks. Hashes `verify` always rejects (malformed text, invalid UTF-8 bytes,
+ * costs outside 4..31) throw `RangeError` instead of returning unusable parameters.
+ * The stricter creation parser is not involved.
+ */
+export declare function parseOptions(encodedHash: string | Uint8Array): ParsedHashOptions

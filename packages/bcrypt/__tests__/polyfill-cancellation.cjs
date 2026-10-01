@@ -8,7 +8,7 @@ module.exports = async function checkPolyfillCancellation(api) {
     (signal) => api.hash('password', { cost: 4, signal }),
     (signal) => api.verify('password', encoded, { signal }),
   ]
-  const isAbortError = (error) => error.name === 'AbortError'
+  const isAbortError = (error) => error.name === 'AbortError' && error.code === 'ABORT_ERR'
   const stopped = new AbortController()
   stopped.abort()
   for (const operation of operations) {

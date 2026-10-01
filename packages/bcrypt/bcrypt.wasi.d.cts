@@ -34,6 +34,14 @@ export declare function hashSync(
   rejectLongPasswords: boolean,
 ): string
 
+/** Prefix and cost of a stored hash, read with the verifier's parser. */
+export interface ParsedHashOptions {
+  version: string
+  cost: number
+}
+
+export declare function parseOptions(hash: string | Uint8Array): ParsedHashOptions
+
 export declare function verify(
   password: string | Uint8Array,
   hash: string | Uint8Array,

@@ -64,7 +64,7 @@ test('aborting running work settles publicly and consumes later native failure',
   const operation = api.hash('password', { signal: controller.signal })
   t.is(pending.length, 1)
   controller.abort()
-  await t.throwsAsync(operation, { name: 'AbortError' })
+  await t.throwsAsync(operation, { name: 'AbortError', code: 'ABORT_ERR' })
   t.true(pending[0].signal.aborted)
   t.is(pending[0].cancellations, 1)
   pending[0].reject(new Error('late native failure'))
@@ -111,7 +111,7 @@ test('incomplete signal interfaces reject before calling the native backend', as
   const { api, pending } = controlled()
   for (const signal of [null, {}, { aborted: false }, { aborted: false, addEventListener() {} }]) {
     // @ts-expect-error Exercise incomplete cancellation interfaces from JavaScript.
-    await t.throwsAsync(api.hash('password', { signal }), { instanceOf: TypeError })
+    await t.throwsAsync(api.hash('password', { signal }), { instanceOf: TypeError, code: 'ERR_INVALID_ARG_TYPE' })
   }
   t.is(pending.length, 0)
 })
@@ -176,7 +176,7 @@ test('AbortError keeps the signal reason as a non-enumerable cause', async (t) =
   const controller = new AbortController()
   const custom = api.hash('password', { signal: controller.signal })
   controller.abort(reason)
-  const error = await t.throwsAsync(custom, { name: 'AbortError' })
+  const error = await t.throwsAsync(custom, { name: 'AbortError', code: 'ABORT_ERR' })
   t.is(error!.cause, reason)
   t.false(Object.getOwnPropertyDescriptor(error, 'cause')!.enumerable)
 
