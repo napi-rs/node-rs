@@ -1,10 +1,6 @@
 // Shared by the Node entry (including WASI fallback) and the browser entry.
 // Keep this adapter parseable on Node 10, before any runtime feature checks.
 module.exports = function createBcrypt(binding) {
-  if (binding.BCRYPT_API_VERSION !== 2) {
-    throw new Error('Incompatible bcrypt binary: rebuild or reinstall the matching @node-rs/bcrypt backend')
-  }
-
   // Error codes follow Node's conventions so callers can branch without matching messages.
   function withCode(error, code) {
     error.code = code
@@ -12,6 +8,13 @@ module.exports = function createBcrypt(binding) {
   }
   const invalidType = (message) => withCode(new TypeError(message), 'ERR_INVALID_ARG_TYPE')
   const outOfRange = (message) => withCode(new RangeError(message), 'ERR_OUT_OF_RANGE')
+
+  if (binding.BCRYPT_API_VERSION !== 2) {
+    throw withCode(
+      new Error('Incompatible bcrypt binary: rebuild or reinstall the matching @node-rs/bcrypt backend'),
+      'ERR_BCRYPT_INCOMPATIBLE_BINARY',
+    )
+  }
 
   function arity(args, maximum, message = 'Positional bcrypt options are no longer supported') {
     if (args.length > maximum) throw invalidType(message)

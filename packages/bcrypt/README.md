@@ -47,7 +47,7 @@ An already-aborted signal prevents queueing. Aborting a pending operation reject
 
 On Node versions without built-in cancellation, pass a signal from a locally imported `AbortController` polyfill. No global installation is required. Signals must provide a boolean `aborted` property and `addEventListener`/`removeEventListener` methods for the `abort` event; see `AbortSignalLike` in the declarations.
 
-The browser entry uses the same public wrapper and aliases over WASI. The WASI backend is not installed by default; for browser builds, add `@node-rs/bcrypt-wasm32-wasi` at the same version as `@node-rs/bcrypt`. Only the package root is exported. Platform-specific backend packages and `binding.js` are internal interfaces.
+The browser entry uses the same public wrapper and aliases over WASI. The WASI backend is not installed by default; for browser builds, add `@node-rs/bcrypt-wasm32-wasi` at the same version as `@node-rs/bcrypt`. Only the package root is exported. Platform-specific backend packages and `binding.js` are internal interfaces; loading over a backend from another major fails at import time with `code: 'ERR_BCRYPT_INCOMPATIBLE_BINARY'`.
 
 Upgrading from 1.x requires call-site changes. **Existing stored hashes do not require rewriting or password resets.** See [migration instructions](MIGRATION.md).
 
