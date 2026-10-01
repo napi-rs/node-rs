@@ -131,15 +131,43 @@ test('listeners are removed with the options they were added with', async (t) =>
   t.is(signal.entries.length, 0)
 })
 
-test('abort settles even if removing the listener throws', async (t) => {
-  const { api } = controlled()
+test('a throwing removeEventListener cannot crash a settled call or skip native cancellation', async (t) => {
+  const { api, pending } = controlled()
   const signal = legacySignal()
   signal.removeEventListener = () => {
     throw new Error('remove failed')
   }
-  const operation = api.hash('password', { signal })
-  t.throws(() => signal.abort(), { message: 'remove failed' })
-  await t.throwsAsync(operation, { name: 'AbortError' })
+  const unhandled: unknown[] = []
+  const onUnhandled = (reason: unknown) => unhandled.push(reason)
+  process.on('unhandledRejection', onUnhandled)
+  const completed = api.hash('first', { signal })
+  pending[0].resolve('done')
+  t.is(await completed, 'done')
+  const aborted = api.hash('second', { signal })
+  t.notThrows(() => signal.abort())
+  await t.throwsAsync(aborted, { name: 'AbortError' })
+  t.is(pending[1].cancellations, 1)
+  await new Promise((resolve) => setImmediate(resolve))
+  process.off('unhandledRejection', onUnhandled)
+  t.deepEqual(unhandled, [])
+})
+
+test('an unreadable signal reason still aborts with AbortError', async (t) => {
+  const { api, pending } = controlled()
+  const signal = legacySignal()
+  Object.defineProperty(signal, 'reason', {
+    get() {
+      throw new Error('unreadable')
+    },
+  })
+  const running = api.hash('password', { signal })
+  t.notThrows(() => signal.abort())
+  const error = await t.throwsAsync(running, { name: 'AbortError' })
+  t.false('cause' in error!)
+  t.is(pending[0].cancellations, 1)
+  const preAborted = await t.throwsAsync(api.hash('password', { signal }), { name: 'AbortError' })
+  t.false('cause' in preAborted!)
+  t.is(pending.length, 1)
 })
 
 test('AbortError keeps the signal reason as a non-enumerable cause', async (t) => {
