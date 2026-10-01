@@ -15,11 +15,15 @@ Stored password hashes remain usable after migrating API calls. Verification con
 
 Omit unused options instead of passing `null`. Unsupported positional arguments, unknown options, and a bare signal where options are expected fail explicitly. All async validation errors now reject the returned Promise, so use `await` inside `try/catch` or attach `.catch()`.
 
+Errors carry Node-style codes: `TypeError` has `code: 'ERR_INVALID_ARG_TYPE'`, `RangeError` has `code: 'ERR_OUT_OF_RANGE'`, and cancellation rejects with `name: 'AbortError'` and `code: 'ABORT_ERR'`. Branch on `code` rather than on messages.
+
 ## Salt creation is corrected
 
 Raw salts must be exactly 16 bytes. String salts must be canonical encoded salts containing their cost and version, for example the result of `genSalt({ cost: 12 })`. Do not also specify cost/version when supplying an encoded salt. Generated salts now contain 29 characters without `==` padding.
 
 Old versions treated string salts as raw text and clipped or zero-padded them. Correct interpretation intentionally changes newly computed output. Applications that authenticate by recomputing a hash from a separately saved original salt should switch to `verify(password, storedHash)`. The stored hash contains the actual salt used previously; it needs no conversion. Automatic random salts are the default for new hashes.
+
+To raise the cost of existing hashes over time, check `parseOptions(storedHash)` after a successful `verify` and recompute with `hash(password, { cost })` when the stored `cost` or `version` is below your policy. `parseOptions` uses the verifier's parser, so it reads every hash `verify` accepts, including imported `2x` labels and the `+4` cost spelling; hashes `verify` always rejects throw `RangeError`.
 
 Costs must be finite integers in 4–31. Fractional and overflowing values are rejected instead of truncated or wrapped. Existing hashes still use their embedded effective costs; there is no new default verification cost ceiling.
 

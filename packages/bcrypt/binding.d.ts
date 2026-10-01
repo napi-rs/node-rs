@@ -22,6 +22,14 @@ export declare function hash(input: string | Uint8Array, cost: number | undefine
 
 export declare function hashSync(input: string | Uint8Array, cost: number | undefined | null, salt: string | Uint8Array | undefined | null, version: string | undefined | null, rejectLongPasswords: boolean): string
 
+/** Prefix and cost of a stored hash, read with the verifier's parser. */
+export interface ParsedHashOptions {
+  version: string
+  cost: number
+}
+
+export declare function parseOptions(hash: string | Uint8Array): ParsedHashOptions
+
 export declare function verify(password: string | Uint8Array, hash: string | Uint8Array, signal?: AbortSignal | undefined | null): Promise<boolean>
 
 export declare function verifySync(input: string | Uint8Array, hash: string | Uint8Array): boolean

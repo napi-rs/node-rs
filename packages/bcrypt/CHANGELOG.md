@@ -13,13 +13,14 @@ Existing stored hashes keep their verification results; no rewrite or password r
 - String salts must be canonical 29-character bcrypt salts, which supply their own cost and version. Raw salts must be exactly 16 bytes. 1.x clipped or padded string salts as raw text.
 - `genSalt` returns 29-character salts without `==` padding, and `2x` can no longer be generated.
 - Costs must be integers from 4 to 31. Fractional and overflowing values are rejected instead of truncated.
-- Async validation errors reject the returned Promise. Wrong option types throw `TypeError`; out-of-range or malformed values throw `RangeError`.
-- Aborting rejects with an `AbortError` whose `cause` is `signal.reason`, also when native work is already running. The 1.x `code: 'Cancelled'` is gone.
+- Async validation errors reject the returned Promise. Wrong option types throw `TypeError` with `code: 'ERR_INVALID_ARG_TYPE'`; out-of-range or malformed values throw `RangeError` with `code: 'ERR_OUT_OF_RANGE'`.
+- Aborting rejects with an `AbortError` (`code: 'ABORT_ERR'`, like Node's) whose `cause` is `signal.reason`, also when native work is already running. The 1.x `code: 'Cancelled'` is gone.
 - Stored hashes that are not valid UTF-8 make verification return `false` instead of throwing.
 - The package declares `exports`; only the package root and `package.json` can be imported.
 
 ### Features
 
+- `parseOptions(hash)` returns the `version` and `cost` of a stored hash using the verifier's parser, for rehash-on-login checks.
 - `rejectLongPasswords: true` rejects passwords longer than 72 bytes when creating a hash.
 - Async calls copy byte inputs before returning. Signals keep their existing handlers and can be shared between calls.
 - Signals from locally imported `AbortController` polyfills are accepted on Node 10 and 12.
