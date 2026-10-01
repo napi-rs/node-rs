@@ -2,7 +2,7 @@ use base64::engine::Engine;
 use napi::{Env, Result, Task};
 use napi_derive::napi;
 
-use crate::Version;
+use bcrypt::Version;
 
 #[inline]
 pub(crate) fn gen_salt() -> [u8; 16] {
@@ -11,13 +11,15 @@ pub(crate) fn gen_salt() -> [u8; 16] {
 
 #[inline]
 pub(crate) fn format_salt(rounds: u32, version: &Version, salt: &[u8; 16]) -> String {
-  let mut base64_string = String::new();
-  let engine = base64::engine::general_purpose::GeneralPurpose::new(
-    &base64::alphabet::BCRYPT,
-    base64::engine::general_purpose::PAD,
-  );
-  engine.encode_string(salt, &mut base64_string);
+  let base64_string = salt_engine().encode(salt);
   format!("${version}${rounds:0>2}${base64_string}")
+}
+
+pub(crate) fn salt_engine() -> base64::engine::general_purpose::GeneralPurpose {
+  base64::engine::general_purpose::GeneralPurpose::new(
+    &base64::alphabet::BCRYPT,
+    base64::engine::general_purpose::NO_PAD,
+  )
 }
 
 pub struct SaltTask {

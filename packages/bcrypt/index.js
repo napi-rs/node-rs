@@ -1,4 +1,7 @@
-const { DEFAULT_COST, genSaltSync, genSalt, hashSync, hash, verifySync, verify } = require('./binding')
+const createBcrypt = require('./api.cjs')
+const { DEFAULT_COST, genSaltSync, genSalt, hashSync, hash, verifySync, verify, parseOptions } = createBcrypt(
+  require('./binding'),
+)
 
 module.exports.DEFAULT_COST = DEFAULT_COST
 module.exports.genSaltSync = genSaltSync
@@ -9,3 +12,4 @@ module.exports.verifySync = verifySync
 module.exports.verify = verify
 module.exports.compareSync = verifySync
 module.exports.compare = verify
+module.exports.parseOptions = parseOptions
