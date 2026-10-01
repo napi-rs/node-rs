@@ -45,7 +45,7 @@ Put `signal` in async options. A pre-aborted signal rejects before native work i
 
 Native signals and compatible signals from locally imported polyfills are accepted. On Node 10 and 12, import an `AbortController` polyfill and pass `controller.signal`; neither constructor needs to be installed globally.
 
-Install the matching 2.x platform packages together with the root package. A backend contract check rejects stale binaries rather than silently interpreting new calls with old native arguments.
+Install the matching 2.x platform packages together with the root package. A backend contract check rejects stale binaries at load time with `code: 'ERR_BCRYPT_INCOMPATIBLE_BINARY'` rather than silently interpreting new calls with old native arguments.
 
 ## Package entry points
 

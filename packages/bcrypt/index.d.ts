@@ -10,8 +10,10 @@ export declare const DEFAULT_COST: number // Remains 12.
  * `code: 'ERR_INVALID_ARG_TYPE'`; values of the right type that are out of range
  * or malformed throw `RangeError` with `code: 'ERR_OUT_OF_RANGE'`; cancellation
  * rejects with `name: 'AbortError'` and `code: 'ABORT_ERR'`, like Node's AbortError.
+ * Loading the package over a backend built for another major throws `Error` with
+ * `code: 'ERR_BCRYPT_INCOMPATIBLE_BINARY'`.
  */
-export type ErrorCode = 'ERR_INVALID_ARG_TYPE' | 'ERR_OUT_OF_RANGE' | 'ABORT_ERR'
+export type ErrorCode = 'ERR_INVALID_ARG_TYPE' | 'ERR_OUT_OF_RANGE' | 'ABORT_ERR' | 'ERR_BCRYPT_INCOMPATIBLE_BINARY'
 
 /** The cancellation interface used from native AbortSignals and compatible polyfills. */
 export interface AbortSignalLike {

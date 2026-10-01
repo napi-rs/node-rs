@@ -17,6 +17,7 @@ Existing stored hashes keep their verification results; no rewrite or password r
 - Aborting rejects with an `AbortError` (`code: 'ABORT_ERR'`, like Node's) whose `cause` is `signal.reason`, also when native work is already running. The 1.x `code: 'Cancelled'` is gone.
 - Stored hashes that are not valid UTF-8 make verification return `false` instead of throwing.
 - The package declares `exports`; only the package root and `package.json` can be imported.
+- Loading over a platform package from another major fails at import time with `code: 'ERR_BCRYPT_INCOMPATIBLE_BINARY'`.
 
 ### Features
 

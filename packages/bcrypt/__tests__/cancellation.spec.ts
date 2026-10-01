@@ -55,7 +55,10 @@ function legacySignal() {
 }
 
 test('a mismatched backend cannot silently interpret major-version calls', (t) => {
-  t.throws(() => createBcrypt({ DEFAULT_COST: 12 }), { message: /Incompatible bcrypt binary/ })
+  t.throws(() => createBcrypt({ DEFAULT_COST: 12 }), {
+    message: /Incompatible bcrypt binary/,
+    code: 'ERR_BCRYPT_INCOMPATIBLE_BINARY',
+  })
 })
 
 test('aborting running work settles publicly and consumes later native failure', async (t) => {
