@@ -309,6 +309,45 @@ jobs:
       - name: Test bindings
         run: yarn workspaces foreach -A -j 1 run test
 
+  test-bcrypt-supported-node:
+    name: Test bcrypt on supported Node ${{ matrix.node }}
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['10', '12']
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup node for test dependencies
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install test dependencies
+        run: yarn install --immutable --mode=skip-build
+
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Download native bindings
+        uses: actions/download-artifact@v8
+        with:
+          name: bindings-x86_64-unknown-linux-gnu
+          path: packages
+
+      # Avoid the modern development toolchain when testing the published API.
+      - name: Test bcrypt public API and stored hashes
+        run: node packages/bcrypt/__tests__/supported-node.cjs
+
+      - name: Test locally imported cancellation polyfill
+        run: node packages/bcrypt/__tests__/polyfill-cancellation.cjs
+
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
@@ -558,6 +597,7 @@ jobs:
       - test-linux-aarch64-musl-binding
       - test-linux-arm-gnueabihf-binding
       - test-macOS-windows-binding
+      - test-bcrypt-supported-node
       - test-wasi-nodejs
     steps:
       - uses: actions/checkout@v7

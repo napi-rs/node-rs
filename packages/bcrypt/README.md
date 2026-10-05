@@ -8,31 +8,48 @@
 ## Usage
 
 ```typescript
-export const DEFAULT_COST: 12
+import { hash, hashSync, verify, verifySync, genSalt, compare, parseOptions } from '@node-rs/bcrypt'
 
-export function hashSync(password: string | Buffer, round?: number): string
-export function hash(password: string | Buffer, round?: number): Promise<string>
-export function verifySync(password: string | Buffer, hash: string | Buffer): boolean
-export function verify(password: string | Buffer, hash: string | Buffer): Promise<boolean>
-/**
- * The same with `verifySync`
- */
-export function compareSync(password: string | Buffer, hash: string | Buffer): boolean
-/**
- * The same with `verify`
- */
-export function compare(password: string | Buffer, hash: string | Buffer): Promise<boolean>
+const storedHash = await hash('password', { cost: 12 })
+await verify('password', storedHash) // true
 
-export type Version = '2a' | '2x' | '2y' | '2b'
-/**
- * @param version default '2b'
- */
-export function genSaltSync(round: number, version?: Version): string
-/**
- * @param version default '2b'
- */
-export function genSalt(round: number, version?: Version): Promise<string>
+const salt = await genSalt({ cost: 12 })
+const withExplicitSalt = hashSync('password', { salt })
+verifySync('password', withExplicitSalt) // true
+await compare('password', storedHash) // alias of verify
+
+parseOptions(storedHash) // { version: '2b', cost: 12 }
 ```
+
+`hash` and `hashSync` accept a string or `Uint8Array` password and an options object. `cost` defaults to 12 and must be an integer from 4 through 31. Omitted salts use 16 random bytes. `salt` can be exactly 16 raw bytes or a canonical 29-character encoded bcrypt salt; an encoded salt supplies its own cost and version, so overrides are rejected. Creation supports `2a`, `2b` (default), and `2y`.
+
+`genSalt` and `genSaltSync` accept `{ cost?, version? }`. `verify` and `verifySync` take the password first and the complete stored hash second. Both password and hash accept `Uint8Array`, including `Buffer`. `compare` and `compareSync` are exact aliases. See [the declarations](index.d.ts) for the complete API.
+
+`parseOptions` reads the `version` and `cost` of a stored hash with the same parser `verify` uses, so every hash `verify` can accept is parseable, including imported `2x` labels; hashes `verify` always rejects throw `RangeError`. Use it to decide whether a hash should be recomputed after a successful login:
+
+```typescript
+if (await verify(password, storedHash)) {
+  const { cost, version } = parseOptions(storedHash)
+  if (cost < 12 || version !== '2b') await save(await hash(password, { cost: 12 }))
+}
+```
+
+Bcrypt uses at most 72 password bytes. That default is unchanged for hashing and verification, including existing database hashes. To reject longer passwords when creating a hash, explicitly set `rejectLongPasswords: true`. This checks bytes, not JavaScript string length, and accepts exactly 72 bytes. Verification has no length-policy option.
+
+Async functions accept `signal` inside their options object and report errors through Promise rejection. Synchronous functions throw. Invalid call shapes and option values of the wrong type use `TypeError` with `code: 'ERR_INVALID_ARG_TYPE'`; values of the right type that are out of range or malformed use `RangeError` with `code: 'ERR_OUT_OF_RANGE'`. Wrong passwords and malformed stored hashes return `false`. Verification retains existing accepted encodings independently of the stricter creation parser.
+
+```typescript
+await hash('password', { cost: 12, signal: controller.signal })
+await verify('password', storedHash, { signal: controller.signal })
+```
+
+An already-aborted signal prevents queueing. Aborting a pending operation rejects with `name: 'AbortError'` and `code: 'ABORT_ERR'`, whose `cause` is `signal.reason` when the signal provides one (for example the `TimeoutError` from `AbortSignal.timeout()`); native work that has already started may finish in the background. Shared and reused signals are supported without replacing existing handlers. The first observed completion or abort determines the result.
+
+On Node versions without built-in cancellation, pass a signal from a locally imported `AbortController` polyfill. No global installation is required. Signals must provide a boolean `aborted` property and `addEventListener`/`removeEventListener` methods for the `abort` event; see `AbortSignalLike` in the declarations.
+
+The browser entry uses the same public wrapper and aliases over WASI. The WASI backend is not installed by default; for browser builds, add `@node-rs/bcrypt-wasm32-wasi` at the same version as `@node-rs/bcrypt`. Only the package root is exported. Platform-specific backend packages and `binding.js` are internal interfaces; loading over a backend from another major fails at import time with `code: 'ERR_BCRYPT_INCOMPATIBLE_BINARY'`.
+
+Upgrading from 1.x requires call-site changes. **Existing stored hashes do not require rewriting or password resets.** See [migration instructions](MIGRATION.md).
 
 ## Bench
 

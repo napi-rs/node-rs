@@ -1,10 +1,10 @@
 import { argon2, argon2Sync } from 'node:crypto'
-import { performance } from 'node:perf_hooks'
 import { promisify } from 'node:util'
 
 import { argon2id as nobleArgon2id } from '@noble/hashes/argon2.js'
 import nodeArgon2 from 'argon2'
 import { argon2id as wasmArgon2id } from 'hash-wasm'
+import { Bench, type Task } from 'tinybench'
 
 import { Algorithm, hashRaw, hashRawSync } from '../index.js'
 
@@ -65,129 +65,165 @@ const nodeCryptoParams = (params: SharedParams) => ({
 
 const hex = (bytes: Uint8Array) => Buffer.from(bytes).toString('hex')
 
-const median = (values: number[]) => {
-  const sorted = [...values].sort((a, b) => a - b)
-  const mid = Math.floor(sorted.length / 2)
-  return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid]
-}
-
-const asBuffer = (value: Uint8Array) => Buffer.from(value)
-
 const assertTag = (name: string, got: Uint8Array, expected: Buffer) => {
-  const actual = asBuffer(got)
+  const actual = Buffer.from(got)
   if (!actual.equals(expected)) {
     throw new Error(`${name}: raw tag mismatch\n  got  ${hex(actual)}\n  want ${hex(expected)}`)
   }
 }
 
-const timeMs = async (run: Impl['run']) => {
-  const start = performance.now()
-  const out = await run()
-  return { ms: performance.now() - start, out }
+// A task asserts its output on every iteration — a Buffer.compare is
+// sub-microsecond against an argon2 run of tens of milliseconds.
+const taskFn = (impl: Impl, expected: Buffer) => async () => {
+  assertTag(impl.name, await impl.run(), expected)
 }
 
-const interleaved = async (impls: Impl[], expected: Buffer, rounds: number) => {
-  for (const impl of impls) {
-    assertTag(`${impl.name} warmup`, await impl.run(), expected)
-  }
-
-  const samples = impls.map(() => [] as number[])
-  for (let round = 0; round < rounds; round++) {
-    // Rotate so no impl is always measured immediately after the slowest one.
-    for (let offset = 0; offset < impls.length; offset++) {
-      const i = (round + offset) % impls.length
-      const { ms, out } = await timeMs(impls[i].run)
-      assertTag(`${impls[i].name} #${round}`, out, expected)
-      samples[i].push(ms)
-    }
-  }
-
-  return impls.map((impl, i) => ({
-    impl: impl.name,
-    'median ms': Number(median(samples[i]).toFixed(2)),
-    'min ms': Number(Math.min(...samples[i]).toFixed(2)),
-    rounds: samples[i].length,
-  }))
+function formatLatency(ms: number): string {
+  if (ms >= 1) return `${ms.toFixed(2)} ms`
+  if (ms >= 0.001) return `${(ms * 1000).toFixed(2)} µs`
+  return `${(ms * 1e6).toFixed(1)} ns`
 }
 
-const printTable = (title: string, rows: Array<Record<string, string | number>>) => {
-  console.log(`\n${title}`)
-  console.table(rows)
+function formatOps(opsPerSec: number): string {
+  if (opsPerSec >= 1e6) return `${(opsPerSec / 1e6).toFixed(2)}M`
+  if (opsPerSec >= 1e3) return `${(opsPerSec / 1e3).toFixed(2)}k`
+  return opsPerSec.toFixed(2)
+}
+
+function report(bench: Bench, title: string) {
+  const rows = bench.tasks
+    .map((task: Task) => {
+      const r = task.result
+      // latency/throughput only exist once the task has statistics.
+      if (r.state !== 'completed' && r.state !== 'aborted-with-statistics') {
+        throw new Error(`${task.name} has no results (state: ${r.state})`)
+      }
+      return {
+        name: task.name,
+        latency: r.latency.mean,
+        rme: r.latency.rme,
+        ops: r.throughput.mean,
+        samples: r.latency.samplesCount,
+      }
+    })
+    .sort((a, b) => a.latency - b.latency)
+
+  // Baseline is @node-rs when the group includes it, otherwise the fastest row.
+  const baselineRow = rows.find((r) => r.name.startsWith('@node-rs/')) ?? rows[0]
+  const nameWidth = Math.max(...rows.map((r) => r.name.length))
+
+  console.log(`\n${title}  (${rows[0].samples} iterations each)`)
+  console.log(`  ${'implementation'.padEnd(nameWidth)}  latency       ± rme   ops/s      relative`)
+  for (const row of rows) {
+    const ratio = row.latency / baselineRow.latency
+    const rel =
+      row === baselineRow ? 'baseline' : ratio < 1 ? `${(1 / ratio).toFixed(2)}× faster` : `${ratio.toFixed(2)}× slower`
+    console.log(
+      `  ${row.name.padEnd(nameWidth)}  ${formatLatency(row.latency).padStart(9)}  ± ${row.rme
+        .toFixed(2)
+        .padStart(5)}%  ${formatOps(row.ops).padStart(8)}  ${rel}`,
+    )
+  }
 }
 
 for (const { name, params, rounds } of CONFIGS) {
   const expected = hashRawSync(PASSWORD, nodeRsOptions(params))
 
-  const nativeSync: Impl[] = [
+  const groups: Array<{ title: string; impls: Impl[] }> = [
     {
-      name: '@node-rs/argon2 hashRawSync',
-      run: () => hashRawSync(PASSWORD, nodeRsOptions(params)),
+      title: `${name}  —  native sync raw`,
+      impls: [
+        {
+          name: '@node-rs/argon2 hashRawSync',
+          run: () => hashRawSync(PASSWORD, nodeRsOptions(params)),
+        },
+        {
+          name: 'node:crypto argon2Sync',
+          run: () => argon2Sync('argon2id', nodeCryptoParams(params)),
+        },
+      ],
     },
     {
-      name: 'node:crypto argon2Sync',
-      run: () => argon2Sync('argon2id', nodeCryptoParams(params)),
+      title: `${name}  —  native async raw`,
+      impls: [
+        {
+          name: '@node-rs/argon2 hashRaw',
+          run: () => hashRaw(PASSWORD, nodeRsOptions(params)),
+        },
+        {
+          name: 'node-argon2 hash raw',
+          run: () =>
+            nodeArgon2.hash(PASSWORD, {
+              type: nodeArgon2.argon2id,
+              memoryCost: params.memoryCost,
+              timeCost: params.timeCost,
+              parallelism: params.parallelism,
+              hashLength: params.outputLen,
+              salt: SALT,
+              version: 0x13,
+              raw: true,
+            }),
+        },
+        {
+          name: 'node:crypto argon2',
+          run: async () => Buffer.from(await argon2Async('argon2id', nodeCryptoParams(params))),
+        },
+      ],
+    },
+    {
+      title: `${name}  —  js/wasm raw`,
+      impls: [
+        {
+          name: 'hash-wasm argon2id binary',
+          run: () =>
+            wasmArgon2id({
+              password: PASSWORD,
+              salt: SALT,
+              parallelism: params.parallelism,
+              iterations: params.timeCost,
+              memorySize: params.memoryCost,
+              hashLength: params.outputLen,
+              outputType: 'binary',
+            }),
+        },
+        {
+          name: '@noble/hashes argon2id',
+          run: () =>
+            nobleArgon2id(PASSWORD, SALT, {
+              t: params.timeCost,
+              m: params.memoryCost,
+              p: params.parallelism,
+              dkLen: params.outputLen,
+              maxmem: 2 ** 32 - 1,
+            }),
+        },
+      ],
     },
   ]
 
-  const nativeAsync: Impl[] = [
-    {
-      name: '@node-rs/argon2 hashRaw',
-      run: () => hashRaw(PASSWORD, nodeRsOptions(params)),
-    },
-    {
-      name: 'node-argon2 hash raw',
-      run: () =>
-        nodeArgon2.hash(PASSWORD, {
-          type: nodeArgon2.argon2id,
-          memoryCost: params.memoryCost,
-          timeCost: params.timeCost,
-          parallelism: params.parallelism,
-          hashLength: params.outputLen,
-          salt: SALT,
-          version: 0x13,
-          raw: true,
-        }),
-    },
-    {
-      name: 'node:crypto argon2',
-      run: async () => Buffer.from(await argon2Async('argon2id', nodeCryptoParams(params))),
-    },
-  ]
-
-  const jsWasm: Impl[] = [
-    {
-      name: 'hash-wasm argon2id binary',
-      run: () =>
-        wasmArgon2id({
-          password: PASSWORD,
-          salt: SALT,
-          parallelism: params.parallelism,
-          iterations: params.timeCost,
-          memorySize: params.memoryCost,
-          hashLength: params.outputLen,
-          outputType: 'binary',
-        }),
-    },
-    {
-      name: '@noble/hashes argon2id',
-      run: () =>
-        nobleArgon2id(PASSWORD, SALT, {
-          t: params.timeCost,
-          m: params.memoryCost,
-          p: params.parallelism,
-          dkLen: params.outputLen,
-          maxmem: 2 ** 32 - 1,
-        }),
-    },
-  ]
-
-  for (const impl of [...nativeSync, ...nativeAsync, ...jsWasm]) {
-    assertTag(impl.name, await impl.run(), expected)
+  // Pre-flight: every implementation must produce the same tag before timing.
+  for (const group of groups) {
+    for (const impl of group.impls) {
+      assertTag(impl.name, await impl.run(), expected)
+    }
   }
+  console.log(`${name}  tag=${hex(expected)}  all impls equal  ${rounds} iterations each`)
 
-  console.log(`${name}  tag=${hex(expected)}  all impls equal  interleaved x${rounds}`)
-
-  printTable(`${name}  —  native sync raw`, await interleaved(nativeSync, expected, rounds))
-  printTable(`${name}  —  native async raw`, await interleaved(nativeAsync, expected, rounds))
-  printTable(`${name}  —  js/wasm raw`, await interleaved(jsWasm, expected, rounds))
+  for (const group of groups) {
+    const bench = new Bench({
+      name: group.title,
+      // Fixed iteration count like the old harness: no time budget, no warmup
+      // (the pre-flight assertion pass above already warmed each impl).
+      iterations: rounds,
+      time: 0,
+      warmup: false,
+      // A tag assertion that fails must fail the run loudly.
+      throws: true,
+    })
+    for (const impl of group.impls) {
+      bench.add(impl.name, taskFn(impl, expected))
+    }
+    await bench.run()
+    report(bench, group.title)
+  }
 }
