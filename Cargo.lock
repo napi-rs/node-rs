@@ -55,9 +55,9 @@ checksum = "2af50177e190e07a26ab74f8b1efbfe2ef87da2116221318cb1c2e82baf7de06"
 
 [[package]]
 name = "bcrypt-rust"
-version = "1.0.1"
+version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "672a41b28f0a254f86773f847941ce28dc846db43310190b97b6144eca8b5c93"
+checksum = "ae12f64a844ed060caf135a380e6afeea3d081b5a89060d0498383ea3f07c191"
 
 [[package]]
 name = "bitflags"
