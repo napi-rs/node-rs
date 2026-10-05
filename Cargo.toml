@@ -13,7 +13,7 @@ resolver = "2"
 [workspace.dependencies]
 argon2-rust = { version = "1.1", default-features = false }
 base64 = { version = "0.23" }
-bcrypt = "0.19"
+bcrypt = { package = "bcrypt-rust", version = "1" }
 crc32c = { version = "0.6" }
 crc32fast = { version = "1.4", features = ["nightly"] }
 global_alloc = { path = "./crates/alloc" }

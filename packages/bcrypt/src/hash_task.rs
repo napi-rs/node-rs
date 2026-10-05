@@ -43,7 +43,7 @@ impl Task for HashTask {
   type JsValue = String;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    Self::hash(&self.password, self.cost, self.salt, self.version.clone())
+    Self::hash(&self.password, self.cost, self.salt, self.version)
   }
 
   fn resolve(&mut self, _env: Env, output: Self::Output) -> Result<Self::JsValue> {
