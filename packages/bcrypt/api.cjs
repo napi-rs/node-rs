@@ -150,42 +150,66 @@ module.exports = function createBcrypt(binding) {
   }
 
   const GEN_SALT_KEYS = ['cost', 'version']
-  // Frozen stand-in for the empty options object a missing argument produces;
-  // nothing downstream ever mutates it.
-  const EMPTY_GEN_SALT_OPTIONS = Object.freeze(Object.create(null))
+  const DEFAULT_COST = binding.DEFAULT_COST
+  const nativeGenSaltSync = binding.genSaltSync
 
-  // True when options() would accept value unchanged: a plain object whose own
-  // keys are all in keys. Such inputs are already the object options() would
-  // build, so genSaltSync validates them in place and skips the copy.
-  function reusableOptions(value, keys) {
-    if (value === null || typeof value !== 'object') return false
-    const prototype = Object.getPrototypeOf(value)
-    if (prototype !== null && prototype !== Object.prototype) return false
-    for (const key of Reflect.ownKeys(value)) {
-      if (!keys.includes(key)) return false
+  // genSaltSync's shared error path. inputs that the fast path below cannot
+  // prove valid funnel here: full options() copy, creation() validation, and
+  // the same native error mapping, byte for byte.
+  function genSaltSyncFull(input) {
+    const opts = creation(options(input, GEN_SALT_KEYS))
+    const cost = opts.cost === undefined ? DEFAULT_COST : opts.cost
+    // Inlined sync(): one closure allocation less per call, same error mapping.
+    try {
+      return nativeGenSaltSync(cost, opts.version)
+    } catch (error) {
+      throw nativeError(error)
     }
-    return true
   }
 
   function genSaltSync(value) {
-    arity(arguments, 1)
-    // Hot shapes: {} and {cost} skip the Object.create(null) copy in options();
-    // anything else falls through so the errors stay identical.
-    const input =
-      value === undefined
-        ? EMPTY_GEN_SALT_OPTIONS
-        : reusableOptions(value, GEN_SALT_KEYS)
-          ? value
-          : options(value, GEN_SALT_KEYS)
-    const opts = creation(input)
-    return sync(() => binding.genSaltSync(opts.cost === undefined ? binding.DEFAULT_COST : opts.cost, opts.version))
+    if (arguments.length > 1) throw invalidType('Positional bcrypt options are no longer supported')
+    let cost = DEFAULT_COST
+    let version
+    if (value !== undefined) {
+      // Fast path: undefined and plain objects whose own keys are only 'cost'
+      // and 'version'. Anything else (non-objects, arrays, exotic prototypes,
+      // unknown keys) falls into genSaltSyncFull so the errors stay identical.
+      if (value === null || typeof value !== 'object') return genSaltSyncFull(value)
+      const prototype = Object.getPrototypeOf(value)
+      if (prototype !== null && prototype !== Object.prototype) return genSaltSyncFull(value)
+      // Same coverage as Reflect.ownKeys at half the cost: names include
+      // non-enumerable keys, symbols get their own list.
+      for (const key of Object.getOwnPropertyNames(value)) {
+        if (key !== 'cost' && key !== 'version') return genSaltSyncFull(value)
+      }
+      if (Object.getOwnPropertySymbols(value).length !== 0) return genSaltSyncFull(value)
+      if (value.cost !== undefined) {
+        cost = value.cost
+        if (typeof cost !== 'number') throw invalidType('cost must be a number')
+        if (!Number.isInteger(cost) || cost < 4 || cost > 31) {
+          throw outOfRange('cost must be an integer between 4 and 31')
+        }
+      }
+      if (value.version !== undefined) {
+        version = value.version
+        if (typeof version !== 'string') throw invalidType('version must be a string')
+        if (!['2a', '2b', '2y'].includes(version)) throw outOfRange('version must be 2a, 2b, or 2y')
+      }
+    }
+    // Inlined sync(): one closure allocation less per call, same error mapping.
+    try {
+      return nativeGenSaltSync(cost, version)
+    } catch (error) {
+      throw nativeError(error)
+    }
   }
 
   async function genSalt(value) {
     arity(arguments, 1)
     const opts = creation(options(value, ['cost', 'version', 'signal']))
     return run(signal(opts.signal), (internal) =>
-      binding.genSalt(opts.cost === undefined ? binding.DEFAULT_COST : opts.cost, opts.version, internal),
+      binding.genSalt(opts.cost === undefined ? DEFAULT_COST : opts.cost, opts.version, internal),
     )
   }
 
