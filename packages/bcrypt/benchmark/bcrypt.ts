@@ -71,7 +71,11 @@ function formatOps(opsPerSec: number): string {
 function report(bench: Bench, title: string) {
   const rows = bench.tasks
     .map((task: Task) => {
-      const r = task.result!
+      const r = task.result
+      // latency/throughput only exist once the task has statistics.
+      if (r.state !== 'completed' && r.state !== 'aborted-with-statistics') {
+        throw new Error(`${task.name} has no results (state: ${r.state})`)
+      }
       return {
         name: task.name,
         latency: r.latency.mean,
