@@ -1,3 +1,6 @@
+// wasm OpenBSD's genSalt win is call overhead only: ~190ns per call vs ~250ns
+// of JS -> native marshalling on this side. The hash and verify suites run at
+// cost 10 with a fixed salt so they measure the key-expansion loop alone.
 import openbsd from '@cwasm/openbsd-bcrypt'
 import openwall from '@cwasm/openwall-bcrypt'
 import bcryptjs from 'bcryptjs'

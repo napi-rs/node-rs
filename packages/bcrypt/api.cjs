@@ -149,9 +149,35 @@ module.exports = function createBcrypt(binding) {
     })
   }
 
+  const GEN_SALT_KEYS = ['cost', 'version']
+  // Frozen stand-in for the empty options object a missing argument produces;
+  // nothing downstream ever mutates it.
+  const EMPTY_GEN_SALT_OPTIONS = Object.freeze(Object.create(null))
+
+  // True when options() would accept value unchanged: a plain object whose own
+  // keys are all in keys. Such inputs are already the object options() would
+  // build, so genSaltSync validates them in place and skips the copy.
+  function reusableOptions(value, keys) {
+    if (value === null || typeof value !== 'object') return false
+    const prototype = Object.getPrototypeOf(value)
+    if (prototype !== null && prototype !== Object.prototype) return false
+    for (const key of Reflect.ownKeys(value)) {
+      if (!keys.includes(key)) return false
+    }
+    return true
+  }
+
   function genSaltSync(value) {
     arity(arguments, 1)
-    const opts = creation(options(value, ['cost', 'version']))
+    // Hot shapes: {} and {cost} skip the Object.create(null) copy in options();
+    // anything else falls through so the errors stay identical.
+    const input =
+      value === undefined
+        ? EMPTY_GEN_SALT_OPTIONS
+        : reusableOptions(value, GEN_SALT_KEYS)
+          ? value
+          : options(value, GEN_SALT_KEYS)
+    const opts = creation(input)
     return sync(() => binding.genSaltSync(opts.cost === undefined ? binding.DEFAULT_COST : opts.cost, opts.version))
   }
 
