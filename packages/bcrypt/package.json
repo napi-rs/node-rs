@@ -65,7 +65,7 @@
     "@cwasm/openbsd-bcrypt": "^0.1.0",
     "@cwasm/openwall-bcrypt": "^0.1.0",
     "@napi-rs/cli": "^3.10.8",
-    "@node-rs/bcrypt-wasm32-wasi": "1.10.9",
+    "@node-rs/bcrypt-wasm32-wasi": "2.0.0",
     "@types/bcrypt": "^6.0.0",
     "@types/bcryptjs": "^3.0.0",
     "abort-controller": "3.0.0",

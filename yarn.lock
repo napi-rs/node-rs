@@ -1276,7 +1276,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/wasm-runtime@npm:^1.1.6, @napi-rs/wasm-runtime@npm:^1.2.3, @napi-rs/wasm-runtime@npm:~1.2.3":
+"@napi-rs/wasm-runtime@npm:^1.1.6, @napi-rs/wasm-runtime@npm:^1.2.3":
   version: 1.2.4
   resolution: "@napi-rs/wasm-runtime@npm:1.2.4"
   dependencies:
@@ -1285,6 +1285,18 @@ __metadata:
     "@emnapi/core": ^1.7.1 || ^2.0.0-alpha.4
     "@emnapi/runtime": ^1.7.1 || ^2.0.0-alpha.4
   checksum: 10c0/4bd7be975f7c806bf7c33255b53257cdcd603c573e453b2f6878550bcfd59722d0d34c97627ee6a0353d91274b738d29b32ba1f0fe552a5fca1c2da80aa17bdc
+  languageName: node
+  linkType: hard
+
+"@napi-rs/wasm-runtime@npm:~1.2.5":
+  version: 1.2.5
+  resolution: "@napi-rs/wasm-runtime@npm:1.2.5"
+  dependencies:
+    "@tybys/wasm-util": "npm:^0.10.3"
+  peerDependencies:
+    "@emnapi/core": ^1.7.1 || ^2.0.0-alpha.4
+    "@emnapi/runtime": ^1.7.1 || ^2.0.0-alpha.4
+  checksum: 10c0/dae2bc48077df6da2d59f3c0f3e17b03b99953dbd97fd1fb1f0d261c6036b812538d5905266bd2402182e2709a778d63c8bbb3c2d7fe090fcea863f717954fce
   languageName: node
   linkType: hard
 
@@ -1523,14 +1535,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@node-rs/bcrypt-wasm32-wasi@npm:1.10.9":
-  version: 1.10.9
-  resolution: "@node-rs/bcrypt-wasm32-wasi@npm:1.10.9"
+"@node-rs/bcrypt-wasm32-wasi@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@node-rs/bcrypt-wasm32-wasi@npm:2.0.0"
   dependencies:
     "@emnapi/core": "npm:2.0.0-alpha.5"
     "@emnapi/runtime": "npm:2.0.0-alpha.5"
-    "@napi-rs/wasm-runtime": "npm:~1.2.3"
-  checksum: 10c0/9386f894721624af0fbdc1b9ef489396e5bced81a0faf61019d535cf5ccc7858fb8716bf610ec6a7daaf357429e8d7e5dc211efe700aead6e3a9c10478e6e825
+    "@napi-rs/wasm-runtime": "npm:~1.2.5"
+  checksum: 10c0/f1ade4bd907c279afd94b63571891878cc8a99220ea0ccf3a996a2778526489e8e45c907f4609c69e3628fded361ee1916e57d5f8f910e87a2ee24d50fe6d0f6
   languageName: node
   linkType: hard
 
@@ -1562,7 +1574,7 @@ __metadata:
     "@cwasm/openbsd-bcrypt": "npm:^0.1.0"
     "@cwasm/openwall-bcrypt": "npm:^0.1.0"
     "@napi-rs/cli": "npm:^3.10.8"
-    "@node-rs/bcrypt-wasm32-wasi": "npm:1.10.9"
+    "@node-rs/bcrypt-wasm32-wasi": "npm:2.0.0"
     "@types/bcrypt": "npm:^6.0.0"
     "@types/bcryptjs": "npm:^3.0.0"
     abort-controller: "npm:3.0.0"
