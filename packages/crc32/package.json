@@ -46,7 +46,7 @@
     "version": "napi version"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.8.6",
+    "@napi-rs/cli": "^3.10.8",
     "@types/crc": "^4.0.0",
     "buffer": "^6.0.3",
     "crc": "^4.3.2",

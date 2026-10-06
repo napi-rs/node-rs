@@ -48,7 +48,7 @@
     "version": "napi version"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.8.6",
+    "@napi-rs/cli": "^3.10.8",
     "@oxc-node/core": "^0.1.0",
     "@types/xxhashjs": "^0.2.4",
     "cross-env": "^10.1.0",

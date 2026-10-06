@@ -40,7 +40,7 @@
     "version": "napi version"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.8.6",
+    "@napi-rs/cli": "^3.10.8",
     "@noble/hashes": "^2.3.0",
     "@oxc-node/cli": "^0.1.0",
     "@oxc-node/core": "^0.1.0",
