@@ -6,6 +6,11 @@
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"]
     },
     {
+      "groupName": "oxc-node",
+      "matchPackageNames": ["@oxc-node/*"],
+      "separateMajorMinor": false
+    },
+    {
       "groupName": "rust toolchain",
       "matchManagers": ["custom.regex"],
       "matchDepNames": ["rustc"]
