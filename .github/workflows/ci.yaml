@@ -25,7 +25,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
 
       - name: Install
         uses: ./.github/actions/setup-rust
@@ -64,7 +64,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
 
       - name: Cache cargo registry
         uses: actions/cache@v6
@@ -154,7 +154,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
           cache: yarn
 
       - name: Install
@@ -189,7 +189,8 @@ jobs:
         uses: actions/setup-node@v7
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
-          node-version: 22
+          # Node.js 24+ has no Windows x86 builds. Keep the expression to exclude this from Renovate.
+          node-version: ${{ '22' }}
           architecture: x86
 
       - name: 'Build'
@@ -324,7 +325,7 @@ jobs:
       - name: Setup node for test dependencies
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
           cache: yarn
 
       - name: Install test dependencies
@@ -605,7 +606,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
           cache: yarn
 
       - name: 'Install dependencies'
