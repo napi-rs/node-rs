@@ -189,7 +189,8 @@ jobs:
         uses: actions/setup-node@v7
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
-          node-version: 26
+          # Node.js 24+ has no Windows x86 builds. Keep the expression to exclude this from Renovate.
+          node-version: ${{ '22' }}
           architecture: x86
 
       - name: 'Build'
