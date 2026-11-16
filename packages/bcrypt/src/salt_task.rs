@@ -6,30 +6,15 @@ use rand::rngs::SysRng;
 
 use bcrypt::Version;
 
-// One getrandom syscall amortized over POOL_BYTES / 16 salts; the pool always
-// holds raw OS entropy, never expanded by a userspace PRNG.
-const POOL_BYTES: usize = 256;
-
-thread_local! {
-  static ENTROPY_POOL: std::cell::RefCell<([u8; POOL_BYTES], usize)> =
-    const { std::cell::RefCell::new(([0; POOL_BYTES], POOL_BYTES)) };
-}
-
+// One getrandom call per salt, with no pool: buffered bytes would repeat in
+// every copy of a process cloned from a VM snapshot.
 #[inline]
 pub(crate) fn gen_salt() -> [u8; 16] {
-  ENTROPY_POOL.with(|pool| {
-    let mut pool = pool.borrow_mut();
-    let (bytes, offset) = &mut *pool;
-    if *offset > POOL_BYTES - 16 {
-      SysRng
-        .try_fill_bytes(bytes)
-        .expect("OS entropy source is unavailable");
-      *offset = 0;
-    }
-    let salt: [u8; 16] = bytes[*offset..*offset + 16].try_into().unwrap();
-    *offset += 16;
-    salt
-  })
+  let mut salt = [0; 16];
+  SysRng
+    .try_fill_bytes(&mut salt)
+    .expect("OS entropy source is unavailable");
+  salt
 }
 
 #[inline]
