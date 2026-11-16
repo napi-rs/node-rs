@@ -9,6 +9,8 @@ use argon2_rust::{
 };
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
+use rand::TryRng;
+use rand::rngs::SysRng;
 
 #[napi]
 #[derive(Clone, Copy)]
@@ -221,8 +223,14 @@ fn utf8_input(value: Either<String, &[u8]>) -> Result<String> {
   }
 }
 
+// Straight from the OS: a userspace generator seeded once repeats its output
+// in every copy of a process cloned from a VM snapshot.
 fn generate_salt() -> [u8; argon2_rust::RANDOM_SALT_LEN] {
-  rand::random()
+  let mut salt = [0; argon2_rust::RANDOM_SALT_LEN];
+  SysRng
+    .try_fill_bytes(&mut salt)
+    .expect("OS entropy source is unavailable");
+  salt
 }
 
 fn hash_encoded(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) -> Result<String> {
