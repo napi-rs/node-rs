@@ -141,9 +141,9 @@ jobs:
           - host: ubuntu-latest
             target: 'wasm32-wasip1-threads'
             build: |
-              wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-33/wasi-sdk-33.0-x86_64-linux.tar.gz
-              tar -xvf wasi-sdk-33.0-x86_64-linux.tar.gz
-              export WASI_SDK_PATH="$(pwd)/wasi-sdk-33.0-x86_64-linux"
+              wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-34/wasi-sdk-34.0-x86_64-linux.tar.gz
+              tar -xvf wasi-sdk-34.0-x86_64-linux.tar.gz
+              export WASI_SDK_PATH="$(pwd)/wasi-sdk-34.0-x86_64-linux"
               yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/deno-lint" run build --target wasm32-wasip1-threads -- --locked
 
     name: stable - ${{ matrix.settings.target }} - node@24
