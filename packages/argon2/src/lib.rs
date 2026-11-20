@@ -9,6 +9,8 @@ use argon2_rust::{
 };
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
+use rand::rngs::{StdRng, SysRng};
+use rand::{Rng, SeedableRng, TryRng};
 
 #[napi]
 #[derive(Clone, Copy)]
@@ -221,8 +223,25 @@ fn utf8_input(value: Either<String, &[u8]>) -> Result<String> {
   }
 }
 
-fn generate_salt() -> [u8; argon2_rust::RANDOM_SALT_LEN] {
-  rand::random()
+// Seed a fresh CSPRNG from the OS for every salt to avoid inherited ThreadRng
+// state after process or VM cloning. The CSPRNG layer also avoids exposing WASI
+// host bytes directly; browser shared-memory random_get may use Math.random.
+fn generate_salt_with<R: TryRng + ?Sized>(
+  source: &mut R,
+) -> std::result::Result<[u8; argon2_rust::RANDOM_SALT_LEN], R::Error> {
+  let mut rng = StdRng::try_from_rng(source)?;
+  let mut salt = [0; argon2_rust::RANDOM_SALT_LEN];
+  rng.fill_bytes(&mut salt);
+  Ok(salt)
+}
+
+fn generate_salt() -> Result<[u8; argon2_rust::RANDOM_SALT_LEN]> {
+  generate_salt_with(&mut SysRng).map_err(|err| {
+    Error::new(
+      Status::GenericFailure,
+      format!("OS entropy source is unavailable: {err}"),
+    )
+  })
 }
 
 fn hash_encoded(argon2: &Argon2, password: &[u8], salt: &[u8], secret: &[u8]) -> Result<String> {
@@ -264,7 +283,7 @@ impl Task for HashTask {
     match self.options.salt() {
       Some(salt) => hash_encoded(&hasher, &self.password, salt, secret),
       None => {
-        let salt = generate_salt();
+        let salt = generate_salt()?;
         hash_encoded(&hasher, &self.password, &salt, secret)
       }
     }
@@ -320,7 +339,7 @@ impl Task for RawHashTask {
     match self.options.salt() {
       Some(salt) => hash_raw_bytes(&hasher, &self.password, salt, secret),
       None => {
-        let salt = generate_salt();
+        let salt = generate_salt()?;
         hash_raw_bytes(&hasher, &self.password, &salt, secret)
       }
     }
@@ -441,4 +460,64 @@ pub fn parse_options(hashed: Either<String, &[u8]>) -> Result<ParsedHashOptions>
     output_len: decoded.params.tag_len_bytes() as u32,
     salt_len: decoded.salt.len() as u32,
   })
+}
+
+#[cfg(test)]
+mod tests {
+  use std::convert::Infallible;
+
+  use super::*;
+
+  struct FailingRng;
+
+  impl TryRng for FailingRng {
+    type Error = std::io::Error;
+
+    fn try_next_u32(&mut self) -> std::result::Result<u32, Self::Error> {
+      Err(std::io::Error::other("test entropy failure"))
+    }
+
+    fn try_next_u64(&mut self) -> std::result::Result<u64, Self::Error> {
+      Err(std::io::Error::other("test entropy failure"))
+    }
+
+    fn try_fill_bytes(&mut self, _: &mut [u8]) -> std::result::Result<(), Self::Error> {
+      Err(std::io::Error::other("test entropy failure"))
+    }
+  }
+
+  struct ZeroRng;
+
+  impl TryRng for ZeroRng {
+    type Error = Infallible;
+
+    fn try_next_u32(&mut self) -> std::result::Result<u32, Self::Error> {
+      Ok(0)
+    }
+
+    fn try_next_u64(&mut self) -> std::result::Result<u64, Self::Error> {
+      Ok(0)
+    }
+
+    fn try_fill_bytes(&mut self, dest: &mut [u8]) -> std::result::Result<(), Self::Error> {
+      dest.fill(0);
+      Ok(())
+    }
+  }
+
+  #[test]
+  fn salt_seed_failure_is_returned() {
+    let error = generate_salt_with(&mut FailingRng).unwrap_err();
+    assert_eq!(error.to_string(), "test entropy failure");
+  }
+
+  #[test]
+  fn host_entropy_is_expanded_into_salt() {
+    let salt = generate_salt_with(&mut ZeroRng).unwrap();
+    let mut expected_rng = StdRng::from_seed([0; 32]);
+    let mut expected = [0; argon2_rust::RANDOM_SALT_LEN];
+    expected_rng.fill_bytes(&mut expected);
+    assert_eq!(salt, expected);
+    assert_ne!(salt, [0; argon2_rust::RANDOM_SALT_LEN]);
+  }
 }

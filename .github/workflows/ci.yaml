@@ -141,9 +141,9 @@ jobs:
           - host: ubuntu-latest
             target: 'wasm32-wasip1-threads'
             build: |
-              wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-29/wasi-sdk-29.0-x86_64-linux.tar.gz
-              tar -xvf wasi-sdk-29.0-x86_64-linux.tar.gz
-              export WASI_SDK_PATH="$(pwd)/wasi-sdk-29.0-x86_64-linux"
+              wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-34/wasi-sdk-34.0-x86_64-linux.tar.gz
+              tar -xvf wasi-sdk-34.0-x86_64-linux.tar.gz
+              export WASI_SDK_PATH="$(pwd)/wasi-sdk-34.0-x86_64-linux"
               yarn workspaces foreach -A --no-private -j 1 --exclude "@node-rs/deno-lint" run build --target wasm32-wasip1-threads -- --locked
 
     name: stable - ${{ matrix.settings.target }} - node@24
@@ -221,7 +221,7 @@ jobs:
       - uses: actions/checkout@v7
       - name: Build
         id: build
-        uses: cross-platform-actions/action@v1.7.0
+        uses: cross-platform-actions/action@v1.8.0
         env:
           DEBUG: 'napi:*'
           RUSTUP_HOME: /home/runner/rustup
